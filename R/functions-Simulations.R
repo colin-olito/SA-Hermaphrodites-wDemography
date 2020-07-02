@@ -68,15 +68,15 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
 	#Initial conditions for invasion: nzero  <-  [juv_AA, ad_AA, juv_Aa, ad_Aa, juv_aa, ad_aa]
 	# All aa
 		if(Ainvade) {
-			nzero  <- round(100*c(0,0,0,0,141.3,18.2))
+			nzero  <- round(c(C*(1 - delta)*100*c(0,0,0,0,141.3,18.2),(1 - C)*100*c(0,0,0,0,141.3,18.2)))
 		} 
 		#All AA
 		if(!Ainvade) {
-			nzero  <-  100*c(141.3,18.20,0,0,0,0)
+			nzero  <-  round(c(C*(1 - delta)*100*c(141.3,18.2,0,0,0,0),(1 - C)*100*c(141.3,18.2,0,0,0,0)))
 		}
 		#All Aa
 		if(intInit) {
-			nzero  <-  100*c(0,0,141.3,18.20,0,0)
+			nzero  <-  round(c(C*(1 - delta)*100*c(0,0,141.3,18.2,0,0),(1 - C)*100*c(0,0,141.3,18.2,0,0)))
 		}
 
 
@@ -103,9 +103,9 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
 	# create genotype-specific survival and fertility submatrices
 	for (i in 1:3){
 	    USi[,,i]       <- rbind(c(sigma_J[i]*(1 - gamma[i]), 0         ),
-	                            c(sigma_J[i]*gamma[i],       sigma_A[i]))*C*(1 - delta)
+	                            c(sigma_J[i]*gamma[i],       sigma_A[i]))
 	    UXi[,,i]       <- rbind(c(sigma_J[i]*(1 - gamma[i]), 0         ),
-	                            c(sigma_J[i]*gamma[i],       sigma_A[i]))*(1 - C)
+	                            c(sigma_J[i]*gamma[i],       sigma_A[i]))
 	    FSi[,,i]       <- rbind(c(0,C*f[i]*(1 - delta)),
 						        c(0,0))
 	    FXi[,,i]       <- rbind(c(0,(1 - C)*f[i]),
@@ -159,15 +159,14 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
 	# INITIAL CONDITIONS
 	nzero  <- c(nzero)
 	n      <- t(t(nzero))
-	nout   <- zeros(c((om*g),tlimit))
+	nout   <- zeros(c((2*om*g),tlimit))
 	pout   <- zeros(c(g,tlimit))
 
 	###############################################################
 	# Simulating the Stage X genotype dynamics - generation loop
 	###############################################################
-
 	i  <-  1
-	tmp       <-  kronecker(diag(g),ones(c(1,om))) %*% n
+	tmp       <-  kronecker(diag(g),ones(c(1,om))) %*% (nzero[1:6] + nzero[7:12])
 	p         <-  tmp/colSums(tmp)
 	pDelta    <-  c(1,1,1)
 	# begin generation loop
@@ -178,14 +177,15 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
 
 	    # Introduce new allele by introducing one heterozygote juvenile
 	    if (i==10){
-	      n[3]  <-  1
+	      n[9]  <-  1
 	    }
 
         #Creating the male gamete pool
-        ngam  <- ones(c(1,2)) %*% W_prime %*% blkFX_prime %*% n
+        nX    <-  n[1:6] + n[7:12]
+        ngam  <-  ones(c(1,2)) %*% W_prime %*% blkFX_prime %*% nX
         
         #Equation 5 in the manuscript
-        q_prime <- (W_prime%*%blkFX_prime%*%n)/ngam[1] 
+        q_prime <- (W_prime%*%blkFX_prime%*%nX)/ngam[1] 
 
         UtildeS  <-  blkUS
         UtildeX  <-  blkUX
@@ -208,31 +208,28 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
             HX[,ii]  <-  piprime # the outcrossing parent-offspring matrix
         }
 
-        blkHS     <-  kronecker(Iom,HS)
-        blkHX     <-  kronecker(Iom,HX)
+        blkHS    <-  kronecker(Iom,HS)
+        blkHX    <-  kronecker(Iom,HX)
 
-        FtildeS   <-  t(K) %*% blkHS %*% K %*% blkFS
-        FtildeX   <-  t(K) %*% blkHX %*% K %*% blkFX
+        FtildeS  <-  t(K) %*% blkHS %*% K %*% blkFS
+        FtildeX  <-  t(K) %*% blkHX %*% K %*% blkFX
         Atilde   <-  rbind(cbind((UtildeS + FtildeS), FtildeS),
 						   cbind(FtildeX            , (UtildeX + FtildeX)))
-browser()
 
-#        nSXnext   <-  Atilde %*% c(n,n)
-#        nnext     <-  t(t(nSXnext[1:6,] + nSXnext[7:12,]))
-        nnext   <-  Atilde %*% c(n,n)
-        nnext     <-  t(t(nSXnext[1:6,] + nSXnext[7:12,]))
+		# Project population into next generation
+        nnext  <-  Atilde %*% n
 
         # Regulate population size to avoid crashing simulation
 		if (sum(nnext) > 1e+200) {
 			nnext  <-  nnext * 1e-10
 			n      <-  nnext
-			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% nnext
+			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% (nnext[1:6] + nnext[7:12])
 			pnext  <-  tmp/colSums(tmp)
 			pcheck <-  p
 			p      <-  pnext
 		} else{
 			n      <-  nnext
-			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% nnext
+			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% (nnext[1:6] + nnext[7:12])
 			pnext  <-  tmp/colSums(tmp)
 			pcheck <-  p
 			p      <-  pnext
@@ -247,9 +244,8 @@ browser()
 
 	##################
 	# results
-	temp         <-  kronecker(diag(g),ones(c(1,om))) %*% nout
+	temp         <-  kronecker(diag(g),ones(c(1,om))) %*% (nout[1:6,] + nout[7:12,])
 	p_genotypes  <-  sweep(temp,2,colSums(temp),'/')
-	p_genotypes[,tlimit]
 	res  <-  list(
 					"nout"         =  nout,
 					"pout"         =  pout,
@@ -272,7 +268,7 @@ browser()
 					"tlimit"       =  tlimit,
 					"Ainvade"      =  Ainvade,
 					"intInit"      =  intInit,
-					"extinct"      =  sum(nout[c(2,4,6),(i-1)]) < 1,
+					"extinct"      =  sum(n) < 1,
 					"polymorphism" =  !any(round(p_genotypes[,(i-1)], digits=5) == 1),
 					"runtime"      =  (i-1)
 					)
