@@ -1,0 +1,71 @@
+## Scratch
+
+
+#  TEST THE SIMULATION LOOP
+results  <-  fwdDemModelSim(om = 2, g = 3, theta = c(0.6,0.6,0.05,6.1), theta_prime = c(0.6,0.6,0.05,6.1), 
+							hf = 1/2, hm = 1/2, sf = 0.05, sm = 0.055, C = 0, delta = 0, tlimit = 10^5, 
+							Ainvade = TRUE, intInit = TRUE)
+results$runtime
+results$pDelta
+
+round(results$pEq, digits=5)
+dim(results$p_genotypes)
+results$p_genotypes[,1]
+round(results$p_genotypes[,results$tlimit], digits=5)
+results$nzero
+results$extinct
+results$polymorphism
+results$pEq
+
+tlimit  <- results$tlimit
+nout  <-  results$nout 
+par(mfrow=c(2,2))
+plot( 1:tlimit, nout[1,], log="y", ylim=c(10^-5,max(nout)), type="l", col="red", lty=2)
+lines(1:tlimit, nout[2, ], col="red", type="l")
+lines(1:tlimit, nout[3, ], col="orange", type="l", lty=2)
+lines(1:tlimit, nout[4, ], col="orange", type="l")
+lines(1:tlimit, nout[5, ], col="green", type="l", lty=2)
+lines(1:tlimit, nout[6, ], col="green", type="l")
+plot( 1:tlimit, colSums(nout[c(2,4,6),]), log="y", type="l", col="red", lty=2)
+
+p_genotypes  <-  results$p_genotypes
+plot(1:tlimit,p_genotypes[1,],col="red",type="l",ylim = c(0,1))
+lines(1:tlimit,p_genotypes[2,],col="orange",type="l")
+lines(1:tlimit,p_genotypes[3,],col="green",type="l")
+
+
+
+#  TEST THE s_f x s_m SIMULATION LOOP FOR FIGURES
+
+pars  <-  list(
+				"hf"     =  1/2,
+				"hm"     =  1/2,
+				"C"      =  1/2,
+				"delta"  =  0
+				)
+
+test  <-  selLoop(sMax = 1, nSamples=200,
+				  om = 2, g = 3, theta = c(0.6,0.6,0.05,8), theta_prime = c(0.6,0.6,0.05,8), 
+				  hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5,returnRes=TRUE)
+head(test)
+sum(test$poly == 0)
+
+sum(all(test$poly == 0 && test$extinct == 0))
+
+x  <-  test[round(test$Eq_paa, digits=5)==1,]
+fix_a  <-  x[x$extinct==0,]
+x  <-  test[round(test$Eq_pAA, digits=5)==1,]
+fix_A  <-  x[x$extinct==0,]
+
+smLine  <-  seq(0,1, length=100)
+inv_A  <-  popGen_A_invade(hf=pars$hf, hm=pars$hm, sm=smLine, C=pars$C)
+inv_a  <-  popGen_a_invade(hf=pars$hf, hm=pars$hm, sm=smLine, C=pars$C)
+
+
+plot(sf ~ sm, xlim=c(0,1), ylim=c(0,1), data=test)
+lines(inv_A ~ smLine, lwd=2, col='#252525')
+lines(inv_a ~ smLine, lwd=2, col='#252525')
+points(sf[poly == 1 & extinct == 0] ~ sm[poly == 1 & extinct == 0], pch=21, bg=transparentColor('green2', opacity=0.6), data=test)
+points(sf ~ sm, pch=21, bg=transparentColor('dodgerblue2', opacity=0.7), data=fix_A)
+points(sf ~ sm, pch=21, bg=transparentColor('purple', opacity=0.6), data=fix_a)
+points(sf[extinct == 1] ~ sm[extinct == 1], pch=21, bg=transparentColor('red', opacity=0.9), data=test)

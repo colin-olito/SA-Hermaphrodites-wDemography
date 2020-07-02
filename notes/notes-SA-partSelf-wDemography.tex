@@ -1,0 +1,996 @@
+% Test change for git
+%===========================================
+% Preamble
+\documentclass[11pt]{article}
+
+%**********
+%Dependencies
+\usepackage[left]{lineno}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage[utf8]{inputenc}
+\usepackage{color,soul}
+%\usepackage{setspace}
+%\usepackage{times}
+
+\usepackage{booktabs}
+% \usepackage[singlelinecheck=false]{caption}
+\usepackage{tikz}
+
+\newcommand\encircle[1]{%
+  \tikz[baseline=(X.base)] 
+    \node (X) [draw, shape=circle, inner sep=0] {\strut #1};}
+
+\usepackage{pdflscape}
+
+% Packages from Am. Nat. Template
+\usepackage[sc]{mathpazo} %Like Palatino with extensive math support
+\usepackage{fullpage}
+\usepackage[authoryear,sectionbib,sort]{natbib}
+\linespread{1.15}
+\usepackage[utf8]{inputenc}
+\usepackage{lineno}
+
+% Change default margins
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+
+% Change subsection numbering
+\renewcommand\thesubsection{\arabic{subsection})}
+\renewcommand\thesubsubsection{}
+
+% Subsubsection Title Formatting
+\titleformat{\subsubsection}    
+{\normalfont\fontsize{12pt}{17}\itshape}{\thesubsubsection}{12pt}{}
+
+% Equation numbering
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+
+% Definitions
+\def\mathbi#1{\textbf{\em #1}}
+\def\mbf#1{\mathbf{#1}}
+\def\mbb#1{\mathbb{#1}}
+\def\mcal#1{\mathcal{#1}}
+
+%===========================================
+
+\begin{document}
+\title{Stage-structured evolutionary demography for simultaneous hermaphrodites with partial selfing}
+\author{Colin Olito}
+\date{17 June 2020}
+\maketitle
+
+\textbf{Last updated:} \date{\today}
+
+\subsection*{Notes}
+
+This all started with an idea I had while watching Lotte DeVries give a guest lecture at the STN meeting in Montpellier in 2019. Lotte presented her stage-structured evolutionary demography matrix models for two sexes. I got super jazzed because they provide a cool, and novel, way to integrate population genetics and demography. One potential extension of the models that I was excited to explore was (surprise, surprise!) sexually antagonistic selection in partially selfing hermaphrodite populations. I've modeled the maintenance of SA polymorphism in selfing populations before, but of course these models all assume static demography, and model only the change in frequency of the SA alleles. What would be cool about using Lotte's models in this context is that we'd be able to address not only when SA polymorphism will be maintained, but also when SA selection results in demographic inviability. This is potentially very cool because ({\itshape i}) female fitness is demographically dominant, and ({\itshape ii}) partial selfing creates a well known skew in selection towards female functions. Because of this, male-beneficial/female-detrimental alleles will have a stronger impact on a population's demographic viability, but the parameter spaces resulting in SA polymorphism in partially selfing population are more likely to be demographically viable... this is cool because one of the main conclusions of the 1-locus models of Jordan \& Connallon (2014) and Olito (2017) is that selfing reduces the total parameter space where SA polymorphism is maintained. My intuition is that when we take demography into account explicitly with Lotte's models, it will show that this 'loss' isn't as bad as it seems, because SA polymorphic parameter space for partially selfing populations is more demographically viable.
+\bigskip
+
+%%%%%%%%%%%%
+\section{Constructing a stage-structured model for a partially selfing population}
+		
+	{\itshape Below, I'm walking through the steps of constructing one of Lotte's models for a stage-structured matrix model for a partially selfing population with male and female fertility effects \ldots}
+	\bigskip
+
+\subsection{Component matrices}
+
+\noindent Individuals are jointly classified by stage $(1, \ldots , \omega)$ and genotype $(1, \ldots , g)$. Each genotype is characterized by a matrix of transition probabilities (including survival) and a matrices of reproductive output through male and female function. These matrices can include time variation or nonlinearities reflecting the environment or density dependence, although thes complexities will not be addressed here. Each stage contributes offspring to genotypes at the next time step according to matrices that are determined by the mating system and the population structure.
+
+The population state at time $t$ is described by a stage $\times$ genotype distribution matrix 
+
+\begin{equation}
+	\mathcal{N} \sim \left[
+						\begin{array}{ccc}
+							n_{1,1}      &  \cdots & n_{1,g} \\
+							\vdots       &         & \vdots  \\
+							n_{\omega,1} &  \cdots & n_{\omega,g} \\
+						\end{array} \right],
+\end{equation}
+
+\noindent where $n_{i,j}$ denotes the number of individuals of stage $i$ and genotype $g$. This matrix is transformed into a population state vector:
+
+\begin{equation}
+	\tilde{\mbf{n}}(t) = \text{vec}\{\mathcal{N}(t)\}.	
+\end{equation}
+
+\noindent For a single locus with two alleles ($A$ and $a$), we have genotypes $g \in \{AA,\, Aa,\, aa\}$, giving the population state vector:
+
+
+\begin{equation}
+	\tilde{\mbf{n}}(t) =  \left[
+								\begin{array}{c}
+									\mbf{n}_{AA}(t) \\
+									\mbf{n}_{Aa}(t) \\
+									\mbf{n}_{aa}(t) \\
+						\end{array} \right].
+\end{equation}
+
+\noindent The population vector $\tilde{\mbf{n}}(t)$ is projected from time $t$ to $t + 1$ by a matrix $\tilde{\mbf{A}}(\tilde{\mbf{n}})$ such that 
+
+\begin{equation}
+	\tilde{\mbf{n}}(t + 1) = \tilde{\mbf{A}}[\tilde{\mbf{n}}] \, \tilde{\mbf{n}}(t)
+\end{equation}
+
+\noindent The proportional population vector is
+
+\begin{equation} \label{eq:propPopVec}
+	\tilde{\mbf{p}}(t) = \frac{\tilde{\mbf{n}}(t)}{ \| \tilde{\mbf{n}}(t) \|} = \left( \mbf{p}(t) \right)
+\end{equation}
+
+
+The projection matrix $\tilde{\mbf{A}}$ is constructed from four sets of matrices representing the demographic and genetic processes:
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{ l l } 
+	$\mbf{U}_{i}$     & demographic transitions for genotype $i$ \\
+				         &~~~ $i = 1, \ldots, g$ $\omega \times \omega$ \\
+	$\mbf{F}_{i}$ & fertility matrix (female-function) for genotype $i$ \\
+				         &~~~ $i = 1, \ldots, g$ $\omega \times \omega$ \\
+	$\mbf{F}^{\prime}_{i}$ & fertility matrix (male-function) for genotype $i$ \\
+				         &~~~ $i = 1, \ldots, g$ $\omega \times \omega$ \\
+	$\mbf{D}_{i}$     & genotype transitions for stage $i$ \\
+				         &~~~ $i = 1, \ldots, \omega$ $g \times g$	\\
+	$\mbf{H}^X_{i}(\tilde{\mbf{n}})$ & genotype transitions for stage $i$ by outcrossing\\
+				         &~~~ $i = 1, \ldots, \omega$ $g \times g$ \\	
+	$\mbf{H}^S_{i}(\tilde{\mbf{n}})$ & genotype transitions for stage $i$ by selfing\\
+				         &~~~ $i = 1, \ldots, \omega$ $g \times g$ \\	
+\end{tabular}
+\end{table}
+
+\noindent The matrix $\mbf{U}_{i}$ contains transition and survival probabilities for genotype $i$. The matrices $\mbf{F}^{\text{sex}}_{i}$ contains stage-specific fertility rates for genotype $i$ through female and male sex functions. In the absence of genetic structure, these would be the familiar transition and fertility matrices making up a population projection matrix. Because the matrices $\mbf{U}_{i}$ and the $\mbf{F}^{\text{sex}}_{i}$ can differ among genotypes in any way, the model admits any kind of pleiotropy in demographic traits.
+
+The matrix $\mbf{D}_{i}$ contains genotype transition probabilities for individuals in stage $i$, but because genotypes are fixed within an individual, we set $\mbf{D}_{i} = \mbf{D} = \mbf{I}_{g}$ for all $i$, where $\mbf{I}_{g}$ is the identity matrix of size $g \times g$. 
+
+The matrices $\mbf{H}^X_{i}(\tilde{\mbf{n}})$ and $\mbf{H}^S_{i}(\tilde{\mbf{n}})$ are parent-offspring maps, from the genotype of the parent in stage $i$ to the genotypes of their offspring produced by outcrossing (indicated by superscript $X$) and selfing (indicated by superscript $S$). The $(k, l)$ entry of $\mbf{H}^{X}_{i}$ and $\mbf{H}^{S}_{i}$ is the probability that an offspring of a genotype $l$ mother, of stage $i$, has genotype $k$. For the purpose of this article, we assume that mating is random with respect to stage and hence that the parent-offspring map is the same for all stages, that is, $\mbf{H}^j_{i}(\tilde{\mbf{n}}) = \mbf{H}^j(\tilde{\mbf{n}})$. The matrices $\mbf{H}^j(\tilde{\mbf{n}})$ contains the population genetic processes and will be derived in the next section...
+
+%%%%%%%%%%%
+\subsection{Mapping parental genotypes to offspring genotypes}
+
+To model the Mendelian genetics of offspring production, a description of the genotype and allele structure of the mating population is required. Not every life-cycle stage will reproduce, and nonreproductive (e.g., immature) stages play no role in determining the genotype frequencies among off- spring. We define the breeding population by a set of indicator vectors $c_j$ for $j = 1, \ldots , g$ showing which stages of genotype $j$ take part in mating. That is, the $i^{th}$ entry of $c_j$ is $1$ if stage $i$ of genotype $j$ reproduces and $0$ otherwise.
+
+To describe genotype frequencies in the mating process, we will distinguish five vectors of genotype frequencies:
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{ l } 
+	$\mbf{p} =$ genotype frequencies in the overall population, \\
+	$\mbf{p_b} =$ genotype frequencies in the breeding population, \\
+	$\mbf{p_i} =$ genotype frequencies in genotype $i$ ($=\mbf{e}_i$), \\
+	$\mbf{p^X_i} =$ genotype frequencies in the offspring of genotype $i$ \\
+	~~~~~~~~~~resulting from outcrossing, \\
+	$\mbf{p^S_i} =$ genotype frequencies in the offspring of genotype $i$ \\
+	~~~~~~~~~~resulting from selfing,\\
+\end{tabular}
+\end{table}
+
+
+The size of the breeding population is
+
+\begin{equation}
+	N_b = \sum_{j=1}^g (\mbf{e}_j^\intercal \otimes \mbf{c}_j^\intercal) \tilde{\mbf{n}},
+\end{equation}
+
+\noindent where $\mbf{e}_j$ is a vector ($g \times 1$) with a $1$ in position $j$ and zeros elsewhere, and $\otimes$ is the Kronecker product. Breeding stages can differ among genotypes in order to study the fate of traits that change reproductive schedules. We focus on the special case where the genotypes do not differ in their reproductive stages, $\mbf{c}_j = \mbf{c}$ for all genotypes $j$ and
+
+\begin{equation}
+	N_b = (\mbf{1}_g^\intercal \otimes \mbf{c}^\intercal) \tilde{\mbf{n}},
+\end{equation}
+
+\noindent where $\mbf{1}_g$ is a vector of length $g$.
+
+The genotype frequency vector in the breeding population is 
+
+\begin{equation}
+	\mbf{p}_b = \frac{\mbf{X} \tilde{\mbf{n}}}{N_b},
+\end{equation}
+
+\noindent where $\mbf{X}$ is a matrix that combines abundances of breeding stages. In our case, the breeding vectors are the same for all genotypes, $\mbf{c}_i = \mbf{c}$, and 
+
+\begin{equation}
+	\mbf{X} = (\mbf{1}_g^\intercal \otimes \mbf{c}^\intercal).
+\end{equation}
+
+\noindent The genotype frequency vector for genotype $i$ is (trivially) $\mbf{p}_i = \mbf{e}_i$.
+
+The gene frequencies are a function of the genotype frequencies, so that
+
+\begin{equation}
+		\mbf{q}_i = \mbf{W} \mbf{p}_i,
+\end{equation}
+\begin{equation}
+		\mbf{q}_b = \mbf{W} \mbf{p}_b,
+\end{equation}
+
+\noindent where
+
+\begin{equation}
+		\mbf{W} = \left[
+						\begin{array}{ccc}
+							1 & 1/2 & 0 \\
+							0 & 1/2 & 1 \\
+						\end{array} \right].
+\end{equation}
+
+\noindent Note that the structure of $\mbf{W}$ is specific to the diploid two-allele case (see deVries \& Caswell 2019 for details on how to extend for other cases). Mutation can also be introduced at this step, but we do not investigate this here.
+
+%%%%%%%%%%%%%%%
+\subsubsection*{Mating and offspring under partial selfing}
+
+In a population of hermaphrodites, each individual expresses both male and female sex functions (i.e., can be both a mother and father). In partially selfing populations, individuals can also reproduce by a combination of outcrossing and self-fertilization. Outcrossing can be acheived through both sex-functions: outcrossing as a mother involves receiving male gametes from another individual in the population, while outcrossing as a father involves exporting male gametes to another individual. Selfing involves using and individual's own male gametes to fertilize their own ovules. These options complicate our model relative to a standard or two-sex stage-structured models (deVries \& Caswell 2019; 2020). For generality, we describe a genotype-specific model of selfing with constant inbreeding depression (Charlesworth \& Charlesworth 1987). Let $C_{ii}$ represent the relative proportion of ovules of genotype $ii$ that are self-fertilized ($1 - C_{ii}$ are outcrossed), and $\delta$ represent the viability cost suffered by self-fertilized offspring due to inbreeding depression (Charlesworth and Charlesworth 1987).
+
+Outcrossing proceeds much like a two-sex model of reproduction. Consider a random individual of genotype $i$, and let $p_i$ be the genotype distribution of their offspring. Individuals of each stage and genotype combination contribute differentially to a pool of male gametes. The allele frequencies in the male gamete pool are obtained from the male stage $\times$ genotype vector:
+
+\begin{equation}
+	\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p} = 
+		\left(
+			\begin{array}{ccc}
+				\mbf{1}^{\intercal}_{\omega} & \frac{1}{2} \mbf{1}^{\intercal}_{\omega} & 0 \\
+				0 & \frac{1}{2} \mbf{1}^{\intercal}_{\omega} & \mbf{1}^{\intercal}_{\omega} \\
+			\end{array} \right)
+		\left(
+			\begin{array}{ccc}
+				\mbf{F}^{\prime}_{AA} & 0 & 0 \\
+				0 & \mbf{F}^{\prime}_{Aa} & 0 \\
+				0 & 0 & \mbf{F}^{\prime}_{aa} \\
+			\end{array} \right)
+		\left(
+			\begin{array}{c}
+				\mbf{p}_{AA} \\
+				\mbf{p}_{Aa} \\
+				\mbf{p}_{aa} \\
+			\end{array} \right)
+\end{equation}
+
+\noindent The matrix $\mbb{F}^{\prime}$ operates on the vector of genotype frequencies to give the relative contributions of each genotype to the male gamete pool. The matrix $\mbf{W}^{\prime}$ converts these relative genotype contributions to allele numbers. Normalizing this vector gives the allele frequencies in the gamete pool,
+
+\begin{equation} \label{eq:maleGametePool}
+	\left(
+		\begin{array}{c}
+			q^{\prime}_{A} \\
+			q^{\prime}_{a} \\
+		\end{array} \right) = 
+			\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p}}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p} \|} = 
+				\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{n}}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{n} \|}
+\end{equation}
+
+\noindent These frequencies determine the distribution of genotypes in the outcrossed offspring of maternal parents of any genotype.
+
+The outcrossing parent–offspring matrix is a function of the allele frequencies in the male gamete pool, hence,
+
+\begin{equation} \label{eq:HX}
+	\mbf{H}^X(\tilde{\mbf{n}}) = 
+			\left(
+			\begin{array}{ccc}
+				q^{\prime}_{A} (1 - C_{AA}) & \frac{1}{2} q^{\prime}_{A} (1 - C_{Aa}) & 0 \\
+				q^{\prime}_{a} (1 - C_{AA}) & \frac{1}{2} (1 - C_{Aa}) & q^{\prime}_{A}  (1 - C_{aa}) \\
+				0 & \frac{1}{2} q^{\prime}_{a} (1 - C_{Aa}) & q^{\prime}_{a} (1 - C_{aa}) \\
+			\end{array} \right)
+\end{equation}
+
+\noindent The allele frequencies $q^{\prime}_A$ and $q^{\prime}_a$ are given in terms of either $\mbf{p}$ or $\mbf{n}$ by Eq(\ref{eq:maleGametePool}). The first column of $\mbf{H}^X(\tilde{\mbf{n}})$ contains the genotype distribution of the offspring of an $AA$ maternal parent; they produce an $AA$ offspring with probability $q^{\prime}_A$ and an $Aa$ offspring with probability $q^{\prime}_a$. The second and third columns give the genotype distributions for maternal parents of genotypes $Aa$ and $aa$.
+
+Reproduction via self fertilization is slightly different. We assume that individuals produce enough male gametes to easily fertilize all of their available ovules, and that the transport of and individual's own male gametes to their ovules involves little or no selection from external factors (at least compared to outcrossing). Hence, the parent-offspring matrix is determined entirely by the probabilities of segregation and fertilization during meiosis: 
+
+\begin{equation} \label{eq:HS}
+	\mbf{H}^S(\tilde{\mbf{n}}) = 
+			\left(
+			\begin{array}{ccc}
+				C_{AA}(1 - \delta) & \frac{1}{4} C_{Aa}(1 - \delta) & 0 \\
+				0      & \frac{1}{2} C_{Aa}(1 - \delta) & 0 \\
+				0 & \frac{1}{4} C_{Aa}(1 - \delta) & C_{aa}(1 - \delta) \\
+			\end{array} \right),
+\end{equation}
+
+\noindent where the first column of $\mbf{H}^S(\tilde{\mbf{n}})$ contains the genotype distribution of the offspring of an $AA$ maternal parent; in this case all male and female gametes will carry the $A$ allele, and so all offspring produced by selfing will also be $AA$. The other columns can be calculated similarly.
+
+
+%%%%%%%%%%%%%%%
+\subsubsection*{Population projection}
+
+The matrix $\tilde{\mbf{A}}[\tilde{\mbf{n}}]$ that projects the eco-evolutionary dynamics is
+
+\begin{equation}
+	\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
+			\underbrace{\left(
+			\begin{array}{c|c}
+				\mcal{U}^S & \mbf{0} \\ \hline
+				\mbf{0} & \mcal{U}^X \\
+			\end{array} \right)}_{\tilde{\mbf{U}}} + 
+			\underbrace{\left(
+			\begin{array}{c|c}
+				\mcal{F}^S(\tilde{\mbf{p}}) (1 - \delta) & \mbf{0} \\ \hline
+				\mbf{0} & \mcal{F}^X(\tilde{\mbf{p}}) \\
+			\end{array} \right)}_{\tilde{\mbf{F}}}
+\end{equation}
+
+\noindent where $\tilde{\mbf{p}}$ is calculated from $\tilde{\mbf{n}}$ using Eq(\ref{eq:propPopVec}). The blocks correspond to production of offspring by self-fertilization and outcrossing ($\mcal{F}^S$ and $\mcal{F}^X$ in $\tilde{\mbf{F}}$), and survival of selfed and outcrossed offspring ($\mcal{U}^S$ and $\mcal{U}^X$ in $\tilde{\mbf{U}}$). 
+
+To construct $\tilde{\mbf{A}}$ using the vec-permutation matrix approach (Caswell et al., 2018), create a set of block-diagonal matrices; e.g.,
+
+\begin{equation}
+	\mbb{U}^S = 
+		\left(
+			\begin{array}{ccc}
+				\mbf{U}^{S}_{AA} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{U}^{S}_{Aa} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{U}^{S}_{aa} \\
+			\end{array} \right)
+\end{equation}
+
+\noindent and corresponding matices $\mbb{U}^X$, $\mbb{F}^S$, $\mbb{F}^X$. Because individuals cannot change their genotype once they are born, the survival matrices are block diagonal; $\mcal{U}^S = \mbb{U}^S$ and $\mcal{U}^X = \mbb{U}^X$. We also construct
+
+\begin{equation}
+	\mbb{H}^j = \mbf{I}_{\omega} \otimes \mbf{H}^j(\tilde{\mbf{p}}),
+\end{equation}
+
+\noindent where $j \in \{S,X\}$.
+
+The fertility matrices for self-fertilization and outcrossing are defined as
+
+\begin{equation} \label{eq:FS}
+	\mcal{F}^S = \mbf{K}^{\intercal} \mbb{H}^S(\tilde{\mbf{p}}) \mbf{K} \mbb{F}^S, 
+\end{equation}
+\noindent and, 
+\begin{equation} \label{eq:FX}
+	\mcal{F}^X = \mbf{K}^{\intercal} \mbb{H}^X(\tilde{\mbf{p}}) \mbf{K} \mbb{F}^X \numberthis
+\end{equation}
+
+\noindent where $\mbf{K}$ is the vec-permutation matrix (Henderson and Searle 1981). From right to left, the block-diagonal matrices $\mbb{F}^j$ produce offspring as a function of the genotype of the mother, the vec-permutation matrix $\mbf{K}$ rearranges the vector, the block-diagonal
+matrix $\mbb{H}^j(\tilde{\mbf{p}})$ allocates the offspring to their genotypes, and $\mbf{K}^{\intercal}$ returns the vector to its original orientation.
+
+Substituting Eq(\ref{eq:HS}) into Eq(\ref{eq:FS}), Eq(\ref{eq:HX}) into Eq(\ref{eq:FX}), and simplifying yields
+
+\begin{equation} \label{eq:FSsimp}
+	\mcal{F}^S(\tilde{\mbf{p}}) = 
+			\left(
+			\begin{array}{c|c|c}
+				C_{AA} \mbf{F}_{AA} & \frac{1}{4} C_{Aa} \mbf{F}_{Aa} & 0 \\ \hline
+				0 & \frac{1}{2} C_{Aa} \mbf{F}_{Aa} & 0 \\ \hline
+				0 & \frac{1}{4} C_{Aa} \mbf{F}_{Aa} & C_{aa} \mbf{F}_{aa}\\
+			\end{array} \right), 
+\end{equation}
+\noindent and, 
+\begin{equation} \label{eq:FXsimp}
+	\mcal{F}^X = 
+			\left(
+			\begin{array}{c|c|c}
+				q^{\prime}_{A} \mbf{F}_{AA} (1 - C_{AA})& \frac{1}{2} q^{\prime}_{A} \mbf{F}_{Aa} (1 - C_{Aa}) & 0 \\ \hline
+				q^{\prime}_{a} \mbf{F}_{AA} (1 - C_{AA}) & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & q^{\prime}_{A} \mbf{F}_{aa} (1 - C_{aa}) \\ \hline
+				0 & \frac{1}{2} q^{\prime}_{a} \mbf{F}_{Aa} (1 - C_{Aa})& q^{\prime}_{a} \mbf{F}_{aa} (1 - C_{aa}) \\
+			\end{array} \right), 
+\end{equation}
+
+\noindent where $q^{\prime}_A$ and $q^{\prime}_a$ are given by Eq(\ref{eq:maleGametePool}). See de Vries \& Caswell (2019) for a derivation of Eqs(\ref{eq:FSsimp}) and (\ref{eq:FXsimp}).
+
+Let's look at the first block column of $\mcal{F}^S(\tilde{\mbf{p}})$. The first row block produces $AA$ offspring by self-fertilization from $AA$ maternal parents. Since all gametes, male or female, of $AA$ individuals carry an $A$ allele, all offspring resulting from self-fertilization will have $AA$ genotypes, and a fraction $C_{AA}$ of ovules are fertilized by selfing. The second and third row blocks are $0$ because $AA$ individuals produce no $a$ bearing gametes. Next consider the second column block. The first and third row blocks produce $AA$ and $aa$ offspring from $Aa$ maternal parents, respectively. With mendelian segregation, this occurs with frequency $1/4$, multiplied by the fraction of ovules that are self-fertilized, $C_{Aa}$ and $C_{aa}$, respectively. The second row block produces $Aa$ offspring by selfing from $Aa$ maternal parents, which will occur with frequency $1/2$ multiblied by the fraction of ovules selfed, $C_{Aa}$. 
+
+The blocks of $\mcal{F}^X(\tilde{\mbf{p}})$ can be constructed and interpreted similarly. The first row block of the first column produces $AA$ offspring by outcrossing from $AA$ maternal parents. This happens when the $AA$ maternal parent receives a random gamete from the male gamete pool, which happens with probability $q^{\prime}_{A}$. The other blocks can be interpreted similarly.
+
+Combining all the component matrices yields the overall eco-evolutionary projection matrix:
+
+\begin{align*}
+	\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
+		& \underbrace{\left(
+			\begin{array}{ccc|ccc}
+				\mcal{U}^S_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{0} & \mcal{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{AA} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{aa} & \mbf{0}\\
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{aa}
+			\end{array} \right)}_{\tilde{\mbf{U}}} \\ 
+			&+ \underbrace{\left(
+			\begin{array}{ccc|ccc}
+				C_{AA} (1 - \delta) \mbf{F}_{AA} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & 0 & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				0 & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & 0 & \mbf{0} & \mbf{0} & \mbf{0} \\
+				0 & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & C_{aa} (1 - \delta) \mbf{F}_{aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				q^{\prime}_{A} \mbf{F}_{AA} (1 - C_{AA})& \frac{1}{2} q^{\prime}_{A} \mbf{F}_{Aa} (1 - C_{Aa}) & 0 & \mbf{0} & \mbf{0} & \mbf{0} \\
+				q^{\prime}_{a} \mbf{F}_{AA} (1 - C_{AA}) & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & q^{\prime}_{A} \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0} & \mbf{0} & \mbf{0}\\
+				0 & \frac{1}{2} q^{\prime}_{a} \mbf{F}_{Aa} (1 - C_{Aa})& q^{\prime}_{a} \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0} & \mbf{0} & \mbf{0}
+			\end{array} \right)}_{\tilde{\mbf{F}}} \numberthis
+\end{align*}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[htbp]
+\centering
+\caption{\bf Definition of terms.}
+\begin{tabular}{ l l r }
+ \toprule
+	Symbol & Definition & Dimension \\
+\hline
+$a$      & number of alleles ($2$; $A$ and $a$) & \\
+$g$      & number of genotypes ($3$; $AA$, $Aa$, and $aa$) & \\
+$\omega$ & number of stages ($2$; juvenile and adult) & \\
+$N$      & Total population size & \\
+$N_b$    & Breeding population size & \\
+$\mbf{c}_i$ & Indicator vector for breeding stages in genotype $i$ & $\omega \times 1$ \\
+$\tilde{\mbf{n}}$ & Joint stage-genotype vector & $\omega g \times 1$ \\
+$\tilde{\mbf{p}}$ & Joint stage-genotype frequency vector & $\omega g \times 1$ \\
+$\mbf{p}_i$ & Genotype frequency vector in genotype $i$ & $g \times 1$ \\
+$\mbf{q}_i$ & Gene frequency vector in genotype $i$ & $g \times 1$ \\
+$\mbf{q}_b$ & Genotype frequency vector in genotype $i$ among breeding individuals & $g \times 1$ \\
+$\mbf{W}$   & Allele segregation matrix & $\omega \times g$ \\
+\hline
+\end{tabular}
+\label{tab:Definitions}\\
+\end{table}
+\newpage{}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{A working two-stage model for hermaphrodites}
+\setcounter{equation}{0}
+
+As a first pass at implementing the model, we construct and analyze a genotype $\times$stage-classified model for a hypothetical species with intralocus sexual conflict via the two sex functions. Our hypothetical species has two life stages: juveniles and adults. Suppose that allele $A$ is beneficial for females but detrimental for males, and that allele $a$ has the reverse effect. We also assume that the effects act only during the adult stage through reproductive success. The allele does not affect survival and transition rates, such that
+
+\begin{equation}
+	\mbf{U} = \left(
+					\begin{array}{cc}
+						\sigma_J(1 - \gamma) & 0 \\
+						\sigma_J \gamma      & \sigma_A
+					\end{array}
+				\right),
+\end{equation}
+
+\noindent where $\sigma_J$ and $\sigma_A$ are the juvenile and adult stage survival rates, and $\gamma$ is the maturation rate from juvenile to adult stages. Any or all of these parameters may differ among genotypes, so that selection can operate on stage-specific viability, development, and/or fertility. For simplicity, we assume these are constant among genotypes. 
+
+The fertility matrices through male and female function are
+
+\begin{equation}
+	\mbf{F}_{ii} = \left(
+					\begin{array}{cc}
+						0 & f_{ii} \\
+						0 & 0
+					\end{array}
+				\right),
+\end{equation}
+\noindent and
+\begin{equation}
+	\mbf{F}^{\prime}_{ii} = \left(
+					\begin{array}{cc}
+						0 & f^{\prime}_{ii} \\
+						0 & 0
+					\end{array}
+				\right),
+\end{equation}
+
+\noindent where $f$ is the genotype specific adult fertility though female function, and $f^{\prime}_{ii}$ is the same through male function. 
+
+Note, that under a model of constant selfing (where $C_{AA} = C_{Aa} = C_{aa} = C$), the model reduces to
+
+\begin{equation}
+	\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
+			\underbrace{\left(
+			\begin{array}{c|c}
+				\mcal{U}^S & \mbf{0} \\ \hline
+				\mbf{0} & \mcal{U}^X \\
+			\end{array} \right)}_{\tilde{\mbf{U}}} + 
+			\underbrace{\left(
+			\begin{array}{c|c}
+				\mcal{F}^S(\tilde{\mbf{p}}) C(1 - \delta) & \mbf{0} \\ \hline
+				\mbf{0} & \mcal{F}^X(\tilde{\mbf{p}}) \\
+			\end{array} \right)}_{\tilde{\mbf{F}}}
+\end{equation}
+
+
+
+
+\begin{table}[htbp]
+ \centering
+ \caption{\bf Fitness expressions for Sexually Antagonistic selection in hermaphrodites}
+\begin{tabular}{lccc}
+ \toprule
+					&  \multicolumn{3}{c}{{\textit{Genotype}}} \\ 
+\cline{2-4}
+					& $AA$		& $Aa$ 			& $aa$ 		\\ \hline
+Female function:	& $f$		& $f - h_f s_f$	& $f - s_f$ \\	
+Male function:		& $f - s_m$	& $f - h_m s_m$	& $f$ 		\\	
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Coexistence conditions}
+\setcounter{equation}{0}
+
+Here I'm trying to derive the conditions for a protected polymorphism in the hermaphrodite model with sex-specific selection and partial selfing. Following de Vries \& Caswell (2019), we reorder the population vector by genotype first, and then by sex-function and stage, in contrast to the ordering used above (sex-function, then genotype, then stage). The first step is to construct the population projection matrix and then use it to derive coexistence conditions, following closely the logic of Appendix A of de Vries and Caswell (2019).
+
+\subsubsection*{Population projection matrix}
+
+The first relevant difference between the two-sex model of de Vries \& Caswell (2019) is that population vector, which is 
+
+\begin{equation}
+	\tilde{\mbf{n}} = \left(
+			\begin{array}{c}
+							\mbf{n}_{AA} \\
+							\mbf{n}_{AA} \\ \hline
+							\mbf{n}_{Aa} \\
+							\mbf{n}_{Aa} \\ \hline
+							\mbf{n}_{aa} \\
+							\mbf{n}_{aa} \\
+			\end{array} \right).
+\end{equation}
+
+\noindent Note that to 'doubling' up of the genotype-specific vectors in each block is done out of convenience, because the population projection matrix is organized around two sex-functions.
+
+The population projection matrix $\tilde{\mbf{A}}$ consists of $3 \times 3$ blocks, which act on the genotype specific population vectors:
+
+
+\begin{align*} \label{eq:AtildeCoexistence}
+	\tilde{\mbf{A}}[\tilde{\mbf{n}}] &= \tilde{\mbf{U}} + \tilde{\mbf{F}} \\
+		&= \left(
+			\begin{array}{cc|cc|cc}
+				\mcal{U}^S_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{0} & \mcal{U}^X_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\\hline
+				\mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{Aa} & \mbf{0} &  \mbf{0}\\\hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{Aa}
+			\end{array} \right) \\ 
+		&+ \left(
+			\begin{array}{cc|cc|cc}
+				C_{AA} (1 - \delta) \mbf{F}_{AA} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				q^{\prime}_{A} \mbf{F}_{AA} (1 - C_{AA}) & \mbf{0} & \frac{1}{2} q^{\prime}_{A} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				q^{\prime}_{a} \mbf{F}_{AA} (1 - C_{AA}) & \mbf{0} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} & q^{\prime}_{A} \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0}\\ \hline
+				\mbf{0} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & C_{aa} (1 - \delta) \mbf{F}_{aa} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \frac{1}{2} q^{\prime}_{a} \mbf{F}_{Aa} (1 - C_{Aa})  & \mbf{0} & q^{\prime}_{a} \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0}
+			\end{array} \right) \numberthis
+\end{align*}
+
+\noindent with symbols defined as above. The survival matrices appear on the diagonal because individuals do not change their genotype once they are born. The fertility matrix incorporates the Mendelian inheritance and is an extension of the fertility matrix derived above after de Vries \& Caswell (2019).
+
+The first block column of $\tilde{\mbf{A}}$ describes the production of offspring by and $AA$ female with stage-specific fertility rates $\mbf{F}_{AA}$ by both selfing and outcrossing. The probability of picking an $A$ allele out of the pool of available male gametes. When reproducing by selfing, this is entirely determined by the probability of sampling an $A$ allele after Mendelian segregation. For outcross reproduction the probability, and hence the probability of this $AA$ female producing an $AA$ offspring, is $q^{\prime}_{A}$, as derived above. Conversely, the probability of picking an $a$ allele and producing an $Aa$ offspringis zero for an $AA$ female when selfing, but $q^{\prime}_a$ for outcrossing. Similarly, the middle column of block matrices are offspring produced by $Aa$ females, which can produce offspring of all $3$ genotypes.
+
+\subsubsection*{Coexistence conditions}
+
+The two-sex Mendelian matrix model defined by above reduces to a linear matrix model on the boundary where the population is initially fixed for the $A$ allele (since $q^{\prime}_{A} = 1$ and $q^{\prime}_{a} = 0$). Provided the initial population contains a nonzero number of females, the population will grow or shrink exponentially after converging to a stable population structure (see Caswell (2001), section 4.5.2.1). We can take advantage of the homogeneity of $\tilde{\mbf{F}}$, we rewrite the model in terms of the normalized population vector (the frequency vector):
+
+\begin{equation} 
+	\tilde{\mbf{p}}(t + 1) = \frac{ \tilde{\mbf{A}}[\tilde{\mbf{p}}(t)] \tilde{\mbf{p}}(t) }{ \| \tilde{\mbf{A}}[\tilde{\mbf{p}}(t)] \tilde{\mbf{p}}(t) \|},
+\end{equation}
+
+\noindent where $\| \mbf{a} \|$ denotes the $1$-norm of the vector $\mbf{a}$, defined as the sum of the absolute values of the entries of the vector $\mbf{a}$. Equilibrium solutions, denoted by $\hat{\mbf{p}}$, satisfy
+
+\begin{equation} 
+	\hat{\mbf{p}} = \frac{ \tilde{\mbf{A}}[\hat{\mbf{p}}] \hat{\mbf{p}} }{ \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}}[\hat{\mbf{p}}] \hat{\mbf{p}} },
+\end{equation}
+
+\noindent where the one norm can be replaced by $\mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}}[\hat{\mbf{p}}] \hat{\mbf{p}}$ because $\hat{\mbf{p}}$ is nonnegative.
+
+
+\subsubsection*{Linearization at the boundary equilibrium}
+
+In this section I'm trying to follow Lotte's derivation of the linear approximation to the dynamics in the neighborhood of a homozgote boundary equilibrium. The stability of a such an equilibrium to invasions by the other allele is determined by the magnitude of the largest eigenvalue of the Jacobian matrix of the frequency model evaluated at the equilibrium. If the magnitude of this eigenvalue is larger than one, then the equilibrium is unstable. The Jacobian matrix,
+
+\begin{equation} \label{eq:genJacobian}
+	\mbf{M} =  \frac{ \text{d} \tilde{\mbf{p}}(t + 1) }{ \text{d} \tilde{\mbf{p}}(t) } \bigg\rvert_{\hat{\mbf{p}}},
+\end{equation}
+
+\noindent is obtained by differentiating Eq(\ref{eq:genJacobian}) and evaluating the resulting derivatives at the boundary equilibrium. This requires a long series of matrix calculus operations, and repeatedly takes advantage of the fact that $\hat{\mbf{p}}$ at the boundary contains zeros for the blocks corresponding to $Aa$ and $aa$ genotypes.
+
+For notational convenience, first define a matrix $\mbf{B}$ as
+
+\begin{equation}
+	\mbf{B}[\tilde{\mbf{p}}] = \frac{ \tilde{\mbf{A}}[\tilde{\mbf{p}}] }{ \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}}[\tilde{\mbf{p}}] \tilde{\mbf{p}}},
+\end{equation}
+
+\noindent such that 
+
+\begin{equation} 
+	\tilde{\mbf{p}}(t + 1) = \mbf{B}[\tilde{\mbf{p}}(t)]\tilde{\mbf{p}}(t).
+\end{equation}
+
+\noindent We differentiate to obtain
+
+\begin{equation} 
+	\text{d} \tilde{\mbf{p}}(t + 1) = \mbf{B}\text{d} \tilde{\mbf{p}}(t) + \left(\text{d} \tilde{\mbf{B}} \right) \tilde{\mbf{p}}(t),
+\end{equation}
+
+\noindent where the explicit dependence of $\mbf{B}$ on $\tilde{\mbf{p}}$ has been omitted to avoid a cluttering of brackets. Multiply the second term by an $2 \omega g \times 2 \omega g$ identity matrix,
+
+\begin{equation} 
+	\text{d} \tilde{\mbf{p}}(t + 1) = \mbf{B}\text{d} \tilde{\mbf{p}}(t) + \mbf{1}_{2 \omega g} \left(\text{d} \tilde{\mbf{B}} \right) \tilde{\mbf{p}}(t).
+\end{equation}
+
+\noindent and apply the vector operator to both sides, remembering that as $\tilde{\mbf{p}}$ is a vector, $\text{vec}\tilde{\mbf{p}} = \tilde{\mbf{p}}$,
+
+\begin{equation} 
+	\text{d} \tilde{\mbf{p}}(t + 1) = \mbf{B}\text{d} \tilde{\mbf{p}}(t) + \text{vec} \left[ \mbf{1}_{2 \omega g} \left(\text{d} \tilde{\mbf{B}} \right) \tilde{\mbf{p}}(t) \right].
+\end{equation}
+
+\noindent Next, we can apply Roth's theorem (Roth 1934), $\text{vec}\mbf{ABC} = \left( \mbf{C}^{\intercal} \otimes \mbf{A} \right) \text{vec}\mbf{B}$, to replace the the $\text{vec}$ operator with the Kronecer product:
+
+\begin{equation} 
+	\text{d} \tilde{\mbf{p}}(t + 1) = \mbf{B}\text{d} \tilde{\mbf{p}}(t) + \left( \tilde{\mbf{p}}^{\intercal}(t) \otimes \mbf{1}_{2 \omega g} \right) \text{d}\,\text{vec}\mbf{B}.
+\end{equation}
+
+\noindent Then the first identification theorem and the chain rule together give the following formula for the Jacobian (Magnus and Neudecker, 1985; Caswell, 2007),
+
+\begin{align*} \label{eq:genJacobian}
+	\mbf{M} &=  \frac{ \text{d} \tilde{\mbf{p}}(t + 1) }{ \text{d} \tilde{\mbf{p}}(t) } \bigg\rvert_{\hat{\mbf{p}}}, \\
+			&= \mbf{B}[\tilde{\mbf{p}}] + \left( \tilde{\mbf{p}}^{\intercal} \otimes \mbf{1}_{2 \omega g} \right) \frac{ \partial \text{vec}{\mbf{B}[\tilde{\mbf{p}}]} }{ \partial \tilde{\mbf{p}}^{\intercal} } \bigg\rvert_{\hat{\mbf{p}}},
+\end{align*}
+
+Our aim is to express the Jacobian matrix $\mbf{M}$ in terms of the genotype specific matrices, $\mbf{U}^S_i$, $\mbf{U}^X_i$, $\mbf{F}^S_i$, $\mbf{F}^X_i$. We analyze the Jacobian at the $AA$ boundary; the expression at the $aa$ boundary can be derived afterwards using symmetry arguments. First it will be convenient to define the scalar $f(\tilde{\mbf{p}})$ as
+
+\begin{equation}
+	f(\tilde{\mbf{p}}) = \frac{1}{ \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}}[\tilde{\mbf{p}}] \tilde{\mbf{p}}},
+\end{equation}
+
+\noindent so that
+
+\begin{equation}
+	\mbf{B}[\tilde{\mbf{p}}] = f(\tilde{\mbf{p}}) \tilde{\mbf{A}}[\tilde{\mbf{p}}].
+\end{equation}
+
+\noindent Note that where it does not create confusion, we omit the explicit dependence on $\tilde{\mbf{A}}$, $\mbf{B}$, and $f$ on $\tilde{\mbf{p}}$. Next, we take the vec of both sides of equation (A-16) and differentiate to obtain
+
+\begin{equation} \label{eq:dvecB}
+	\text{dvec} \mbf{B} = \text{vec} \tilde{\mbf{A}} \text{d} f + f \text{dvec} \tilde{\mbf{A}},
+\end{equation}
+
+\noindent or
+
+\begin{equation}
+	\frac{\partial \text{vec} \mbf{B}} {\partial \tilde{\mbf{p}}^{\intercal}} = \text{vec} \tilde{\mbf{A}} \frac{\partial f}{\partial \tilde{\mbf{p}}^{\intercal} } + f(\tilde{\mbf{p}}) \frac{ \partial \text{vec} \tilde{\mbf{A}} }{ \partial \tilde{\mbf{p}}^{\intercal} }.
+\end{equation}
+
+\noindent Next differentiate $f$ to obtain
+
+\begin{equation}
+	\text{d} f = \frac{ -1 }{ \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}}[\tilde{\mbf{p}}] \tilde{\mbf{p}} \right)^2 } \left[ \mbf{1}^{\intercal}_{2 \omega g} \left( \text{d} \tilde{\mbf{A}} \right) \tilde{\mbf{p}} + \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}} \text{d} \tilde{\mbf{p}} \right].
+\end{equation}
+
+\noindent All the terms in the Jacobian are evaluated at the $AA$ boundary, which simplifies some of the equations, e.g., $\tilde{\mbf{A}}[ \hat{\mbf{p}} ] \hat{\mbf{p}} = \lambda_{AA} \hat{\mbf{p}}$, and therefore 
+
+\begin{equation} \label{eq:lambdaAA}
+	\mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}}[\tilde{\mbf{p}}] \tilde{\mbf{p}} = \lambda_{AA}.
+\end{equation}
+
+Evaluate the differential of $f$ at the boundary and use Eq(\ref{eq:lambdaAA}) to obtain
+
+\begin{equation} \label{eq:df}
+	\text{d} f(\tilde{\mbf{p}}) = \frac{ -1 }{\lambda_{AA}^2 } \left[ \mbf{1}^{\intercal}_{2 \omega g} \left( \text{d} \tilde{\mbf{A}} \right) \hat{\mbf{p}} + \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}} \text{d} \tilde{\mbf{p}} \right] \bigg\rvert_{\tilde{\mbf{p}}}.
+\end{equation}
+
+The first term in this sum, $\mbf{1}^{\intercal}_{2 \omega g} \left( \text{d} \tilde{\mbf{A}} \right) \hat{\mbf{p}}$, is equal to zero because
+\begin{align*}
+	q^{\prime}_A + q^{\prime}_a &= 1 \\
+	\text{d}q^{\prime}_A + \text{d}q^{\prime}_a &= 0 \\
+\end{align*}
+\noindent and
+\begin{align*}
+	q_A + q_a &= 1 \\
+	\text{d}q_A + \text{d}q_a &= 0 \\
+\end{align*}
+
+\noindent and therefore every column in $\left( \text{d} \tilde{\mbf{A}} \right)$ sums to zero, see Eq(\ref{eq:AtildeCoexistence}).
+
+Substituting Eq(\ref{eq:df}) into Eq(\ref{eq:dvecB}) and evaluating at the boundary yields
+
+\begin{equation} \label{eq:dvecBsubs}
+	\text{dvec} \mbf{B} = \frac{ -1 }{\lambda_{AA}^2 } \text{vec} \tilde{\mbf{A}} \left[ \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}} \text{d} \tilde{\mbf{p}} \right] + \frac{ 1 }{\lambda_{AA} } \text{dvec} \tilde{\mbf{A}},
+\end{equation}
+
+\noindent or 
+
+\begin{equation}
+	\frac{\partial \text{vec} \mbf{B}} {\partial \tilde{\mbf{p}}^{\intercal}} \bigg\rvert_{\hat{\mbf{p}}} = \frac{ -1 }{\lambda_{AA}^2 } \left( \text{vec} \tilde{\mbf{A}} \right) \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}} \text{d} \tilde{\mbf{p}} \right) + \frac{ 1 }{\lambda_{AA} } \left. \frac{\partial \text{vec} \mbf{A}} {\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}}
+\end{equation}
+
+\noindent Finally, substituting the expression above into Eq(\ref{eq:genJacobian}) yields the Jacobian matrix:
+
+\begin{align*} \label{eq:subJacobian}
+	\mbf{M} &=  \mbf{B}[\tilde{\mbf{p}}] + \left( \tilde{\mbf{p}}^{\intercal} \otimes \mbf{1}_{2 \omega g} \right) \frac{ \partial \text{vec}{\mbf{B}} }{ \partial \tilde{\mbf{p}}^{\intercal} } \bigg\rvert_{\hat{\mbf{p}}}, \\
+			&= \underbrace{ \mbf{B}[\hat{\mbf{p}}]}_{\encircle{A}} - 
+			   \underbrace{ \frac{ 1 }{\lambda_{AA}^2 } (\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{\omega g}) \left( \text{vec} \tilde{\mbf{A}} \right) \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}} \right)}_{\encircle{B}} \\
+			&~~~~~~~~~~~+ \underbrace{\frac{ 1 }{\lambda_{AA} } (\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{\omega g}) \left. \frac{\partial \text{vec} \tilde{\mbf{A}}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}}}_{\encircle{C}},
+\end{align*}
+
+
+%%%%%%%%%%%%%%%%
+\subsubsection{Components of the Jacobian}
+
+The next task is to work out each of the three terms \encircle{A}, \encircle{B}, and \encircle{C}, in $\mbf{M}$. Beginning with \encircle{A}, we have
+
+\begin{align*}
+	\mbf{B}[\hat{\mbf{p}}] &= \frac{ \tilde{\mbf{A}}[\hat{\mbf{p}}] }{ \mbf{1}^{\intercal}_{\omega g} \tilde{\mbf{A}}[\hat{\mbf{p}}] \hat{\mbf{p}} } = \\
+						   \frac{1}{\lambda_{AA}} &
+						   \left(
+			\begin{array}{cc|cc|cc}
+				\mcal{U}^S_{AA} + C_{AA} (1 - \delta) \mbf{F}_{AA} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{F}_{AA} (1 - C_{AA}) & \mcal{U}^X_{AA} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mcal{U}^X_{Aa} & \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0}\\ \hline
+				\mbf{0} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mcal{U}^S_{aa} + C_{aa} (1 - \delta) \mbf{F}_{aa} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0}  & \mbf{0} & \mbf{0} & \mcal{U}^X_{aa}
+			\end{array} \right) \numberthis
+\end{align*}
+ 
+\noindent see Eq{\ref{eq:AtildeCoexistence}}. Next, we have \encircle{B},
+
+\begin{equation}
+	\encircle{B} = - \frac{1}{\lambda_{AA}} \left( \hat{\mbf{p}}^{\intercal} \otimes \mbf{1}_{2 \omega g} \right) \left( \text{vec} \tilde{\mbf{A}} \right) \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}} \right).
+\end{equation}
+
+\noindent Again using Roth's theorem (Roth 1934), $\left( \mbf{C}^{\intercal} \otimes \mbf{A} \right) \text{vec}\mbf{B} = \text{vec}\mbf{ABC}$, we can simplify as follows:
+
+\begin{align*}
+	\left( \hat{\mbf{p}}^{\intercal} \otimes \mbf{1}_{2 \omega g} \right) \left( \text{vec} \tilde{\mbf{A}}[\hat{\mbf{p}}] \right) &= \text{vec} \left( \mbf{I}_{2 \omega g}\, \tilde{\mbf{A}}[\hat{\mbf{p}}]\, \hat{\mbf{p}} \right) \\
+					   &= \lambda_{AA} \hat{\mbf{p}}, \numberthis
+\end{align*}
+
+\noindent so that 
+
+\begin{landscape}
+
+\begin{equation}
+	\encircle{B} = - \frac{1}{\lambda_{AA}} \hat{\mbf{p}} \left( \text{vec} \tilde{\mbf{A}} \right) \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}}[\hat{\mbf{p}}] \right).
+\end{equation}
+
+\noindent Substitute the population vector at the $AA$ boundary,
+
+\begin{equation}
+	\hat{\mbf{p}} = \left(
+			\begin{array}{c}
+							\hat{\mbf{p}}_{AA} \\
+							\hat{\mbf{p}}_{AA} \\ \hline
+							0                  \\
+							0                  \\ \hline
+							0                  \\
+							0                  \\
+			\end{array} \right)
+\end{equation}
+
+\noindent and rewrite in terms of the block matrices to obtain
+
+\begin{align*}
+	\encircle{B} =& \\
+	&-\frac{1}{\lambda_{AA}} \left(
+			\begin{array}{cc|cc|cc}
+				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{aa} \\ 
+				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{aa} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} 
+			\end{array} \right) \\
+	&-\frac{1}{\lambda_{AA}} \left(
+			\begin{array}{cc|cc|cc}
+				C_{AA}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & \mbf{0} & C_{AA}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & \mbf{0} & C_{AA}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & \mbf{0} \\ 
+				(1 - C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & \mbf{0} & (1 - C_{Aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & \mbf{0} & (1 - C_{Aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0}
+			\end{array} \right) \numberthis			
+\end{align*}
+
+
+\end{landscape}
+
+
+Finally, we turn to term \encircle{C} of the Jacobian. As far as I can tell, we can follow the steps leading from Eq(A-35) through to Eq(A-46) of de Vries \& Caswell (2019) Appendix A exactly because the structure of our $\tilde{\mbf{A}}$ equations are identical. We resume the derivation at our version of their Eq(A-47)...Substitute $\hat{\mbf{p}}^{\intercal} = \left( \hat{\mbf{p}}^{\intercal}_{AA},\hat{\mbf{p}}^{\intercal}_{AA},\mbf{0},\mbf{0},\mbf{0},\mbf{0} \right)$ into the right side of Eq(A-46) so that only terms with $j=1$ and $j=2$ are nonzero, yielding
+
+\begin{align*}
+	\frac{1}{\lambda_{AA}}(\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{2 \omega g}) \left. \frac{ \partial \text{vec}\mbf{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} &= \frac{1}{\lambda_{AA}} \sum^{6}_{i=1} \big( \hat{\mbf{p}}^{\intercal}_{AA} \otimes (\mbf{e}_{i} \otimes \mbf{I}_{\omega}) \big) \left. \frac{ \partial \text{vec}\mbf{A}_{i,1}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \\
+		&+ \frac{1}{\lambda_{AA}} \sum^{6}_{i=1} \big( \hat{\mbf{p}}^{\intercal}_{AA} \otimes (\mbf{e}_{i} \otimes \mbf{I}_{\omega}) \big) \left. \frac{ \partial \text{vec}\mbf{A}_{i,2}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \numberthis
+\end{align*}
+
+\noindent But, since none of the $\mbf{A}_{i,2}$ are a function of the frequency vector $\mbf{p}$,
+
+\begin{equation}
+	\left. \frac{ \partial \text{vec}\mbf{A}_{i,2}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} = 0,\,\text{for all }i. 
+\end{equation}
+
+\noindent (see Eq{\ref{eq:AtildeCoexistence}}). Next, write down each term in the sum over $i$ and take the derivative  of the $\text{vec}\mbf{A}_{i,1}$'s to obtain
+
+\begin{align*}
+	\frac{1}{\lambda_{AA}}(\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{2 \omega g}) \left. \frac{ \partial \text{vec}\mbf{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} = 
+		&\frac{C_{AA}(1 - \delta)}{\lambda_{AA}} \big[ \hat{\mbf{p}}^{\intercal} \otimes (\mbf{e}_{1} \otimes \mbf{I}_{\omega} ) - \hat{\mbf{p}}^{\intercal}_{AA} \otimes (\mbf{e}_{3} \otimes \mbf{I}_{\omega})\big] \text{vec}\mbf{F}_{AA} \\
+		&+ \frac{(1 - C_{AA})}{\lambda_{AA}} \big[ \hat{\mbf{p}}^{\intercal} \otimes (\mbf{e}_{2} \otimes \mbf{I}_{\omega} ) - \hat{\mbf{p}}^{\intercal}_{AA} \otimes (\mbf{e}_{4} \otimes \mbf{I}_{\omega})\big] \text{vec}\mbf{F}_{AA}  \left.\frac{\partial q^{\prime}_{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}}    \numberthis
+\end{align*}
+
+\noindent Finally, apply Roth's theorem (Roth 1934), $\left( \mbf{C}^{\intercal} \otimes \mbf{A} \right) \text{vec}\mbf{B} = \text{vec}\mbf{ABC}$ (e.g.,where $\mbf{C}^{\intercal} = \hat{\mbf{p}}^{\intercal}_{AA}$, $\mbf{A} = (\mbf{e}_1 \otimes \mbf{I}_{\omega})$, and $\text{vec}\mbf{B} = \text{vec}\mbf{F}_{AA}$) to rewrite as
+
+\begin{align*}
+	\frac{1}{\lambda_{AA}}(\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{2 \omega g}) \left. \frac{ \partial \text{vec}\mbf{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} = 
+		&\frac{C_{AA}(1 - \delta)}{\lambda_{AA}} \big[ \text{vec}\big((\mbf{e}_{1} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \big) - \text{vec}\big((\mbf{e}_{3} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \big) \big]  \\
+		&+ \frac{(1 - C_{AA})}{\lambda_{AA}} \big[ \text{vec}\big((\mbf{e}_{2} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \big) - \text{vec}\big((\mbf{e}_{4} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \big) \big]  \left.\frac{\partial q^{\prime}_{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}}    \numberthis
+\end{align*}
+
+\noindent written in terms of the block matrices, this yields
+
+\begin{align*}
+	\encircle{C} =& \\
+	\frac{1}{\lambda_{AA}} &\left(
+			\begin{array}{cc|cc|cc}
+				\mbf{0} & C_{AA}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \\
+				\mbf{0} & (1 - C_{AA}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{AA}} & \mbf{0} & (1 - C_{Aa}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{Aa}} & \mbf{0} & (1 - C_{aa}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{aa}} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & \mbf{0} \\
+				\mbf{0} & -(1 - C_{AA}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{AA}} & \mbf{0} & -(1 - C_{Aa}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{Aa}} & \mbf{0} & -(1 - C_{aa}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{aa}} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} 
+			\end{array} \right)  \numberthis			
+\end{align*}
+
+The above expression requires the derivative of the frequency of allele $A$ in the gamete pool with respect to the population frequency vector:
+
+\begin{equation}
+	\left. \frac{\partial q^{\prime}_{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{P}}}
+\end{equation}
+
+\noindent Here, I believe we can again follow the exact same steps as described in Eq(A-50) through Eq(A-60) in Appendix A of de Vries \& Caswell (2019) to give, finally, 
+
+\begin{align*}
+	\frac{1}{\lambda_{AA}} (\hat{\mbf{p}}^{\intercal} &\otimes \mbf{I}_{2 \omega g}) \left. \frac{\partial \text{vec}\mbf{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} = \\
+	\frac{1}{\lambda_{AA}} &\left(
+			\begin{array}{cc|cc|cc}
+				\mbf{0} & C_{AA}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \\
+				\mbf{0} & \mbf{0} & \mbf{0} & -\frac{(1 - C_{Aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{0} & -\frac{(1 - C_{aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{aa} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{0} & \frac{(1 - C_{Aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{0} & \frac{(1 - C_{aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{aa} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} 
+			\end{array} \right)  \numberthis			
+\end{align*}
+
+
+%%%%%%%%%%%%%%%%%%%%
+\subsubsection{The Jacobian}
+
+Putting all the pieces together into $M$, we get the Jacobian:
+
+\begin{landscape}
+
+\begin{align*} \label{eq:combinedM}
+	\mbf{M} = 
+		\frac{1}{\lambda_{AA}} &\left(\begin{array}{cc|cc|cc}
+				\mcal{U}^S_{AA} + C_{AA} (1 - \delta) \mbf{F}_{AA} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{F}_{AA} (1 - C_{AA}) & \mcal{U}^X_{AA} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mcal{U}^X_{Aa} & \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0}\\ \hline
+				\mbf{0} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mcal{U}^S_{aa} + C_{aa} (1 - \delta) \mbf{F}_{aa} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0}  & \mbf{0} & \mbf{0} & \mcal{U}^X_{aa}
+			\end{array} \right) \\
+		-\frac{1}{\lambda_{AA}} &\left(
+			\begin{array}{cc|cc|cc}
+				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{aa} \\ 
+				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{aa} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} 
+			\end{array} \right) \\
+		-\frac{1}{\lambda_{AA}} &\left(
+			\begin{array}{cc|cc|cc}
+				C_{AA}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & \mbf{0} & C_{Aa}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & \mbf{0} & C_{aa}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & \mbf{0} \\ 
+				(1 - C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & \mbf{0} & (1 - C_{Aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & \mbf{0} & (1 - C_{aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0}
+			\end{array} \right) \\
+		\frac{1}{\lambda_{AA}} &\left(
+			\begin{array}{cc|cc|cc}
+				\mbf{0} & C_{AA}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \\
+				\mbf{0} & \mbf{0} & \mbf{0} & -\frac{(1 - C_{Aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{0} & -\frac{(1 - C_{aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{aa} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{0} & \frac{(1 - C_{Aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{0} & \frac{(1 - C_{aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{aa} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} 
+			\end{array} \right)  
+			\numberthis
+\end{align*}
+
+\end{landscape}
+
+
+
+%%%%%%%%%%%%%%%
+\subsubsection*{Eigenvalues of the Jacobian}
+
+Similar to Lotte's result, the Jacobian matrix given in Eq(\ref{eq:combinedM}) is upper block triangular, and the eigenvalues of $\mbf{M}$ are therefore the eigenvalues of the diagonal blocks. However, because of the way that self-fertilization alters the projection matrix, our blocks are slightly different than Lotte's model. Specifically, our $\mbf{M}_{11}$ is the same (corresponding to the upper-left $2 \times 2$  block of $\mbf{M}$); our $\mbf{M}_{33}$ corresponds to the lowermost right corner element ($\mbf{M}_{33} = \mathcal{U}^{X}_{aa}$. However, in our case, the central diagonal block $\mbf{M}_{22}$ corresponds to 
+
+ \begin{align*} \label{eq:M22}
+	\mbf{M}_{22} = 
+		\frac{1}{\lambda_{AA}} &\left(\begin{array}{cc|c}
+				\mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} \\
+				\frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mcal{U}^X_{Aa} + \frac{(1 - C_{Aa})}{2 p_n} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{F}_{aa} (1 - C_{aa}) \\ \hline
+				\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mcal{U}^S_{aa} + C_{aa} (1 - \delta) \mbf{F}_{aa} \\ 
+			\end{array} \right) \numberthis
+\end{align*}
+
+For the same reasons outlined in Lotte's appendix, the stability of $\hat{\mbf{p}}$ will be determined by $\mbf{M}_{22}$. The largest absolute value of the eigenvalues of the Jacobian matrix, the leading eigenvalue, evaluated at the $AA$ boundary, denoted by $\tilde{\zeta}_{AA}$, is therefore
+
+\begin{align*} \label{eq:eigAA}
+	\tilde{\zeta}_{AA} = 
+		\frac{1}{\lambda_{AA}} \rho&\left(\begin{array}{cc|c}
+				\mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} \\
+				\frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mcal{U}^X_{Aa} + \frac{(1 - C_{Aa})}{2 p_n} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{F}_{aa} (1 - C_{aa}) \\ \hline
+				\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mcal{U}^S_{aa} + C_{aa} (1 - \delta) \mbf{F}_{aa} \\ 
+			\end{array} \right). \numberthis
+\end{align*}
+
+\noindent Rearranging the projection matrix so that outcrossing comes on top of selfing in each block simplifies things, but in the end the leading eigenvalue evaluated at the $aa$ boundary is 
+
+\begin{align*} \label{eq:eigaa}
+	\tilde{\zeta}_{aa} = 
+		\frac{1}{\lambda_{AA}} \rho&\left(\begin{array}{c|cc}
+				\mcal{U}^S_{AA} + C_{AA} (1 - \delta) \mbf{F}_{AA} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}\\ \hline
+				\mbf{F}_{AA} (1 - C_{AA}) & \mcal{U}^X_{Aa} + \frac{(1 - C_{Aa})}{2 p_n} (\mbf{F}_{aa} \hat{\mbf{p}}_{aa}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) \\ 
+				\mbf{0} & -C_{Aa}(1 - \delta) (\mbf{F}_{aa} \hat{\mbf{p}}_{aa}) & \mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} \\
+			\end{array} \right). \numberthis
+\end{align*}
+
+A boundary equilibrium is unstable to invasion by the rare allele if the leading eigenvalue of the Jacobian evaluated at the equilibrium is greater than $1$. The conditions for a protected polymorphism is that both boundaries are unstable (i.e., both $\tilde{\zeta}_{AA} > 1$ and $\tilde{\zeta}_{aa} > 1$). The conditions for coexistence are, therefore, that
+
+\begin{equation} \label{eq:coexist_AA}
+	\lambda_{AA} < 
+		\rho \left(\begin{array}{cc|c}
+				\mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} \\
+				\frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mcal{U}^X_{Aa} + \frac{(1 - C_{Aa})}{2 p_n} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{F}_{aa} (1 - C_{aa}) \\ \hline
+				\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mcal{U}^S_{aa} + C_{aa} (1 - \delta) \mbf{F}_{aa} \\ 
+			\end{array} \right), \\ 
+\end{equation} 
+\begin{equation} \label{eq:coexist_aa}
+	\lambda_{aa} < 
+		\rho \left(\begin{array}{c|cc}
+				\mcal{U}^S_{AA} + C_{AA} (1 - \delta) \mbf{F}_{AA} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}\\ \hline
+				\mbf{F}_{AA} (1 - C_{AA}) & \mcal{U}^X_{Aa} + \frac{(1 - C_{Aa})}{2 p_n} (\mbf{F}_{aa} \hat{\mbf{p}}_{aa}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) \\ 
+				\mbf{0} & -C_{Aa}(1 - \delta) (\mbf{F}_{aa} \hat{\mbf{p}}_{aa}) & \mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} \\
+			\end{array} \right). 
+\end{equation}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\begin{thebibliography}{}
+
+\bibitem[{Chang and Kirkpatrick(2018)Chang and Kirkpatrick}]{ChangKirkpatrick2018}
+Chang, C., and M.~Kirkpatrick. 2018.
+\newblock Inversions are bigger on the X chromosome.
+\newblock Mol.~Ecol. 2018:1--8.
+
+\bibitem[{Charlesworth et.~al.(1987)Charlesworth et.~al.}]{CharlesworthBarton1987}
+Charlesworth, B., J.~A. Coyne, and N. Barton. 1987.
+\newblock The relative rates of evolution of sex chromosomes and autosomes.
+\newblock American Naturalist 130:113--146.
+
+\bibitem[{Connallon et al.(2018)Connallon et al.}]{ConnallonOlito2018}
+Connallon, T., C.~Olito, L.~Dutoit, H.~Popali, F.~Ruzicka, and L. Yong. 2018.
+\newblock Local adaptation and the evolution of inversions on sex chromosomes and autosomes.
+\newblock Phil.~Trans.~Roy.~Soc.~B 373:20170423.
+
+\bibitem[{Orr(2000)Orr}]{Orr2000}
+Orr, H.~A. 2000.
+\newblock The rate of adaptation in asexuals.
+\newblock Genetics 155:961--968.
+
+\bibitem[{Orr and Kim(1998)Orr and Kim}]{OrrKim1998}
+Orr, H.~A. and Y.~Kim. 1998.
+\newblock An adaptive hypothesis for the evolution of the Y chromosome.
+\newblock Genetics 150:1693--1698.
+
+
+\end{thebibliography}
+
+\end{document}
