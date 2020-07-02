@@ -18,11 +18,11 @@ rm(list=ls())
 ##  Dependencies
 source('R/functions-MatModels.R')
 
-Ainvade  <-  FALSE
+Ainvade  <-  TRUE
 intInit  <-  FALSE
 
 # Simulation time"
-tlimit <- 100000
+tlimit <- 50000
 
 # dimensions
 om  <-  2
@@ -36,7 +36,7 @@ eom  <-  ones(c(om,1))
 K    <-  vecperm(om,g)
 
 # Population Selfing Rate and inbreeding depression
-C      <-  0
+C      <-  1/4
 delta  <-  0
 
 #####################################################"
@@ -48,17 +48,17 @@ delta  <-  0
 # BASELINE PARAMETERS for survival and 
 # fertility through Female and Male function
 # theta=[sigma_J, sigma_A, gamma, f_ii]
-theta_temp  <-  c(0.6,0.6,0.05,5.9)
+theta_temp  <-  c(0.6,0.6,0.05,3)
 theta       <-  rep.col(theta_temp,3)
 
-theta_primetemp <- c(0.6,0.6,0.05,5.9)
+theta_primetemp <- c(0.6,0.6,0.05,3)
 theta_prime <- rep.col(theta_primetemp,3)
 
 ## SELECTION PARAMETERS
 hf  <-  1/2
 hm  <-  1/2
-sf  <-  0.01
-sm  <-  0.012
+sf  <-  0.12
+sm  <-  0.1
 fii        <-  c(1, 1 - hf*sf, 1 - sf)
 fii_prime  <-  c(1 - sm, 1 - hm*sm, 1)
 
@@ -142,33 +142,6 @@ for (i in 1:3){
 }
 
 
-pHatAA  <-  t(eom)
-pHatPrimeAA  <-  pHatAA
-pn  <-  t(eom)%*%FXi_prime[,,1]%*%eom
-zeroOmg  <-  zeros(c(om,om))
-temp  <-  rbind(	c( (USi[,,2] + (1/2)*C*(1 - delta)*FSi[,,2]), (C*(1 - delta) * kronecker((FXi[,,1] %*% t(pHatAA)), (t(eom)%*%FXi[,,2])))                               , zeroOmg),
-					c( ((1/2)*FXi[,,2]*(1 - C))                 , (UXi[,,2] + (as.vector((1 - C)/(2*pn))*kronecker( (FXi[,,2]%*%t(pHatAA)), (t(eom)%*%FXi_prime[,,2])))), (FXi[,,3]*(1 - C))),
-					c( ((1/4)*C*(1 - delta)*FXi[,,2])           , zeroOmg                                                                 , (USi[,,3] + C*(1 - delta)*FSi[,,3]))
-				)
-M22  <-  rbind(
-	temp[1,c(1,3,5,7,9,11)],
-	temp[1,c(2,4,6,8,10,12)],
-	temp[2,c(1,3,5,7,9,11)],
-	temp[2,c(2,4,6,8,10,12)],
-	temp[3,c(1,3,5,7,9,11)],
-	temp[3,c(2,4,6,8,10,12)]
-	)
-max(eigen(M22)$values)
-
-C*(1 - delta) * kronecker((FXi[,,1] %*% t(pHatAA)), (t(eom)%*%FXi[,,2]))
-kronecker((FXi[,,1] %*% t(pHatAA)), )
-ones(c(om,om))
-eom
-
-
-
-
-
 d <- diag(g)
 
 #CREATE BLOCK DIAGONAL MATRICES
@@ -250,8 +223,8 @@ for (i in 1:tlimit){
 
         FtildeS  <-  t(K) %*% blkHS %*% K %*% blkFS
         FtildeX  <-  t(K) %*% blkHX %*% K %*% blkFX
-        Atilde   <-  rbind(cbind((UtildeS + FtildeS), zeros(c(om*g,om*g))),
-						  cbind(FtildeX,UtildeX))
+        Atilde   <-  rbind(cbind((UtildeS + FtildeS), FtildeS),
+						   cbind(FtildeX            , (UtildeX + FtildeX)))
         nSXnext  <-  Atilde %*% c(n,n)
         nnext    <-  t(t(nSXnext[1:6,] + nSXnext[7:12,]))
         pnext    <-  nnext/norm(nnext,"1")

@@ -308,6 +308,30 @@ The matrix $\tilde{\mbf{A}}[\tilde{\mbf{n}}]$ that projects the eco-evolutionary
 
 \noindent where $\tilde{\mbf{p}}$ is calculated from $\tilde{\mbf{n}}$ using Eq(\ref{eq:propPopVec}). The blocks correspond to production of offspring by self-fertilization and outcrossing ($\mcal{F}^S$ and $\mcal{F}^X$ in $\tilde{\mbf{F}}$), and survival of selfed and outcrossed offspring ($\mcal{U}^S$ and $\mcal{U}^X$ in $\tilde{\mbf{U}}$). 
 
+\hl{An alternative, based on suggestions from Lotte:}
+
+
+\begin{equation}
+	\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
+			\underbrace{\left(
+			\begin{array}{c|c}
+				\mcal{U}^S & \mbf{0} \\ \hline
+				\mbf{0} & \mcal{U}^X \\
+			\end{array} \right)}_{\tilde{\mbf{U}}} + 
+			\underbrace{\left(
+			\begin{array}{c|c}
+				\mcal{F}^S(\tilde{\mbf{p}}) (1 - \delta) & \mbf{0} \\ \hline
+				\mbf{0} & \mcal{F}^S(\tilde{\mbf{p}}) (1 - \delta) \\
+			\end{array} \right)}_{\tilde{\mbf{F}}_{S}} +
+			\underbrace{\left(
+			\begin{array}{c|c}
+				\mcal{F}^X(\tilde{\mbf{p}}) & \mbf{0} \\ \hline
+				\mbf{0} & \mcal{F}^X(\tilde{\mbf{p}}) \\
+			\end{array} \right)}_{\tilde{\mbf{F}}_{X}}
+\end{equation}
+
+
+
 To construct $\tilde{\mbf{A}}$ using the vec-permutation matrix approach (Caswell et al., 2018), create a set of block-diagonal matrices; e.g.,
 
 \begin{equation}
