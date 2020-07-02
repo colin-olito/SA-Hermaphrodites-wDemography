@@ -131,7 +131,7 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
 		lambda_full[i]    <- max(eigen(Atilde_genotype[,,i],symmetric=FALSE, only.values = TRUE)$values)
 	}
 
-	#CREATE BLOCK DIAGONAL MATRICES
+	# CREATE BLOCK DIAGONAL MATRICES
 	d 			 <- diag(g)
 	blkD         <-  kronecker(Iom,d)
 	blkUS        <-  zeros(c(g*om,g*om))
@@ -213,9 +213,13 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
 
         FtildeS   <-  t(K) %*% blkHS %*% K %*% blkFS
         FtildeX   <-  t(K) %*% blkHX %*% K %*% blkFX
-        Atilde    <-  rbind(cbind((UtildeS + FtildeS), zeros(c(om*g,om*g))),
-							cbind(FtildeX            , UtildeX))
-        nSXnext   <-  Atilde %*% c(n,n)
+        Atilde   <-  rbind(cbind((UtildeS + FtildeS), FtildeS),
+						   cbind(FtildeX            , (UtildeX + FtildeX)))
+browser()
+
+#        nSXnext   <-  Atilde %*% c(n,n)
+#        nnext     <-  t(t(nSXnext[1:6,] + nSXnext[7:12,]))
+        nnext   <-  Atilde %*% c(n,n)
         nnext     <-  t(t(nSXnext[1:6,] + nSXnext[7:12,]))
 
         # Regulate population size to avoid crashing simulation

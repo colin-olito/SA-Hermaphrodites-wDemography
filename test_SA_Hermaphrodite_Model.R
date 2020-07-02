@@ -22,7 +22,7 @@ Ainvade  <-  TRUE
 intInit  <-  FALSE
 
 # Simulation time"
-tlimit <- 50000
+tlimit <- 10^4
 
 # dimensions
 om  <-  2
@@ -48,17 +48,17 @@ delta  <-  0
 # BASELINE PARAMETERS for survival and 
 # fertility through Female and Male function
 # theta=[sigma_J, sigma_A, gamma, f_ii]
-theta_temp  <-  c(0.6,0.6,0.05,3)
+theta_temp  <-  c(0.6,0.6,0.05,6.8)
 theta       <-  rep.col(theta_temp,3)
 
-theta_primetemp <- c(0.6,0.6,0.05,3)
+theta_primetemp <- c(0.6,0.6,0.05,6.8)
 theta_prime <- rep.col(theta_primetemp,3)
 
 ## SELECTION PARAMETERS
 hf  <-  1/2
 hm  <-  1/2
-sf  <-  0.12
-sm  <-  0.1
+sf  <-  0.1
+sm  <-  0.12
 fii        <-  c(1, 1 - hf*sf, 1 - sf)
 fii_prime  <-  c(1 - sm, 1 - hm*sm, 1)
 
@@ -76,15 +76,15 @@ theta_prime[4,]  <-  theta_prime[4,]*fii_prime
 # nzero  <-  [juv_AA, ad_AA, juv_Aa, ad_Aa, juv_aa, ad_aa]
 # All aa
 if(Ainvade) {
-	nzero  <- round(100*c(0,0,0,0,141.3,18.2))
+	nzero  <- round(c(C*(1 - delta)*100*c(0,0,0,0,141.3,18.2),(1 - C)*100*c(0,0,0,0,141.3,18.2)))
 } 
 #All AA
 if(!Ainvade) {
-	nzero  <-  100*c(141.3,18.20,0,0,0,0)
+	nzero  <- round(c(C*(1 - delta)*100*c(141.3,18.2,0,0,0,0),(1 - C)*100*c(141.3,18.2,0,0,0,0)))
 }
 #All Aa
 if(intInit) {
-	nzero  <-  100*c(0,0,141.3,18.20,0,0)
+	nzero  <-  round(c(C*(1 - delta)*100*c(0,0,141.3,18.2,0,0),(1 - C)*100*c(0,0,141.3,18.2,0,0)))
 }
 
 #####################################################
@@ -112,9 +112,9 @@ eigs_temp  <-  zeros(c(g,2))
 
 for (i in 1:3){
     USi[,,i]       <- rbind(c(sigma_J[i]*(1 - gamma[i]), 0         ),
-                            c(sigma_J[i]*gamma[i],       sigma_A[i]))*C*(1 - delta)
+                            c(sigma_J[i]*gamma[i],       sigma_A[i]))
     UXi[,,i]       <- rbind(c(sigma_J[i]*(1 - gamma[i]), 0         ),
-                            c(sigma_J[i]*gamma[i],       sigma_A[i]))*(1 - C)
+                            c(sigma_J[i]*gamma[i],       sigma_A[i]))
     FSi[,,i]       <- rbind(c(0,C*f[i]*(1 - delta)),
 					        c(0,0))
     FXi[,,i]       <- rbind(c(0,(1 - C)*f[i]),
@@ -175,8 +175,7 @@ Z <- rbind( c(1,0,0,0),
 # INITIAL CONDITIONS
 nzero  <- c(nzero)
 n      <- t(t(nzero))
-nout   <- zeros(c((om*g),tlimit))
-
+nout   <- zeros(c((2*om*g),tlimit))
 
 ###############################################################
 
@@ -187,17 +186,21 @@ nout   <- zeros(c((om*g),tlimit))
 for (i in 1:tlimit){
         nout[,i]  <-  n
     # Introduce new allele by introducing one heterozygote juvenile
+    # produced by outcrossing
+#if(i == 12) {
+#	browser()
+#}  
     if (i==10){
-      n[3]  <-  1
-#      n[9]  <-  1
+#      n[3]  <-  1
+      n[9]  <-  1
     }
 
         #Creating the male gamete pool
-#        nX    <- n[7:12] # outcrossing population vectors
-        ngam  <- ones(c(1,2)) %*% W_prime %*% blkFX_prime %*% n
+        nX    <- n[1:6] + n[7:12] # all individuals can outcross
+        ngam  <- ones(c(1,2)) %*% W_prime %*% blkFX_prime %*% nX
         
         #Equation 5 in the manuscript
-        q_prime <- (W_prime%*%blkFX_prime%*%n)/ngam[1] 
+        q_prime <- (W_prime%*%blkFX_prime%*%nX)/ngam[1] 
 
         UtildeS  <-  blkUS
         UtildeX  <-  blkUX
@@ -207,15 +210,15 @@ for (i in 1:tlimit){
 					c(0, 1/4, 1))
 
         HX <- zeros(c(g,g))
-        for (ii in 1:g){
-            pi  <-  Ig[,ii]
+        for (j in 1:g){
+            pi  <-  Ig[,j]
             qi  <-  W %*% pi #allele frequencies in oocytes of genotype i
 
             piprime  <-  Z %*% kronecker(qi,q_prime)
             # genotype frequencies in the offspring of mothers of genotype i
             # produced by outcrossing (equation 16 in de Vries and Caswell, 2018a (American Naturalist))
 
-            HX[,ii]  <-  piprime # the outcrossing parent-offspring matrix
+            HX[,j]  <-  piprime # the outcrossing parent-offspring matrix
         }
 
         blkHS  <-  kronecker(Iom,HS)
@@ -225,24 +228,23 @@ for (i in 1:tlimit){
         FtildeX  <-  t(K) %*% blkHX %*% K %*% blkFX
         Atilde   <-  rbind(cbind((UtildeS + FtildeS), FtildeS),
 						   cbind(FtildeX            , (UtildeX + FtildeX)))
-        nSXnext  <-  Atilde %*% c(n,n)
-        nnext    <-  t(t(nSXnext[1:6,] + nSXnext[7:12,]))
-        pnext    <-  nnext/norm(nnext,"1")
-        pout     <-  pnext
+
+        nnext  <-  Atilde %*% n
+#        nSXnext  <-  Atilde %*% c(n,n)
 
 		if (sum(nnext) > 1e+200) {
-			nnext  <-nnext * 1e-10
+			nnext  <-  nnext * 1e-10
 			n <- nnext
-			p <- pnext
 		} else{
 	        n <- nnext
-		    p <- pnext
        }
 
 cat('\r', paste(i/tlimit,'%'))
 }
 
-nout[,1:10]
+Nout  <-  nout[1:6,] + nout[7:12,]
+Nout[,1:30]
+colSums(nout[,1:30])
 # nOut   <-  nout[7:12,]
 # nSelf  <-  nout[1:6,]
 # nTot   <-  nOut + nSelf      
@@ -251,21 +253,21 @@ nout[,1:10]
 # n  <-  c[juv_AA, ad_AA, juv_Aa, ad_Aa, juv_aa, ad_aa]
 
 par(mfrow=c(2,2))
-plot( 1:tlimit, nout[1,], log="y", ylim=c(10^-5,max(nout)), type="l", col="red", lty=2)
-lines(1:tlimit, nout[2, ], col="red", type="l")
-lines(1:tlimit, nout[3, ], col="orange", type="l", lty=2)
-lines(1:tlimit, nout[4, ], col="orange", type="l")
-lines(1:tlimit, nout[5, ], col="green", type="l", lty=2)
-lines(1:tlimit, nout[6, ], col="green", type="l")
+plot( 1:tlimit, Nout[1,], log="y", ylim=c(10^-5,max(Nout)), type="l", col="red", lty=2)
+lines(1:tlimit, Nout[2, ], col="red", type="l")
+lines(1:tlimit, Nout[3, ], col="orange", type="l", lty=2)
+lines(1:tlimit, Nout[4, ], col="orange", type="l")
+lines(1:tlimit, Nout[5, ], col="green", type="l", lty=2)
+lines(1:tlimit, Nout[6, ], col="green", type="l")
 
-plot( 1:tlimit, colSums(nout[c(2,4,6),]), log="y", type="l", col="red", lty=2)
+plot( 1:tlimit, colSums(Nout[c(2,4,6),]), log="y", type="l", col="red", lty=2)
 
 
 #Genotype frequencies in females
 #GENOTYPE FREQUENCIES, aggregate over all stages
-temp         <-  kronecker(diag(g),ones(c(1,om))) %*% nout
+temp         <-  kronecker(diag(g),ones(c(1,om))) %*% Nout
 p_genotypes  <-  sweep(temp,2,colSums(temp),'/')
-
+p_genotypes[,1:30]
 plot(1:tlimit,p_genotypes[1,],col="red",type="l",ylim = c(0,1))
 lines(1:tlimit,p_genotypes[2,],col="orange",type="l")
 lines(1:tlimit,p_genotypes[3,],col="green",type="l")
