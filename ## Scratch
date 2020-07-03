@@ -4,7 +4,7 @@ rm(list=ls())
 source('R/functions-Simulations.R')
 
 #  TEST THE SIMULATION LOOP
-results  <-  fwdDemModelSim(om = 2, g = 3, theta = c(0.6,0.6,0.05,6.8), theta_prime = c(0.6,0.6,0.05,6.8), 
+results  <-  fwdDemModelSim(om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 							hf = 1/2, hm = 1/2, sf = 0.1, sm = 0.05, C = 0, delta = 0, tlimit = 10^5, 
 							Ainvade = TRUE, intInit = FALSE)
 str(results)
@@ -20,8 +20,12 @@ results$extinct
 results$polymorphism
 results$pEq
 
+
 tlimit  <- results$runtime
 nout  <-  results$nout[1:6,1:results$runtime] + results$nout[7:12,1:results$runtime]
+sum(nout[,results$runtime])
+
+
 par(mfrow=c(2,2))
 plot( 1:tlimit, nout[1, ], log="y", ylim=c(10^-5,max(nout)), type="l", col="red", lty=2)
 lines(1:tlimit, nout[2, ], col="red", type="l")
@@ -43,14 +47,14 @@ rm(list=ls())
 source('R/functions-Simulations.R')
 
 pars  <-  list(
-				"hf"     =  1/2,
-				"hm"     =  1/2,
-				"C"      =  0,
+				"hf"     =  1/4,
+				"hm"     =  1/4,
+				"C"      =  1/2,
 				"delta"  =  0
 				)
 
 test  <-  selLoop(sMax = 0.15, nSamples=100,
-				  om = 2, g = 3, theta = c(0.6,0.6,0.05, 6.8), theta_prime = c(0.6,0.6,0.05, 6.8), 
+				  om = 2, g = 3, theta = c(0.6,0.6,0.05, 6.1), theta_prime = c(0.6,0.6,0.05, 6.1), 
 				  hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes=TRUE)
 head(test)
 sum(test$poly == 0)

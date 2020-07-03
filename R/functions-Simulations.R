@@ -13,7 +13,6 @@ rm(list=ls())
 #####################
 ##  Dependencies
 source('R/functions-MatModels.R')
-source('R/functions-Figs.R')
 
 
 ###########################
