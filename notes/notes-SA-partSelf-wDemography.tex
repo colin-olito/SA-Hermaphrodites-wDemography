@@ -76,16 +76,16 @@ This all started with an idea I had while watching Lotte DeVries give a guest le
 
 \subsection{Component matrices}
 
-\noindent Individuals are jointly classified by stage $(1, \ldots , \omega)$ and genotype $(1, \ldots , g)$. Each genotype is characterized by a matrix of transition probabilities (including survival) and a matrices of reproductive output through male and female function. These matrices can include time variation or nonlinearities reflecting the environment or density dependence, although thes complexities will not be addressed here. Each stage contributes offspring to genotypes at the next time step according to matrices that are determined by the mating system and the population structure.
+\noindent Individuals are jointly classified by whether they were produced by self-fertilization or outcrossing (denoted by $S$ and $X$), stage $(1, \ldots , \omega)$ and genotype $(1, \ldots , g)$. Each genotype is characterized by a matrix of transition probabilities (including survival) and a matrices of reproductive output through male and female function. These matrices can include time variation or nonlinearities reflecting the environment or density dependence, although thes complexities will not be addressed here. Each stage contributes offspring to genotypes at the next time step according to matrices that are determined by the mating system and the population structure.
 
 The population state at time $t$ is described by a stage $\times$ genotype distribution matrix 
 
 \begin{equation}
 	\mathcal{N} \sim \left[
-						\begin{array}{ccc}
-							n_{1,1}      &  \cdots & n_{1,g} \\
-							\vdots       &         & \vdots  \\
-							n_{\omega,1} &  \cdots & n_{\omega,g} \\
+						\begin{array}{ccc|ccc}
+							n^S_{1,1}      &  \cdots & n^S_{1,g}       &  n^X_{1,1}      &  \cdots & n^X_{1,g} \\
+							\vdots       &         & \vdots        &  \vdots       &         & \vdots  \\
+							n^S_{\omega,1} &  \cdots & n^S_{\omega,g}  &  n^X_{\omega,1} &  \cdots & n^X_{\omega,g} \\
 						\end{array} \right],
 \end{equation}
 
@@ -101,9 +101,12 @@ The population state at time $t$ is described by a stage $\times$ genotype distr
 \begin{equation}
 	\tilde{\mbf{n}}(t) =  \left[
 								\begin{array}{c}
-									\mbf{n}_{AA}(t) \\
-									\mbf{n}_{Aa}(t) \\
-									\mbf{n}_{aa}(t) \\
+									\mbf{n}^{S}_{AA}(t) \\
+									\mbf{n}^{S}_{Aa}(t) \\
+									\mbf{n}^{S}_{aa}(t) \\ \hline
+									\mbf{n}^{X}_{AA}(t) \\
+									\mbf{n}^{X}_{Aa}(t) \\
+									\mbf{n}^{X}_{aa}(t) \\ 
 						\end{array} \right].
 \end{equation}
 
@@ -301,35 +304,12 @@ The matrix $\tilde{\mbf{A}}[\tilde{\mbf{n}}]$ that projects the eco-evolutionary
 			\end{array} \right)}_{\tilde{\mbf{U}}} + 
 			\underbrace{\left(
 			\begin{array}{c|c}
-				\mcal{F}^S(\tilde{\mbf{p}}) (1 - \delta) & \mbf{0} \\ \hline
-				\mbf{0} & \mcal{F}^X(\tilde{\mbf{p}}) \\
+				\mcal{F}^S(\tilde{\mbf{p}}) (1 - \delta) & \mcal{F}^S(\tilde{\mbf{p}}) (1 - \delta) \\ \hline
+				\mcal{F}^X(\tilde{\mbf{p}}) & \mcal{F}^X(\tilde{\mbf{p}}) \\
 			\end{array} \right)}_{\tilde{\mbf{F}}}
 \end{equation}
 
 \noindent where $\tilde{\mbf{p}}$ is calculated from $\tilde{\mbf{n}}$ using Eq(\ref{eq:propPopVec}). The blocks correspond to production of offspring by self-fertilization and outcrossing ($\mcal{F}^S$ and $\mcal{F}^X$ in $\tilde{\mbf{F}}$), and survival of selfed and outcrossed offspring ($\mcal{U}^S$ and $\mcal{U}^X$ in $\tilde{\mbf{U}}$). 
-
-\hl{An alternative, based on suggestions from Lotte:}
-
-
-\begin{equation}
-	\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
-			\underbrace{\left(
-			\begin{array}{c|c}
-				\mcal{U}^S & \mbf{0} \\ \hline
-				\mbf{0} & \mcal{U}^X \\
-			\end{array} \right)}_{\tilde{\mbf{U}}} + 
-			\underbrace{\left(
-			\begin{array}{c|c}
-				\mcal{F}^S(\tilde{\mbf{p}}) (1 - \delta) & \mbf{0} \\ \hline
-				\mbf{0} & \mcal{F}^S(\tilde{\mbf{p}}) (1 - \delta) \\
-			\end{array} \right)}_{\tilde{\mbf{F}}_{S}} +
-			\underbrace{\left(
-			\begin{array}{c|c}
-				\mcal{F}^X(\tilde{\mbf{p}}) & \mbf{0} \\ \hline
-				\mbf{0} & \mcal{F}^X(\tilde{\mbf{p}}) \\
-			\end{array} \right)}_{\tilde{\mbf{F}}_{X}}
-\end{equation}
-
 
 
 To construct $\tilde{\mbf{A}}$ using the vec-permutation matrix approach (Caswell et al., 2018), create a set of block-diagonal matrices; e.g.,
@@ -344,7 +324,7 @@ To construct $\tilde{\mbf{A}}$ using the vec-permutation matrix approach (Caswel
 			\end{array} \right)
 \end{equation}
 
-\noindent and corresponding matices $\mbb{U}^X$, $\mbb{F}^S$, $\mbb{F}^X$. Because individuals cannot change their genotype once they are born, the survival matrices are block diagonal; $\mcal{U}^S = \mbb{U}^S$ and $\mcal{U}^X = \mbb{U}^X$. We also construct
+\noindent and corresponding matrices $\mbb{U}^X$, $\mbb{F}^S$, $\mbb{F}^X$. Because individuals cannot change their genotype once they are born, the survival matrices are block diagonal; $\mcal{U}^S = \mbb{U}^S$ and $\mcal{U}^X = \mbb{U}^X$. We also construct
 
 \begin{equation}
 	\mbb{H}^j = \mbf{I}_{\omega} \otimes \mbf{H}^j(\tilde{\mbf{p}}),
@@ -396,8 +376,8 @@ The blocks of $\mcal{F}^X(\tilde{\mbf{p}})$ can be constructed and interpreted s
 Combining all the component matrices yields the overall eco-evolutionary projection matrix:
 
 \begin{align*}
-	\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
-		& \underbrace{\left(
+	&\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
+		 \underbrace{\left(
 			\begin{array}{ccc|ccc}
 				\mcal{U}^S_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
 				\mbf{0} & \mcal{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
@@ -405,15 +385,15 @@ Combining all the component matrices yields the overall eco-evolutionary project
 				\mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{AA} & \mbf{0} & \mbf{0} \\
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{aa} & \mbf{0}\\
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{aa}
-			\end{array} \right)}_{\tilde{\mbf{U}}} \\ 
-			&+ \underbrace{\left(
+			\end{array} \right)}_{\tilde{\mbf{U}}} + \\ 
+	&\underbrace{\left(
 			\begin{array}{ccc|ccc}
-				C_{AA} (1 - \delta) \mbf{F}_{AA} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & 0 & \mbf{0} & \mbf{0} & \mbf{0} \\ 
-				0 & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & 0 & \mbf{0} & \mbf{0} & \mbf{0} \\
-				0 & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & C_{aa} (1 - \delta) \mbf{F}_{aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
-				q^{\prime}_{A} \mbf{F}_{AA} (1 - C_{AA})& \frac{1}{2} q^{\prime}_{A} \mbf{F}_{Aa} (1 - C_{Aa}) & 0 & \mbf{0} & \mbf{0} & \mbf{0} \\
-				q^{\prime}_{a} \mbf{F}_{AA} (1 - C_{AA}) & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & q^{\prime}_{A} \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0} & \mbf{0} & \mbf{0}\\
-				0 & \frac{1}{2} q^{\prime}_{a} \mbf{F}_{Aa} (1 - C_{Aa})& q^{\prime}_{a} \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0} & \mbf{0} & \mbf{0}
+				C_{AA} (1 - \delta) \mbf{F}_{AA} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & C_{AA} (1 - \delta) \mbf{F}_{AA} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} \\ 
+				\mbf{0} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0}  \\
+				\mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & C_{aa} (1 - \delta) \mbf{F}_{aa} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & C_{aa} (1 - \delta) \mbf{F}_{aa} \\ \hline
+				q^{\prime}_{A} \mbf{F}_{AA} (1 - C_{AA})& \frac{1}{2} q^{\prime}_{A} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} & q^{\prime}_{A} \mbf{F}_{AA} (1 - C_{AA})& \frac{1}{2} q^{\prime}_{A} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} \\
+				q^{\prime}_{a} \mbf{F}_{AA} (1 - C_{AA}) & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & q^{\prime}_{A} \mbf{F}_{aa} (1 - C_{aa}) & q^{\prime}_{a} \mbf{F}_{AA} (1 - C_{AA}) & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & q^{\prime}_{A} \mbf{F}_{aa} (1 - C_{aa}) \\
+				\mbf{0} & \frac{1}{2} q^{\prime}_{a} \mbf{F}_{Aa} (1 - C_{Aa})& q^{\prime}_{a} \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0} & \frac{1}{2} q^{\prime}_{a} \mbf{F}_{Aa} (1 - C_{Aa})& q^{\prime}_{a} \mbf{F}_{aa} (1 - C_{aa})
 			\end{array} \right)}_{\tilde{\mbf{F}}} \numberthis
 \end{align*}
 
@@ -455,16 +435,22 @@ $\mbf{W}$   & Allele segregation matrix & $\omega \times g$ \\
 \section*{A working two-stage model for hermaphrodites}
 \setcounter{equation}{0}
 
-As a first pass at implementing the model, we construct and analyze a genotype $\times$stage-classified model for a hypothetical species with intralocus sexual conflict via the two sex functions. Our hypothetical species has two life stages: juveniles and adults. Suppose that allele $A$ is beneficial for females but detrimental for males, and that allele $a$ has the reverse effect. We also assume that the effects act only during the adult stage through reproductive success. The allele does not affect survival and transition rates, such that
+As a first pass at implementing the model, we construct and analyze a genotype $\times$stage-classified model for a hypothetical species with intralocus sexual conflict via the two sex functions. Our hypothetical species has two life stages: juveniles and adults. Suppose that allele $A$ is beneficial for females but detrimental for males, and that allele $a$ has the reverse effect. We also assume that the effects act only during the adult stage through reproductive success. The allele does not affect survival and transition rates. However, the survival matrices can be used to model 'late-acting' inbreeding depression by allowing different stage-specific survival and transition rates for individuals produced by self-fertilization vs.~outcrossing. By contrast, the parameter $\sigma$ only affects inbreeding depression through viability of selfed ovlues. With this in mind, we include different survival matrices for individuals produced by selfing and outcrossing as follows:
 
-\begin{equation}
-	\mbf{U} = \left(
+\begin{align*}
+	\mbf{U}^S = &\left(
 					\begin{array}{cc}
-						\sigma_J(1 - \gamma) & 0 \\
-						\sigma_J \gamma      & \sigma_A
+						\sigma^S_J(1 - \gamma^S) & 0 \\
+						\sigma^S_J \gamma      & \sigma^S_A
 					\end{array}
-				\right),
-\end{equation}
+				\right) \\
+	\mbf{U}^X = &\left(
+					\begin{array}{cc}
+						\sigma^X_J(1 - \gamma^X) & 0 \\
+						\sigma^X_J \gamma      & \sigma^X_A
+					\end{array}
+				\right)
+\end{align*}
 
 \noindent where $\sigma_J$ and $\sigma_A$ are the juvenile and adult stage survival rates, and $\gamma$ is the maturation rate from juvenile to adult stages. Any or all of these parameters may differ among genotypes, so that selection can operate on stage-specific viability, development, and/or fertility. For simplicity, we assume these are constant among genotypes. 
 
@@ -473,7 +459,7 @@ The fertility matrices through male and female function are
 \begin{equation}
 	\mbf{F}_{ii} = \left(
 					\begin{array}{cc}
-						0 & f_{ii} \\
+						0 & C_{ii}(1 - \delta) f_{ii} \\
 						0 & 0
 					\end{array}
 				\right),
@@ -482,7 +468,7 @@ The fertility matrices through male and female function are
 \begin{equation}
 	\mbf{F}^{\prime}_{ii} = \left(
 					\begin{array}{cc}
-						0 & f^{\prime}_{ii} \\
+						0 & (1 - C_{ii}) f^{\prime}_{ii} \\
 						0 & 0
 					\end{array}
 				\right),
@@ -492,19 +478,23 @@ The fertility matrices through male and female function are
 
 Note, that under a model of constant selfing (where $C_{AA} = C_{Aa} = C_{aa} = C$), the model reduces to
 
-\begin{equation}
+\begin{align*}
 	\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
-			\underbrace{\left(
+			&\underbrace{\left(
 			\begin{array}{c|c}
 				\mcal{U}^S & \mbf{0} \\ \hline
 				\mbf{0} & \mcal{U}^X \\
 			\end{array} \right)}_{\tilde{\mbf{U}}} + 
 			\underbrace{\left(
 			\begin{array}{c|c}
-				\mcal{F}^S(\tilde{\mbf{p}}) C(1 - \delta) & \mbf{0} \\ \hline
-				\mbf{0} & \mcal{F}^X(\tilde{\mbf{p}}) \\
-			\end{array} \right)}_{\tilde{\mbf{F}}}
-\end{equation}
+				\mcal{F}^S(\tilde{\mbf{p}}) C(1 - \delta) & \mcal{F}^S(\tilde{\mbf{p}}) C(1 - \delta) \\ \hline
+				\mcal{F}^X(\tilde{\mbf{p}}) (1 - C) & \mcal{F}^X(\tilde{\mbf{p}}) (1 - C)\\
+			\end{array} \right)}_{\tilde{\mbf{F}}} \\
+			= & \left(\begin{array}{c|c}
+				\mcal{U}^S + \mcal{F}^S(\tilde{\mbf{p}}) C(1 - \delta) & \mcal{F}^S(\tilde{\mbf{p}}) C(1 - \delta) \\ \hline
+				\mcal{F}^X(\tilde{\mbf{p}})(1 - C) & \mcal{U}^X + \mcal{F}^X(\tilde{\mbf{p}}) (1 - C)
+			\end{array} \right) \numberthis
+\end{align*}
 
 
 
@@ -516,9 +506,9 @@ Note, that under a model of constant selfing (where $C_{AA} = C_{Aa} = C_{aa} = 
  \toprule
 					&  \multicolumn{3}{c}{{\textit{Genotype}}} \\ 
 \cline{2-4}
-					& $AA$		& $Aa$ 			& $aa$ 		\\ \hline
-Female function:	& $f$		& $f - h_f s_f$	& $f - s_f$ \\	
-Male function:		& $f - s_m$	& $f - h_m s_m$	& $f$ 		\\	
+					& $AA$			& $Aa$ 					& $aa$ 		\\ \hline
+Female function:	& $f_{AA}$		& $f_{Aa} - h_f s_f$	& $f_{aa} - s_f$ \\	
+Male function:		& $f_{AA} - s_m$& $f_{Aa} - h_m s_m$	& $f_{aa}$ 		\\	
 \hline
 \end{tabular}
 \end{table}

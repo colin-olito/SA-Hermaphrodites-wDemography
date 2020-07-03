@@ -36,7 +36,7 @@ emat <- function(m,n,i,j){
 # vecperm
 # function to calculate the vec permutation matrix of size m,n
 # 4/9/03
-#function p = vecperm(m,n)
+# function p = vecperm(m,n)
 vecperm <- function(m,n){
 p <- as.vector(zeros(m*n))
 a <- zeros(c(m,n))
