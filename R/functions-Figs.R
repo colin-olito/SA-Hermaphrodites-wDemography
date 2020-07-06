@@ -149,8 +149,8 @@ FunnelPlots  <-  function() {
     COLS  <-  list(
                     "invLine"  =  transparentColor('#252525', opacity=1),
                     "poly"     =  transparentColor('green2', opacity=0.6),
-                    "aFix"     =  transparentColor('dodgerblue2', opacity=0.6),
-                    "AFix"     =  transparentColor('purple', opacity=0.6),
+                    "aFix"     =  transparentColor('purple', opacity=0.6),
+                    "AFix"     =  transparentColor('dodgerblue2', opacity=0.6),
                     "extinct"  =  transparentColor('red', opacity=0.7)
                 )
 #  Create vector of male selection coefficiets for invasion functions
@@ -237,8 +237,8 @@ legend(#"topright",inset=c(-0.2,0),
         #    title   =  expression(paste(Outcome~of~invasion~analysis)),
             legend  =  c(
                         expression(paste("Extinct")),
-                        expression(paste("Male-benfit allele Fixes")),
-                        expression(paste("Female-benfit allele Fixes")),
+                        expression(paste("Female-benefit allele Fixes")),
+                        expression(paste("Male-benefit allele Fixes")),
                         expression(paste("Polymorphism"))),
             pch     =  21,
             pt.bg   =  c(COLS$extinct,
