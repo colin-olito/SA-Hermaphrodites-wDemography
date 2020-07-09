@@ -52,6 +52,10 @@
 \def\mbf#1{\mathbf{#1}}
 \def\mbb#1{\mathbb{#1}}
 \def\mcal#1{\mathcal{#1}}
+\newcommand{\bo}[1]{{\bf #1}}
+\newcommand{\tr}{{\mbox{\tiny \sf T}}}
+
+\newcommand{\bm}[1]{\mbox{\boldmath $#1$}}
 
 %===========================================
 
@@ -169,6 +173,7 @@ To describe genotype frequencies in the mating process, we will distinguish five
 \end{tabular}
 \end{table}
 
+\hl{We have to be a bit careful with our notation. Above we have defined $\mathbf{n}^X$ as the population vector of individuals that were produced by selfing, so it would be natural to use $\mathbf{p}^X$ as the normalized version of that vector, which is in conflict with the above definition of $\mbf{p^X_i} $.}
 
 The size of the breeding population is
 
@@ -246,8 +251,9 @@ Outcrossing proceeds much like a two-sex model of reproduction. Consider a rando
 				\mbf{p}_{aa} \\
 			\end{array} \right)
 \end{equation}
+\hl{This vector has to be created from a sum of $\mathbf{n}^X$ and $\mathbf{n}^S$ since they both outcross.}
 
-\noindent The matrix $\mbb{F}^{\prime}$ operates on the vector of genotype frequencies to give the relative contributions of each genotype to the male gamete pool. The matrix $\mbf{W}^{\prime}$ converts these relative genotype contributions to allele numbers. Normalizing this vector gives the allele frequencies in the gamete pool,
+\noindent The matrix $\mbb{F}^{\prime}$ operates on the vector of genotype frequencies to give the relative contributions of each genotype to the male gamete pool. The matrix $\mbf{W}^{\prime}$ converts these relative genotype contributions to allele numbers. Normalizing this vector gives the allele frequencies in the gamete pool (\textbf{is it worth emphasizing here that this is frequencies in pollen?}),
 
 \begin{equation} \label{eq:maleGametePool}
 	\left(
@@ -256,7 +262,7 @@ Outcrossing proceeds much like a two-sex model of reproduction. Consider a rando
 			q^{\prime}_{a} \\
 		\end{array} \right) = 
 			\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p}}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p} \|} = 
-				\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{n}}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{n} \|}
+				\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} (\mbf{n}^X+ \mbf{n}^S)}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} (\mbf{n}^X+ \mbf{n}^S)\|}
 \end{equation}
 
 \noindent These frequencies determine the distribution of genotypes in the outcrossed offspring of maternal parents of any genotype.
@@ -391,9 +397,9 @@ Combining all the component matrices yields the overall eco-evolutionary project
 				C_{AA} (1 - \delta) \mbf{F}_{AA} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & C_{AA} (1 - \delta) \mbf{F}_{AA} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} \\ 
 				\mbf{0} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0}  \\
 				\mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & C_{aa} (1 - \delta) \mbf{F}_{aa} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & C_{aa} (1 - \delta) \mbf{F}_{aa} \\ \hline
-				q^{\prime}_{A} \mbf{F}_{AA} (1 - C_{AA})& \frac{1}{2} q^{\prime}_{A} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} & q^{\prime}_{A} \mbf{F}_{AA} (1 - C_{AA})& \frac{1}{2} q^{\prime}_{A} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} \\
-				q^{\prime}_{a} \mbf{F}_{AA} (1 - C_{AA}) & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & q^{\prime}_{A} \mbf{F}_{aa} (1 - C_{aa}) & q^{\prime}_{a} \mbf{F}_{AA} (1 - C_{AA}) & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & q^{\prime}_{A} \mbf{F}_{aa} (1 - C_{aa}) \\
-				\mbf{0} & \frac{1}{2} q^{\prime}_{a} \mbf{F}_{Aa} (1 - C_{Aa})& q^{\prime}_{a} \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0} & \frac{1}{2} q^{\prime}_{a} \mbf{F}_{Aa} (1 - C_{Aa})& q^{\prime}_{a} \mbf{F}_{aa} (1 - C_{aa})
+				q^{\prime}_{A} (1 - C_{AA})\mbf{F}_{AA} & \frac{1}{2} q^{\prime}_{A} (1 - C_{Aa})\mbf{F}_{Aa}  & \mbf{0} & q^{\prime}_{A} (1 - C_{AA}) \mbf{F}_{AA}& \frac{1}{2} q^{\prime}_{A} (1 - C_{Aa}) \mbf{F}_{Aa} & \mbf{0} \\
+				q^{\prime}_{a} (1 - C_{AA}) \mbf{F}_{AA} & \frac{1}{2} (1 - C_{Aa})\mbf{F}_{Aa}  & q^{\prime}_{A} (1 - C_{aa})\mbf{F}_{aa}  & q^{\prime}_{a} (1 - C_{AA}) \mbf{F}_{AA} & \frac{1}{2}(1 - C_{Aa}) \mbf{F}_{Aa}  & q^{\prime}_{A} (1 - C_{aa})\mbf{F}_{aa}  \\
+				\mbf{0} & \frac{1}{2} q^{\prime}_{a} (1 - C_{Aa})\mbf{F}_{Aa} & q^{\prime}_{a} (1 - C_{aa}) \mbf{F}_{aa} & \mbf{0} & \frac{1}{2} q^{\prime}_{a} (1 - C_{Aa})\mbf{F}_{Aa} & q^{\prime}_{a} (1 - C_{aa})\mbf{F}_{aa} 
 			\end{array} \right)}_{\tilde{\mbf{F}}} \numberthis
 \end{align*}
 
@@ -519,7 +525,7 @@ Male function:		& $f_{AA} - s_m$& $f_{Aa} - h_m s_m$	& $f_{aa}$ 		\\
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Coexistence conditions}
 \setcounter{equation}{0}
-\hl{EVERYTHING BELOW THIS POINT IS JUNK, AS IT HAS NOT BEEN UPDATED WITH THE NEW $\tilde{\mbf{A}}$ structure!!!}
+%\hl{EVERYTHING BELOW THIS POINT IS JUNK, AS IT HAS NOT BEEN UPDATED WITH THE NEW $\tilde{\mbf{A}}$ structure!!!}
 
 Here I'm trying to derive the conditions for a protected polymorphism in the hermaphrodite model with sex-specific selection and partial selfing. Following de Vries \& Caswell (2019), we reorder the population vector by genotype first, and then by sex-function and stage, in contrast to the ordering used above (sex-function, then genotype, then stage). The first step is to construct the population projection matrix and then use it to derive coexistence conditions, following closely the logic of Appendix A of de Vries and Caswell (2019).
 
@@ -530,22 +536,23 @@ The first relevant difference between the two-sex model of de Vries \& Caswell (
 \begin{equation}
 	\tilde{\mbf{n}} = \left(
 			\begin{array}{c}
-							\mbf{n}_{AA} \\
-							\mbf{n}_{AA} \\ \hline
-							\mbf{n}_{Aa} \\
-							\mbf{n}_{Aa} \\ \hline
-							\mbf{n}_{aa} \\
-							\mbf{n}_{aa} \\
+							\mbf{n}^S_{AA} \\
+							\mbf{n}^X_{AA} \\ \hline
+							\mbf{n}^S_{Aa} \\
+							\mbf{n}^X_{Aa} \\ \hline
+							\mbf{n}^S_{aa} \\
+							\mbf{n}^X_{aa} \\
 			\end{array} \right).
 \end{equation}
 
-\noindent Note that to 'doubling' up of the genotype-specific vectors in each block is done out of convenience, because the population projection matrix is organized around two sex-functions.
+\noindent Note that we are still keeping track of whether individuals were produced through selfing, $\mbf{n}^S_{ij}$, or through outcrossing, $\mbf{n}^X_{ij}$ [\textit{\textbf{LdV: I'm not a fan of combining superscripts and subscripts because it becomes such a mess of indices, what if we give them different letters instead, e.g. $\mbf{n}^S_{AA}=\mbf{n}_{AA}$ and $\mbf{n}^X_{AA}=\mbf{m}_{AA}$?}}].
 
 The population projection matrix $\tilde{\mbf{A}}$ consists of $3 \times 3$ blocks, which act on the genotype specific population vectors:
 
-
+{
+\small
 \begin{align*} \label{eq:AtildeCoexistence}
-	\tilde{\mbf{A}}[\tilde{\mbf{n}}] &= \tilde{\mbf{U}} + \tilde{\mbf{F}} \\
+	\tilde{\mbf{A}}[\tilde{\mbf{n}}] &= \tilde{\mbf{U}} + \tilde{\mbf{F}}\\
 		&= \left(
 			\begin{array}{cc|cc|cc}
 				\mcal{U}^S_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
@@ -557,14 +564,15 @@ The population projection matrix $\tilde{\mbf{A}}$ consists of $3 \times 3$ bloc
 			\end{array} \right) \\ 
 		&+ \left(
 			\begin{array}{cc|cc|cc}
-				C_{AA} (1 - \delta) \mbf{F}_{AA} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
-				q^{\prime}_{A} \mbf{F}_{AA} (1 - C_{AA}) & \mbf{0} & \frac{1}{2} q^{\prime}_{A} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
-				\mbf{0} & \mbf{0} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\
-				q^{\prime}_{a} \mbf{F}_{AA} (1 - C_{AA}) & \mbf{0} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} & q^{\prime}_{A} \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0}\\ \hline
-				\mbf{0} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & C_{aa} (1 - \delta) \mbf{F}_{aa} & \mbf{0} \\ 
-				\mbf{0} & \mbf{0} & \frac{1}{2} q^{\prime}_{a} \mbf{F}_{Aa} (1 - C_{Aa})  & \mbf{0} & q^{\prime}_{a} \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0}
+				C_{AA} (1 - \delta) \mbf{F}_{AA} & C_{AA} (1 - \delta) \mbf{F}_{AA}  & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} \\ 
+				q^{\prime}_{A}  (1 - C_{AA}) \mbf{F}_{AA}& q^{\prime}_{A} (1 - C_{AA}) \mbf{F}_{AA} & \frac{1}{2} q^{\prime}_{A} (1 - C_{Aa})\mbf{F}_{Aa}  & \frac{1}{2} q^{\prime}_{A} (1 - C_{Aa})\mbf{F}_{Aa}  & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}& \mbf{0} & \mbf{0} \\
+				q^{\prime}_{a} (1 - C_{AA}) \mbf{F}_{AA} & q^{\prime}_{a}(1 - C_{AA})  \mbf{F}_{AA} & \frac{1}{2}  (1 - C_{Aa}) \mbf{F}_{Aa}& \frac{1}{2} (1 - C_{Aa})\mbf{F}_{Aa} & q^{\prime}_{A} (1 - C_{aa})\mbf{F}_{aa}  & q^{\prime}_{A}  (1 - C_{aa})\mbf{F}_{aa}\\ \hline
+				\mbf{0} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & C_{aa} (1 - \delta) \mbf{F}_{aa} &  C_{aa} (1 - \delta) \mbf{F}_{aa}\\ 
+				\mbf{0} & \mbf{0} & \frac{1}{2} q^{\prime}_{a}  (1 - C_{Aa}) \mbf{F}_{Aa} & \frac{1}{2} q^{\prime}_{a}  (1 - C_{Aa})\mbf{F}_{Aa}& q^{\prime}_{a}(1 - C_{aa})  \mbf{F}_{aa} & q^{\prime}_{a} (1 - C_{aa})\mbf{F}_{aa} 
 			\end{array} \right) \numberthis
 \end{align*}
+}
 
 \noindent with symbols defined as above. The survival matrices appear on the diagonal because individuals do not change their genotype once they are born. The fertility matrix incorporates the Mendelian inheritance and is an extension of the fertility matrix derived above after de Vries \& Caswell (2019).
 
@@ -572,7 +580,7 @@ The first block column of $\tilde{\mbf{A}}$ describes the production of offsprin
 
 \subsubsection*{Coexistence conditions}
 
-The two-sex Mendelian matrix model defined by above reduces to a linear matrix model on the boundary where the population is initially fixed for the $A$ allele (since $q^{\prime}_{A} = 1$ and $q^{\prime}_{a} = 0$). Provided the initial population contains a nonzero number of females, the population will grow or shrink exponentially after converging to a stable population structure (see Caswell (2001), section 4.5.2.1). We can take advantage of the homogeneity of $\tilde{\mbf{F}}$, we rewrite the model in terms of the normalized population vector (the frequency vector):
+The Mendelian matrix model defined by above reduces to a linear matrix model on the boundary where the population is initially fixed for the $A$ allele (since $q^{\prime}_{A} = 1$ and $q^{\prime}_{a} = 0$). Provided the initial population contains a nonzero number of females, the population will grow or shrink exponentially after converging to a stable population structure (see Caswell (2001), section 4.5.2.1). We can take advantage of the homogeneity of $\tilde{\mbf{F}}$, we rewrite the model in terms of the normalized population vector (the frequency vector):
 
 \begin{equation} 
 	\tilde{\mbf{p}}(t + 1) = \frac{ \tilde{\mbf{A}}[\tilde{\mbf{p}}(t)] \tilde{\mbf{p}}(t) }{ \| \tilde{\mbf{A}}[\tilde{\mbf{p}}(t)] \tilde{\mbf{p}}(t) \|},
@@ -727,19 +735,30 @@ The next task is to work out each of the three terms \encircle{A}, \encircle{B},
 						   \frac{1}{\lambda_{AA}} &
 						   \left(
 			\begin{array}{cc|cc|cc}
-				\mcal{U}^S_{AA} + C_{AA} (1 - \delta) \mbf{F}_{AA} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
-				\mbf{F}_{AA} (1 - C_{AA}) & \mcal{U}^X_{AA} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
-				\mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\
-				\mbf{0} & \mbf{0} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mcal{U}^X_{Aa} & \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0}\\ \hline
-				\mbf{0} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mcal{U}^S_{aa} + C_{aa} (1 - \delta) \mbf{F}_{aa} & \mbf{0} \\ 
-				\mbf{0} & \mbf{0} & \mbf{0}  & \mbf{0} & \mbf{0} & \mcal{U}^X_{aa}
-			\end{array} \right) \numberthis
+				\mathbf{U}^S_{AA} & \mbf{0}& \mbf{0} & \mbf{0} & \mbf{0} \\ 
+			\mbf{0} & \mathbf{U}^X_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mathbf{U}^S_{Aa}& \mbf{0} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{0}& \mcal{U}^X_{Aa} & \mbf{0} & \mbf{0}\\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mathbf{U}^S_{aa}  & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0}  & \mbf{0} & \mbf{0} & \mathbf{U}^X_{aa}
+			\end{array} \right) \\
+			 +\frac{1}{\lambda_{AA}} &
+						   \left(
+			\begin{array}{cc|cc|cc}
+		 C_{AA} (1 - \delta) \mbf{F}_{AA} & C_{AA} (1 - \delta) \mbf{F}_{AA}& \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}& \mbf{0} & \mbf{0} \\ 
+				(1 - C_{AA}) \mbf{F}_{AA} & (1 - C_{AA}) \mbf{F}_{AA}  & \frac{1}{2}(1 - C_{Aa}) \mbf{F}_{Aa}  & \frac{1}{2} (1 - C_{Aa})\mbf{F}_{Aa} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} & \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} & (1 - C_{aa}) \mbf{F}_{aa} & (1 - C_{aa}) \mbf{F}_{aa}\\ \hline
+				\mbf{0} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &C_{aa} (1 - \delta) \mbf{F}_{aa} &C_{aa} (1 - \delta) \mbf{F}_{aa} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0}  & \mbf{0} & \mbf{0} &\mbf{0}
+			\end{array} \right) 
+			\numberthis
 \end{align*}
  
 \noindent see Eq{\ref{eq:AtildeCoexistence}}. Next, we have \encircle{B},
 
 \begin{equation}
-	\encircle{B} = - \frac{1}{\lambda_{AA}} \left( \hat{\mbf{p}}^{\intercal} \otimes \mbf{1}_{2 \omega g} \right) \left( \text{vec} \tilde{\mbf{A}} \right) \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}} \right).
+	\encircle{B} = - \frac{1}{\lambda_{AA}^2} \left( \hat{\mbf{p}}^{\intercal} \otimes \mbf{1}_{2 \omega g} \right) \left( \text{vec} \tilde{\mbf{A}} \right) \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}} \right).
 \end{equation}
 
 \noindent Again using Roth's theorem (Roth 1934), $\left( \mbf{C}^{\intercal} \otimes \mbf{A} \right) \text{vec}\mbf{B} = \text{vec}\mbf{ABC}$, we can simplify as follows:
@@ -751,10 +770,9 @@ The next task is to work out each of the three terms \encircle{A}, \encircle{B},
 
 \noindent so that 
 
-\begin{landscape}
 
 \begin{equation}
-	\encircle{B} = - \frac{1}{\lambda_{AA}} \hat{\mbf{p}} \left( \text{vec} \tilde{\mbf{A}} \right) \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}}[\hat{\mbf{p}}] \right).
+	\encircle{B} = - \frac{1}{\lambda_{AA}} \hat{\mbf{p}} \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}}[\hat{\mbf{p}}] \right).
 \end{equation}
 
 \noindent Substitute the population vector at the $AA$ boundary,
@@ -762,8 +780,8 @@ The next task is to work out each of the three terms \encircle{A}, \encircle{B},
 \begin{equation}
 	\hat{\mbf{p}} = \left(
 			\begin{array}{c}
-							\hat{\mbf{p}}_{AA} \\
-							\hat{\mbf{p}}_{AA} \\ \hline
+							\hat{\mbf{p}}^S_{AA} \\
+							\hat{\mbf{p}}^X_{AA} \\ \hline
 							0                  \\
 							0                  \\ \hline
 							0                  \\
@@ -771,14 +789,17 @@ The next task is to work out each of the three terms \encircle{A}, \encircle{B},
 			\end{array} \right)
 \end{equation}
 
+
+\begin{landscape}
 \noindent and rewrite in terms of the block matrices to obtain
 
+{\footnotesize
 \begin{align*}
 	\encircle{B} =& \\
 	&-\frac{1}{\lambda_{AA}} \left(
 			\begin{array}{cc|cc|cc}
-				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{aa} \\ 
-				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{aa} \\ \hline
+				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{aa} \\ 
+				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{aa} \\ \hline
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
@@ -786,192 +807,489 @@ The next task is to work out each of the three terms \encircle{A}, \encircle{B},
 			\end{array} \right) \\
 	&-\frac{1}{\lambda_{AA}} \left(
 			\begin{array}{cc|cc|cc}
-				C_{AA}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & \mbf{0} & C_{AA}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & \mbf{0} & C_{AA}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & \mbf{0} \\ 
-				(1 - C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & \mbf{0} & (1 - C_{Aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & \mbf{0} & (1 - C_{Aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & \mbf{0} \\ \hline
+				(1 - \delta C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & (1 - \delta C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & (1 - \delta C_{Aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & (1 - \delta C_{Aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa}  & (1 - \delta C_{aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & (1 - \delta C_{aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} \\ 
+				 	(1 - \delta C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & 	(1 - \delta C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & (1 - \delta C_{Aa})  \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & (1 - \delta C_{Aa})  \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & (1 - \delta C_{aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & (1 - \delta C_{aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa}\\ \hline
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0}
-			\end{array} \right) \numberthis			
+			\end{array} \right) \\
+			 \numberthis			
 \end{align*}
+}
 
+\textit{\textbf{Oof, I realized in doing this that I made a mistake here in the appendix of the two sex paper, the alpha's should have disappeared because when you sum over all the rows they cancel. }}
 
 \end{landscape}
 
 
-Finally, we turn to term \encircle{C} of the Jacobian. As far as I can tell, we can follow the steps leading from Eq(A-35) through to Eq(A-46) of de Vries \& Caswell (2019) Appendix A exactly because the structure of our $\tilde{\mbf{A}}$ equations are identical. We resume the derivation at our version of their Eq(A-47)...Substitute $\hat{\mbf{p}}^{\intercal} = \left( \hat{\mbf{p}}^{\intercal}_{AA},\hat{\mbf{p}}^{\intercal}_{AA},\mbf{0},\mbf{0},\mbf{0},\mbf{0} \right)$ into the right side of Eq(A-46) so that only terms with $j=1$ and $j=2$ are nonzero, yielding
+Finally, we turn to term \encircle{C} of the Jacobian. As far as I can tell, we can follow the steps leading from Eq(A-35) through to Eq(A-46) of de Vries \& Caswell (2019) Appendix A exactly because the structure of our $\tilde{\mbf{A}}$ equations are identical. We resume the derivation at our version of their Eq(A-47)...Substitute $\hat{\mbf{p}}^{\intercal} = \left( \hat{\mbf{p}}^{\intercal}_{S,AA},\hat{\mbf{p}}^{\intercal}_{X,AA},\mbf{0},\mbf{0},\mbf{0},\mbf{0} \right)$ into the right side of Eq(A-46) so that only terms with $j=1$ and $j=2$ are nonzero, yielding
 
 \begin{align*}
-	\frac{1}{\lambda_{AA}}(\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{2 \omega g}) \left. \frac{ \partial \text{vec}\mbf{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} &= \frac{1}{\lambda_{AA}} \sum^{6}_{i=1} \big( \hat{\mbf{p}}^{\intercal}_{AA} \otimes (\mbf{e}_{i} \otimes \mbf{I}_{\omega}) \big) \left. \frac{ \partial \text{vec}\mbf{A}_{i,1}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \\
-		&+ \frac{1}{\lambda_{AA}} \sum^{6}_{i=1} \big( \hat{\mbf{p}}^{\intercal}_{AA} \otimes (\mbf{e}_{i} \otimes \mbf{I}_{\omega}) \big) \left. \frac{ \partial \text{vec}\mbf{A}_{i,2}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \numberthis
+	\frac{1}{\lambda_{AA}}(\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{2 \omega g}) \left. \frac{ \partial \text{vec}\mbf{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} &= \frac{1}{\lambda_{AA}} \sum^{6}_{i=1} \big( \hat{\mbf{p}}^{\intercal}_{S,AA} \otimes (\mbf{e}_{i} \otimes \mbf{I}_{\omega}) \big) \left. \frac{ \partial \text{vec}\mbf{A}_{i,1}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \\
+		&+ \frac{1}{\lambda_{AA}} \sum^{6}_{i=1} \big( \hat{\mbf{p}}^{\intercal}_{X,AA} \otimes (\mbf{e}_{i} \otimes \mbf{I}_{\omega}) \big) \left. \frac{ \partial \text{vec}\mbf{A}_{i,2}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \numberthis
 \end{align*}
 
-\noindent But, since none of the $\mbf{A}_{i,2}$ are a function of the frequency vector $\mbf{p}$,
+\noindent Selfing does not depend on the frequency vector, and therefore none of the $\mbf{A}_{1,i}$ are a function of the frequency vector $\mbf{p}$,
 
 \begin{equation}
-	\left. \frac{ \partial \text{vec}\mbf{A}_{i,2}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} = 0,\,\text{for all }i. 
+	\left. \frac{ \partial \text{vec}\mbf{A}_{1,i}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} = 0,\,\text{for all }i. 
 \end{equation}
 
 \noindent (see Eq{\ref{eq:AtildeCoexistence}}). Next, write down each term in the sum over $i$ and take the derivative  of the $\text{vec}\mbf{A}_{i,1}$'s to obtain
 
 \begin{align*}
-	\frac{1}{\lambda_{AA}}(\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{2 \omega g}) \left. \frac{ \partial \text{vec}\mbf{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} = 
-		&\frac{C_{AA}(1 - \delta)}{\lambda_{AA}} \big[ \hat{\mbf{p}}^{\intercal} \otimes (\mbf{e}_{1} \otimes \mbf{I}_{\omega} ) - \hat{\mbf{p}}^{\intercal}_{AA} \otimes (\mbf{e}_{3} \otimes \mbf{I}_{\omega})\big] \text{vec}\mbf{F}_{AA} \\
-		&+ \frac{(1 - C_{AA})}{\lambda_{AA}} \big[ \hat{\mbf{p}}^{\intercal} \otimes (\mbf{e}_{2} \otimes \mbf{I}_{\omega} ) - \hat{\mbf{p}}^{\intercal}_{AA} \otimes (\mbf{e}_{4} \otimes \mbf{I}_{\omega})\big] \text{vec}\mbf{F}_{AA}  \left.\frac{\partial q^{\prime}_{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}}    \numberthis
+	\frac{1}{\lambda_{AA}}(\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{2 \omega g}) \left. \frac{ \partial \text{vec}\mbf{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} &= \frac{1}{\lambda_{AA}} \big( \hat{\mbf{p}}^{\intercal}_{S,AA} \otimes (\mbf{e}_{2} \otimes \mbf{I}_{\omega}) \big) \left. \frac{ \partial \text{vec}\mbf{A}_{21}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \\
+		&+ \frac{1}{\lambda_{AA}} \big( \hat{\mbf{p}}^{\intercal}_{X,AA} \otimes (\mbf{e}_{2} \otimes \mbf{I}_{\omega}) \big) \left. \frac{ \partial \text{vec}\mbf{A}_{22}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \\
+		&+\frac{1}{\lambda_{AA}} \big( \hat{\mbf{p}}^{\intercal}_{S,AA} \otimes (\mbf{e}_{4} \otimes \mbf{I}_{\omega}) \big) \left. \frac{ \partial \text{vec}\mbf{A}_{41}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \\
+		&+ \frac{1}{\lambda_{AA}} \big( \hat{\mbf{p}}^{\intercal}_{X,AA} \otimes (\mbf{e}_{4} \otimes \mbf{I}_{\omega}) \big) \left. \frac{ \partial \text{vec}\mbf{A}_{42}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \numberthis
 \end{align*}
 
+
+\begin{align*}
+	\frac{1}{\lambda_{AA}}(\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{2 \omega g}) \left. \frac{ \partial \text{vec}\mbf{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} = 
+		&\frac{(1 - C_{AA})}{\lambda_{AA}} \big[ \hat{\mbf{p}}^{\intercal}_{X,AA}+ \hat{\mbf{p}}^{\intercal}_{S,AA} \big]\otimes (\mbf{e}_{2} \otimes \mbf{I}_{\omega}) \text{vec}\mbf{F}_{AA} \left.\frac{\partial q^{\prime}_{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \\
+		&-\frac{(1 - C_{AA})}{\lambda_{AA}} \big[ \hat{\mbf{p}}^{\intercal}_{X,AA}+ \hat{\mbf{p}}^{\intercal}_{S,AA} \big]\otimes (\mbf{e}_{4} \otimes \mbf{I}_{\omega}) \text{vec}\mbf{F}_{AA} \left.\frac{\partial q^{\prime}_{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \\
+	   \numberthis
+\end{align*}
+\begin{landscape}
 \noindent Finally, apply Roth's theorem (Roth 1934), $\left( \mbf{C}^{\intercal} \otimes \mbf{A} \right) \text{vec}\mbf{B} = \text{vec}\mbf{ABC}$ (e.g.,where $\mbf{C}^{\intercal} = \hat{\mbf{p}}^{\intercal}_{AA}$, $\mbf{A} = (\mbf{e}_1 \otimes \mbf{I}_{\omega})$, and $\text{vec}\mbf{B} = \text{vec}\mbf{F}_{AA}$) to rewrite as
 
 \begin{align*}
 	\frac{1}{\lambda_{AA}}(\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{2 \omega g}) \left. \frac{ \partial \text{vec}\mbf{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} = 
-		&\frac{C_{AA}(1 - \delta)}{\lambda_{AA}} \big[ \text{vec}\big((\mbf{e}_{1} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \big) - \text{vec}\big((\mbf{e}_{3} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \big) \big]  \\
-		&+ \frac{(1 - C_{AA})}{\lambda_{AA}} \big[ \text{vec}\big((\mbf{e}_{2} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \big) - \text{vec}\big((\mbf{e}_{4} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \big) \big]  \left.\frac{\partial q^{\prime}_{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}}    \numberthis
+		&\frac{(1 - C_{AA})}{\lambda_{AA}}  \text{vec}\big[(\mbf{e}_{2} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big)\big]  \left.\frac{\partial q^{\prime}_{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}}  \\
+		&- \frac{(1 - C_{AA})}{\lambda_{AA}}  \text{vec}\big[(\mbf{e}_{4} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big)\big]  \left.\frac{\partial q^{\prime}_{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}}  \label{eq:partCwithpartials_app} \numberthis
 \end{align*}
 
 \noindent written in terms of the block matrices, this yields
 
+{
+\scriptsize
 \begin{align*}
 	\encircle{C} =& \\
-	\frac{1}{\lambda_{AA}} &\left(
+	\frac{(1 - C_{AA})}{\lambda_{AA}} &\left(
 			\begin{array}{cc|cc|cc}
-				\mbf{0} & C_{AA}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \\
-				\mbf{0} & (1 - C_{AA}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{AA}} & \mbf{0} & (1 - C_{Aa}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{Aa}} & \mbf{0} & (1 - C_{aa}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{aa}} \\ \hline
-				\mbf{0} & \mbf{0} & \mbf{0} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & \mbf{0} \\
-				\mbf{0} & -(1 - C_{AA}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{AA}} & \mbf{0} & -(1 - C_{Aa}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{Aa}} & \mbf{0} & -(1 - C_{aa}) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\prime \intercal}_{aa}} \\ \hline
+					\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0}  \\
+			\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{ \intercal}_{S,AA}}  &  \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{ \intercal}_{X,AA}} &  \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\intercal}_{S,Aa}}& \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\intercal}_{X,Aa}} & \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\intercal}_{S,aa}}&  \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\intercal}_{X,aa}} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				-\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{ \intercal}_{S,AA}}  &  -\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{ \intercal}_{X,AA}} & - \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\intercal}_{S,Aa}}& -\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\intercal}_{X,Aa}} &- \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\intercal}_{S,aa}}& - \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{\intercal}_{X,aa}} \\ \hline
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} 
 			\end{array} \right)  \numberthis			
 \end{align*}
-
+}
 The above expression requires the derivative of the frequency of allele $A$ in the gamete pool with respect to the population frequency vector:
 
 \begin{equation}
 	\left. \frac{\partial q^{\prime}_{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{P}}}
 \end{equation}
 
-\noindent Here, I believe we can again follow the exact same steps as described in Eq(A-50) through Eq(A-60) in Appendix A of de Vries \& Caswell (2019) to give, finally, 
 
+ \end{landscape}
+
+
+ Start with equation (\ref{eq:maleGametePool}) from the main text:
+\begin{equation} \label{eq:maleGametePool_app}
+	\left(
+		\begin{array}{c}
+			q^{\prime}_{A} \\
+			q^{\prime}_{a} \\
+		\end{array} \right) = 
+			\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{n}}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{n} \|} = 
+				\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} (\mbf{n}^X+ \mbf{n}^S)}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} (\mbf{n}^X+ \mbf{n}^S)\|}.
+\end{equation}
+We will define
+\begin{eqnarray}
+\mathbf{n}^\prime&=&\mbf{n}^X+ \mbf{n}^S, \\
+\mathbf{p}^\prime&=&\frac{\mathbf{n}^\prime}{\|\mathbf{n}^\prime \|}=\frac{\mathbf{n}^\prime}{\|\tilde{\mathbf{n}}\|}, \\
+\end{eqnarray}
+therefore
+\begin{equation}
+  q^\prime_A=\frac{\mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime  \mathbf{p}^\prime}{\mathbf{1}^\tr_{2}\mathbf{W}^\prime\mathbf{F}^\prime\mathbf{p}^\prime}, \label{eq:male_gamete_pool}
+\end{equation}
+ where the one norm can be replaced by $\mathbf{1}^\tr_{2}\mathbf{W}^\prime\mathbf{F}^\prime \mathbf{p}^\prime$ because $\mathbf{p}^\prime$ is nonnegative. For convenience, we will denote the normalizing factor in the denominator with $ \mbox{p}_{n}$, 
+ \begin{equation}
+   \mbox{p}_{n}=\mathbf{1}^\tr_{2}\mathbf{W}^\prime\mathbf{F}^\prime \mathbf{p}^\prime
+ \end{equation}
+ Taking the derivative of $ q^\prime_A$ yields
+\begin{eqnarray}
+  \frac{\partial   q^\prime_A }{\partial \tilde{\bo p}^\tr}&=& \frac{1}{ \mbox{p}_{n}}\mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime   \frac{\partial  \mathbf{p}^\prime}{\partial \tilde{\bo p}^\tr} - \frac{\mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime \mathbf{p}^\prime}{ \mbox{p}_{n}^2} \left( \mathbf{1}^\tr_{2}\mathbf{W}^\prime\mathbf{F}^\prime \frac{\partial  \mathbf{p}^\prime}{\partial \tilde{\bo p}^\tr} \right). \label{eq:56_app}
+\end{eqnarray}
+Recall 
+\begin{equation}
+  \mathbf{p}^\prime=\left(\begin{array} {c}
+\mathbf{p}^S_{AA}+\mathbf{p}^X_{AA}\\
+\mathbf{p}^S_{Aa}+\mathbf{p}^X_{Aa}\\
+\mathbf{p}^S_{aa}+\mathbf{p}^X_{aa}
+  \end{array}\right),
+\end{equation}
+and 
+\begin{equation}
+  \tilde{\bo p}=\left(\begin{array} {c}
+\mathbf{p}_{AA}^S\\
+\mathbf{p}_{AA}^X\\
+\hline
+\mathbf{p}_{Aa}^S\\
+\mathbf{p}_{Aa}^X\\
+\hline
+\mathbf{p}_{aa}^S\\
+\mathbf{p}_{aa}^X
+  \end{array}\right),
+\end{equation}
+to calculate 
+\begin{equation}
+\frac{\partial  \mathbf{p}^\prime}{\partial \tilde{\bo p}^\tr} =  \left(\begin{array} {cccccc}
+\mathbf{I}& \mathbf{I}& \mathbf{0}  &\mathbf{0} &\mathbf{0}  &\mathbf{0} \\
+\mathbf{0} &\mathbf{0}  &\mathbf{I}& \mathbf{I}& \mathbf{0} &\mathbf{0} \\
+\mathbf{0} &\mathbf{0}  &\mathbf{0} &\mathbf{0}  &  \mathbf{I}& \mathbf{I}
+\end{array}\right).
+\end{equation}
+First we will evaluate the first term in the sum in equation (\ref{eq:56_app}),
+\begin{eqnarray}
+	 \frac{1}{ \mbox{p}_{n}}\mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime   \frac{\partial  \mathbf{p}^\prime}{\partial \tilde{\bo p}^\tr} &=&  \frac{1}{ \mbox{p}_{n}} (1,0) \left(\begin{array} {ccc}
+\mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime& \frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{0} \\
+\mathbf{0} &\frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime
+\end{array}\right) \left(\begin{array} {cccccc}
+\mathbf{I}& \mathbf{I}& \mathbf{0}  &\mathbf{0} &\mathbf{0}  &\mathbf{0} \\
+\mathbf{0} &\mathbf{0}  &\mathbf{I}& \mathbf{I}& \mathbf{0} &\mathbf{0} \\
+\mathbf{0} &\mathbf{0}  &\mathbf{0} &\mathbf{0}  &  \mathbf{I}& \mathbf{I}
+\end{array}\right) \nonumber \\
+&=& \frac{1}{ \mbox{p}_{n}} \left( \mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime, \mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime , \frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime, \frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime, \mathbf{0}, \mathbf{0} \right)\label{eq:first_term_app_reviewer}
+\end{eqnarray}
+\begin{landscape}
+Similarly for the second term in the sum in equation (\ref{eq:56_app}),
+\begin{eqnarray}
+	- \frac{\mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime \mathbf{p}^\prime}{ \mbox{p}_{n}^2} \left( \mathbf{1}^\tr_{2}\mathbf{W}^\prime\mathbf{F}^\prime \frac{\partial  \mathbf{p}^\prime}{\partial \tilde{\bo p}^\tr} \right) &=& -\frac{1}{ \mbox{p}_{n}}(1,1) \left(\begin{array} {ccc}
+\mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime& \frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{0} \\
+\mathbf{0} &\frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime
+\end{array}\right) \left(\begin{array} {cccccc}
+\mathbf{I}& \mathbf{I}& \mathbf{0}  &\mathbf{0} &\mathbf{0}  &\mathbf{0} \\
+\mathbf{0} &\mathbf{0}  &\mathbf{I}& \mathbf{I}& \mathbf{0} &\mathbf{0} \\
+\mathbf{0} &\mathbf{0}  &\mathbf{0} &\mathbf{0}  &  \mathbf{I}& \mathbf{I}
+\end{array}\right) \nonumber \\
+ &=& -\frac{1}{ \mbox{p}_{n}} \left( \mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime, \mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime , \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime, \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime, \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime , \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime  \right) \label{eq:second_term_app_reviewer}
+\end{eqnarray}
+Finally add equations (\ref{eq:first_term_app_reviewer}) and (\ref{eq:second_term_app_reviewer}) to obtain
+\begin{eqnarray}
+  \frac{\partial   q^\prime_A }{\partial \tilde{\bo p}^\tr}\bigg\rvert_{\hat{\bo p}}&=& \frac{1}{ \mbox{p}_{n}} \left( \mathbf{0}, \mathbf{0}, -\frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime, -\frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime, -\mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime, -\mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime  \right) \label{eq:79_app},
+\end{eqnarray}
+where at the boundary
+\begin{eqnarray}
+  \mbox{p}_{n}&=&\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \left( \hat{\mathbf{p}}^S_{AA}+\hat{\mathbf{p}}^X_{AA} \right), \\
+  \mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime \mathbf{p}^\prime&=&\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \left( \hat{\mathbf{p}}^S_{AA}+\hat{\mathbf{p}}^X_{AA} \right)=  \mbox{p}_{n}
+\end{eqnarray}
+
+
+Finally, plugging equation (\ref{eq:79_app}) into (\ref{eq:partCwithpartials_app}) yields
+
+{
+\scriptsize
 \begin{align*}
-	\frac{1}{\lambda_{AA}} (\hat{\mbf{p}}^{\intercal} &\otimes \mbf{I}_{2 \omega g}) \left. \frac{\partial \text{vec}\mbf{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} = \\
-	\frac{1}{\lambda_{AA}} &\left(
+	\encircle{C} =& \\
+	\frac{(1 - C_{AA})}{\mbox{p}_{n}\lambda_{AA}} &\left(
 			\begin{array}{cc|cc|cc}
-				\mbf{0} & C_{AA}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \\
-				\mbf{0} & \mbf{0} & \mbf{0} & -\frac{(1 - C_{Aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{0} & -\frac{(1 - C_{aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{aa} \\ \hline
-				\mbf{0} & \mbf{0} & \mbf{0} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & \mbf{0} \\
-				\mbf{0} & \mbf{0} & \mbf{0} & \frac{(1 - C_{Aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{0} & \frac{(1 - C_{aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{aa} \\ \hline
+					\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0}  \\
+				\mbf{0}   &  	\mbf{0}  & -\frac{1}{2} \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime& -\frac{1}{2} \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & - \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime&  - \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
+					\mbf{0}   &  	\mbf{0}  & \frac{1}{2} \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime& \frac{1}{2} \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &  \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime&  \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime \\  \hline
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} 
 			\end{array} \right)  \numberthis			
 \end{align*}
+}
+
+\end{landscape}
 
 
 %%%%%%%%%%%%%%%%%%%%
+\begin{landscape}
 \subsubsection{The Jacobian}
 
 Putting all the pieces together into $M$, we get the Jacobian:
 
-\begin{landscape}
-
+{
+\footnotesize
 \begin{align*} \label{eq:combinedM}
 	\mbf{M} = 
-		\frac{1}{\lambda_{AA}} &\left(\begin{array}{cc|cc|cc}
-				\mcal{U}^S_{AA} + C_{AA} (1 - \delta) \mbf{F}_{AA} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
-				\mbf{F}_{AA} (1 - C_{AA}) & \mcal{U}^X_{AA} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
-				\mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\
-				\mbf{0} & \mbf{0} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mcal{U}^X_{Aa} & \mbf{F}_{aa} (1 - C_{aa}) & \mbf{0}\\ \hline
-				\mbf{0} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mcal{U}^S_{aa} + C_{aa} (1 - \delta) \mbf{F}_{aa} & \mbf{0} \\ 
-				\mbf{0} & \mbf{0} & \mbf{0}  & \mbf{0} & \mbf{0} & \mcal{U}^X_{aa}
+			 +\frac{1}{\lambda_{AA}} &
+						   \left(
+			\begin{array}{cc|cc|cc}
+		 \mathbf{U}^S_{AA} +C_{AA} (1 - \delta) \mbf{F}_{AA} & C_{AA} (1 - \delta) \mbf{F}_{AA}& \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}& \mbf{0} & \mbf{0} \\ 
+				(1 - C_{AA}) \mbf{F}_{AA} &\mathbf{U}^X_{AA} + (1 - C_{AA}) \mbf{F}_{AA}  & \frac{1}{2}(1 - C_{Aa}) \mbf{F}_{Aa}  & \frac{1}{2} (1 - C_{Aa})\mbf{F}_{Aa} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} & (1 - C_{aa}) \mbf{F}_{aa} & (1 - C_{aa}) \mbf{F}_{aa}\\ \hline
+				\mbf{0} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}^S_{aa} +C_{aa} (1 - \delta) \mbf{F}_{aa} &C_{aa} (1 - \delta) \mbf{F}_{aa} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0}  & \mbf{0} & \mbf{0} &\mathbf{U}^X_{aa} 
 			\end{array} \right) \\
 		-\frac{1}{\lambda_{AA}} &\left(
 			\begin{array}{cc|cc|cc}
-				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{aa} \\ 
-				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mcal{U}^X_{aa} \\ \hline
+				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{aa} \\ 
+				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{AA} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{Aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^S_{aa} & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{U}^X_{aa} \\ \hline
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} 
 			\end{array} \right) \\
-		-\frac{1}{\lambda_{AA}} &\left(
+		-\frac{1}{\lambda_{AA}}& \left(
 			\begin{array}{cc|cc|cc}
-				C_{AA}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & \mbf{0} & C_{Aa}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & \mbf{0} & C_{aa}(1 - \delta) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & \mbf{0} \\ 
-				(1 - C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & \mbf{0} & (1 - C_{Aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & \mbf{0} & (1 - C_{aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & \mbf{0} \\ \hline
+				(1 - \delta C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & (1 - \delta C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & (1 - \delta C_{Aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & (1 - \delta C_{Aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa}  & (1 - \delta C_{aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & (1 - \delta C_{aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} \\ 
+				 	(1 - \delta C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & 	(1 - \delta C_{AA}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{AA} & (1 - \delta C_{Aa})  \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & (1 - \delta C_{Aa})  \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{Aa} & (1 - \delta C_{aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa} & (1 - \delta C_{aa}) \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}_{aa}\\ \hline
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0}
-			\end{array} \right) \\
-		\frac{1}{\lambda_{AA}} &\left(
+			\end{array} \right)\\
+		\frac{(1 - C_{AA})}{\mbox{p}_{n}\lambda_{AA}} &\left(
 			\begin{array}{cc|cc|cc}
-				\mbf{0} & C_{AA}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & C_{aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \\
-				\mbf{0} & \mbf{0} & \mbf{0} & -\frac{(1 - C_{Aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{0} & -\frac{(1 - C_{aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{aa} \\ \hline
-				\mbf{0} & \mbf{0} & \mbf{0} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} & \mbf{0} \\
-				\mbf{0} & \mbf{0} & \mbf{0} & \frac{(1 - C_{Aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{0} & \frac{(1 - C_{aa})}{2 p_{\text{n}}} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{aa} \\ \hline
+					\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0}  \\
+				\mbf{0}   &  	\mbf{0}  & -\frac{1}{2} \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime& -\frac{1}{2} \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & - \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime&  - \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
+					\mbf{0}   &  	\mbf{0}  & \frac{1}{2} \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime& \frac{1}{2} \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &  \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime&  \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime \\  \hline
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} 
-			\end{array} \right)  
+			\end{array} \right) 
 			\numberthis
 \end{align*}
+}
 
 \end{landscape}
 
 
 
 %%%%%%%%%%%%%%%
+\begin{landscape}
 \subsubsection*{Eigenvalues of the Jacobian}
 
-Similar to Lotte's result, the Jacobian matrix given in Eq(\ref{eq:combinedM}) is upper block triangular, and the eigenvalues of $\mbf{M}$ are therefore the eigenvalues of the diagonal blocks. However, because of the way that self-fertilization alters the projection matrix, our blocks are slightly different than Lotte's model. Specifically, our $\mbf{M}_{11}$ is the same (corresponding to the upper-left $2 \times 2$  block of $\mbf{M}$); our $\mbf{M}_{33}$ corresponds to the lowermost right corner element ($\mbf{M}_{33} = \mathcal{U}^{X}_{aa}$. However, in our case, the central diagonal block $\mbf{M}_{22}$ corresponds to 
+The Jacobian matrix given in Eq(\ref{eq:combinedM}) is upper block triangular, and the eigenvalues of $\mbf{M}$ are therefore the eigenvalues of the diagonal blocks. However, because of the way that self-fertilization alters the projection matrix, our blocks are slightly different than Lotte's model. Specifically, our $\mbf{M}_{11}$ is the same (corresponding to the upper-left $2 \times 2$  block of $\mbf{M}$); our $\mbf{M}_{33}$ corresponds to the lowermost right corner element ($\mbf{M}_{33} = \mathcal{U}^{X}_{aa}$. However, in our case, the central diagonal block $\mbf{M}_{22}$ corresponds to 
 
+{
  \begin{align*} \label{eq:M22}
 	\mbf{M}_{22} = 
-		\frac{1}{\lambda_{AA}} &\left(\begin{array}{cc|c}
-				\mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} \\
-				\frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mcal{U}^X_{Aa} + \frac{(1 - C_{Aa})}{2 p_n} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{F}_{aa} (1 - C_{aa}) \\ \hline
-				\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mcal{U}^S_{aa} + C_{aa} (1 - \delta) \mbf{F}_{aa} \\ 
-			\end{array} \right) \numberthis
+		\frac{1}{\lambda_{AA}}\left(\begin{array}{cc}
+\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  \\
+ \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
+			\end{array} \right), \numberthis
 \end{align*}
+}
+where 
+\begin{equation}
+  \mbox{p}_{n}=\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \left( \hat{\mathbf{p}}^S_{AA}+\hat{\mathbf{p}}^X_{AA} \right)	
+\end{equation}
+
+[Note that the outcrossing terms are the sum of a term due to heterozygote ovules being fertilized by pollen of the resident ($\frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}$), and heterozygote pollen fertilizing resident females ($\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime$). ]
 
 For the same reasons outlined in Lotte's appendix, the stability of $\hat{\mbf{p}}$ will be determined by $\mbf{M}_{22}$. The largest absolute value of the eigenvalues of the Jacobian matrix, the leading eigenvalue, evaluated at the $AA$ boundary, denoted by $\tilde{\zeta}_{AA}$, is therefore
 
+{
 \begin{align*} \label{eq:eigAA}
 	\tilde{\zeta}_{AA} = 
-		\frac{1}{\lambda_{AA}} \rho&\left(\begin{array}{cc|c}
-				\mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} \\
-				\frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mcal{U}^X_{Aa} + \frac{(1 - C_{Aa})}{2 p_n} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{F}_{aa} (1 - C_{aa}) \\ \hline
-				\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mcal{U}^S_{aa} + C_{aa} (1 - \delta) \mbf{F}_{aa} \\ 
+		\frac{1}{\lambda_{AA}}\rho\left(\begin{array}{cc}
+\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  \\
+ \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
 			\end{array} \right). \numberthis
 \end{align*}
+}
 
-\noindent Rearranging the projection matrix so that outcrossing comes on top of selfing in each block simplifies things, but in the end the leading eigenvalue evaluated at the $aa$ boundary is 
+% \noindent Rearranging the projection matrix so that outcrossing comes on top of selfing in each block simplifies things, but in the end the leading eigenvalue evaluated at the $aa$ boundary is 
 
-\begin{align*} \label{eq:eigaa}
-	\tilde{\zeta}_{aa} = 
-		\frac{1}{\lambda_{AA}} \rho&\left(\begin{array}{c|cc}
-				\mcal{U}^S_{AA} + C_{AA} (1 - \delta) \mbf{F}_{AA} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}\\ \hline
-				\mbf{F}_{AA} (1 - C_{AA}) & \mcal{U}^X_{Aa} + \frac{(1 - C_{Aa})}{2 p_n} (\mbf{F}_{aa} \hat{\mbf{p}}_{aa}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) \\ 
-				\mbf{0} & -C_{Aa}(1 - \delta) (\mbf{F}_{aa} \hat{\mbf{p}}_{aa}) & \mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} \\
-			\end{array} \right). \numberthis
-\end{align*}
+% \begin{align*} \label{eq:eigaa}
+% 	\tilde{\zeta}_{aa} = 
+% 		\frac{1}{\lambda_{AA}} \rho&\left(\begin{array}{c|cc}
+% 				\mcal{U}^S_{AA} + C_{AA} (1 - \delta) \mbf{F}_{AA} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}\\ \hline
+% 				\mbf{F}_{AA} (1 - C_{AA}) & \mcal{U}^X_{Aa} + \frac{(1 - C_{Aa})}{2 p_n} (\mbf{F}_{aa} \hat{\mbf{p}}_{aa}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) \\ 
+% 				\mbf{0} & -C_{Aa}(1 - \delta) (\mbf{F}_{aa} \hat{\mbf{p}}_{aa}) & \mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} \\
+% 			\end{array} \right). \numberthis
+% \end{align*}
 
 A boundary equilibrium is unstable to invasion by the rare allele if the leading eigenvalue of the Jacobian evaluated at the equilibrium is greater than $1$. The conditions for a protected polymorphism is that both boundaries are unstable (i.e., both $\tilde{\zeta}_{AA} > 1$ and $\tilde{\zeta}_{aa} > 1$). The conditions for coexistence are, therefore, that
 
+
 \begin{equation} \label{eq:coexist_AA}
 	\lambda_{AA} < 
-		\rho \left(\begin{array}{cc|c}
-				\mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & -C_{Aa}(1 - \delta) (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) & \mbf{0} \\
-				\frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) & \mcal{U}^X_{Aa} + \frac{(1 - C_{Aa})}{2 p_n} (\mbf{F}_{AA} \hat{\mbf{p}}_{AA}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \mbf{F}_{aa} (1 - C_{aa}) \\ \hline
-				\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mcal{U}^S_{aa} + C_{aa} (1 - \delta) \mbf{F}_{aa} \\ 
-			\end{array} \right), \\ 
+			\rho\left(\begin{array}{cc}
+\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  \\
+ \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
+			\end{array} \right)., \\ 
 \end{equation} 
+
 \begin{equation} \label{eq:coexist_aa}
 	\lambda_{aa} < 
-		\rho \left(\begin{array}{c|cc}
-				\mcal{U}^S_{AA} + C_{AA} (1 - \delta) \mbf{F}_{AA} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}\\ \hline
-				\mbf{F}_{AA} (1 - C_{AA}) & \mcal{U}^X_{Aa} + \frac{(1 - C_{Aa})}{2 p_n} (\mbf{F}_{aa} \hat{\mbf{p}}_{aa}) \otimes \mbf{1}^{\intercal}_{\omega} \mbf{F}^{\prime}_{Aa} & \frac{1}{2} \mbf{F}_{Aa} (1 - C_{Aa}) \\ 
-				\mbf{0} & -C_{Aa}(1 - \delta) (\mbf{F}_{aa} \hat{\mbf{p}}_{aa}) & \mcal{U}^S_{Aa} + \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} \\
-			\end{array} \right). 
+			\rho\left(\begin{array}{cc}
+\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  \\
+ \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2\mbox{p}_{n}} (1 - C_{aa})\mbf{F}_{aa} \big(\hat{\mbf{p}}_{X,aa}+ \hat{\mbf{p}}_{S,aa}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2\mbox{p}_{n}} (1 - C_{aa})\mbf{F}_{aa} \big(\hat{\mbf{p}}_{X,aa}+ \hat{\mbf{p}}_{S,aa}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
+			\end{array} \right).\\ 
+\end{equation} 
+
+
+\subsection*{Sanity check: no selfing}
+Above conditions should reduce to the conditions in our Amnat paper (de Vries and Caswell, 2019) in the absence of selfing, i.e. $C_{ij}=0$ for all genotypes, for which
+
+\begin{align*} \label{eq:eigAA}
+	\tilde{\zeta}_{AA} = 
+		\frac{1}{\lambda_{AA}}\rho\left(\begin{array}{cc}
+\mathbf{U}^S_{Aa}  & \mathbf{0} \\
+ \frac{1}{2} \mbf{F}_{Aa}+\frac{1}{2\mbox{p}_{n}}\mbf{F}_{AA} \hat{\mbf{p}}_{X,AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} \mbf{F}_{Aa} +\frac{1}{2\mbox{p}_{n}} \mbf{F}_{AA} \hat{\mbf{p}}_{X,AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
+			\end{array} \right), \numberthis
+\end{align*}
+which reduces to 
+\begin{align*} \label{eq:eigAA}
+	\tilde{\zeta}_{AA} = 
+		\frac{1}{\lambda_{AA}}\rho\left(\begin{array}{c}
+\mathbf{U}^X_{Aa} + \frac{1}{2} \mbf{F}_{Aa} +\frac{1}{2\mbox{p}_{n}} \mbf{F}_{AA} \hat{\mbf{p}}_{X,AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
+			\end{array} \right), \numberthis
+\end{align*}
+when $\mathbf{U}^S_{Aa}=\mathbf{U}^X_{Aa}$. This is the same as the AmNat deVries-Caswell equation :-) 
+
+\newpage
+
+
+\subsection*{Simplification: when how-you-were-produced does not affect your demographic rates}
+If we assume that whether you were produced through selfing or outcrossing does not affect your survival, i.e. $\mathbf{U}^X_{ij}=\mathbf{U}^S_{ij}$, then individuals are only classified by their genotype and their age/stage. The population vector is then 
+
+\begin{equation}
+	\tilde{\mbf{n}}(t) =  \left[
+								\begin{array}{c}
+									\mbf{n}_{AA}(t) \\
+									\mbf{n}_{Aa}(t) \\
+									\mbf{n}_{aa}(t) \\ 
+						\end{array} \right].
 \end{equation}
 
+The population projection matrix becomes
 
+\begin{align*}
+	&\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
+		 \underbrace{\left(
+			\begin{array}{ccc}
+				\mathbf{U}_{AA} & \mbf{0} & \mbf{0}\\ 
+				\mbf{0} & \mathbf{U}_{Aa} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mathbf{U}_{aa} 
+			\end{array} \right)}_{\tilde{\mbf{U}}}  \\ 
+	&+\underbrace{\left(
+			\begin{array}{ccc}
+				C_{AA} (1 - \delta) \mbf{F}_{AA} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} \\ 
+				\mbf{0} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} \\
+				\mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & C_{aa} (1 - \delta) \mbf{F}_{aa} 
+			\end{array} \right)}_{\tilde{\mbf{F}^S}} \\
+			&+\underbrace{\left(
+			\begin{array}{ccc}
+				q^{\prime}_{A} (1 - C_{AA})\mbf{F}_{AA} & \frac{1}{2} q^{\prime}_{A} (1 - C_{Aa})\mbf{F}_{Aa}  & \mbf{0} \\
+				q^{\prime}_{a} (1 - C_{AA}) \mbf{F}_{AA} & \frac{1}{2} (1 - C_{Aa})\mbf{F}_{Aa}  & q^{\prime}_{A} (1 - C_{aa})\mbf{F}_{aa}   \\
+				\mbf{0} & \frac{1}{2} q^{\prime}_{a} (1 - C_{Aa})\mbf{F}_{Aa} & q^{\prime}_{a} (1 - C_{aa}) \mbf{F}_{aa} 
+			\end{array} \right)}_{\tilde{\mbf{F}^X}} \numberthis
+\end{align*}
+
+And the coexistence conditions become:
+\begin{equation} \label{eq:coexist_AA}
+	\lambda_{AA} < 
+			\rho\left(\begin{array}{c}
+\mathbf{U}_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{\mbf{F}_{AA}\hat{\mbf{p}}_{AA}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \hat{\mathbf{p}}_{AA}	}
+			\end{array} \right), \\ 
+\end{equation} 
+
+\begin{equation} \label{eq:coexist_AA}
+	\lambda_{aa} < 
+			\rho\left(\begin{array}{c}
+\mathbf{U}_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2 } (1 - C_{aa})\frac{\mbf{F}_{aa}\hat{\mbf{p}}_{aa}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{aa}^\prime \hat{\mathbf{p}}_{aa}	}
+			\end{array} \right). \\ 
+\end{equation} 
+\end{landscape}
+
+\subsubsection*{Two stage case when how-you-were-produced does not matter}
+
+
+\begin{align*}
+	\mbf{U}_{ij} = &\left(
+					\begin{array}{cc}
+						\sigma_{ij}(1 - \gamma_{ij}) & 0 \\
+						\sigma_{ij} \gamma_{ij}     & s_{ij}
+					\end{array}
+				\right)  
+\end{align*}
+
+\noindent where $\sigma$ and $s$ are the juvenile and adult stage survival rates, and $\gamma$ is the maturation rate from juvenile to adult stages. Any or all of these parameters may differ among genotypes, so that selection can operate on stage-specific viability, development, and/or fertility. For simplicity, we assume these are constant among genotypes. 
+
+The fertility matrices through male and female function are
+
+\begin{equation}
+	\mbf{F}_{ij} = \left(
+					\begin{array}{cc}
+						0 &  f_{ij} \\
+						0 & 0
+					\end{array}
+				\right),
+\end{equation}
+\noindent and
+\begin{equation}
+	\mbf{F}^{\prime}_{ii} = \left(
+					\begin{array}{cc}
+						0 &  f^{\prime}_{ii} \\
+						0 & 0
+					\end{array}
+				\right),
+\end{equation}
+
+\noindent where $f$ is the genotype specific adult fertility though female function, and $f^{\prime}_{ii}$ is the same through male function. 
+\begin{table}[htbp]
+ \centering
+ \caption{\bf Fitness expressions for Sexually Antagonistic selection in hermaphrodites}
+\begin{tabular}{lccc}
+ \toprule
+					&  \multicolumn{3}{c}{{\textit{Genotype}}} \\ 
+\cline{2-4}
+					& $AA$			& $Aa$ 					& $aa$ 		\\ \hline
+Female function:	& $f$		& $f - h_f s_f$	& $f - s_f$ \\	
+Male function:		& $f^\prime - s_m$& $f^\prime - h_m s_m$	& $f^\prime$ 		\\	
+\hline
+\end{tabular}
+\end{table}
+
+And the coexistence conditions become:
+\begin{eqnarray} \label{eq:coexist_AA}
+\lambda_{AA}> 
+			\rho\left(\left(
+					\begin{array}{cc}
+						\sigma_{Aa}(1 - \gamma_{Aa}) & 0 \\
+						\sigma_{Aa} \gamma_{Aa}     & s_{Aa}
+					\end{array}
+				\right)   + \frac{1}{2} (1 - C_{Aa}) \left(
+					\begin{array}{cc}
+						0 &  f_{Aa} \\
+						0 & 0
+					\end{array}
+				\right) +\frac{1}{2} (1 - C_{AA})\frac{f^\prime_{Aa}}{f^\prime_{AA}}\left(
+					\begin{array}{cc}
+						0 &  f_{AA} \\
+						0 & 0
+					\end{array}
+				\right)\right). 
+\end{eqnarray} 
+
+\newpage
+% \begin{landscape}
+% \begin{align*} \label{eq:AtildeCoexistence}
+% 	\tilde{\mbf{A}}[\tilde{\mbf{n}}] &= \tilde{\mbf{U}} + \tilde{\mbf{F}}\\
+% 		&= \left(
+% 			\begin{array}{cc|cc|cc}
+% 				\mcal{U}^S_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+% 				\mbf{0} & \mcal{U}^X_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\\hline
+% 				\mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\
+% 				\mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{Aa} & \mbf{0} &  \mbf{0}\\\hline
+% 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} & \mbf{0} \\ 
+% 				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{Aa}
+% 			\end{array} \right) \\ 
+% 		&+ \left(
+% 			\begin{array}{cc|cc|cc}
+% 				C_{AA} (1 - \delta) \mbf{F}_{AA} & C_{AA} (1 - \delta) \mbf{F}_{AA}  & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} \\ 
+% 				q^{\prime}_{A}  (1 - C_{AA}) \mbf{F}_{AA}& q^{\prime}_{A} (1 - C_{AA}) \mbf{F}_{AA} & \frac{1}{2} q^{\prime}_{A} (1 - C_{Aa})\mbf{F}_{Aa}  & \frac{1}{2} q^{\prime}_{A} (1 - C_{Aa})\mbf{F}_{Aa}  & \mbf{0} & \mbf{0} \\ \hline
+% 				\mbf{0} & \mbf{0} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}& \mbf{0} & \mbf{0} \\
+% 				q^{\prime}_{a} (1 - C_{AA}) \mbf{F}_{AA} & q^{\prime}_{a}(1 - C_{AA})  \mbf{F}_{AA} & \frac{1}{2}  (1 - C_{Aa}) \mbf{F}_{Aa}& \frac{1}{2} (1 - C_{Aa})\mbf{F}_{Aa} & q^{\prime}_{A} (1 - C_{aa})\mbf{F}_{aa}  & q^{\prime}_{A}  (1 - C_{aa})\mbf{F}_{aa}\\ \hline
+% 				\mbf{0} & \mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & C_{aa} (1 - \delta) \mbf{F}_{aa} &  C_{aa} (1 - \delta) \mbf{F}_{aa}\\ 
+% 				\mbf{0} & \mbf{0} & \frac{1}{2} q^{\prime}_{a}  (1 - C_{Aa}) \mbf{F}_{Aa} & \frac{1}{2} q^{\prime}_{a}  (1 - C_{Aa})\mbf{F}_{Aa}& q^{\prime}_{a}(1 - C_{aa})  \mbf{F}_{aa} & q^{\prime}_{a} (1 - C_{aa})\mbf{F}_{aa} 
+% 			\end{array} \right) \numberthis
+% \end{align*}
+
+% \end{landscape}
 
 
 
