@@ -1063,11 +1063,13 @@ Putting all the pieces together into $M$, we get the Jacobian:
 The Jacobian matrix given in Eq(\ref{eq:combinedM}) is upper block triangular, and the eigenvalues of $\mbf{M}$ are therefore the eigenvalues of the diagonal blocks. However, because of the way that self-fertilization alters the projection matrix, our blocks are slightly different than Lotte's model. Specifically, our $\mbf{M}_{11}$ is the same (corresponding to the upper-left $2 \times 2$  block of $\mbf{M}$); our $\mbf{M}_{33}$ corresponds to the lowermost right corner element ($\mbf{M}_{33} = \mathcal{U}^{X}_{aa}$. However, in our case, the central diagonal block $\mbf{M}_{22}$ corresponds to 
 
 {
+\footnotesize
  \begin{align*} \label{eq:M22}
 	\mbf{M}_{22} = 
-		\frac{1}{\lambda_{AA}}\left(\begin{array}{cc}
-\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  \\
- \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
+		\frac{1}{\lambda_{AA}}\left(\begin{array}{ccc}
+\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  & 0 \\
+ \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & (1-C_{aa})\mbf{F}_{aa}\\
+  \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}^S_{aa} +C_{aa} (1 - \delta) \mbf{F}_{aa}  \\ 
 			\end{array} \right), \numberthis
 \end{align*}
 }
@@ -1081,11 +1083,13 @@ where
 For the same reasons outlined in Lotte's appendix, the stability of $\hat{\mbf{p}}$ will be determined by $\mbf{M}_{22}$. The largest absolute value of the eigenvalues of the Jacobian matrix, the leading eigenvalue, evaluated at the $AA$ boundary, denoted by $\tilde{\zeta}_{AA}$, is therefore
 
 {
+\footnotesize
 \begin{align*} \label{eq:eigAA}
 	\tilde{\zeta}_{AA} = 
-		\frac{1}{\lambda_{AA}}\rho\left(\begin{array}{cc}
-\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  \\
- \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
+		\frac{1}{\lambda_{AA}}\rho\left(\begin{array}{ccc}
+\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  & 0 \\
+ \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & (1-C_{aa})\mbf{F}_{aa}\\
+  \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}^S_{aa} +C_{aa} (1 - \delta) \mbf{F}_{aa}  \\ 
 			\end{array} \right). \numberthis
 \end{align*}
 }
@@ -1104,22 +1108,26 @@ For the same reasons outlined in Lotte's appendix, the stability of $\hat{\mbf{p
 A boundary equilibrium is unstable to invasion by the rare allele if the leading eigenvalue of the Jacobian evaluated at the equilibrium is greater than $1$. The conditions for a protected polymorphism is that both boundaries are unstable (i.e., both $\tilde{\zeta}_{AA} > 1$ and $\tilde{\zeta}_{aa} > 1$). The conditions for coexistence are, therefore, that
 
 
+{\footnotesize
 \begin{equation} \label{eq:coexist_AA}
 	\lambda_{AA} < 
-			\rho\left(\begin{array}{cc}
-\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  \\
- \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
-			\end{array} \right)., \\ 
+			\rho\left(\begin{array}{ccc}
+\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  & 0 \\
+ \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C_{AA})\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & (1-C_{aa})\mbf{F}_{aa}\\
+  \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}^S_{aa} +C_{aa} (1 - \delta) \mbf{F}_{aa}  \\ 
+			\end{array} \right), \\ 
 \end{equation} 
 
-\begin{equation} \label{eq:coexist_aa}
+
+\begin{equation} \label{eq:coexist_AA}
 	\lambda_{aa} < 
-			\rho\left(\begin{array}{cc}
-\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  \\
- \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2\mbox{p}_{n}} (1 - C_{aa})\mbf{F}_{aa} \big(\hat{\mbf{p}}_{X,aa}+ \hat{\mbf{p}}_{S,aa}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2\mbox{p}_{n}} (1 - C_{aa})\mbf{F}_{aa} \big(\hat{\mbf{p}}_{X,aa}+ \hat{\mbf{p}}_{S,aa}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
-			\end{array} \right).\\ 
+			\rho\left(\begin{array}{ccc}
+\mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  & 0 \\
+ \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C_{aa})\mbf{F}_{aa} \big(\hat{\mbf{p}}_{X,aa}+ \hat{\mbf{p}}_{S,aa}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C_{aa})\mbf{F}_{aa} \big(\hat{\mbf{p}}_{X,aa}+ \hat{\mbf{p}}_{S,aa}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & (1-C_{AA})\mbf{F}_{AA}\\
+  \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}^S_{AA} +C_{AA} (1 - \delta) \mbf{F}_{AA}  \\ 
+			\end{array} \right), \\ 
 \end{equation} 
-
+}
 
 \subsection*{Sanity check: no selfing}
 Above conditions should reduce to the conditions in our Amnat paper (de Vries and Caswell, 2019) in the absence of selfing, i.e. $C_{ij}=0$ for all genotypes, for which
@@ -1179,19 +1187,21 @@ The population projection matrix becomes
 			\end{array} \right)}_{\tilde{\mbf{F}^X}} \numberthis
 \end{align*}
 
-And the coexistence conditions become:
-\begin{equation} \label{eq:coexist_AA}
+\hl{This is a guess, I have not worked through the actual algebra yet} And the coexistence conditions become:
+\begin{equation} \label{eq:coexist_bigAA}
 	\lambda_{AA} < 
-			\rho\left(\begin{array}{c}
-\mathbf{U}_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{\mbf{F}_{AA}\hat{\mbf{p}}_{AA}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \hat{\mathbf{p}}_{AA}	}
+			\rho\left(\begin{array}{cc}
+\mathbf{U}_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{\mbf{F}_{AA}\hat{\mbf{p}}_{AA}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \hat{\mathbf{p}}_{AA}	} & (1-C_{aa}) \mbf{F}_{aa} \\
+\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}^S_{aa} +C_{aa} (1 - \delta) \mbf{F}_{aa}  \\ 
 			\end{array} \right), \\ 
 \end{equation} 
 
-\begin{equation} \label{eq:coexist_AA}
-	\lambda_{aa} < 
-			\rho\left(\begin{array}{c}
-\mathbf{U}_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2 } (1 - C_{aa})\frac{\mbf{F}_{aa}\hat{\mbf{p}}_{aa}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{aa}^\prime \hat{\mathbf{p}}_{aa}	}
-			\end{array} \right). \\ 
+\begin{equation} \label{eq:coexist_baa}
+	\lambda_{AA} < 
+			\rho\left(\begin{array}{cc}
+\mathbf{U}_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{aa})\frac{\mbf{F}_{aa}\hat{\mbf{p}}_{aa}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{aa}^\prime \hat{\mathbf{p}}_{aa}	} & (1-C_{AA}) \mbf{F}_{AA} \\
+\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}^S_{AA} +C_{AA} (1 - \delta) \mbf{F}_{AA}  \\ 
+			\end{array} \right), \\ 
 \end{equation} 
 \end{landscape}
 
@@ -1244,25 +1254,18 @@ Male function:		& $f^\prime - s_m$& $f^\prime - h_m s_m$	& $f^\prime$ 		\\
 \end{tabular}
 \end{table}
 
-And the coexistence conditions become:
+And the invasion condition becomes (\hl{based on my earlier guess, so still an (educated?) guess}):
+
 \begin{eqnarray} \label{eq:coexist_AA}
 \lambda_{AA}> 
-			\rho\left(\left(
-					\begin{array}{cc}
-						\sigma_{Aa}(1 - \gamma_{Aa}) & 0 \\
-						\sigma_{Aa} \gamma_{Aa}     & s_{Aa}
+			\rho\left(
+					\begin{array}{cc|cc}
+						\sigma_{Aa}(1 - \gamma_{Aa}) &  \frac{1}{2} (1 - C_{Aa}) f_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{f^\prime_{Aa}f_{AA}}{f^\prime_{AA}} &0 & (1-C_{aa})f_{aa}\\
+						\sigma_{Aa} \gamma_{Aa}     & s_{Aa}& 0 & 0\\ \hline
+							0 & \frac{1}{4}C_{Aa}(1-\delta)f_{Aa} &\sigma_{aa}(1 - \gamma_{aa})  & C_{aa}(1-\delta)f_{aa}\\
+								0 & 0 & \sigma_{aa} \gamma_{aa}     & s_{aa}
 					\end{array}
-				\right)   + \frac{1}{2} (1 - C_{Aa}) \left(
-					\begin{array}{cc}
-						0 &  f_{Aa} \\
-						0 & 0
-					\end{array}
-				\right) +\frac{1}{2} (1 - C_{AA})\frac{f^\prime_{Aa}}{f^\prime_{AA}}\left(
-					\begin{array}{cc}
-						0 &  f_{AA} \\
-						0 & 0
-					\end{array}
-				\right)\right). 
+				\right). 
 \end{eqnarray} 
 
 \newpage
