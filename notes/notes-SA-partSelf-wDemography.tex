@@ -1149,6 +1149,7 @@ which reduces to
 when $\mathbf{U}^S_{Aa}=\mathbf{U}^X_{Aa}$. This is the same as the AmNat deVries-Caswell equation :-) 
 
 \newpage
+\end{landscape}
 
 
 \subsection*{Simplification: when how-you-were-produced does not affect your demographic rates}
@@ -1187,23 +1188,255 @@ The population projection matrix becomes
 			\end{array} \right)}_{\tilde{\mbf{F}^X}} \numberthis
 \end{align*}
 
-\hl{This is a guess, I have not worked through the actual algebra yet} And the coexistence conditions become:
+
+\subsection*{Coexistence conditions}
+
+\noindent Start from equation (\ref{eq:subJacobian}), repeated here for convenience:
+
+\begin{align*} \label{eq:subJacobian_simplified}
+	\mbf{M} &=  \mbf{B}[\tilde{\mbf{p}}] + \left( \tilde{\mbf{p}}^{\intercal} \otimes \mbf{1}_{2 \omega g} \right) \frac{ \partial \text{vec}{\mbf{B}} }{ \partial \tilde{\mbf{p}}^{\intercal} } \bigg\rvert_{\hat{\mbf{p}}}, \\
+			&= \underbrace{ \mbf{B}[\hat{\mbf{p}}]}_{\encircle{A}} - 
+			   \underbrace{ \frac{ 1 }{\lambda_{AA}^2 } (\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{\omega g}) \left( \text{vec} \tilde{\mbf{A}} \right) \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}} \right)}_{\encircle{B}} \\
+			&~~~~~~~~~~~+ \underbrace{\frac{ 1 }{\lambda_{AA} } (\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{\omega g}) \left. \frac{\partial \text{vec} \tilde{\mbf{A}}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}}}_{\encircle{C}},
+\end{align*}
+
+
+%%%%%%%%%%%%%%%%
+\subsubsection{Components of the Jacobian}
+
+The next task is to work out each of the three terms \encircle{A}, \encircle{B}, and \encircle{C}, in $\mbf{M}$. Beginning with \encircle{A}, we have
+
+\begin{align*}
+	\mbf{B}[\hat{\mbf{p}}] &= \frac{ \tilde{\mbf{A}}[\hat{\mbf{p}}] }{ \mbf{1}^{\intercal}_{\omega g} \tilde{\mbf{A}}[\hat{\mbf{p}}] \hat{\mbf{p}} } = \\
+	&\frac{1}{\lambda_{AA}}\left(
+			\begin{array}{ccc}
+				\mathbf{U}_{AA} & \mbf{0} & \mbf{0}\\ 
+				\mbf{0} & \mathbf{U}_{Aa} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mathbf{U}_{aa} 
+			\end{array} \right)\\ 
+	&+\frac{1}{\lambda_{AA}}\left(
+			\begin{array}{ccc}
+				(1 - \delta C_{AA}) \mbf{F}_{AA} & \frac{1}{2} \left[1-\frac{1}{2} C_{Aa} - \frac{1}{2} \delta C_{Aa} \right] \mbf{F}_{Aa} & \mbf{0} \\ 
+				\mbf{0} & \frac{1}{2} \left[1- \delta C_{Aa} \right] \mbf{F}_{Aa}  & (1 - C_{aa})\mbf{F}_{aa}  \\
+				\mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & C_{aa} (1 - \delta) \mbf{F}_{aa} 
+			\end{array} \right)  \numberthis
+\end{align*}
+ 
+\noindent see Eq{\ref{eq:AtildeCoexistence}}. Next, we have \encircle{B},
+
+\begin{equation}
+	\encircle{B} = - \frac{1}{\lambda_{AA}^2} \left( \hat{\mbf{p}}^{\intercal} \otimes \mbf{1}_{2 \omega g} \right) \left( \text{vec} \tilde{\mbf{A}} \right) \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}} \right).
+\end{equation}
+
+\noindent Again using Roth's theorem (Roth 1934), $\left( \mbf{C}^{\intercal} \otimes \mbf{A} \right) \text{vec}\mbf{B} = \text{vec}\mbf{ABC}$, we can simplify as follows:
+
+\begin{align*}
+	\left( \hat{\mbf{p}}^{\intercal} \otimes \mbf{1}_{2 \omega g} \right) \left( \text{vec} \tilde{\mbf{A}}[\hat{\mbf{p}}] \right) &= \text{vec} \left( \mbf{I}_{2 \omega g}\, \tilde{\mbf{A}}[\hat{\mbf{p}}]\, \hat{\mbf{p}} \right) \\
+					   &= \lambda_{AA} \hat{\mbf{p}}, \numberthis
+\end{align*}
+
+\noindent so that 
+
+
+\begin{equation}
+	\encircle{B} = - \frac{1}{\lambda_{AA}} \hat{\mbf{p}} \left( \mbf{1}^{\intercal}_{2 \omega g} \tilde{\mbf{A}}[\hat{\mbf{p}}] \right).
+\end{equation}
+
+\noindent Substitute the population vector at the $AA$ boundary,
+
+\begin{equation}
+	\hat{\mbf{p}} = \left(
+			\begin{array}{c}
+							\hat{\mbf{p}}_{AA} \\
+							0                  \\ 
+							0                  
+			\end{array} \right)
+\end{equation}
+
+\noindent and rewrite in terms of the block matrices to obtain
+
+{\footnotesize
+\begin{align*}
+	\encircle{B} =& \\
+	&-\frac{1}{\lambda_{AA}} \left(
+			\begin{array}{ccc}
+				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \left[\mbf{U}_{AA}+(1 - \delta C_{AA}) \mbf{F}_{AA}\right]  & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \left[\mbf{U}_{Aa}+(1 - \delta C_{Aa}) \mbf{F}_{Aa}\right] & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \left[\mbf{U}_{aa}+(1 - \delta C_{aa}) \mbf{F}_{aa}\right] \\ 
+				\mbf{0} & \mbf{0} & \mbf{0}  \\
+				\mbf{0} & \mbf{0} & \mbf{0} 
+			\end{array} \right) \\ \numberthis			
+\end{align*}
+}
+
+
+
+Finally, we turn to term \encircle{C} of the Jacobian. As far as I can tell, we can follow the steps leading from Eq(A-35) through to Eq(A-46) of de Vries \& Caswell (2019) Appendix A exactly because the structure of our $\tilde{\mbf{A}}$ equations are identical. We resume the derivation at our version of their Eq(A-47)...Substitute $\hat{\mbf{p}}^{\intercal} = \left( \hat{\mbf{p}}^{\intercal}_{AA},\mbf{0},\mbf{0} \right)$ into the right side of Eq(A-46) so that only terms with $j=1$ are nonzero, yielding
+
+\begin{align*}
+	\frac{1}{\lambda_{AA}}(\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{2 \omega g}) \left. \frac{ \partial \text{vec}\mbf{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} &= \frac{1}{\lambda_{AA}} \sum^{3}_{i=1} \big( \hat{\mbf{p}}^{\intercal}_{S,AA} \otimes (\mbf{e}_{i} \otimes \mbf{I}_{\omega}) \big) \left. \frac{ \partial \text{vec}\mbf{A}_{i,1}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} \numberthis
+\end{align*}
+
+Write down each term in the sum over $i$ and take the derivative of $\mbox{vec}\mathbf{A}_{11}$ and $\mbox{vec}\mathbf{A}_{21}$ to obtain
+\begin{equation}
+\frac{1}{\lambda_{AA}}(\hat{\mathbf{p}}^\tr \otimes \mathbf{I}_{\omega g})\frac{\partial \mbox{vec} \mathbf{A}}{\partial \tilde{\bo p}^\tr}
+=
+\frac{1-C_{AA}}{\lambda_{AA}}\left[  \hat{\bo p}_{AA}^\tr\otimes \left(\mathbf{e}_{1} \otimes \mathbf{I}_\omega\right)-\hat{\bo p}_{AA}^\tr\otimes \left(\mathbf{e}_{2} \otimes \mathbf{I}_\omega\right) \right] \mbox{vec} \left(\mathbf{F}_{AA}\right)\frac{\partial q^\prime_A}{\partial \tilde{\bo p}^\tr}. 
+\end{equation}
+
+\noindent (see Eq{\ref{eq:AtildeCoexistence}}).  Finally, apply Roth's theorem (Roth 1934), $\left( \mbf{C}^{\intercal} \otimes \mbf{A} \right) \text{vec}\mbf{B} = \text{vec}\mbf{ABC}$ (e.g.,where $\mbf{C}^{\intercal} = \hat{\mbf{p}}^{\intercal}_{AA}$, $\mbf{A} = (\mbf{e}_1 \otimes \mbf{I}_{\omega})$, and $\text{vec}\mbf{B} = \text{vec}\mbf{F}_{AA}$) to rewrite as
+
+\begin{align*}
+	\frac{1}{\lambda_{AA}}(\hat{\mbf{p}}^{\intercal} \otimes \mbf{I}_{2 \omega g}) \left. \frac{ \partial \text{vec}\mbf{A}}{\partial \hat{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}} = 
+		&\frac{(1 - C_{AA})}{\lambda_{AA}}  \text{vec}\big[(\mbf{e}_{1} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \hat{\mbf{p}}_{AA}\big]  \left.\frac{\partial q^{\prime}_{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}}  \\
+		&- \frac{(1 - C_{AA})}{\lambda_{AA}}  \text{vec}\big[(\mbf{e}_{2} \otimes \mbf{I}_{\omega}) \mbf{F}_{AA} \hat{\mbf{p}}_{AA}\big]  \left.\frac{\partial q^{\prime}_{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{p}}}  \label{eq:partCwithpartials_app} \numberthis
+\end{align*}
+
+\noindent written in terms of the block matrices, this yields
+
+{
+\scriptsize
+\begin{align*}
+	\encircle{C} =& \\
+	\frac{(1 - C_{AA})}{\lambda_{AA}} &\left(
+			\begin{array}{ccc}
+			\mbf{F}_{AA}\hat{\mbf{p}}_{AA} \otimes \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{ \intercal}_{AA}}  &  \mbf{F}_{AA}\hat{\mbf{p}}_{AA} \otimes \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{ \intercal}_{Aa}}  &  \mbf{F}_{AA}\hat{\mbf{p}}_{AA} \otimes \frac{\partial q^{\prime}_{A}}{\partial \mbf{p}^{ \intercal}_{aa}}\\
+				\mbf{0} & \mbf{0} & \mbf{0}  \\
+				\mbf{0} & \mbf{0} & \mbf{0} 
+			\end{array} \right)  \numberthis			
+\end{align*}
+}
+The above expression requires the derivative of the frequency of allele $A$ in the gamete pool with respect to the population frequency vector:
+
+\begin{equation}
+	\left. \frac{\partial q^{\prime}_{A}}{\partial \tilde{\mbf{p}}^{\intercal}} \right|_{\hat{\mbf{P}}}
+\end{equation}
+
+
+
+
+ Start with equation (\ref{eq:maleGametePool}) from the main text:
+\begin{equation} \label{eq:maleGametePool_app}
+	\left(
+		\begin{array}{c}
+			q^{\prime}_{A} \\
+			q^{\prime}_{a} \\
+		\end{array} \right) = 
+			\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} \tilde{\mbf{n}}}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} \tilde{\mbf{n}} \|} = 
+				\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} \tilde{\mbf{p}}}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} \tilde{\mbf{p}}\|},
+\end{equation}
+therefore
+\begin{equation}
+  q^\prime_A=\frac{\mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime  \mathbf{p}}{\mathbf{1}^\tr_{2}\mathbf{W}^\prime\mathbf{F}^\prime\mathbf{p}}, \label{eq:male_gamete_pool}
+\end{equation}
+ where the one norm can be replaced by $\mathbf{1}^\tr_{2}\mathbf{W}^\prime\mathbf{F}^\prime \tilde{\mbf{p}}$ because $\tilde{\mbf{p}}$ is nonnegative. For convenience, we will denote the normalizing factor in the denominator with $ \mbox{p}_{n}$, 
+ \begin{equation}
+   \mbox{p}_{n}=\mathbf{1}^\tr_{2}\mathbf{W}^\prime\mathbf{F}^\prime \tilde{\mbf{p}}
+ \end{equation}
+ Taking the derivative of $ q^\prime_A$ yields
+\begin{eqnarray}
+  \frac{\partial   q_A }{\partial \tilde{\bo p}^\tr}&=& \frac{1}{ \mbox{p}_{n}}\mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime   \frac{\partial  \tilde{\mbf{p}}}{\partial \tilde{\bo p}^\tr} - \frac{\mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime \tilde{\mbf{p}}}{ \mbox{p}_{n}^2} \left( \mathbf{1}^\tr_{2}\mathbf{W}^\prime\mathbf{F}^\prime \frac{\partial  \tilde{\mbf{p}}}{\partial \tilde{\bo p}^\tr} \right). \label{eq:56_app}
+\end{eqnarray}
+Evaluate the first term in the sum in equation (\ref{eq:56_app}),
+\begin{eqnarray}
+	 \frac{1}{ \mbox{p}_{n}}\mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime   \frac{\partial  \mathbf{p}^\prime}{\partial \tilde{\bo p}^\tr} &=&  \frac{1}{ \mbox{p}_{n}} (1,0) \left(\begin{array} {ccc}
+\mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime& \frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{0} \\
+\mathbf{0} &\frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime
+\end{array}\right) \left(\begin{array} {ccc}
+\mathbf{I}&\mathbf{0}  &\mathbf{0} \\
+\mathbf{0} &\mathbf{I}& \mathbf{0}  \\
+\mathbf{0} &\mathbf{0}  &  \mathbf{I}
+\end{array}\right) \nonumber \\
+&=& \frac{1}{ \mbox{p}_{n}} \left( \mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime,  \frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime,  \mathbf{0} \right)\label{eq:first_term_app_reviewer}
+\end{eqnarray}
+Similarly for the second term in the sum in equation (\ref{eq:56_app}),
+\begin{eqnarray}
+	- \frac{\mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime \mathbf{p}^\prime}{ \mbox{p}_{n}^2} \left( \mathbf{1}^\tr_{2}\mathbf{W}^\prime\mathbf{F}^\prime \frac{\partial  \mathbf{p}^\prime}{\partial \tilde{\bo p}^\tr} \right) &=& -\frac{1}{ \mbox{p}_{n}}(1,1) \left(\begin{array} {ccc}
+\mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime& \frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{0} \\
+\mathbf{0} &\frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime
+\end{array}\right)  \left(\begin{array} {ccc}
+\mathbf{I}&\mathbf{0}  &\mathbf{0} \\
+\mathbf{0} &\mathbf{I}& \mathbf{0}  \\
+\mathbf{0} &\mathbf{0}  &  \mathbf{I}
+\end{array}\right) \nonumber \\
+ &=& -\frac{1}{ \mbox{p}_{n}} \left( \mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime, \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime, \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime   \right) \label{eq:second_term_app_reviewer}
+\end{eqnarray}
+Finally add equations (\ref{eq:first_term_app_reviewer}) and (\ref{eq:second_term_app_reviewer}) to obtain
+\begin{eqnarray}
+  \frac{\partial   q^\prime_A }{\partial \tilde{\bo p}^\tr}\bigg\rvert_{\hat{\bo p}}&=& \frac{1}{ \mbox{p}_{n}} \left( \mathbf{0},  -\frac{1}{2}\mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime, -\mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime \right) \label{eq:79_app},
+\end{eqnarray}
+where at the boundary
+\begin{eqnarray}
+  \mbox{p}_{n}&=&\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \hat{\mathbf{p}}_{AA}, \\
+  \mathbf{e}_1^\tr \mathbf{W}^\prime \mathbf{F}^\prime \mathbf{p}^\prime&=&\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \hat{\mathbf{p}}_{AA}=  \mbox{p}_{n}
+\end{eqnarray}
+
+
+Finally, plugging equation (\ref{eq:79_app}) into (\ref{eq:partCwithpartials_app}) yields
+
+{
+\begin{align*}
+	\encircle{C} =& \\
+	\frac{(1 - C_{AA})}{\mbox{p}_{n}\lambda_{AA}} &\left(
+			\begin{array}{ccc}
+				\mbf{0}   & -\frac{1}{2} \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime&  - \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime \\ 
+						\mbf{0}   & \frac{1}{2} \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime&  \mbf{F}_{AA} \hat{\mbf{p}}_{AA}  \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime \\  
+				\mbf{0} & \mbf{0} & \mbf{0} 
+			\end{array} \right)  \numberthis			
+\end{align*}
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%
+\subsubsection{The Jacobian}
+
+Putting all the pieces together into $M$, we get the Jacobian:
+
+{
+\footnotesize
+\begin{align*} \label{eq:combinedM}
+	\mbf{M} = 
+			& \frac{1}{\lambda_{AA}}\left(
+			\begin{array}{ccc}
+				\mathbf{U}_{AA}+(1 - \delta C_{AA}) \mbf{F}_{AA}  & \frac{1}{2} \left[1-\frac{1}{2} C_{Aa} - \frac{1}{2} \delta C_{Aa} \right] \mbf{F}_{Aa}  & \mbf{0}\\ 
+				\mbf{0} & \mathbf{U}_{Aa} +\frac{1}{2} \left[1- \delta C_{Aa} \right] \mbf{F}_{Aa} & (1 - C_{aa})\mbf{F}_{aa}  \\
+				\mbf{0} & \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  & \mathbf{U}_{aa} +C_{aa} (1 - \delta) \mbf{F}_{aa} 
+			\end{array} \right)\\ 
+	&-\frac{1}{\lambda_{AA}} \left(
+			\begin{array}{ccc}
+				\hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \left[\mbf{U}_{AA}+(1 - \delta C_{AA}) \mbf{F}_{AA}\right]  & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \left[\mbf{U}_{Aa}+(1 - \delta C_{Aa}) \mbf{F}_{Aa}\right] & \hat{\mbf{p}}_{AA} \otimes \mbf{1}^{\intercal}_{\omega} \left[\mbf{U}_{aa}+(1 - \delta C_{aa}) \mbf{F}_{aa}\right] \\ 
+				\mbf{0} & \mbf{0} & \mbf{0}  \\
+				\mbf{0} & \mbf{0} & \mbf{0} 
+			\end{array} \right)\\
+			&+\frac{1}{\lambda_{AA}}\frac{(1 - C_{AA})}{\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \hat{\mathbf{p}}_{AA}} \left(
+			\begin{array}{ccc}
+				\mbf{0}   & -\frac{1}{2} \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime&  - \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime \\ 
+						\mbf{0}   & \frac{1}{2} \mbf{F}_{AA} \hat{\mbf{p}}_{AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime&  \mbf{F}_{AA} \hat{\mbf{p}}_{AA}  \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime \\  
+				\mbf{0} & \mbf{0} & \mbf{0} 
+			\end{array} \right) 
+			\numberthis
+\end{align*}
+}
+
+
+
+
+The coexistence conditions become:
 \begin{equation} \label{eq:coexist_bigAA}
 	\lambda_{AA} < 
 			\rho\left(\begin{array}{cc}
-\mathbf{U}_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{\mbf{F}_{AA}\hat{\mbf{p}}_{AA}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \hat{\mathbf{p}}_{AA}	} & (1-C_{aa}) \mbf{F}_{aa} \\
-\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}^S_{aa} +C_{aa} (1 - \delta) \mbf{F}_{aa}  \\ 
+\mathbf{U}_{Aa} + \frac{1}{2} (1 - \delta C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{\mbf{F}_{AA}\hat{\mbf{p}}_{AA}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \hat{\mathbf{p}}_{AA}	} & (1-C_{aa}) \mbf{F}_{aa} \\
+\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}_{aa} +C_{aa} (1 - \delta) \mbf{F}_{aa}  \\ 
 			\end{array} \right), \\ 
 \end{equation} 
 
 \begin{equation} \label{eq:coexist_baa}
 	\lambda_{AA} < 
 			\rho\left(\begin{array}{cc}
-\mathbf{U}_{Aa} + \frac{1}{2} (1 - C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{aa})\frac{\mbf{F}_{aa}\hat{\mbf{p}}_{aa}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{aa}^\prime \hat{\mathbf{p}}_{aa}	} & (1-C_{AA}) \mbf{F}_{AA} \\
-\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}^S_{AA} +C_{AA} (1 - \delta) \mbf{F}_{AA}  \\ 
+\mathbf{U}_{Aa} + \frac{1}{2} (1 - \delta C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{aa})\frac{\mbf{F}_{aa}\hat{\mbf{p}}_{aa}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{aa}^\prime \hat{\mathbf{p}}_{aa}	} & (1-C_{AA}) \mbf{F}_{AA} \\
+\frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}_{AA} +C_{AA} (1 - \delta) \mbf{F}_{AA}  \\ 
 			\end{array} \right), \\ 
 \end{equation} 
-\end{landscape}
 
 \subsubsection*{Two stage case when how-you-were-produced does not matter}
 
@@ -1260,7 +1493,7 @@ And the invasion condition becomes (\hl{based on my earlier guess, so still an (
 \lambda_{AA}> 
 			\rho\left(
 					\begin{array}{cc|cc}
-						\sigma_{Aa}(1 - \gamma_{Aa}) &  \frac{1}{2} (1 - C_{Aa}) f_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{f^\prime_{Aa}f_{AA}}{f^\prime_{AA}} &0 & (1-C_{aa})f_{aa}\\
+						\sigma_{Aa}(1 - \gamma_{Aa}) &  \frac{1}{2} (1 - \delta C_{Aa}) f_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{f^\prime_{Aa}f_{AA}}{f^\prime_{AA}} &0 & (1-C_{aa})f_{aa}\\
 						\sigma_{Aa} \gamma_{Aa}     & s_{Aa}& 0 & 0\\ \hline
 							0 & \frac{1}{4}C_{Aa}(1-\delta)f_{Aa} &\sigma_{aa}(1 - \gamma_{aa})  & C_{aa}(1-\delta)f_{aa}\\
 								0 & 0 & \sigma_{aa} \gamma_{aa}     & s_{aa}
