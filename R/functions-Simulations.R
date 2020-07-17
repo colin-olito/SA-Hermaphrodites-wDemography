@@ -28,6 +28,33 @@ popGen_a_invade  <-  function(hf, hm, sm, C) {
 	(sm*(1 - C)*(2 - C+2*hm*(C - 1))) / ((C + 1)*(2*hf*(C - 1) - C)*(sm - 1))
 }
 
+###########################################
+#' 1-locus Pop Gen Equilibrium Frequencies
+#' Conditions
+#' 
+#' Parameters:
+#' 
+popGen_qHat_Add  <-  function(sf, sm, C) {
+	qHat  <-  (sf*(1 + C) - sm*(1 - sf)*(1 - C)) / (2*sm*sf)
+	if(qHat < 0) {
+		qHat  <-  0
+	}
+	if(qHat > 1) {
+		qHat  <-  1
+	}
+	qHat
+}
+popGen_qHat_DomRev  <-  function(h, sf, sm, C) {
+	qHat  <-  (2*sf*(1 + C ) - (sf*(1 + C ) + sm*(1 - C ))*(C + 2*h*(1 - C ))) / (2*(1 - C)*(1 - 2*h)*(sf*(1 + C)+sm*(1 - C)))
+	if(qHat < 0) {
+		qHat  <-  0
+	}
+	if(qHat > 1) {
+		qHat  <-  1
+	}
+	qHat
+}
+
 ###########################
 #' Forward Simulation 
 #'
@@ -294,11 +321,16 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 	pEq           <-  matrix(0, ncol=3, nrow=nSamples)
 
 	for(i in 1:nSamples) {
-
-			if(sfs[i] > sms[i]){
+		if(hf == hm && hf == 1/2) {
+			qHat  <-  popGen_qHat_Add(sf = sfs[i], sm = sms[i], C = C)
+		}
+		if(hf == hm && hf < 1/2) {
+			qHat  <-  popGen_qHat_DomRev(h = hf, sf = sfs[i], sm = sms[i], C = C)
+		}
+			if(qHat < 1/2){
 				Ainvade  <-  TRUE
 			}
-			if(sfs[i] < sms[i]){
+			if(qHat > 1/2){
 				Ainvade  <-  FALSE
 			}
 
@@ -344,7 +376,7 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 								)
 
 	# export data as .csv to ./output/data
-	filename <-  paste("./output/simData/demSimsSfxSm", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, "_C", C, "_delta", delta, ".csv", sep="")
+	filename <-  paste("./output/simData/demSimsSfxSm_MinorEqAlleleInv", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, "_C", C, "_delta", delta, ".csv", sep="")
 	write.csv(results.df, file=filename, row.names = FALSE)
 
 	if(returnRes) {

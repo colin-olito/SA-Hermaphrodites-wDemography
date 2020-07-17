@@ -140,10 +140,10 @@ fibonacci.scale  <-  function(n) {
 FunnelPlots  <-  function() {
 
 # Import data sets
-    C0_h0.5_d0     <-  read.csv('./output/simData/demSimsSfxSm_sMax0.15_nSamples2000_hf0.5_hm0.5_C0_delta0.csv', head=TRUE)
-    C0.5_h0.5_d0   <-  read.csv('./output/simData/demSimsSfxSm_sMax0.15_nSamples2000_hf0.5_hm0.5_C0.5_delta0.csv', head=TRUE)
-    C0_h0.25_d0    <-  read.csv('./output/simData/demSimsSfxSm_sMax0.15_nSamples2000_hf0.25_hm0.25_C0_delta0.csv', head=TRUE)
-    C0.5_h0.25_d0  <-  read.csv('./output/simData/demSimsSfxSm_sMax0.15_nSamples2000_hf0.25_hm0.25_C0.5_delta0.csv', head=TRUE)
+    C0_h0.5_d0     <-  read.csv('./output/simData/demSimsSfxSm_MinorEqAlleleInv_sMax0.15_nSamples1000_hf0.5_hm0.5_C0_delta0.csv', head=TRUE)
+    C0.5_h0.5_d0   <-  read.csv('./output/simData/demSimsSfxSm_MinorEqAlleleInv_sMax0.15_nSamples1000_hf0.5_hm0.5_C0.5_delta0.csv', head=TRUE)
+    C0_h0.25_d0    <-  read.csv('./output/simData/demSimsSfxSm_MinorEqAlleleInv_sMax0.15_nSamples1000_hf0.25_hm0.25_C0_delta0.csv', head=TRUE)
+    C0.5_h0.25_d0  <-  read.csv('./output/simData/demSimsSfxSm_MinorEqAlleleInv_sMax0.15_nSamples1000_hf0.25_hm0.25_C0.5_delta0.csv', head=TRUE)
 
 # Color scheme
     COLS  <-  list(

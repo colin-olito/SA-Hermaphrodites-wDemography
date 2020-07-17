@@ -37,7 +37,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  0
 					)
 
-	selLoop(sMax = 0.15, nSamples=2000,
+	selLoop(sMax = 0.15, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
@@ -50,7 +50,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  0
 					)
 
-	selLoop(sMax = 0.15, nSamples=2000,
+	selLoop(sMax = 0.15, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
@@ -63,7 +63,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  1/4
 					)
 
-	selLoop(sMax = 0.15, nSamples=2000,
+	selLoop(sMax = 0.15, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
@@ -81,7 +81,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  0
 					)
 
-	selLoop(sMax = 0.15, nSamples=2000,
+	selLoop(sMax = 0.15, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
@@ -94,7 +94,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  0
 					)
 
-	selLoop(sMax = 0.15, nSamples=2000,
+	selLoop(sMax = 0.15, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
@@ -107,7 +107,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  1/4
 					)
 
-	selLoop(sMax = 0.15, nSamples=2000,
+	selLoop(sMax = 0.15, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
@@ -129,7 +129,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  0
 					)
 
-	selLoop(sMax = 1, nSamples=2000,
+	selLoop(sMax = 1, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
@@ -142,7 +142,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  0
 					)
 
-	selLoop(sMax = 1, nSamples=2000,
+	selLoop(sMax = 1, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
@@ -155,7 +155,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  1/4
 					)
 
-	selLoop(sMax = 1, nSamples=2000,
+	selLoop(sMax = 1, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
@@ -173,7 +173,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  0
 					)
 
-	selLoop(sMax = 1, nSamples=2000,
+	selLoop(sMax = 1, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
@@ -186,7 +186,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  0
 					)
 
-	selLoop(sMax = 1, nSamples=2000,
+	selLoop(sMax = 1, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
@@ -199,7 +199,7 @@ source('R/functions-Simulations.R')
 					"delta"  =  1/4
 					)
 
-	selLoop(sMax = 1, nSamples=2000,
+	selLoop(sMax = 1, nSamples=1000,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
