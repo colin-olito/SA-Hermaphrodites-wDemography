@@ -23,5 +23,5 @@ source('R/functions-Figs.R')
 # PRELIM FIGS
 ###############
 
-toPdf(FunnelPlots(), figPath(name='FunnelPlots.pdf'), width=10, height=7)
-embed_fonts(figPath(name='FunnelPlots.pdf'))
+toPdf(FunnelPlots(), figPath(name='FunnelPlots_MEqAInv.pdf'), width=10, height=7)
+embed_fonts(figPath(name='FunnelPlots_MEqAInv.pdf'))
