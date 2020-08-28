@@ -106,10 +106,10 @@ for i=1:3
 end % for i
 
 
-%Calculating the largest eigenvalue of the Jacobian for both boundaryies
+%Calculating the largest eigenvalue of the Jacobian for both boundaries
 
-inv_bigA=max(eig((U{2}+0.5*F{1}+0.5*F{2}))); 
-inv_a=max(eig(U{2}+0.5*F{3}+0.5*F{2}));
+inv_bigA=max(eig(U{2}+0.5*F{1}+0.5*F{2})); 
+inv_a=   max(eig(U{2}+0.5*F{3}+0.5*F{2}));
 
 %Dominant eigenvalue of the Jacobian at the AA boundary
 x_bigA=inv_bigA/lambda(1)

@@ -60,8 +60,8 @@ popGen_qHat_DomRev  <-  function(h, sf, sm, C) {
 #'
 #' Parameters:
 #' dims: 	vector c(om, g), with om = # stages, g = # genotypes
-#' theta: 	vector of length 4, c(sigma_J, sigma_A, gamma, f_ii)
-fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_prime = c(0.6,0.6,0.05,5.9), 
+#' theta: 	vector of length 7, c(sigmaS_J, sigmaS_A, sigmaX_J, sigmaX_A, gammaS, gammaX, f_ii)
+fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.6, 0.6, 0.05, 0.05, 5.9), theta_prime = c(0.6, 0.6, 0.6, 0.6, 0.05, 0.05, 5.9), 
 								hf = 1/2, hm = 1/2, sf = 0.1, sm = 0.105, C = 0, delta = 0, tlimit = 10^4, Ainvade = FALSE, intInit = FALSE, ...) {
 
 	# Create identity and ones matrices
@@ -77,7 +77,7 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
 
 	# BASELINE PARAMETERS for survival and 
 	# fertility through Female and Male function
-	# theta=[sigma_J, sigma_A, gamma, f_ii]
+	# theta=[sigmaS_J, sigmaS_A, sigmaX_J, sigmaX_A, gammaS, gammaX, f_ii]
 	theta       <-  rep.col(theta,3)
 	theta_prime <- rep.col(theta_prime,3)
 
@@ -86,23 +86,26 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
 	fii_prime  <-  c(1 - sm, 1 - hm*sm, 1)
 
 	##SELECTION DIFFERENTIAL FEMALE-FUNCTION
-	theta[4,]  <-  theta[4,]*fii
+	theta[7,]  <-  theta[7,]*fii
 
 	#SELECTION DIFFERENTIAL MALE-FUNCTION
-	theta_prime[4,]  <-  theta_prime[4,]*fii_prime
+	theta_prime[7,]  <-  theta_prime[7,]*fii_prime
 
 	#Initial conditions for invasion: nzero  <-  [juv_AA, ad_AA, juv_Aa, ad_Aa, juv_aa, ad_aa]
 	# All aa
 		if(Ainvade) {
 			nzero  <- round(c(C*(1 - delta)*100*c(0,0,0,0,141.3,18.2),(1 - C)*100*c(0,0,0,0,141.3,18.2)))
+#			nzero  <- round(c((C*(1 - delta)/(1 - C*delta))*100*c(0,0,0,0,141.3,18.2),(1 - (C*(1 - delta)/(1 - C*delta)))*100*c(0,0,0,0,141.3,18.2)))
 		} 
 		#All AA
 		if(!Ainvade) {
 			nzero  <-  round(c(C*(1 - delta)*100*c(141.3,18.2,0,0,0,0),(1 - C)*100*c(141.3,18.2,0,0,0,0)))
+#			nzero  <-  round(c((C*(1 - delta)/(1 - C*delta))*100*c(141.3,18.2,0,0,0,0),(1 - (C*(1 - delta)/(1 - C*delta)))*100*c(141.3,18.2,0,0,0,0)))
 		}
 		#All Aa
 		if(intInit) {
 			nzero  <-  round(c(C*(1 - delta)*100*c(0,0,141.3,18.2,0,0),(1 - C)*100*c(0,0,141.3,18.2,0,0)))
+#			nzero  <-  round(c((C*(1 - delta)/(1 - C*delta))*100*c(0,0,141.3,18.2,0,0),(1 - (C*(1 - delta)/(1 - C*delta)))*100*c(0,0,141.3,18.2,0,0)))
 		}
 
 
@@ -110,11 +113,14 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
 	# Population and female fertility perameters
 	####################################################
 
-	sigma_J    <-  theta[1,]
-	sigma_A    <-  theta[2,]
-	gamma      <-  theta[3,]
-	f          <-  theta[4,]
-	f_prime    <-  theta_prime[4,]
+	sigmaS_J   <-  theta[1,]
+	sigmaS_A   <-  theta[2,]
+	sigmaX_J   <-  theta[3,]
+	sigmaX_A   <-  theta[4,]
+	gammaS     <-  theta[5,]
+	gammaX     <-  theta[6,]
+	f          <-  theta[7,]
+	f_prime    <-  theta_prime[7,]
 	USi        <-  zeros(c(om,om,g))
 	UXi        <-  zeros(c(om,om,g))
 	FSi        <-  zeros(c(om,om,g))
@@ -128,26 +134,29 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
 
 	# create genotype-specific survival and fertility submatrices
 	for (i in 1:3){
-	    USi[,,i]       <- rbind(c(sigma_J[i]*(1 - gamma[i]), 0         ),
-	                            c(sigma_J[i]*gamma[i],       sigma_A[i]))
-	    UXi[,,i]       <- rbind(c(sigma_J[i]*(1 - gamma[i]), 0         ),
-	                            c(sigma_J[i]*gamma[i],       sigma_A[i]))
+	    USi[,,i]       <- rbind(c(sigmaS_J[i]*(1 - gammaS[i]), 0         ),
+	                            c(sigmaS_J[i]*gammaS[i],       sigmaS_A[i]))
+	    UXi[,,i]       <- rbind(c(sigmaX_J[i]*(1 - gammaX[i]), 0         ),
+	                            c(sigmaX_J[i]*gammaX[i],       sigmaX_A[i]))
 	    FSi[,,i]       <- rbind(c(0,C*f[i]*(1 - delta)),
 						        c(0,0))
-	    FXi[,,i]       <- rbind(c(0,(1 - C)*f[i]),
+#	    FSi[,,i]       <- rbind(c(0,(C*(1 - delta)/(1 - C*delta))*f[i]),
+#						        c(0,0))
+	    FXi[,,i]       <- rbind(c(0,(1 - (C*(1 - delta)/(1 - C*delta)))*f[i]),
 						        c(0,0))
-	    FXi_prime[,,i] <- rbind(c(0,(1 - C)*f_prime[i]),
+	    FXi_prime[,,i] <- rbind(c(0,(1 - (C*(1 - delta)/(1 - C*delta)))*f_prime[i]),
 								c(0,0))
     
 		# genotype-specific population growth rate
 		eigs_temp[i,]  <-  eigen((FSi[,,i] + USi[,,i]) + (FXi[,,i] + UXi[,,i]), symmetric=FALSE, only.values = TRUE)$values
 		lambda[i]      <-  max(eigs_temp)
 		Nfun[,,i]      <-  solve((diag(2) - (C*(1 - delta)*USi[,,i] + (1 - C)*UXi[,,i])), diag(2))
+#		Nfun[,,i]      <-  solve((diag(2) - ((C*(1 - delta)/(1 - C*delta))*USi[,,i] + (1 - (C*(1 - delta)/(1 - C*delta)))*UXi[,,i])), diag(2))
 		R[,,i]         <-  (FSi[,,i] + FXi[,,i]) %*% Nfun[,,i]
 		#genotype-specific R0
 		R_0[i] <- max(eigen(R[,,i],symmetric=FALSE, only.values = TRUE)$values)
 	}
-
+browser()
 	Atilde_genotype  <-  zeros(c(2*om,2*om,g))
 	lambda_full      <-  zeros(c(1,g))
 	for (i in 1:3){
@@ -156,6 +165,30 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_
 								   	   )
 		lambda_full[i]    <- max(eigen(Atilde_genotype[,,i],symmetric=FALSE, only.values = TRUE)$values)
 	}
+
+# Coexistence Conditions Based on Leading Eigenvalue of the Jacobian
+	n_AABound  <-  round(c(C*(1 - delta)*100*c(141.3,18.2,0,0,0,0),(1 - C)*100*c(141.3,18.2,0,0,0,0)))[c(1,2,7,8,3,4,9,10,5,6,11,12)]
+	n_aaBound  <-  round(c(C*(1 - delta)*100*c(0,0,0,0,141.3,18.2),(1 - C)*100*c(0,0,0,0,141.3,18.2)))[c(1,2,7,8,3,4,9,10,5,6,11,12)]
+
+	pHat_AA         <-  n_AABound/c(sum(n_AABound[1:2]), sum(n_AABound[1:2]), sum(n_AABound[3:4]), sum(n_AABound[3:4]), 1,1,1,1,1,1,1,1)
+	pHat_aa         <-  n_aaBound/c(1,1,1,1,1,1,1,1, sum(n_aaBound[9:10]), sum(n_aaBound[9:10]), sum(n_aaBound[11:12]), sum(n_aaBound[11:12]))
+	pn_AA           <-  ones(c(om))%*%FXi_prime[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4])
+	pn_aa           <-  ones(c(om))%*%FXi_prime[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12])
+	M22_AA  <-  rbind(
+					cbind(USi[,,2] + C*(1 - delta)*FSi[,,2]/2, C*(1 - delta)*FSi[,,2]/2, zeros(c(2,2))),
+					cbind(((1 - C)/2)*FSi[,,2] + c(((1 - C)/(2*pn_AA)))*FSi[,,1]%*%kronecker((pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%FXi_prime[,,2])),
+						  UXi[,,2] + ((1 - C)/2)*FSi[,,2] + c(((1 - C)/(2*pn_AA)))*FSi[,,1]%*%kronecker((pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%FXi_prime[,,2])), c((1 - C))*FSi[,,3]),
+					cbind(((C*(1 - delta))/4)*FSi[,,2], ((C*(1 - delta))/4)*FSi[,,2], USi[,,3] + C*(1 - delta)*FSi[,,3])
+					)
+	M22_aa  <-  rbind(
+					cbind(USi[,,2] + C*(1 - delta)*FSi[,,2]/2, C*(1 - delta)*FSi[,,2]/2, zeros(c(2,2))),
+					cbind(((1 - C)/2)*FSi[,,2] + c(((1 - C)/(2*pn_aa)))*FSi[,,3]%*%kronecker((pHat_aa[1:2] + pHat_aa[3:4]), (ones(om)%*%FXi_prime[,,2])),
+						  UXi[,,2] + ((1 - C)/2)*FSi[,,2] + c(((1 - C)/(2*pn_aa)))*FSi[,,3]%*%kronecker((pHat_aa[1:2] + pHat_AA[3:4]), (ones(om)%*%FXi_prime[,,2])), c((1 - C))*FSi[,,1]),
+					cbind(((C*(1 - delta))/4)*FSi[,,2], ((C*(1 - delta))/4)*FSi[,,2], USi[,,1] + C*(1 - delta)*FSi[,,1])
+					)
+	max(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values)
+	max(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values)
+
 
 	# CREATE BLOCK DIAGONAL MATRICES
 	d 			 <- diag(g)
@@ -383,3 +416,5 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 		return(results.df)
 	}
 }
+
+

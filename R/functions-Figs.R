@@ -137,13 +137,49 @@ fibonacci.scale  <-  function(n) {
 
 #' Figs showing Kidwell Funnel plots with simulation results
 #' and 1-locus pop. gen. invasion conditions
-FunnelPlots  <-  function() {
+FunnelPlots  <-  function(df1, df2, df3, df4) {
+
+# Make filenames for import from df names
+    fName1  <-  paste('./output/simData/', df1, '.csv', sep="")
+    fName2  <-  paste('./output/simData/', df2, '.csv', sep="")
+    fName3  <-  paste('./output/simData/', df3, '.csv', sep="")
+    fName4  <-  paste('./output/simData/', df4, '.csv', sep="")
+
+# Extract plotting parameter values from df names
+    d1   <-  strsplit(df1, '_')[[1]][5:8]
+    parsA  <-  list(
+                    "hf"  =  as.numeric(strsplit(d1[1],'f')[[1]][2]),
+                    "hm"  =  as.numeric(strsplit(d1[2],'m')[[1]][2]),
+                    "C"  =  as.numeric(strsplit(d1[3],'C')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d1[4],'a')[[1]][2])
+                    )
+    d2   <-  strsplit(df2, '_')[[1]][5:8]
+    parsB  <-  list(
+                    "hf"  =  as.numeric(strsplit(d2[1],'f')[[1]][2]),
+                    "hm"  =  as.numeric(strsplit(d2[2],'m')[[1]][2]),
+                    "C"  =  as.numeric(strsplit(d2[3],'C')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d2[4],'a')[[1]][2])
+                    )
+    d3   <-  strsplit(df3, '_')[[1]][5:8]
+    parsC  <-  list(
+                    "hf"  =  as.numeric(strsplit(d3[1],'f')[[1]][2]),
+                    "hm"  =  as.numeric(strsplit(d3[2],'m')[[1]][2]),
+                    "C"  =  as.numeric(strsplit(d3[3],'C')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d3[4],'a')[[1]][2])
+                    )
+    d4   <-  strsplit(df4, '_')[[1]][5:8]
+    parsD  <-  list(
+                    "hf"  =  as.numeric(strsplit(d4[1],'f')[[1]][2]),
+                    "hm"  =  as.numeric(strsplit(d4[2],'m')[[1]][2]),
+                    "C"  =  as.numeric(strsplit(d4[3],'C')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d4[4],'a')[[1]][2])
+                    )
 
 # Import data sets
-    C0_h0.5_d0     <-  read.csv('./output/simData/demSimsSfxSm_MinorEqAlleleInv_sMax0.15_nSamples1000_hf0.5_hm0.5_C0_delta0.csv', head=TRUE)
-    C0.5_h0.5_d0   <-  read.csv('./output/simData/demSimsSfxSm_MinorEqAlleleInv_sMax0.15_nSamples1000_hf0.5_hm0.5_C0.5_delta0.csv', head=TRUE)
-    C0_h0.25_d0    <-  read.csv('./output/simData/demSimsSfxSm_MinorEqAlleleInv_sMax0.15_nSamples1000_hf0.25_hm0.25_C0_delta0.csv', head=TRUE)
-    C0.5_h0.25_d0  <-  read.csv('./output/simData/demSimsSfxSm_MinorEqAlleleInv_sMax0.15_nSamples1000_hf0.25_hm0.25_C0.5_delta0.csv', head=TRUE)
+    panelA  <-  read.csv(fName1, head=TRUE)
+    panelB  <-  read.csv(fName2, head=TRUE)
+    panelC  <-  read.csv(fName3, head=TRUE)
+    panelD  <-  read.csv(fName4, head=TRUE)
 
 # Color scheme
     COLS  <-  list(
@@ -163,7 +199,7 @@ layout <- layout(layout.mat,respect=TRUE)
 ##  Row 1: Additive allelic effects
 
     ##  Panel A: C = 0; hf = hm = 1/2
-        dat  <-  C0_h0.5_d0
+        dat  <-  panelA
         # Calculate additional variables for plotting
         inv_A  <-  popGen_A_invade(hf=dat$hf[1], hm=dat$hm[1], sm=smLine, C=dat$C[1])
         inv_a  <-  popGen_a_invade(hf=dat$hf[1], hm=dat$hm[1], sm=smLine, C=dat$C[1])
@@ -192,14 +228,14 @@ layout <- layout(layout.mat,respect=TRUE)
         # axes        
         axis(1, las=1, labels=NA)
         axis(2, las=1)
-        proportionalLabel(-0.45, 0.5, expression(paste(italic(h), " = 1/2")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.45, 0.5, substitute(paste(italic(h), " = ", hh), list(hh = parsA$hf)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
         proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = ', 0)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, substitute(paste(italic(C), ' = ', CC, ", ", delta, ' = ', dd), list(CC=parsA$C, dd=parsA$delta)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
 
     ##  Panel B: C = 0.5; hf = hm = 1/2
-        dat  <-  C0.5_h0.5_d0
+        dat  <-  panelB
         # Calculate additional variables for plotting
         inv_A  <-  popGen_A_invade(hf=dat$hf[1], hm=dat$hm[1], sm=smLine, C=dat$C[1])
         inv_a  <-  popGen_a_invade(hf=dat$hf[1], hm=dat$hm[1], sm=smLine, C=dat$C[1])
@@ -227,7 +263,7 @@ layout <- layout(layout.mat,respect=TRUE)
         # axes        
         axis(1, las=1, labels=NA)
         axis(2, las=1, labels=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = ', 0.5)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, substitute(paste(italic(C), ' = ', CC, ", ", delta, ' = ', dd),list(CC=parsB$C, dd=parsB$delta)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
 par(xpd=NA)
@@ -252,7 +288,7 @@ legend(#"topright",inset=c(-0.2,0),
             border  =  NA)
 
     ##  Panel C: C = 0; hf = hm = 1/4
-        dat  <-  C0_h0.25_d0
+        dat  <-  panelC
         # Calculate additional variables for plotting
         inv_A  <-  popGen_A_invade(hf=dat$hf[1], hm=dat$hm[1], sm=smLine, C=dat$C[1])
         inv_a  <-  popGen_a_invade(hf=dat$hf[1], hm=dat$hm[1], sm=smLine, C=dat$C[1])
@@ -280,15 +316,14 @@ legend(#"topright",inset=c(-0.2,0),
         # axes        
         axis(1, las=1)
         axis(2, las=1)
-        proportionalLabel(0.03, 1.075, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(-0.45, 0.5, expression(paste(italic(h), " = 1/4")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.45, 0.5,substitute(paste(italic(h), " = ", hh), list(hh = parsC$hf)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
         proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
         proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
 
 
     ##  Panel D: C = 0.5; hf = hm = 1/2
-        dat  <-  C0.5_h0.25_d0
+        dat  <-  panelD
         # Calculate additional variables for plotting
         inv_A  <-  popGen_A_invade(hf=dat$hf[1], hm=dat$hm[1], sm=smLine, C=dat$C[1])
         inv_a  <-  popGen_a_invade(hf=dat$hf[1], hm=dat$hm[1], sm=smLine, C=dat$C[1])
@@ -316,7 +351,6 @@ legend(#"topright",inset=c(-0.2,0),
         # axes        
         axis(1, las=1)
         axis(2, las=1, labels=NA)
-        proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = ', 0.5)), cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel(0.03, 1.075, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
