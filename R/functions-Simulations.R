@@ -55,13 +55,48 @@ popGen_qHat_DomRev  <-  function(h, sf, sm, C) {
 	qHat
 }
 
+
+###########################################
+#' Eigenvalue Calculator for full demographic model
+#' 
+
+calcZeta  <-  function(om, Fii, Fii_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, lambda_full){
+	n_AABound  <-  round(c(C*(1 - delta)*100*c(141.3,18.2,0,0,0,0),(1 - C)*100*c(141.3,18.2,0,0,0,0)))[c(1,2,7,8,3,4,9,10,5,6,11,12)]
+	n_aaBound  <-  round(c(C*(1 - delta)*100*c(0,0,0,0,141.3,18.2),(1 - C)*100*c(0,0,0,0,141.3,18.2)))[c(1,2,7,8,3,4,9,10,5,6,11,12)]
+	pHat_AA    <-  n_AABound/c(sum(n_AABound[1:2]), sum(n_AABound[1:2]), sum(n_AABound[3:4]), sum(n_AABound[3:4]), 1,1,1,1,1,1,1,1)
+	pHat_AA[is.na(pHat_AA)]  <-  0
+	pHat_aa    <-  n_aaBound/c(1,1,1,1,1,1,1,1, sum(n_aaBound[9:10]), sum(n_aaBound[9:10]), sum(n_aaBound[11:12]), sum(n_aaBound[11:12]))
+	pHat_aa[is.na(pHat_aa)]  <-  0
+	pn_AA      <-  ones(c(om))%*%Fii_pr[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4])
+	pn_aa      <-  ones(c(om))%*%Fii_pr[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12])
+	M22_AA  <-  rbind(
+					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(2,2))),
+					cbind(((1 - C)/2)*Fii[,,2] + c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%kronecker((pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])),
+						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%kronecker((pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])), c((1 - C))*Fii[,,3]),
+					cbind(((C*(1 - delta))/4)*Fii[,,2], ((C*(1 - delta))/4)*Fii[,,2], USi[,,3] + C*(1 - delta)*Fii[,,3])
+					)
+	M22_aa  <-  rbind(
+					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(2,2))),
+					cbind(((1 - C)/2)*Fii[,,2] + c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%kronecker((pHat_aa[1:2] + pHat_aa[3:4]), (ones(om)%*%Fii_pr[,,2])),
+						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%kronecker((pHat_aa[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])), c((1 - C))*Fii[,,1]),
+					cbind(((C*(1 - delta))/4)*Fii[,,2], ((C*(1 - delta))/4)*Fii[,,2], USi[,,1] + C*(1 - delta)*Fii[,,1])
+					)
+	zeta_i  <-  c(max(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values),
+				  max(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values))
+	zeta_i  <-  zeta_i/lambda_full[c(1,3)]
+	return(zeta_i)
+}
+
+
+
+
 ###########################
 #' Forward Simulation 
 #'
 #' Parameters:
 #' dims: 	vector c(om, g), with om = # stages, g = # genotypes
 #' theta: 	vector of length 7, c(sigmaS_J, sigmaS_A, sigmaX_J, sigmaX_A, gammaS, gammaX, f_ii)
-fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.6, 0.6, 0.05, 0.05, 5.9), theta_prime = c(0.6, 0.6, 0.6, 0.6, 0.05, 0.05, 5.9), 
+fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05, 0.05, 5.9), theta_prime = c(0.6, 0.6, 0.6, 0.6, 0.05, 0.05, 5.9), 
 								hf = 1/2, hm = 1/2, sf = 0.1, sm = 0.105, C = 0, delta = 0, tlimit = 10^4, Ainvade = FALSE, intInit = FALSE, ...) {
 
 	# Create identity and ones matrices
@@ -123,9 +158,8 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.6, 0.6, 0.05,
 	f_prime    <-  theta_prime[7,]
 	USi        <-  zeros(c(om,om,g))
 	UXi        <-  zeros(c(om,om,g))
-	FSi        <-  zeros(c(om,om,g))
-	FXi        <-  zeros(c(om,om,g))
-	FXi_prime  <-  zeros(c(om,om,g))
+	Fii        <-  zeros(c(om,om,g))
+	Fii_pr     <-  zeros(c(om,om,g))
 	Nfun       <-  zeros(c(om,om,g))
 	R          <-  zeros(c(om,om,g))
 	lambda     <-  zeros(c(1,g))
@@ -138,60 +172,36 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.6, 0.6, 0.05,
 	                            c(sigmaS_J[i]*gammaS[i],       sigmaS_A[i]))
 	    UXi[,,i]       <- rbind(c(sigmaX_J[i]*(1 - gammaX[i]), 0         ),
 	                            c(sigmaX_J[i]*gammaX[i],       sigmaX_A[i]))
-	    FSi[,,i]       <- rbind(c(0,C*f[i]*(1 - delta)),
+	    Fii[,,i]       <- rbind(c(0,f[i]),
 						        c(0,0))
-#	    FSi[,,i]       <- rbind(c(0,(C*(1 - delta)/(1 - C*delta))*f[i]),
-#						        c(0,0))
-	    FXi[,,i]       <- rbind(c(0,(1 - (C*(1 - delta)/(1 - C*delta)))*f[i]),
-						        c(0,0))
-	    FXi_prime[,,i] <- rbind(c(0,(1 - (C*(1 - delta)/(1 - C*delta)))*f_prime[i]),
+	    Fii_pr[,,i]    <- rbind(c(0,f_prime[i]),
 								c(0,0))
     
 		# genotype-specific population growth rate
-		eigs_temp[i,]  <-  eigen((FSi[,,i] + USi[,,i]) + (FXi[,,i] + UXi[,,i]), symmetric=FALSE, only.values = TRUE)$values
+		eigs_temp[i,]  <-  eigen((C*(1 - delta)*Fii[,,i] + USi[,,i]) + ((1 - C)*Fii[,,i] + UXi[,,i]), symmetric=FALSE, only.values = TRUE)$values
 		lambda[i]      <-  max(eigs_temp)
 		Nfun[,,i]      <-  solve((diag(2) - (C*(1 - delta)*USi[,,i] + (1 - C)*UXi[,,i])), diag(2))
 #		Nfun[,,i]      <-  solve((diag(2) - ((C*(1 - delta)/(1 - C*delta))*USi[,,i] + (1 - (C*(1 - delta)/(1 - C*delta)))*UXi[,,i])), diag(2))
-		R[,,i]         <-  (FSi[,,i] + FXi[,,i]) %*% Nfun[,,i]
+		R[,,i]         <-  (C*(1 - delta)*Fii[,,i] + (1 - C)*Fii[,,i]) %*% Nfun[,,i]
 		#genotype-specific R0
 		R_0[i] <- max(eigen(R[,,i],symmetric=FALSE, only.values = TRUE)$values)
 	}
-browser()
+
 	Atilde_genotype  <-  zeros(c(2*om,2*om,g))
-	lambda_full      <-  zeros(c(1,g))
+	lambda_full      <-  as.vector(zeros(c(1,g)))
 	for (i in 1:3){
-		Atilde_genotype[,,i]  <- rbind( cbind(USi[,,i] + FSi[,,i], zeros(c(2,2))), 
-										cbind(FXi[,,i], UXi[,,i])
+		Atilde_genotype[,,i]  <- rbind( cbind(USi[,,i] + C*(1 - delta)*Fii[,,i], C*(1 - delta)*Fii[,,i]), 
+										cbind((1 - C)*Fii[,,i], UXi[,,i] + (1 - C)*Fii[,,i])
 								   	   )
 		lambda_full[i]    <- max(eigen(Atilde_genotype[,,i],symmetric=FALSE, only.values = TRUE)$values)
 	}
 
-# Coexistence Conditions Based on Leading Eigenvalue of the Jacobian
-	n_AABound  <-  round(c(C*(1 - delta)*100*c(141.3,18.2,0,0,0,0),(1 - C)*100*c(141.3,18.2,0,0,0,0)))[c(1,2,7,8,3,4,9,10,5,6,11,12)]
-	n_aaBound  <-  round(c(C*(1 - delta)*100*c(0,0,0,0,141.3,18.2),(1 - C)*100*c(0,0,0,0,141.3,18.2)))[c(1,2,7,8,3,4,9,10,5,6,11,12)]
-
-	pHat_AA         <-  n_AABound/c(sum(n_AABound[1:2]), sum(n_AABound[1:2]), sum(n_AABound[3:4]), sum(n_AABound[3:4]), 1,1,1,1,1,1,1,1)
-	pHat_aa         <-  n_aaBound/c(1,1,1,1,1,1,1,1, sum(n_aaBound[9:10]), sum(n_aaBound[9:10]), sum(n_aaBound[11:12]), sum(n_aaBound[11:12]))
-	pn_AA           <-  ones(c(om))%*%FXi_prime[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4])
-	pn_aa           <-  ones(c(om))%*%FXi_prime[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12])
-	M22_AA  <-  rbind(
-					cbind(USi[,,2] + C*(1 - delta)*FSi[,,2]/2, C*(1 - delta)*FSi[,,2]/2, zeros(c(2,2))),
-					cbind(((1 - C)/2)*FSi[,,2] + c(((1 - C)/(2*pn_AA)))*FSi[,,1]%*%kronecker((pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%FXi_prime[,,2])),
-						  UXi[,,2] + ((1 - C)/2)*FSi[,,2] + c(((1 - C)/(2*pn_AA)))*FSi[,,1]%*%kronecker((pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%FXi_prime[,,2])), c((1 - C))*FSi[,,3]),
-					cbind(((C*(1 - delta))/4)*FSi[,,2], ((C*(1 - delta))/4)*FSi[,,2], USi[,,3] + C*(1 - delta)*FSi[,,3])
-					)
-	M22_aa  <-  rbind(
-					cbind(USi[,,2] + C*(1 - delta)*FSi[,,2]/2, C*(1 - delta)*FSi[,,2]/2, zeros(c(2,2))),
-					cbind(((1 - C)/2)*FSi[,,2] + c(((1 - C)/(2*pn_aa)))*FSi[,,3]%*%kronecker((pHat_aa[1:2] + pHat_aa[3:4]), (ones(om)%*%FXi_prime[,,2])),
-						  UXi[,,2] + ((1 - C)/2)*FSi[,,2] + c(((1 - C)/(2*pn_aa)))*FSi[,,3]%*%kronecker((pHat_aa[1:2] + pHat_AA[3:4]), (ones(om)%*%FXi_prime[,,2])), c((1 - C))*FSi[,,1]),
-					cbind(((C*(1 - delta))/4)*FSi[,,2], ((C*(1 - delta))/4)*FSi[,,2], USi[,,1] + C*(1 - delta)*FSi[,,1])
-					)
-	max(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values)
-	max(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values)
+	# Calculate coexistence conditions based on leading eigenvalue of the Jacobian
+	zeta_i  <-  calcZeta(om = om, Fii = Fii, Fii_pr = Fii_pr, USi = USi, UXi = UXi, pHat_AA = pHat_AA, pHat_aa = pHat_aa, C = C, delta = delta, lambda_full = lambda_full)
 
 
 	# CREATE BLOCK DIAGONAL MATRICES
-	d 			 <- diag(g)
+	d 			 <-  diag(g)
 	blkD         <-  kronecker(Iom,d)
 	blkUS        <-  zeros(c(g*om,g*om))
 	blkUX        <-  zeros(c(g*om,g*om))
@@ -201,9 +211,9 @@ browser()
 	for (i in 1:g){
 	    blkUS        <-  blkUS + kronecker(emat(g,g,i,i),USi[,,i])
 	    blkUX        <-  blkUX + kronecker(emat(g,g,i,i),UXi[,,i])
-	    blkFS        <-  blkFS + kronecker(emat(g,g,i,i),FSi[,,i])
-	    blkFX        <-  blkFX + kronecker(emat(g,g,i,i),FXi[,,i])
-	    blkFX_prime  <-  blkFX_prime + kronecker(emat(g,g,i,i),FXi_prime[,,i])
+	    blkFS        <-  blkFS + kronecker(emat(g,g,i,i),C*(1 - delta)*Fii[,,i])
+	    blkFX        <-  blkFX + kronecker(emat(g,g,i,i),(1 - C)*Fii[,,i])
+	    blkFX_prime  <-  blkFX_prime + kronecker(emat(g,g,i,i),(1 - C)*Fii_pr[,,i])
 	}
 	W_prime  <-  rbind(cbind(ones(c(1,om)),.5*ones(c(1,om)),0*ones(c(1,om))),
 					   cbind(0*ones(c(1,om)),.5*ones(c(1,om)),ones(c(1,om))))
@@ -230,7 +240,6 @@ browser()
 	pDelta    <-  c(1,1,1)
 	# begin generation loop
 	while( sum(n) > 1  &&  any(pDelta > 1e-9) && i <= tlimit) {
-#	for (i in 1:tlimit){
 
 		nout[,i]  <-  n
 
@@ -297,7 +306,6 @@ browser()
 		if(i > 20) {
 			pDelta  <-  abs(pnext - pcheck)
 		}
-#		cat('\r', i/tlimit,'%')
 		i  <-  i + 1
 	}
 
@@ -314,6 +322,7 @@ browser()
 					"nzero"        =  nzero,
 					"lambda"       =  lambda,
 					"lambda_full"  =  lambda_full,
+					"zeta_i"       =  zeta_i,
 					"om"           =  om,
 					"g"            =  g,
 					"theta"        =  theta,
@@ -352,6 +361,8 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 	extinct       <-  rep(NA,times=nSamples)
 	polymorphism  <-  rep(NA,times=nSamples)
 	pEq           <-  matrix(0, ncol=3, nrow=nSamples)
+	zeta_i        <-  matrix(0, ncol=2, nrow=nSamples)
+	lambda_i      <-  matrix(0, ncol=3, nrow=nSamples)
 
 	for(i in 1:nSamples) {
 		if(hf == hm && hf == 1/2) {
@@ -374,6 +385,8 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 			extinct[i]       <-  results$extinct
 			polymorphism[i]  <-  results$polymorphism
 			pEq[i,]          <-  results$pEq
+			zeta_i[i,]       <-  results$zeta_i
+			lambda_i[i,]     <-  results$lambda_full
 
 		cat('\r', paste(100*(i/nSamples),'% Complete'))
 
@@ -389,6 +402,8 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 										extinct, 
 										polymorphism, 
 										pEq, 
+										zeta_i,
+										lambda_i,
 										hfVec, 
 										hmVec, 
 										CVec, 
@@ -402,6 +417,11 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 								"Eq_pAA",
 								"Eqp_Aa",
 								"Eq_paa",
+								"zeta_AA",
+								"zeta_aa",
+								"lambda_AA",
+								"lambda_Aa",
+								"lambda_aa",
 								"hf",
 								"hm",
 								"C",
