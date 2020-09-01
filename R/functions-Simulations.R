@@ -71,17 +71,19 @@ calcZeta  <-  function(om, Fii, Fii_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, la
 	M22_AA  <-  rbind(
 					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(2,2))),
 					cbind(           ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])),
-						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])), (1 - C)*Fii[,,3]),
+						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])), 
+						                 (1 - C)*Fii[,,3] + kronecker(c(((1 - C)/(  pn_AA)))*Fii[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,3]))),
 					cbind(((C*(1 - delta))/4)*Fii[,,2], ((C*(1 - delta))/4)*Fii[,,2], USi[,,3] + C*(1 - delta)*Fii[,,3])
 					)
 	M22_aa  <-  rbind(
 					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(2,2))),
 					cbind(           ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12]), (ones(om)%*%Fii_pr[,,2])),
-						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12]), (ones(om)%*%Fii_pr[,,2])), (1 - C)*Fii[,,1]),
+						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12]), (ones(om)%*%Fii_pr[,,2])),
+						                 (1 - C)*Fii[,,1] + kronecker(c(((1 - C)/(  pn_aa)))*Fii[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12]), (ones(om)%*%Fii_pr[,,1]))),
 					cbind(((C*(1 - delta))/4)*Fii[,,2], ((C*(1 - delta))/4)*Fii[,,2], USi[,,1] + C*(1 - delta)*Fii[,,1])
 					)
 	zeta_i  <-  c(max(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values),
-					 max(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values))
+				  max(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values))
 	zeta_i  <-  zeta_i/lambda_AA_aa
 	return(zeta_i)
 }
@@ -376,21 +378,21 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05
 			
 			# Calculate a naive genotype-specific eigenvalue for comparison
 			# note, that this gives the same value for lambda_i as we get 
-			# elsewehre in the simulation (see lambda_full)
-			testLambda_AA  <-  c(max(eigen(testAtilde_AA[c(1:4),c(1:4)],symmetric=FALSE, only.values = TRUE)$values),
-							    max(eigen(testAtilde_AA[c(5:8),c(5:8)],symmetric=FALSE, only.values = TRUE)$values),
-							    max(eigen(testAtilde_AA[c(9:12),c(9:12)],symmetric=FALSE, only.values = TRUE)$values)
+			# elsewhere in the simulation (see lambda_full)
+			testLambda_AA  <-  c(max(eigen(testAtilde_AA[c(1:4), c(1:4)],  symmetric=FALSE, only.values = TRUE)$values),
+							     max(eigen(testAtilde_AA[c(5:8), c(5:8)],  symmetric=FALSE, only.values = TRUE)$values),
+							     max(eigen(testAtilde_AA[c(9:12),c(9:12)], symmetric=FALSE, only.values = TRUE)$values)
 							  )
-			testLambda_aa  <-  c(max(eigen(testAtilde_aa[c(1:4),c(1:4)],symmetric=FALSE, only.values = TRUE)$values),
-							    max(eigen(testAtilde_aa[c(5:8),c(5:8)],symmetric=FALSE, only.values = TRUE)$values),
-							    max(eigen(testAtilde_aa[c(9:12),c(9:12)],symmetric=FALSE, only.values = TRUE)$values)
+			testLambda_aa  <-  c(max(eigen(testAtilde_aa[c(1:4), c(1:4)],  symmetric=FALSE, only.values = TRUE)$values),
+							     max(eigen(testAtilde_aa[c(5:8), c(5:8)],  symmetric=FALSE, only.values = TRUE)$values),
+							     max(eigen(testAtilde_aa[c(9:12),c(9:12)], symmetric=FALSE, only.values = TRUE)$values)
 							  )
 			
 			# Calcuate lambda_AA and lambda_aa both using the as described in the notes file
 			# (Eq(17) in the linearization at the boundary equilibrium subsection)
 			lambda_i   <-  c(testLambda_AA[1], testLambda_aa[3])
-			lambda2_i  <-  c(t(ones(2*om*g)) %*% testAtilde_AA %*% pHat_AA,
-							 t(ones(2*om*g)) %*% testAtilde_aa %*% pHat_aa)
+#			lambda2_i  <-  c(t(ones(2*om*g)) %*% testAtilde_AA %*% pHat_AA,
+#							 t(ones(2*om*g)) %*% testAtilde_aa %*% pHat_aa)
 
 			# Calculate coexistence conditions based on leading eigenvalue of the Jacobian
 			zeta_i  <-  calcZeta(om=om, Fii=Fii, Fii_pr=Fii_pr, USi=USi, UXi=UXi,
@@ -521,7 +523,7 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 								)
 
 	# export data as .csv to ./output/data
-	filename <-  paste("./output/simData/demSimsSfxSm_MinorEqAlleleInv2", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, "_C", C, "_delta", delta, ".csv", sep="")
+	filename <-  paste("./output/simData/demSimsSfxSm_MinorEqAlleleInv", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, "_C", C, "_delta", delta, ".csv", sep="")
 	write.csv(results.df, file=filename, row.names = FALSE)
 
 	if(returnRes) {

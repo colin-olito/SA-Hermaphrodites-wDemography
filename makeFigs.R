@@ -37,8 +37,9 @@ toPdf(FunnelPlots(df1 = 'demSimsSfxSm_MinorEqAlleleInv_sMax0.15_nSamples1000_hf0
 figPath(name='FunnelPlots_MEqAInv_ID.pdf'), width=10, height=7)
 embed_fonts(figPath(name='FunnelPlots_MEqAInv.pdf'))
 
-
-
-
-
-
+toPdf(FunnelEigSimCompare(df1 = 'demSimsSfxSm_MinorEqAlleleInv_sMax0.15_nSamples1000_hf0.5_hm0.5_C0_delta0',
+						  df2 = 'demSimsSfxSm_MinorEqAlleleInv2_sMax0.15_nSamples1000_hf0.5_hm0.5_C0.5_delta0',
+						  df3 = 'demSimsSfxSm_MinorEqAlleleInv_sMax0.15_nSamples1000_hf0.25_hm0.25_C0_delta0',
+						  df4 = 'demSimsSfxSm_MinorEqAlleleInv2_sMax0.15_nSamples1000_hf0.25_hm0.25_C0.5_delta0'), 
+figPath(name='Funnel_Compare_Eig_Sim.pdf'), width=10, height=7)
+embed_fonts(figPath(name='Funnel_Compare_Eig_Sim.pdf'))

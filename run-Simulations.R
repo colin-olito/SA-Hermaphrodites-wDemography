@@ -55,12 +55,12 @@ source('R/functions-Simulations.R')
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, tlimit = 10^5, returnRes = FALSE)
 
 	# Intermediate Selfing w/ I.D.
-	# C = 1/2, delta = 0.5
+	# C = 1/2, delta = 0.2
 	pars  <-  list(
 					"hf"     =  1/2,
 					"hm"     =  1/2,
 					"C"      =  1/2,
-					"delta"  =  1/8
+					"delta"  =  1/5
 					)
 
 	selLoop(sMax = 0.15, nSamples=1000,
@@ -105,7 +105,7 @@ source('R/functions-Simulations.R')
 					"hf"     =  1/4,
 					"hm"     =  1/4,
 					"C"      =  1/2,
-					"delta"  =  1/8
+					"delta"  =  1/5
 					)
 
 	selLoop(sMax = 0.15, nSamples=1000,
