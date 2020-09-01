@@ -265,9 +265,7 @@ plot( 1:tlimit, colSums(Nout[c(2,4,6),]), log="y", type="l", col="red", lty=2)
 
 #Genotype frequencies in females
 #GENOTYPE FREQUENCIES, aggregate over all stages
-temp         <-  kronecker(diag(g),ones(c(1,om))) %*% Nout
-p_genotypes  <-  sweep(temp,2,colSums(temp),'/')
-p_genotypes[,1:30]
+,p_genotypes[,1:30]
 plot(1:tlimit,p_genotypes[1,],col="red",type="l",ylim = c(0,1))
 lines(1:tlimit,p_genotypes[2,],col="orange",type="l")
 lines(1:tlimit,p_genotypes[3,],col="green",type="l")

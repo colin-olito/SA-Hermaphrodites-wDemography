@@ -59,33 +59,83 @@ popGen_qHat_DomRev  <-  function(h, sf, sm, C) {
 ###########################################
 #' Eigenvalue Calculator for full demographic model
 #' 
-
-calcZeta  <-  function(om, Fii, Fii_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, lambda_full){
+#(C*(1 - delta)/(1 - C*delta))
+#(1 - (C*(1 - delta)/(1 - C*delta)))
+calcZeta  <-  function(om, Fii, Fii_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, lambda_AA_aa){
 	n_AABound  <-  round(c(C*(1 - delta)*100*c(141.3,18.2,0,0,0,0),(1 - C)*100*c(141.3,18.2,0,0,0,0)))[c(1,2,7,8,3,4,9,10,5,6,11,12)]
 	n_aaBound  <-  round(c(C*(1 - delta)*100*c(0,0,0,0,141.3,18.2),(1 - C)*100*c(0,0,0,0,141.3,18.2)))[c(1,2,7,8,3,4,9,10,5,6,11,12)]
-	pHat_AA    <-  n_AABound/c(sum(n_AABound[1:2]), sum(n_AABound[1:2]), sum(n_AABound[3:4]), sum(n_AABound[3:4]), 1,1,1,1,1,1,1,1)
-	pHat_AA[is.na(pHat_AA)]  <-  0
-	pHat_aa    <-  n_aaBound/c(1,1,1,1,1,1,1,1, sum(n_aaBound[9:10]), sum(n_aaBound[9:10]), sum(n_aaBound[11:12]), sum(n_aaBound[11:12]))
-	pHat_aa[is.na(pHat_aa)]  <-  0
-	pn_AA      <-  ones(c(om))%*%Fii_pr[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4])
-	pn_aa      <-  ones(c(om))%*%Fii_pr[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12])
+	pHat_AA    <-  n_AABound/norm(as.matrix(n_AABound), type="1")
+	pHat_aa    <-  n_aaBound/norm(as.matrix(n_aaBound), type="1")
+	pn_AA      <-  ones(c(om)) %*% Fii_pr[,,1] %*% (pHat_AA[1:2] + pHat_AA[3:4])
+	pn_aa      <-  ones(c(om)) %*% Fii_pr[,,3] %*% (pHat_aa[9:10] + pHat_aa[11:12])
 	M22_AA  <-  rbind(
 					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(2,2))),
-					cbind(((1 - C)/2)*Fii[,,2] + c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%kronecker((pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])),
-						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%kronecker((pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])), c((1 - C))*Fii[,,3]),
+					cbind(           ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])),
+						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])), (1 - C)*Fii[,,3]),
 					cbind(((C*(1 - delta))/4)*Fii[,,2], ((C*(1 - delta))/4)*Fii[,,2], USi[,,3] + C*(1 - delta)*Fii[,,3])
 					)
 	M22_aa  <-  rbind(
 					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(2,2))),
-					cbind(((1 - C)/2)*Fii[,,2] + c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%kronecker((pHat_aa[1:2] + pHat_aa[3:4]), (ones(om)%*%Fii_pr[,,2])),
-						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%kronecker((pHat_aa[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])), c((1 - C))*Fii[,,1]),
+					cbind(           ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12]), (ones(om)%*%Fii_pr[,,2])),
+						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12]), (ones(om)%*%Fii_pr[,,2])), (1 - C)*Fii[,,1]),
 					cbind(((C*(1 - delta))/4)*Fii[,,2], ((C*(1 - delta))/4)*Fii[,,2], USi[,,1] + C*(1 - delta)*Fii[,,1])
 					)
 	zeta_i  <-  c(max(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values),
-				  max(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values))
-	zeta_i  <-  zeta_i/lambda_full[c(1,3)]
+					 max(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values))
+	zeta_i  <-  zeta_i/lambda_AA_aa
 	return(zeta_i)
 }
+
+
+
+#########################
+##  Calculate Atilde[ntilde] for 
+##  boundary conditions
+AtildeBound  <-  function(nBound, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, HS, HX, K, blkFS,blkFX) {
+
+        #Creating the male gamete pool
+        nX    <-  nBound[1:6] + nBound[7:12]
+        ngam  <-  ones(c(1,2)) %*% W_prime %*% blkFX_prime %*% nX
+        
+        #Equation 5 in the manuscript
+        q_prime <- (W_prime%*%blkFX_prime%*%nX)/ngam[1] 
+
+        UtildeS  <-  blkUS
+        UtildeX  <-  blkUX
+
+        # Parent-Offspring genotype map - Selfing
+        HS <- rbind(c(1, 1/4, 0),
+					c(0, 1/2, 0),
+					c(0, 1/4, 1))
+        # Parent-Offspring genotype map - Outcrossing
+        HX <- zeros(c(g,g))
+
+        for (ii in 1:g){
+            Pi  <-  Ig[,ii]
+            qi  <-  W %*% Pi #allele frequencies in oocytes of genotype i
+
+            # genotype frequencies in the offspring of mothers of genotype i
+            # produced by outcrossing (equation 16 in de Vries and Caswell, 2018a (American Naturalist))
+            Piprime  <-  Z %*% kronecker(qi,q_prime)
+
+            HX[,ii]  <-  Piprime # the outcrossing parent-offspring matrix
+        }
+
+        blkHS    <-  kronecker(Iom,HS)
+        blkHX    <-  kronecker(Iom,HX)
+
+        FtildeS  <-  t(K) %*% blkHS %*% K %*% blkFS
+        FtildeX  <-  t(K) %*% blkHX %*% K %*% blkFX
+        Atilde   <-  rbind(cbind((UtildeS + FtildeS), FtildeS),
+						   cbind(FtildeX            , (UtildeX + FtildeX)))
+        AtildeCoexist  <-  Atilde[c(1,2,7,8,3,4,9,10,5,6,11,12),c(1,2,7,8,3,4,9,10,5,6,11,12)]
+        return(AtildeCoexist)
+}
+
+
+
+
+
 
 
 
@@ -193,12 +243,11 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05
 		Atilde_genotype[,,i]  <- rbind( cbind(USi[,,i] + C*(1 - delta)*Fii[,,i], C*(1 - delta)*Fii[,,i]), 
 										cbind((1 - C)*Fii[,,i], UXi[,,i] + (1 - C)*Fii[,,i])
 								   	   )
+#		Atilde_genotype[,,i]  <- rbind( cbind(USi[,,i] + (C*(1 - delta)/(1 - C*delta))*Fii[,,i], (C*(1 - delta)/(1 - C*delta))*Fii[,,i]), 
+#										cbind((1 - (C*(1 - delta)/(1 - C*delta)))*Fii[,,i], UXi[,,i] + (1 - (C*(1 - delta)/(1 - C*delta)))*Fii[,,i])
+#								   	   )
 		lambda_full[i]    <- max(eigen(Atilde_genotype[,,i],symmetric=FALSE, only.values = TRUE)$values)
 	}
-
-	# Calculate coexistence conditions based on leading eigenvalue of the Jacobian
-	zeta_i  <-  calcZeta(om = om, Fii = Fii, Fii_pr = Fii_pr, USi = USi, UXi = UXi, pHat_AA = pHat_AA, pHat_aa = pHat_aa, C = C, delta = delta, lambda_full = lambda_full)
-
 
 	# CREATE BLOCK DIAGONAL MATRICES
 	d 			 <-  diag(g)
@@ -266,14 +315,14 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05
         HX <- zeros(c(g,g))
 
         for (ii in 1:g){
-            pi  <-  Ig[,ii]
-            qi  <-  W %*% pi #allele frequencies in oocytes of genotype i
+            Pi  <-  Ig[,ii]
+            qi  <-  W %*% Pi #allele frequencies in oocytes of genotype i
 
             # genotype frequencies in the offspring of mothers of genotype i
             # produced by outcrossing (equation 16 in de Vries and Caswell, 2018a (American Naturalist))
-            piprime  <-  Z %*% kronecker(qi,q_prime)
+            Piprime  <-  Z %*% kronecker(qi,q_prime)
 
-            HX[,ii]  <-  piprime # the outcrossing parent-offspring matrix
+            HX[,ii]  <-  Piprime # the outcrossing parent-offspring matrix
         }
 
         blkHS    <-  kronecker(Iom,HS)
@@ -306,6 +355,49 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05
 		if(i > 20) {
 			pDelta  <-  abs(pnext - pcheck)
 		}
+
+		#  Calculate eigenvalues based on Analytic results
+		if(i == 1) {
+			# initial frequencies for the two boundaries 
+			# where AA genotype is fixed, and where aa genotype is fixed
+			nBoundAA  <-  round(c(C*(1 - delta)*100*c(141.3,18.2,0,0,0,0),(1 - C)*100*c(141.3,18.2,0,0,0,0)))
+			nBoundaa  <-  round(c(C*(1 - delta)*100*c(0,0,0,0,141.3,18.2),(1 - C)*100*c(0,0,0,0,141.3,18.2)))
+			pBoundAA  <-  nBoundAA/norm(as.matrix(nBoundAA), type="1")
+			pBoundaa  <-  nBoundaa/norm(as.matrix(nBoundaa), type="1")
+			
+			# we rearrange the order of the phat values so they match
+			# the structure of our jacobian, which was ordered by genotype, then self/outcross
+			pHat_AA    <-  pBoundAA[c(1,2,7,8,3,4,9,10,5,6,11,12)]
+			pHat_aa    <-  pBoundaa[c(1,2,7,8,3,4,9,10,5,6,11,12)]
+			
+			# calculate Atilde[ptilde]
+			testAtilde_AA  <-  AtildeBound(nBound=pBoundAA, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, HS=HS, HX=HX, K=K, blkFS=blkFS,blkFX=blkFX)
+			testAtilde_aa  <-  AtildeBound(nBound=pBoundaa, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, HS=HS, HX=HX, K=K, blkFS=blkFS,blkFX=blkFX)
+			
+			# Calculate a naive genotype-specific eigenvalue for comparison
+			# note, that this gives the same value for lambda_i as we get 
+			# elsewehre in the simulation (see lambda_full)
+			testLambda_AA  <-  c(max(eigen(testAtilde_AA[c(1:4),c(1:4)],symmetric=FALSE, only.values = TRUE)$values),
+							    max(eigen(testAtilde_AA[c(5:8),c(5:8)],symmetric=FALSE, only.values = TRUE)$values),
+							    max(eigen(testAtilde_AA[c(9:12),c(9:12)],symmetric=FALSE, only.values = TRUE)$values)
+							  )
+			testLambda_aa  <-  c(max(eigen(testAtilde_aa[c(1:4),c(1:4)],symmetric=FALSE, only.values = TRUE)$values),
+							    max(eigen(testAtilde_aa[c(5:8),c(5:8)],symmetric=FALSE, only.values = TRUE)$values),
+							    max(eigen(testAtilde_aa[c(9:12),c(9:12)],symmetric=FALSE, only.values = TRUE)$values)
+							  )
+			
+			# Calcuate lambda_AA and lambda_aa both using the as described in the notes file
+			# (Eq(17) in the linearization at the boundary equilibrium subsection)
+			lambda_i   <-  c(testLambda_AA[1], testLambda_aa[3])
+			lambda2_i  <-  c(t(ones(2*om*g)) %*% testAtilde_AA %*% pHat_AA,
+							 t(ones(2*om*g)) %*% testAtilde_aa %*% pHat_aa)
+
+			# Calculate coexistence conditions based on leading eigenvalue of the Jacobian
+			zeta_i  <-  calcZeta(om=om, Fii=Fii, Fii_pr=Fii_pr, USi=USi, UXi=UXi,
+								 pHat_AA=pHat_AA, pHat_aa=pHat_aa, C=C, delta=delta, 
+								 lambda_AA_aa=lambda_i)
+		}
+
 		i  <-  i + 1
 	}
 
@@ -429,7 +521,7 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 								)
 
 	# export data as .csv to ./output/data
-	filename <-  paste("./output/simData/demSimsSfxSm_MinorEqAlleleInv", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, "_C", C, "_delta", delta, ".csv", sep="")
+	filename <-  paste("./output/simData/demSimsSfxSm_MinorEqAlleleInv2", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, "_C", C, "_delta", delta, ".csv", sep="")
 	write.csv(results.df, file=filename, row.names = FALSE)
 
 	if(returnRes) {
