@@ -559,8 +559,8 @@ The population projection matrix $\tilde{\mbf{A}}$ consists of $3 \times 3$ bloc
 				\mbf{0} & \mcal{U}^X_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\\hline
 				\mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\
 				\mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{Aa} & \mbf{0} &  \mbf{0}\\\hline
-				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} & \mbf{0} \\ 
-				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{Aa}
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^S_{aa} & \mbf{0} \\ 
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{aa}
 			\end{array} \right) \\ 
 		&+ \left(
 			\begin{array}{cc|cc|cc}
@@ -1073,7 +1073,7 @@ The Jacobian matrix given in Eq(\ref{eq:combinedM}) is upper block triangular, a
 			\end{array} \right), \numberthis
 \end{align*}
 }
-where $\Theta = \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime$, and 
+where $\Theta = \frac{(1 - C_{AA})}{p_{n}} \mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime$, and 
 
 \begin{equation}
   \mbox{p}_{n}=\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \left( \hat{\mathbf{p}}^S_{AA}+\hat{\mathbf{p}}^X_{AA} \right)	
@@ -1085,7 +1085,7 @@ For the same reasons outlined in Lotte's appendix, the stability of $\hat{\mbf{p
 
 {
 \footnotesize
-\begin{align*} \label{eq:eigAA}
+\begin{align*} \label{eq:eigAAFull}
 	\tilde{\zeta}_{AA} = 
 		\frac{1}{\lambda_{AA}}\rho\left(\begin{array}{ccc}
 \mathbf{U}^S_{Aa} +\frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  & 0 \\
@@ -1130,7 +1130,37 @@ A boundary equilibrium is unstable to invasion by the rare allele if the leading
 \end{equation} 
 }
 
-where $\Phi = \mbf{F}_{aa} \big(\hat{\mbf{p}}_{X,aa}+ \hat{\mbf{p}}_{S,aa}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime$.
+where $\Phi = \frac{(1 - C_{aa})}{p_{n}} \mbf{F}_{aa} \big(\hat{\mbf{p}}_{X,aa}+ \hat{\mbf{p}}_{S,aa}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime$.
+
+\end{landscape}
+
+
+\subsection*{Conditions for the maintenance of SA polymorphism}
+
+My PhD supervisor Tim and I have a longstanding joke (originally referencing something Alexei Kondrashov used to say during lectures) for when, seemingly against all odds, your equations simplify to give you a beautiful result. We call it "a gift from Jesus", and here Jesus really is being generous! 
+\bigskip 
+
+OK... let's start with a pretty general situation: we will solve for the conditions where SA polymorphism is maintained, defined by where $\tilde{\zeta}_{i} > 1$, where $i \in \{AA,aa\}$ (i.e., where the right hand side of Eq(\ref{eq:eigAAFull}) is greater than $1$). The expressions get pretty ugly, so for simplicity we will make two simplying assumptions. First, we will assume additive SA fitness effects ($h_f = h_m = 1/2$). Second, that at the boundary equilibria, the frequency of the $a$ allele in individuals produced by selfing is equal to the frequency in individuals produced by outrcrossing, i.e., $\hat{\mbf{p}}_{X,i} = \hat{\mbf{p}}_{S,i}$. For ease of comparison with previous population genetic models (Jordan \& Connallon 2014; Olito 2017), we solve $\tilde{\zeta}_{i} > 1$ for $s_f$. In this case, SA polymorphism will be maintained when
+
+\begin{equation} \label{eq:InvCondSimp}
+	\frac{s_m (1 - C)}{(1 - s_m) (1 + C (1 - 2 \delta)} < s_f < \frac{s_m (1 - C)}{1 + s_m (1 - C ) + C (1 - 2 \delta)}.
+\end{equation}
+
+\noindent Remarkably, these conditions are mathematically identical to those derived for additive SA fitness effects by Jordan \& Connallon (2014) and the 1-locus invasion condition derived in Olito (2017). Relaxing the above simplifying assumptions quickly leads to complicated expressions. However, we get very similar expressions to the pop.~gen.~models if we relax the assumption of additive fitness effects and allow for arbitrary dominance. 
+
+One scenario where we do get interesting behaviour is when we relax the assumption that $\hat{\mbf{p}}_{X,i} = \hat{\mbf{p}}_{S,i}$. Again, the expressions are complicated (not worth writing out here), but here is what happens: ($1$) when $\hat{\mbf{p}}_{X,i} > \hat{\mbf{p}}_{S,i}$, the funnel "opens up", so that polymorphism is maintained in a saddle-shaped area straddling the $1:1$ line such that the regions where either the $A$ or $a$ allele fixes shrink into the upper-left and lower-right hand corners of $s_f \times s_m$ parameter space. This dramatically increses the proportion of parameter space where polymorphism is maintained. ($2$) When $\hat{\mbf{p}}_{X,i} < \hat{\mbf{p}}_{S,i}$ the funnel shrinks such that polymorphism is only maintained in regions where $s_f,s_m > 0$, and gets progressively smaller until srong selection is required through both female and male function to maintain polymorphism.
+
+Now, what's interesting (assuming I understand how $\hat{\mbf{p}}_{S,i}$ and $\hat{\mbf{p}}_{X,i}$ are calculated) is that $\hat{\mbf{p}}_{X,i} = \hat{\mbf{p}}_{S,i}$ unless both $C > 0$ and $\delta > 0$, in which case  $\hat{\mbf{p}}_{X,i} > \hat{\mbf{p}}_{S,i}$. So, I think this means that when there is selfing and some inbreeding depression, the parameter space where polymorphism is maintained is expanded relative to classic population genetic models. \hl{Need to think about this carefully. Interested to hear your thoughts Lotte!}
+
+
+
+
+
+
+
+
+
+
 
 \subsection*{Sanity check: no selfing}
 Above conditions should reduce to the conditions in our Amnat paper (de Vries and Caswell, 2019) in the absence of selfing, i.e. $C_{ij}=0$ for all genotypes, for which
@@ -1152,7 +1182,7 @@ which reduces to
 when $\mathbf{U}^S_{Aa}=\mathbf{U}^X_{Aa}$. This is the same as the AmNat deVries-Caswell equation :-) 
 
 \newpage
-\end{landscape}
+
 
 
 \subsection*{Simplification: when how-you-were-produced does not affect your demographic rates}
