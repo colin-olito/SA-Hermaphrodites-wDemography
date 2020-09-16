@@ -148,31 +148,31 @@ FunnelPlots  <-  function(df1, df2, df3, df4) {
 # Extract plotting parameter values from df names
     d1   <-  strsplit(df1, '_')[[1]][5:8]
     parsA  <-  list(
-                    "hf"  =  as.numeric(strsplit(d1[1],'f')[[1]][2]),
-                    "hm"  =  as.numeric(strsplit(d1[2],'m')[[1]][2]),
-                    "C"  =  as.numeric(strsplit(d1[3],'C')[[1]][2]),
+                    "hf"     =  as.numeric(strsplit(d1[1],'f')[[1]][2]),
+                    "hm"     =  as.numeric(strsplit(d1[2],'m')[[1]][2]),
+                    "C"      =  as.numeric(strsplit(d1[3],'C')[[1]][2]),
                     "delta"  =  as.numeric(strsplit(d1[4],'a')[[1]][2])
                     )
     d2   <-  strsplit(df2, '_')[[1]][5:8]
     parsB  <-  list(
-                    "hf"  =  as.numeric(strsplit(d2[1],'f')[[1]][2]),
-                    "hm"  =  as.numeric(strsplit(d2[2],'m')[[1]][2]),
-                    "C"  =  as.numeric(strsplit(d2[3],'C')[[1]][2]),
-                    "delta"  =  as.numeric(strsplit(d2[4],'a')[[1]][2])
+                    "hf"     =  as.numeric(strsplit(d1[1],'f')[[1]][2]),
+                    "hm"     =  as.numeric(strsplit(d1[2],'m')[[1]][2]),
+                    "C"      =  as.numeric(strsplit(d1[3],'C')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d1[4],'a')[[1]][2])
                     )
     d3   <-  strsplit(df3, '_')[[1]][5:8]
     parsC  <-  list(
-                    "hf"  =  as.numeric(strsplit(d3[1],'f')[[1]][2]),
-                    "hm"  =  as.numeric(strsplit(d3[2],'m')[[1]][2]),
-                    "C"  =  as.numeric(strsplit(d3[3],'C')[[1]][2]),
-                    "delta"  =  as.numeric(strsplit(d3[4],'a')[[1]][2])
+                    "hf"     =  as.numeric(strsplit(d1[1],'f')[[1]][2]),
+                    "hm"     =  as.numeric(strsplit(d1[2],'m')[[1]][2]),
+                    "C"      =  as.numeric(strsplit(d1[3],'C')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d1[4],'a')[[1]][2])
                     )
     d4   <-  strsplit(df4, '_')[[1]][5:8]
     parsD  <-  list(
-                    "hf"  =  as.numeric(strsplit(d4[1],'f')[[1]][2]),
-                    "hm"  =  as.numeric(strsplit(d4[2],'m')[[1]][2]),
-                    "C"  =  as.numeric(strsplit(d4[3],'C')[[1]][2]),
-                    "delta"  =  as.numeric(strsplit(d4[4],'a')[[1]][2])
+                    "hf"     =  as.numeric(strsplit(d1[1],'f')[[1]][2]),
+                    "hm"     =  as.numeric(strsplit(d1[2],'m')[[1]][2]),
+                    "C"      =  as.numeric(strsplit(d1[3],'C')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d1[4],'a')[[1]][2])
                     )
 
 # Import data sets

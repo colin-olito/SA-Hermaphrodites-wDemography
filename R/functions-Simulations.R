@@ -28,6 +28,24 @@ popGen_a_invade  <-  function(hf, hm, sm, C) {
 	(sm*(1 - C)*(2 - C+2*hm*(C - 1))) / ((C + 1)*(2*hf*(C - 1) - C)*(sm - 1))
 }
 
+
+###########################
+#' Calculate proportion of sf x sm parameter space 
+#' that is polymorphic by numerically integrating
+#' invasion conditions
+#' 
+popGen_PolySpace  <-  function(hf, hm, C, sMax) {
+	sms        <-  seq(0,sMax, length=10000)
+	test_ainv  <-  popGen_a_invade(hf=hf, hm=hm, sm=sms, C=C)
+	smCrit     <-  max(sms[test_ainv <= sMax])
+	ainv       <-  function(x){(x*(1 - C)*(2 - C+2*hm*(C - 1))) / ((C + 1)*(2*hf*(C - 1) - C)*(x - 1))}
+	Ainv       <-  function(x){(x*(C - 1)*(2*hm*(C - 1) - C)) / (x*(C - 1)*(2*hm*(C - 1) - C) + (C + 1)*(2 - C + 2*hf*(C - 1)))}
+	part1      <-  integrate(ainv, lower=0, upper=smCrit)$value - integrate(Ainv, lower=0, upper=smCrit)$value
+	part2      <-  ((sMax - smCrit)*sMax) - integrate(Ainv, lower=smCrit, upper=sMax)$value
+	polySpace  <-  (part1 + part2)/sMax^2
+	return(polySpace)
+}
+
 ###########################################
 #' 1-locus Pop Gen Equilibrium Frequencies
 #' Conditions
@@ -93,7 +111,7 @@ calcZeta  <-  function(om, Fii, Fii_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, la
 #########################
 ##  Calculate Atilde[ntilde] for 
 ##  boundary conditions
-AtildeBound  <-  function(nBound, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, HS, HX, K, blkFS,blkFX) {
+AtildeBound  <-  function(nBound, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, Ig, HS, HX, K, Z, blkFS, blkFX) {
 
         #Creating the male gamete pool
         nX    <-  nBound[1:6] + nBound[7:12]
@@ -147,9 +165,12 @@ AtildeBound  <-  function(nBound, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, HS
 #'
 #' Parameters:
 #' dims: 	vector c(om, g), with om = # stages, g = # genotypes
-#' theta: 	vector of length 7, c(sigmaS_J, sigmaS_A, sigmaX_J, sigmaX_A, gammaS, gammaX, f_ii)
-fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05, 0.05, 5.9), theta_prime = c(0.6, 0.6, 0.6, 0.6, 0.05, 0.05, 5.9), 
-								hf = 1/2, hm = 1/2, sf = 0.1, sm = 0.105, C = 0, delta = 0, tlimit = 10^4, Ainvade = FALSE, intInit = FALSE, ...) {
+#' theta: 	vector of length 4 (but actually becomes vector of length 7), c(sigmaS_J, sigmaS_A, sigmaX_J, sigmaX_A, gammaS, gammaX, f_ii)
+#' theta: 	vector of length 7, c(sigmaS_J, sigmaS_A, gammaS, sigmaX_J, sigmaX_A, gammaX, f_ii)
+fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_prime = c(0.6, 0.6, 0.6, 0.6, 0.05, 0.05, 5.9), 
+								hf = 1/2, hm = 1/2, sf = 0.1, sm = 0.105, C = 0, delta = 0, 
+								delta_j = 0, delta_a = 0, delta_gamma = 0,
+								tlimit = 10^4, Ainvade = FALSE, intInit = FALSE, ...) {
 
 	# Create identity and ones matrices
 	Ig   <-  diag(g)
@@ -163,10 +184,17 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05
 	####################################################
 
 	# BASELINE PARAMETERS for survival and 
-	# fertility through Female and Male function
-	# theta=[sigmaS_J, sigmaS_A, sigmaX_J, sigmaX_A, gammaS, gammaX, f_ii]
-	theta       <-  rep.col(theta,3)
-	theta_prime <- rep.col(theta_prime,3)
+	# fertility through Female and Male function, depending on whether individuals
+	# are produce by selfing or outcrossing
+	# theta=[sigmaS_J, sigmaS_A, gammaS, sigmaX_J, sigmaX_A, gammaX, f_ii]
+	# Late-acting inbreeding depression
+	theta        <-  c(0,0,0, theta)
+	theta[1]     <-  theta[4]*(1 - delta_j)
+	theta[2]     <-  theta[5]*(1 - delta_a)
+	theta[3]     <-  theta[6]*(1 - delta_gamma)
+	theta        <-  rep.col(theta,3)
+	theta_prime  <-  rep.col(theta_prime,3)
+	theta_prime  <-  rep.col(theta_prime,3)
 
 	# Fitness Expressions
 	fii        <-  c(1, 1 - hf*sf, 1 - sf)
@@ -202,9 +230,9 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05
 
 	sigmaS_J   <-  theta[1,]
 	sigmaS_A   <-  theta[2,]
-	sigmaX_J   <-  theta[3,]
-	sigmaX_A   <-  theta[4,]
-	gammaS     <-  theta[5,]
+	gammaS     <-  theta[3,]
+	sigmaX_J   <-  theta[4,]
+	sigmaX_A   <-  theta[5,]
 	gammaX     <-  theta[6,]
 	f          <-  theta[7,]
 	f_prime    <-  theta_prime[7,]
@@ -373,8 +401,8 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05
 			pHat_aa    <-  pBoundaa[c(1,2,7,8,3,4,9,10,5,6,11,12)]
 			
 			# calculate Atilde[ptilde]
-			testAtilde_AA  <-  AtildeBound(nBound=pBoundAA, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, HS=HS, HX=HX, K=K, blkFS=blkFS,blkFX=blkFX)
-			testAtilde_aa  <-  AtildeBound(nBound=pBoundaa, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, HS=HS, HX=HX, K=K, blkFS=blkFS,blkFX=blkFX)
+			testAtilde_AA  <-  AtildeBound(nBound=pBoundAA, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
+			testAtilde_aa  <-  AtildeBound(nBound=pBoundaa, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
 			
 			# Calculate a naive genotype-specific eigenvalue for comparison
 			# note, that this gives the same value for lambda_i as we get 
@@ -427,6 +455,9 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05
 					"sm"           =  sm,
 					"C"            =  C,
 					"delta"        =  delta,
+					"delta_j"      =  delta_j,
+					"delta_a"      =  delta_a,
+					"delta_gamma"  =  delta_gamma,
 					"tlimit"       =  tlimit,
 					"Ainvade"      =  Ainvade,
 					"intInit"      =  intInit,
@@ -438,7 +469,6 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05
 
 }
 
-
 ##############################
 #' Loop over selection space 
 #'
@@ -448,7 +478,9 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.58, 0.6, 0.6, 0.6, 0.05
 #' selPars:	vector of length 4, c(hf, hm, sf, sm,)
 selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 					  om = 2, g = 3, theta = c(0.6,0.6,0.05,6.1), theta_prime = c(0.6,0.6,0.05,6.1), 
-					  hf = 1/2, hm = 1/2, C = 0, delta = 0, tlimit = 10^5, intInit = FALSE, returnRes=FALSE) {
+					  hf = 1/2, hm = 1/2, C = 0, delta = 0, 
+					  delta_j = 0, delta_a = 0, delta_gamma = 0,
+					  tlimit = 10^5, intInit = FALSE, writeFile=TRUE, progBar = TRUE, ...) {
 	
 	sfs           <-  runif(min = 0, max=sMax, n=nSamples)
 	sms           <-  runif(min = 0, max=sMax, n=nSamples)
@@ -473,8 +505,9 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 			}
 
 			results  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
-							hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, delta = delta, tlimit = 10^5, 
-							Ainvade = Ainvade, intInit = intInit)
+										hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, delta = delta, 
+										delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+										tlimit = 10^5, Ainvade = Ainvade, intInit = intInit)
 			intInit  <-  FALSE
 			extinct[i]       <-  results$extinct
 			polymorphism[i]  <-  results$polymorphism
@@ -482,7 +515,9 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 			zeta_i[i,]       <-  results$zeta_i
 			lambda_i[i,]     <-  results$lambda_full
 
-		cat('\r', paste(100*(i/nSamples),'% Complete'))
+		if(progBar){
+			cat('\r', paste(100*(i/nSamples),'% Complete'))
+		}
 
 	}
 
@@ -523,12 +558,96 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 								)
 
 	# export data as .csv to ./output/data
-	filename <-  paste("./output/simData/demSimsSfxSm_MinorEqAlleleInv", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, "_C", C, "_delta", delta, ".csv", sep="")
+	if(writeFile) {
+			filename <-  paste("./output/simData/demSimsSfxSm", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, 
+							"_C", C, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, ".csv", sep="")
+			write.csv(results.df, file=filename, row.names = FALSE)
+	} else{
+			return(results.df)
+	}
+
+}
+
+
+
+
+
+
+##############################
+#' Quantify proportion of polymorphic AND/OR demographically viable
+#' Parameter space for different Selfing rates & dominance
+#'
+polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
+									 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+									 hf = 1/2, hm = 1/2, C = 0, delta = 0, 
+									 delta_j = 0, delta_a = 0, delta_gamma = 0,
+									 tlimit = 10^5) {
+	
+	Cs             <-  seq(0,0.9, by=0.1)
+	extinct        <-  c()
+	popGenPoly     <-  c()
+	simPoly        <-  c()
+	simPolyViable  <-  c()
+	simAFix        <-  c()
+	simAFixViable  <-  c()
+	simaFix        <-  c()
+	simaFixViable  <-  c()
+	eigPoly        <-  c()
+	eigPolyViable  <-  c()
+	eigAFix        <-  c()
+	eigAFixViable  <-  c()
+	eigaFix        <-  c()
+	eigaFixViable  <-  c()
+	for(i in 1:length(Cs)) {
+		res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+						 om = om, g = g, theta = theta, theta_prime = theta_prime, 
+						 hf = hf, hm = hm, C = Cs[i], delta = delta,
+						 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+						 tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+	
+		# Calculate & store results for plotting
+		extinct[i]        <-  sum(res$extinct)/nSamples
+		popGenPoly[i]     <-  popGen_PolySpace(hf=hf, hm=hm, C=Cs[i], sMax=sMax)
+		simPoly[i]        <-  sum(res$poly)/nSamples
+		simPolyViable[i]  <-  simPoly[i] - sum(res$extinct == 1 & res$poly == 1)/nSamples
+		simAFix[i]        <-  sum(res$poly == 0 & round(res$Eq_pAA) == 1)/nSamples
+		simAFixViable[i]  <-  simAFix[i] - sum(res$extinct[res$poly == 0 & round(res$Eq_pAA) == 1])/nSamples
+		simaFix[i]        <-  sum(res$poly == 0 & round(res$Eq_paa) == 1)/nSamples
+		simaFixViable[i]  <-  simaFix[i] - sum(res$extinct[res$poly == 0 & round(res$Eq_paa) == 1])/nSamples
+		eigPoly [i]       <-  sum(res$zeta_AA > 1 & res$zeta_aa > 1)/nSamples
+		eigPolyViable[i]  <-  eigPoly[i] - sum(res$extinct == 1 & res$zeta_AA > 1 & res$zeta_aa > 1)/nSamples
+		eigAFix[i]        <-  sum(res$zeta_AA > 1 & res$zeta_aa < 1)/nSamples
+		eigAFixViable[i]  <-  eigAFix[i] - sum(res$extinct[res$poly == 0 & res$zeta_AA > 1 & res$zeta_aa < 1])/nSamples
+		eigaFix[i]        <-  sum(res$zeta_AA < 1 & res$zeta_aa > 1)/nSamples
+		eigaFixViable[i]  <-  eigaFix[i] - sum(res$extinct[res$poly == 0 & res$zeta_AA < 1 & res$zeta_aa > 1])/nSamples
+	
+		cat('\r', paste(100*(i/length(Cs)),'% Complete'))
+	}
+
+	# compile results as data frame
+	results.df  <-  as.data.frame(cbind(Cs, 
+										extinct,
+										popGenPoly,
+										simPoly,
+										simPolyViable,
+										simAFix,
+										simAFixViable,
+										simaFix,
+										simaFixViable,
+										eigPoly,
+										eigPolyViable,
+										eigAFix,
+										eigAFixViable,
+										eigaFix,
+										eigaFixViable
+										)
+								 )
+
+	# Export data as .csv to ./output/data
+	filename <-  paste("./output/simData/simPolySpace", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, 
+					   "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, "_f", theta[4], ".csv", sep="")
 	write.csv(results.df, file=filename, row.names = FALSE)
 
-	if(returnRes) {
-		return(results.df)
-	}
 }
 
 
