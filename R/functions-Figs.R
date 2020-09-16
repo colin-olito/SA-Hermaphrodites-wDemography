@@ -2,8 +2,8 @@
 # DEPENDENCIES
 ###############
 library(extrafont)
-library(fontcm)
 loadfonts(quiet = TRUE)
+library(fontcm)
 library(plyr)
 library(lattice)
 library(latticeExtra)
@@ -189,7 +189,7 @@ FunnelPlots  <-  function(df1, df2, df3, df4) {
                     "AFix"     =  transparentColor('dodgerblue2', opacity=0.6),
                     "extinct"  =  transparentColor('red', opacity=0.7)
                 )
-#  Create vector of male selection coefficiets for invasion functions
+#  Create vector of male selection coefficients for invasion functions
 smLine  <-  seq(0,0.15,length=100)
 
 # Set plot layout
@@ -357,12 +357,6 @@ legend(#"topright",inset=c(-0.2,0),
 
 
 
-
-
-
-
-
-
 #' Figs showing Kidwell Funnel plots with simulation results
 #' and 1-locus pop. gen. invasion conditions
 FunnelEigSimCompare  <-  function(df1, df2, df3, df4) {
@@ -417,7 +411,7 @@ FunnelEigSimCompare  <-  function(df1, df2, df3, df4) {
                     "eig"      =  transparentColor('dodgerblue2', opacity=0.6),
                     "extinct"  =  transparentColor('red', opacity=0.7)
                 )
-#  Create vector of male selection coefficiets for invasion functions
+#  Create vector of male selection coefficients for invasion functions
     smLine  <-  seq(0,0.15,length=100)
 
 # Set plot layout
@@ -559,4 +553,185 @@ legend(#"topright",inset=c(-0.2,0),
         proportionalLabel(0.03, 1.075, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
 
+}
+
+
+
+#' Fig showing Proportion of polymorphic parameter space
+#' 
+polySpaceFig  <-  function(df1, df2, df3, df4, df5, df6) {
+
+# Make filenames for import from df names
+    fName1  <-  paste('./output/simData/', df1, '.csv', sep="")
+    fName2  <-  paste('./output/simData/', df2, '.csv', sep="")
+    fName3  <-  paste('./output/simData/', df3, '.csv', sep="")
+    fName4  <-  paste('./output/simData/', df4, '.csv', sep="")
+    fName5  <-  paste('./output/simData/', df5, '.csv', sep="")
+    fName6  <-  paste('./output/simData/', df6, '.csv', sep="")
+
+# Extract plotting parameter values from df names
+    d1   <-  strsplit(df1, '_')[[1]][c(2,4:10)]
+    pars1  <-  list(
+                    "sMax"   =  as.numeric(strsplit(d1[1],'x')[[1]][2]),
+                    "hf"     =  as.numeric(strsplit(d1[2],'f')[[1]][2]),
+                    "hm"     =  as.numeric(strsplit(d1[3],'m')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d1[4],'a')[[1]][2]),
+                    "dj"     =  as.numeric(strsplit(d1[5],'j')[[1]][2]),
+                    "da"     =  as.numeric(strsplit(d1[6],'a')[[1]][2]),
+                    "dg"     =  as.numeric(strsplit(d1[7],'g')[[1]][2]),
+                    "f"      =  as.numeric(strsplit(d1[8],'f')[[1]][2])
+                    )
+    d2   <-  strsplit(df2, '_')[[1]][c(2,4:10)]
+    pars2  <-  list(
+                    "sMax"   =  as.numeric(strsplit(d2[1],'x')[[1]][2]),
+                    "hf"     =  as.numeric(strsplit(d2[2],'f')[[1]][2]),
+                    "hm"     =  as.numeric(strsplit(d2[3],'m')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d2[4],'a')[[1]][2]),
+                    "dj"     =  as.numeric(strsplit(d2[5],'j')[[1]][2]),
+                    "da"     =  as.numeric(strsplit(d2[6],'a')[[1]][2]),
+                    "dg"     =  as.numeric(strsplit(d2[7],'g')[[1]][2]),
+                    "f"      =  as.numeric(strsplit(d2[8],'f')[[1]][2])
+                    )
+    d3   <-  strsplit(df3, '_')[[1]][c(2,4:10)]
+    pars3  <-  list(
+                    "sMax"   =  as.numeric(strsplit(d3[1],'x')[[1]][2]),
+                    "hf"     =  as.numeric(strsplit(d3[2],'f')[[1]][2]),
+                    "hm"     =  as.numeric(strsplit(d3[3],'m')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d3[4],'a')[[1]][2]),
+                    "dj"     =  as.numeric(strsplit(d3[5],'j')[[1]][2]),
+                    "da"     =  as.numeric(strsplit(d3[6],'a')[[1]][2]),
+                    "dg"     =  as.numeric(strsplit(d3[7],'g')[[1]][2]),
+                    "f"      =  as.numeric(strsplit(d3[8],'f')[[1]][2])
+                    )
+    d4   <-  strsplit(df4, '_')[[1]][c(2,4:10)]
+    pars4  <-  list(
+                    "sMax"   =  as.numeric(strsplit(d4[1],'x')[[1]][2]),
+                    "hf"     =  as.numeric(strsplit(d4[2],'f')[[1]][2]),
+                    "hm"     =  as.numeric(strsplit(d4[3],'m')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d4[4],'a')[[1]][2]),
+                    "dj"     =  as.numeric(strsplit(d4[5],'j')[[1]][2]),
+                    "da"     =  as.numeric(strsplit(d4[6],'a')[[1]][2]),
+                    "dg"     =  as.numeric(strsplit(d4[7],'g')[[1]][2]),
+                    "f"      =  as.numeric(strsplit(d4[8],'f')[[1]][2])
+                    )
+    d5   <-  strsplit(df5, '_')[[1]][c(2,4:10)]
+    pars5  <-  list(
+                    "sMax"   =  as.numeric(strsplit(d5[1],'x')[[1]][2]),
+                    "hf"     =  as.numeric(strsplit(d5[2],'f')[[1]][2]),
+                    "hm"     =  as.numeric(strsplit(d5[3],'m')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d5[4],'a')[[1]][2]),
+                    "dj"     =  as.numeric(strsplit(d5[5],'j')[[1]][2]),
+                    "da"     =  as.numeric(strsplit(d5[6],'a')[[1]][2]),
+                    "dg"     =  as.numeric(strsplit(d5[7],'g')[[1]][2]),
+                    "f"      =  as.numeric(strsplit(d5[8],'f')[[1]][2])
+                    )
+    d6   <-  strsplit(df6, '_')[[1]][c(2,4:10)]
+    pars6  <-  list(
+                    "sMax"   =  as.numeric(strsplit(d6[1],'x')[[1]][2]),
+                    "hf"     =  as.numeric(strsplit(d6[2],'f')[[1]][2]),
+                    "hm"     =  as.numeric(strsplit(d6[3],'m')[[1]][2]),
+                    "delta"  =  as.numeric(strsplit(d6[4],'a')[[1]][2]),
+                    "dj"     =  as.numeric(strsplit(d6[5],'j')[[1]][2]),
+                    "da"     =  as.numeric(strsplit(d6[6],'a')[[1]][2]),
+                    "dg"     =  as.numeric(strsplit(d6[7],'g')[[1]][2]),
+                    "f"      =  as.numeric(strsplit(d6[8],'f')[[1]][2])
+                    )
+
+# Import data sets
+    plt1  <-  read.csv(fName1, head=TRUE)
+    plt2  <-  read.csv(fName2, head=TRUE)
+#    plt3  <-  read.csv(fName3, head=TRUE)
+    plt4  <-  read.csv(fName4, head=TRUE)
+    plt5  <-  read.csv(fName5, head=TRUE)
+#    plt6  <-  read.csv(fName6, head=TRUE)
+
+# Color scheme
+    COLS  <-  list(
+                    "PG"   =  transparentColor('#252525', opacity=1),
+                    "low"  =  transparentColor('dodgerblue4', opacity=0.6),
+                    "med"  =  transparentColor('dodgerblue3', opacity=0.6),
+                    "hi"   =  transparentColor('dodgerblue', opacity=0.6),
+                    "low2"  =  transparentColor('dodgerblue4', opacity=1),
+                    "med2"  =  transparentColor('dodgerblue3', opacity=1),
+                    "hi2"   =  transparentColor('dodgerblue', opacity=1)                )
+#  Create vector of selfing rates for pop gen function.
+    CLine          <-  seq(0,0.9,length=100)
+    addPGSpace     <-  c()
+    domRevPGSpace  <-  c()
+    for(i in 1:length(CLine)) {
+        addPGSpace[i]     <-  popGen_PolySpace(hf=pars1$hf, hm=pars1$hm, C=CLine[i], sMax=pars1$sMax)
+        domRevPGSpace[i]  <-  popGen_PolySpace(hf=pars4$hf, hm=pars4$hm, C=CLine[i], sMax=pars4$sMax)
+    }
+
+# Set plot layout
+    layout.mat  <- matrix(c(1,2), nrow=2, ncol=1, byrow=TRUE)
+    layout      <- layout(layout.mat,respect=TRUE)
+
+    ##  Panel A: hf = hm = 1/2
+        # Make the plot
+        par(omi=rep(0.5, 4), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s')
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,max(plt2$Cs)), ylim = c(0,0.105), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        lines(addPGSpace ~ CLine, lwd=2, col=COLS$PG)
+        points(eigPolyViable ~ Cs, pch=21, bg=COLS$low, col=COLS$low2, data=plt1)
+        points(eigPolyViable ~ Cs, pch=21, bg=COLS$med, col=COLS$med2, data=plt2)
+#        points(eigPolyViable ~ Cs, pch=21, bg=COLS$hi, col=COLS$hi2, data=plt3)
+        # axes        
+        axis(1, las=1, labels=NA)
+        axis(2, las=1)
+        proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.1, substitute(paste(italic(h), " = ", hh), list(hh = pars2$hf)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.5, 1.1, expression(paste(italic(h), " = ", 1/2)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.3, 0.5, expression(paste("Proportion of parameter space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+        #Legend
+        legend( x       =  usr[2],
+                y       =  usr[4],
+                legend  =  c(
+                             expression(paste("Pop. Gen.")),
+                             substitute(paste("High fertility (", italic(f), " = ", hh, ")"), list(hh = pars3$f)),
+                             substitute(paste("Med. fertility (", italic(f), " = ", hh, ".0)"), list(hh = pars2$f)),
+                             substitute(paste("Low  fertility (", italic(f), " = ", hh, ")"), list(hh = pars1$f))),
+                 lty     =  c(1,NA,NA,NA),
+                 lwd     =  c(2,NA,NA,NA),
+                 col     =  c(COLS$PG,
+                              COLS$hi2,
+                              COLS$med2,
+                              COLS$low2),
+                 pch     =  c(NA,21,21,21),
+                 pt.bg   =  c(NA,
+                              COLS$hi,
+                              COLS$med,
+                              COLS$low),
+                 cex     =  0.75,
+                 pt.cex  =  0.75,
+                 xjust   =  1,
+                 yjust   =  1,
+                 bty     =  'n',
+                 border  =  NA)
+
+    ##  Panel B: hf = hm = 1/2
+        # Make the plot
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,max(plt5$Cs)), ylim = c(0,(max(plt5$popGenPoly)*1.05)), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        lines(domRevPGSpace ~ CLine, lwd=2, col=COLS$PG)
+        points(eigPolyViable ~ Cs, pch=21, bg=COLS$low, col=COLS$low2, data=plt4)
+        points(eigPolyViable ~ Cs, pch=21, bg=COLS$med, col=COLS$med2, data=plt5)
+#        points(eigPolyViable ~ Cs, pch=21, bg=COLS$hi, col=COLS$hi2, data=plt6)
+        # axes        
+        axis(1, las=1)
+        axis(2, las=1)
+        proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.1, substitute(paste(italic(h), " = ", hh), list(hh = pars5$hf)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.5, 1.1, expression(paste(italic(h), " = ", 1/4)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.5, -0.3, expression(paste("Selfing rate (",italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.3, 0.5, expression(paste("Proportion of parameter space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
 }
