@@ -276,6 +276,24 @@ source('R/functions-Simulations.R')
 ## Plots showing effects of early- vs. late-
 ## acting inbreeding depression
 
+	# Intermediate Selfing
+	# C = 1/2
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  1/4,
+					"C"      =  1/2,
+					"delta"  =  0.1,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+	selLoop(sMax = 0.15, nSamples=1000,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
 
 ############################################
 ## Plots showing change in polymorphic
@@ -294,7 +312,7 @@ source('R/functions-Simulations.R')
 					"da"     =  0,
 					"dg"     =  0
 					)
-	polyParamSpaceMakeData( sMax = 0.15, nSamples=1000,
+	polyParamSpaceMakeData( sMax = 0.15, nSamples=5000,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
 							hf = pars$hf, hm = pars$hm, delta = pars$delta, 
 							delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
@@ -319,7 +337,7 @@ source('R/functions-Simulations.R')
 							tlimit = 10^5)
 
 
-## "Poor viability" (f = 5.75)
+## "Poor viability" (f = 5.8)
 ## Additive SA Fitness
 ## hf = hm = 1/2
 
@@ -331,8 +349,8 @@ source('R/functions-Simulations.R')
 					"da"     =  0,
 					"dg"     =  0
 					)
-	polyParamSpaceMakeData( sMax = 0.15, nSamples=1000,
-							om = 2, g = 3, theta = c(0.6,0.6,0.05,5.75), theta_prime = c(0.6,0.6,0.05,5.75), 
+	polyParamSpaceMakeData( sMax = 0.15, nSamples=5000,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = c(0.6,0.6,0.05,5.8), 
 							hf = pars$hf, hm = pars$hm, delta = pars$delta, 
 							delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 							tlimit = 10^5)
@@ -350,7 +368,7 @@ source('R/functions-Simulations.R')
 					"dg"     =  0
 					)
 	polyParamSpaceMakeData( sMax = 0.15, nSamples=1000,
-							om = 2, g = 3, theta = c(0.6,0.6,0.05,5.75), theta_prime = c(0.6,0.6,0.05,5.75), 
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = c(0.6,0.6,0.05,5.75), 
 							hf = pars$hf, hm = pars$hm, delta = pars$delta, 
 							delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 							tlimit = 10^5)
@@ -368,7 +386,7 @@ source('R/functions-Simulations.R')
 					"da"     =  0,
 					"dg"     =  0
 					)
-	polyParamSpaceMakeData( sMax = 0.15, nSamples=1000,
+	polyParamSpaceMakeData( sMax = 0.15, nSamples=5000,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
 							hf = pars$hf, hm = pars$hm, delta = pars$delta, 
 							delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 

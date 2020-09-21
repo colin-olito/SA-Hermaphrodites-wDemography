@@ -640,20 +640,20 @@ polySpaceFig  <-  function(df1, df2, df3, df4, df5, df6) {
 # Import data sets
     plt1  <-  read.csv(fName1, head=TRUE)
     plt2  <-  read.csv(fName2, head=TRUE)
-#    plt3  <-  read.csv(fName3, head=TRUE)
+    plt3  <-  read.csv(fName3, head=TRUE)
     plt4  <-  read.csv(fName4, head=TRUE)
     plt5  <-  read.csv(fName5, head=TRUE)
-#    plt6  <-  read.csv(fName6, head=TRUE)
+    plt6  <-  read.csv(fName6, head=TRUE)
 
 # Color scheme
     COLS  <-  list(
                     "PG"   =  transparentColor('#252525', opacity=1),
                     "low"  =  transparentColor('dodgerblue4', opacity=0.6),
-                    "med"  =  transparentColor('dodgerblue3', opacity=0.6),
-                    "hi"   =  transparentColor('dodgerblue', opacity=0.6),
+                    "med"  =  transparentColor('darkolivegreen4', opacity=0.6),
+                    "hi"   =  transparentColor('tomato', opacity=0.6),
                     "low2"  =  transparentColor('dodgerblue4', opacity=1),
-                    "med2"  =  transparentColor('dodgerblue3', opacity=1),
-                    "hi2"   =  transparentColor('dodgerblue', opacity=1)                )
+                    "med2"  =  transparentColor('darkolivegreen4', opacity=1),
+                    "hi2"   =  transparentColor('tomato', opacity=1)                )
 #  Create vector of selfing rates for pop gen function.
     CLine          <-  seq(0,0.9,length=100)
     addPGSpace     <-  c()
@@ -679,7 +679,7 @@ polySpaceFig  <-  function(df1, df2, df3, df4, df5, df6) {
         lines(addPGSpace ~ CLine, lwd=2, col=COLS$PG)
         points(eigPolyViable ~ Cs, pch=21, bg=COLS$low, col=COLS$low2, data=plt1)
         points(eigPolyViable ~ Cs, pch=21, bg=COLS$med, col=COLS$med2, data=plt2)
-#        points(eigPolyViable ~ Cs, pch=21, bg=COLS$hi, col=COLS$hi2, data=plt3)
+        points(eigPolyViable ~ Cs, pch=21, bg=COLS$hi, col=COLS$hi2, data=plt3)
         # axes        
         axis(1, las=1, labels=NA)
         axis(2, las=1)
@@ -725,7 +725,7 @@ polySpaceFig  <-  function(df1, df2, df3, df4, df5, df6) {
         lines(domRevPGSpace ~ CLine, lwd=2, col=COLS$PG)
         points(eigPolyViable ~ Cs, pch=21, bg=COLS$low, col=COLS$low2, data=plt4)
         points(eigPolyViable ~ Cs, pch=21, bg=COLS$med, col=COLS$med2, data=plt5)
-#        points(eigPolyViable ~ Cs, pch=21, bg=COLS$hi, col=COLS$hi2, data=plt6)
+        points(eigPolyViable ~ Cs, pch=21, bg=COLS$hi, col=COLS$hi2, data=plt6)
         # axes        
         axis(1, las=1)
         axis(2, las=1)
