@@ -58,3 +58,7 @@ rep.row<-function(x,n){
 rep.col<-function(x,n){
   matrix(rep(x,each=n), ncol=n, byrow=TRUE)
 }
+
+squashIm <- function(x) {
+	if (all(Im(z <- zapsmall(x))==0)) as.numeric(z) else x
+}

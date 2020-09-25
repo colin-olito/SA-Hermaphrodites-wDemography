@@ -282,19 +282,242 @@ source('R/functions-Simulations.R')
 					"hf"     =  1/4,
 					"hm"     =  1/4,
 					"C"      =  1/2,
-					"delta"  =  0.1,
+					"delta"  =  0,
 					"dj"     =  0,
 					"da"     =  0,
 					"dg"     =  0
 					)
 
-	selLoop(sMax = 0.15, nSamples=1000,
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$delta  =  0.2
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$delta  =  0.21
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$delta  =  0.22
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$delta  =  0.25
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$delta  =  0.275
+
+	selLoop(sMax = 0.15, nSamples=100,
 			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
 
 
+
+	pars$delta  =  0
+	pars$dj     =  0.1
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$dj     =  0.11
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$dj     =  0.12
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$dj     =  0.13
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+
+	pars$dj  =  0
+	pars$da  =  0.1
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$da     =  0.11
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$da     =  0.12
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$da     =  0.13
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$da  =  0
+	pars$dg  =  0.2
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$dg     =  0.22
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$dg     =  0.24
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	pars$dg     =  0.26
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, writeFile = TRUE)
+
+	# Low Selfing
+	# C = 1/4
+	# Additive
+	pars  <-  list(
+					"hf"     =  1/2,
+					"hm"     =  1/2,
+					"C"      =  1/4
+					)
+
+	deltaParamSpaceMakeData(sMax = 0.15, nSamples=1000,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+							hf = pars$hf, hm = pars$hm, C = pars$C,
+							tlimit = 10^5)
+
+	# Intermediate Selfing
+	# C = 1/2
+	# Dominance Reversal
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  1/4,
+					"C"      =  1/4
+					)
+
+	deltaParamSpaceMakeData(sMax = 0.15, nSamples=1000,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+							hf = pars$hf, hm = pars$hm, C = pars$C,
+							tlimit = 10^5)
+								# Intermediate Selfing
+	# C = 1/2
+	# Additive
+	pars  <-  list(
+					"hf"     =  1/2,
+					"hm"     =  1/2,
+					"C"      =  1/2
+					)
+
+	deltaParamSpaceMakeData(sMax = 0.15, nSamples=1000,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+							hf = pars$hf, hm = pars$hm, C = pars$C,
+							tlimit = 10^5)
+
+	# Intermediate Selfing
+	# C = 1/2
+	# Dominance Reversal
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  1/4,
+					"C"      =  1/2
+					)
+
+	deltaParamSpaceMakeData(sMax = 0.15, nSamples=1000,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+							hf = pars$hf, hm = pars$hm, C = pars$C,
+							tlimit = 10^5)
+
+
+	# C = 3/4
+	# Additive
+	pars  <-  list(
+					"hf"     =  1/2,
+					"hm"     =  1/2,
+					"C"      =  3/4
+					)
+
+	deltaParamSpaceMakeData(sMax = 0.15, nSamples=1000,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+							hf = pars$hf, hm = pars$hm, C = pars$C,
+							tlimit = 10^5)
+
+	# Intermediate Selfing
+	# C = 1/2
+	# Dominance Reversal
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  1/4,
+					"C"      =  3/4
+					)
+
+	deltaParamSpaceMakeData(sMax = 0.15, nSamples=1000,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+							hf = pars$hf, hm = pars$hm, C = pars$C,
+							tlimit = 10^5)
 ############################################
 ## Plots showing change in polymorphic
 ## pararmeter space as a function of the

@@ -47,11 +47,6 @@ embed_fonts(figPath(name='Funnel_Compare_Eig_Sim.pdf'))
 
 
 
-
-
-
-
-
 toPdf(polySpaceFig(df1 = "simPolySpace_sMax0.15_nSamples5000_hf0.5_hm0.5_delta0_dj0_da0_dg0_f5.8",
 				   df2 = "simPolySpace_sMax0.15_nSamples5000_hf0.5_hm0.5_delta0_dj0_da0_dg0_f6",
 				   df3 = "simPolySpace_sMax0.15_nSamples5000_hf0.5_hm0.5_delta0_dj0_da0_dg0_f6.5",
@@ -60,3 +55,16 @@ toPdf(polySpaceFig(df1 = "simPolySpace_sMax0.15_nSamples5000_hf0.5_hm0.5_delta0_
 				   df6 = "simPolySpace_sMax0.15_nSamples1000_hf0.25_hm0.25_delta0_dj0_da0_dg0_f6.5"), 
 			figPath(name='polymorphicSpace.pdf'), width=5, height=7)
 embed_fonts(figPath(name='polymorphicSpace.pdf'))
+
+
+
+
+toPdf(deltaEffectsPolySpaceFig(
+			df1 = "deltaSimPolySpace_sMax0.15_nSamples1000_C0.25_hf0.5_hm0.5_f6.5",
+			df2 = "deltaSimPolySpace_sMax0.15_nSamples1000_C0.5_hf0.5_hm0.5_f6.5",
+			df3 = "deltaSimPolySpace_sMax0.15_nSamples1000_C0.75_hf0.5_hm0.5_f6.5",
+			df4 = "deltaSimPolySpace_sMax0.15_nSamples1000_C0.25_hf0.25_hm0.25_f6.5",
+			df5 = "deltaSimPolySpace_sMax0.15_nSamples1000_C0.5_hf0.25_hm0.25_f6.5",
+			df6 = "deltaSimPolySpace_sMax0.15_nSamples1000_C0.75_hf0.25_hm0.25_f6.5"),
+			figPath(name='deltaPolySpace.pdf'), width=7, height=5)
+embed_fonts(figPath(name='deltaPolySpace.pdf'))
