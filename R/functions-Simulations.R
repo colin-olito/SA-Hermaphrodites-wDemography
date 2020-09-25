@@ -19,8 +19,6 @@ source('R/functions-MatModels.R')
 #' 1-locus Pop Gen Invasion
 #' Conditions
 #' 
-#' Parameters:
-#' 
 popGen_A_invade  <-  function(hf, hm, sm, C) {
 	(sm*(C - 1)*(2*hm*(C - 1) - C)) / (sm*(C - 1)*(2*hm*(C - 1) - C) + (C + 1)*(2 - C + 2*hf*(C - 1)))
 }
@@ -106,8 +104,6 @@ popGen_PolySpace_Delta_DomRev  <-  function(C, delta, sMax) {
 #' 1-locus Pop Gen Equilibrium Frequencies
 #' Conditions
 #' 
-#' Parameters:
-#' 
 popGen_qHat_Add  <-  function(sf, sm, C) {
 	qHat  <-  (sf*(1 + C) - sm*(1 - sf)*(1 - C)) / (2*sm*sf)
 	if(qHat < 0) {
@@ -129,6 +125,28 @@ popGen_qHat_DomRev  <-  function(h, sf, sm, C) {
 	qHat
 }
 
+#############################################
+#' Heuristic inbreeding depression functions
+#' (see Olito & Connallon 2019, Appendix E)
+#' 
+#' Parameters
+#' a: 	shape parameter determiing curvature of the line. 
+#' 		Linear when a = 1, concave up when a < 1, concave
+#' 		downward when a > 1
+#' C:	Selfing rate
+Load  <-  function(a, C) {
+	a*(1 - C)/(C + a(1 - C))
+}
+#' Parameters
+#' dStar:	Hypothetical severity of inbreeding depression in 
+#' 			obligately outcrossing population 
+#' b:		shape parameter determining how far delta will 
+#' 			decline under complete selfing (C = 1)
+#' a:		As above.
+#' C:		As above.
+predDelta  <-  function(dStar, b, a, C) {
+	dStar - dStar*b*(1 - Load(a = a, C = C))
+}
 
 ###########################################
 #' Eigenvalue Calculator for full demographic model
