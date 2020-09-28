@@ -80,7 +80,7 @@ popGen_PolySpace_Delta_Add  <-  function(C, delta, sMax) {
 
 popGen_PolySpace_Delta_DomRev  <-  function(C, delta, sMax) {
 	sms        <-  seq(0,sMax, length=10000)
-	test_ainv  <-  popGen_a_invade_Delta_DomRev(C=C, delta = delta, sm=sms)
+	test_ainv  <-  popGen_a_invade_Delta_DomRev(C=C, delta=delta, sm=sms)
 	smCrit     <-  max(sms[test_ainv <= sMax])
 	Ainv       <-  function(x){-((-6 - 4*C + 2*(C^2) - 4*x + C*x + 3*(C^2)*x + 16*C*delta + 7*C*x*delta - 7*(C^2)*x*delta - 
 	8*(C^2)*delta^2 + sqrt((-6 - 4*x + C*(-4 + x + 16*delta + 7*x*delta) + (C^2)*(2 + x*(3 - 7*delta) - 8*delta^2))^2 - 
@@ -135,7 +135,7 @@ popGen_qHat_DomRev  <-  function(h, sf, sm, C) {
 #' 		downward when a > 1
 #' C:	Selfing rate
 Load  <-  function(a, C) {
-	a*(1 - C)/(C + a(1 - C))
+	a*(1 - C)/(C + a*(1 - C))
 }
 #' Parameters
 #' dStar:	Hypothetical severity of inbreeding depression in 
@@ -144,7 +144,7 @@ Load  <-  function(a, C) {
 #' 			decline under complete selfing (C = 1)
 #' a:		As above.
 #' C:		As above.
-predDelta  <-  function(dStar, b, a, C) {
+predDelta  <-  function(dStar, b=1/2, a=0.2, C) {
 	dStar - dStar*b*(1 - Load(a = a, C = C))
 }
 
@@ -1002,3 +1002,279 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 
 }
 
+
+
+
+
+
+##############################
+#' Quantify proportion of polymorphic AND/OR demographically viable
+#' Parameter space for different Selfing rates & dominance
+#'
+deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
+											om = 2, g = 3, theta = c(0.6,0.6,0.05,7), theta_prime = c(0.6,0.6,0.05,7), 
+											hf = 1/2, hm = 1/2, dStar = 0.8, 
+											tlimit = 10^5) {
+	
+	if(hf == 1/2 & hm == 1/2) {
+		Cs        <-  seq(0, 0.9, by=0.05)
+	}
+	if(hf ==hm & hm < 1/2) {
+		Cs        <-  c(0.01, seq(0.05, 0.9, by=0.05))
+	}	
+	deltaSeq  <-  predDelta(dStar=dStar, b=1/2, a=0.2, C=Cs) 
+
+	d_extinct        <-  c()
+	d_popGenPoly     <-  c()
+	d_simPoly        <-  c()
+	d_simPolyViable  <-  c()
+	d_simAFix        <-  c()
+	d_simAFixViable  <-  c()
+	d_simaFix        <-  c()
+	d_simaFixViable  <-  c()
+	d_eigPoly        <-  c()
+	d_eigPolyViable  <-  c()
+	d_eigAFix        <-  c()
+	d_eigAFixViable  <-  c()
+	d_eigaFix        <-  c()
+	d_eigaFixViable  <-  c()
+	for(i in 1:length(deltaSeq)) {
+		d_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+							om = om, g = g, theta = theta, theta_prime = theta_prime, 
+							hf = hf, hm = hm, C = Cs[i], delta = deltaSeq[i],
+							delta_j = 0, delta_a = 0, delta_gamma = 0,
+							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+	
+		# Calculate & store results for plotting
+		d_extinct[i]        <-  sum(d_res$extinct)/nSamples
+		if(hf == hm & hm == 1/2) {
+			d_popGenPoly[i]     <-  popGen_PolySpace_Delta_Add(C=Cs[i], delta=deltaSeq[i], sMax=sMax)
+		}
+		if(hf == hm & hm != 1/2) {
+			d_popGenPoly[i]     <-  popGen_PolySpace_Delta_DomRev(C=Cs[i], delta=deltaSeq[i], sMax=sMax)
+		}
+		d_simPoly[i]        <-  sum(d_res$poly)/nSamples
+		d_simPolyViable[i]  <-  d_simPoly[i] - sum(d_res$extinct == 1 & d_res$poly == 1)/nSamples
+		d_simAFix[i]        <-  sum(d_res$poly == 0 & round(d_res$Eq_pAA) == 1)/nSamples
+		d_simAFixViable[i]  <-  d_simAFix[i] - sum(d_res$extinct[d_res$poly == 0 & round(d_res$Eq_pAA) == 1])/nSamples
+		d_simaFix[i]        <-  sum(d_res$poly == 0 & round(d_res$Eq_paa) == 1)/nSamples
+		d_simaFixViable[i]  <-  d_simaFix[i] - sum(d_res$extinct[d_res$poly == 0 & round(d_res$Eq_paa) == 1])/nSamples
+		d_eigPoly [i]       <-  sum(d_res$zeta_AA > 1 & d_res$zeta_aa > 1)/nSamples
+		d_eigPolyViable[i]  <-  d_eigPoly[i] - sum(d_res$extinct == 1 & d_res$zeta_AA > 1 & d_res$zeta_aa > 1)/nSamples
+		d_eigAFix[i]        <-  sum(d_res$zeta_AA > 1 & d_res$zeta_aa < 1)/nSamples
+		d_eigAFixViable[i]  <-  d_eigAFix[i] - sum(d_res$extinct[d_res$poly == 0 & d_res$zeta_AA > 1 & d_res$zeta_aa < 1])/nSamples
+		d_eigaFix[i]        <-  sum(d_res$zeta_AA < 1 & d_res$zeta_aa > 1)/nSamples
+		d_eigaFixViable[i]  <-  d_eigaFix[i] - sum(d_res$extinct[d_res$poly == 0 & d_res$zeta_AA < 1 & d_res$zeta_aa > 1])/nSamples
+	
+		cat('\r', paste("d gradient ", round(100*(i/length(deltaSeq))),'% Complete'))
+		flush.console()
+	}
+
+	d_j_extinct        <-  c()
+	d_j_popGenPoly     <-  c()
+	d_j_simPoly        <-  c()
+	d_j_simPolyViable  <-  c()
+	d_j_simAFix        <-  c()
+	d_j_simAFixViable  <-  c()
+	d_j_simaFix        <-  c()
+	d_j_simaFixViable  <-  c()
+	d_j_eigPoly        <-  c()
+	d_j_eigPolyViable  <-  c()
+	d_j_eigAFix        <-  c()
+	d_j_eigAFixViable  <-  c()
+	d_j_eigaFix        <-  c()
+	d_j_eigaFixViable  <-  c()
+	for(i in 1:length(deltaSeq)) {
+		d_j_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+							om = om, g = g, theta = theta, theta_prime = theta_prime, 
+							hf = hf, hm = hm, C = Cs[i], delta = 0,
+							delta_j = deltaSeq[i], delta_a = 0, delta_gamma = 0,
+							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+	
+		# Calculate & store results for plotting
+		d_j_extinct[i]        <-  sum(d_j_res$extinct)/nSamples
+		if(hf == hm & hm == 1/2) {
+			d_j_popGenPoly[i]     <-  popGen_PolySpace_Delta_Add(C=Cs[i], delta=deltaSeq[i], sMax=sMax)
+		}
+		if(hf == hm & hm != 1/2) {
+			d_j_popGenPoly[i]     <-  popGen_PolySpace_Delta_DomRev(C=Cs[i], delta=deltaSeq[i], sMax=sMax)
+		}
+		d_j_simPoly[i]        <-  sum(d_j_res$poly)/nSamples
+		d_j_simPolyViable[i]  <-  d_j_simPoly[i] - sum(d_j_res$extinct == 1 & d_j_res$poly == 1)/nSamples
+		d_j_simAFix[i]        <-  sum(d_j_res$poly == 0 & round(d_j_res$Eq_pAA) == 1)/nSamples
+		d_j_simAFixViable[i]  <-  d_j_simAFix[i] - sum(d_j_res$extinct[d_j_res$poly == 0 & round(d_j_res$Eq_pAA) == 1])/nSamples
+		d_j_simaFix[i]        <-  sum(d_j_res$poly == 0 & round(d_j_res$Eq_paa) == 1)/nSamples
+		d_j_simaFixViable[i]  <-  d_j_simaFix[i] - sum(d_j_res$extinct[d_j_res$poly == 0 & round(d_j_res$Eq_paa) == 1])/nSamples
+		d_j_eigPoly [i]       <-  sum(d_j_res$zeta_AA > 1 & d_j_res$zeta_aa > 1)/nSamples
+		d_j_eigPolyViable[i]  <-  d_j_eigPoly[i] - sum(d_j_res$extinct == 1 & d_j_res$zeta_AA > 1 & d_j_res$zeta_aa > 1)/nSamples
+		d_j_eigAFix[i]        <-  sum(d_j_res$zeta_AA > 1 & d_j_res$zeta_aa < 1)/nSamples
+		d_j_eigAFixViable[i]  <-  d_j_eigAFix[i] - sum(d_j_res$extinct[d_j_res$poly == 0 & d_j_res$zeta_AA > 1 & d_j_res$zeta_aa < 1])/nSamples
+		d_j_eigaFix[i]        <-  sum(d_j_res$zeta_AA < 1 & d_j_res$zeta_aa > 1)/nSamples
+		d_j_eigaFixViable[i]  <-  d_j_eigaFix[i] - sum(d_j_res$extinct[d_j_res$poly == 0 & d_j_res$zeta_AA < 1 & d_j_res$zeta_aa > 1])/nSamples
+	
+		cat('\r', paste("d_j gradient ", round(100*(i/length(deltaSeq))),'% Complete'))
+		flush.console()
+	}
+
+	d_a_extinct        <-  c()
+	d_a_popGenPoly     <-  c()
+	d_a_simPoly        <-  c()
+	d_a_simPolyViable  <-  c()
+	d_a_simAFix        <-  c()
+	d_a_simAFixViable  <-  c()
+	d_a_simaFix        <-  c()
+	d_a_simaFixViable  <-  c()
+	d_a_eigPoly        <-  c()
+	d_a_eigPolyViable  <-  c()
+	d_a_eigAFix        <-  c()
+	d_a_eigAFixViable  <-  c()
+	d_a_eigaFix        <-  c()
+	d_a_eigaFixViable  <-  c()
+	for(i in 1:length(deltaSeq)) {
+
+		d_a_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+							om = om, g = g, theta = theta, theta_prime = theta_prime, 
+							hf = hf, hm = hm, C = Cs[i], delta = 0,
+							delta_j = 0, delta_a = deltaSeq[i], delta_gamma = 0,
+							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+	
+		# Calculate & store results for plotting
+		d_a_extinct[i]        <-  sum(d_a_res$extinct)/nSamples
+		if(hf == hm & hm == 1/2) {
+			d_a_popGenPoly[i]     <-  popGen_PolySpace_Delta_Add(C=Cs[i], delta=deltaSeq[i], sMax=sMax)
+		}
+		if(hf == hm & hm != 1/2) {
+			d_a_popGenPoly[i]     <-  popGen_PolySpace_Delta_DomRev(C=Cs[i], delta=deltaSeq[i], sMax=sMax)
+		}
+		d_a_simPoly[i]        <-  sum(d_a_res$poly)/nSamples
+		d_a_simPolyViable[i]  <-  d_a_simPoly[i] - sum(d_a_res$extinct == 1 & d_a_res$poly == 1)/nSamples
+		d_a_simAFix[i]        <-  sum(d_a_res$poly == 0 & round(d_a_res$Eq_pAA) == 1)/nSamples
+		d_a_simAFixViable[i]  <-  d_a_simAFix[i] - sum(d_a_res$extinct[d_a_res$poly == 0 & round(d_a_res$Eq_pAA) == 1])/nSamples
+		d_a_simaFix[i]        <-  sum(d_a_res$poly == 0 & round(d_a_res$Eq_paa) == 1)/nSamples
+		d_a_simaFixViable[i]  <-  d_a_simaFix[i] - sum(d_a_res$extinct[d_a_res$poly == 0 & round(d_a_res$Eq_paa) == 1])/nSamples
+		d_a_eigPoly [i]       <-  sum(d_a_res$zeta_AA > 1 & d_a_res$zeta_aa > 1)/nSamples
+		d_a_eigPolyViable[i]  <-  d_a_eigPoly[i] - sum(d_a_res$extinct == 1 & d_a_res$zeta_AA > 1 & d_a_res$zeta_aa > 1)/nSamples
+		d_a_eigAFix[i]        <-  sum(d_a_res$zeta_AA > 1 & d_a_res$zeta_aa < 1)/nSamples
+		d_a_eigAFixViable[i]  <-  d_a_eigAFix[i] - sum(d_a_res$extinct[d_a_res$poly == 0 & d_a_res$zeta_AA > 1 & d_a_res$zeta_aa < 1])/nSamples
+		d_a_eigaFix[i]        <-  sum(d_a_res$zeta_AA < 1 & d_a_res$zeta_aa > 1)/nSamples
+		d_a_eigaFixViable[i]  <-  d_a_eigaFix[i] - sum(d_a_res$extinct[d_a_res$poly == 0 & d_a_res$zeta_AA < 1 & d_a_res$zeta_aa > 1])/nSamples
+	
+		cat('\r', paste("d_a gradient ", round(100*(i/length(deltaSeq))),'% Complete'))
+		flush.console()
+	}
+
+	d_g_extinct        <-  c()
+	d_g_popGenPoly     <-  c()
+	d_g_simPoly        <-  c()
+	d_g_simPolyViable  <-  c()
+	d_g_simAFix        <-  c()
+	d_g_simAFixViable  <-  c()
+	d_g_simaFix        <-  c()
+	d_g_simaFixViable  <-  c()
+	d_g_eigPoly        <-  c()
+	d_g_eigPolyViable  <-  c()
+	d_g_eigAFix        <-  c()
+	d_g_eigAFixViable  <-  c()
+	d_g_eigaFix        <-  c()
+	d_g_eigaFixViable  <-  c()
+	for(i in 1:length(deltaSeq)) {
+		d_g_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+							om = om, g = g, theta = theta, theta_prime = theta_prime, 
+							hf = hf, hm = hm, C = Cs[i], delta = 0,
+							delta_j = 0, delta_a = 0, delta_gamma = deltaSeq[i],
+							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+	
+		# Calculate & store results for plotting
+		d_g_extinct[i]        <-  sum(d_g_res$extinct)/nSamples
+		if(hf == hm & hm == 1/2) {
+			d_g_popGenPoly[i]     <-  popGen_PolySpace_Delta_Add(C=Cs[i], delta=deltaSeq[i], sMax=sMax)
+		}
+		if(hf == hm & hm != 1/2) {
+			d_g_popGenPoly[i]     <-  popGen_PolySpace_Delta_DomRev(C=Cs[i], delta=deltaSeq[i], sMax=sMax)
+		}
+		d_g_simPoly[i]        <-  sum(d_g_res$poly)/nSamples
+		d_g_simPolyViable[i]  <-  d_g_simPoly[i] - sum(d_g_res$extinct == 1 & d_g_res$poly == 1)/nSamples
+		d_g_simAFix[i]        <-  sum(d_g_res$poly == 0 & round(d_g_res$Eq_pAA) == 1)/nSamples
+		d_g_simAFixViable[i]  <-  d_g_simAFix[i] - sum(d_g_res$extinct[d_g_res$poly == 0 & round(d_g_res$Eq_pAA) == 1])/nSamples
+		d_g_simaFix[i]        <-  sum(d_g_res$poly == 0 & round(d_g_res$Eq_paa) == 1)/nSamples
+		d_g_simaFixViable[i]  <-  d_g_simaFix[i] - sum(d_g_res$extinct[d_g_res$poly == 0 & round(d_g_res$Eq_paa) == 1])/nSamples
+		d_g_eigPoly [i]       <-  sum(d_g_res$zeta_AA > 1 & d_g_res$zeta_aa > 1)/nSamples
+		d_g_eigPolyViable[i]  <-  d_g_eigPoly[i] - sum(d_g_res$extinct == 1 & d_g_res$zeta_AA > 1 & d_g_res$zeta_aa > 1)/nSamples
+		d_g_eigAFix[i]        <-  sum(d_g_res$zeta_AA > 1 & d_g_res$zeta_aa < 1)/nSamples
+		d_g_eigAFixViable[i]  <-  d_g_eigAFix[i] - sum(d_g_res$extinct[d_g_res$poly == 0 & d_g_res$zeta_AA > 1 & d_g_res$zeta_aa < 1])/nSamples
+		d_g_eigaFix[i]        <-  sum(d_g_res$zeta_AA < 1 & d_g_res$zeta_aa > 1)/nSamples
+		d_g_eigaFixViable[i]  <-  d_g_eigaFix[i] - sum(d_g_res$extinct[d_g_res$poly == 0 & d_g_res$zeta_AA < 1 & d_g_res$zeta_aa > 1])/nSamples
+	
+		cat('\r', paste("d_gamma gradient ", round(100*(i/length(deltaSeq))),'% Complete'))
+		flush.console()
+	}
+
+
+	# compile results as data frame
+	results.df  <-  as.data.frame(cbind(Cs,
+										deltaSeq,
+										d_extinct,
+										d_popGenPoly,
+										d_simPoly,
+										d_simPolyViable,
+										d_simAFix,
+										d_simAFixViable,
+										d_simaFix,
+										d_simaFixViable,
+										d_eigPoly,
+										d_eigPolyViable,
+										d_eigAFix,
+										d_eigAFixViable,
+										d_eigaFix,
+										d_eigaFixViable,
+										d_j_extinct,
+										d_j_popGenPoly,
+										d_j_simPoly,
+										d_j_simPolyViable,
+										d_j_simAFix,
+										d_j_simAFixViable,
+										d_j_simaFix,
+										d_j_simaFixViable,
+										d_j_eigPoly,
+										d_j_eigPolyViable,
+										d_j_eigAFix,
+										d_j_eigAFixViable,
+										d_j_eigaFix,
+										d_j_eigaFixViable,
+										d_a_extinct,
+										d_a_popGenPoly,
+										d_a_simPoly,
+										d_a_simPolyViable,
+										d_a_simAFix,
+										d_a_simAFixViable,
+										d_a_simaFix,
+										d_a_simaFixViable,
+										d_a_eigPoly,
+										d_a_eigPolyViable,
+										d_a_eigAFix,
+										d_a_eigAFixViable,
+										d_a_eigaFix,
+										d_a_eigaFixViable,
+										d_g_extinct,
+										d_g_popGenPoly,
+										d_g_simPoly,
+										d_g_simPolyViable,
+										d_g_simAFix,
+										d_g_simAFixViable,
+										d_g_simaFix,
+										d_g_simaFixViable,
+										d_g_eigPoly,
+										d_g_eigPolyViable,
+										d_g_eigAFix,
+										d_g_eigAFixViable,
+										d_g_eigaFix,
+										d_g_eigaFixViable
+										)
+								 )
+
+	# Export data as .csv to ./output/data
+	filename <-  paste("./output/simData/deltaSelfingSimPolySpace", "_sMax", sMax, "_nSamples", nSamples, "_dStar", dStar, "_hf", hf, "_hm", hm,
+					   "_f", theta[4], ".csv", sep="")
+	write.csv(results.df, file=filename, row.names = FALSE)
+
+}

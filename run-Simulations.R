@@ -518,6 +518,26 @@ source('R/functions-Simulations.R')
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
 							hf = pars$hf, hm = pars$hm, C = pars$C,
 							tlimit = 10^5)
+
+
+
+############################################
+#' Plots showing effects of inbreeding
+#' depression, using heuristic model of 
+#' delta ~ C
+
+#' Additive SA fitness
+deltaSelfingPolySpaceMakeData(sMax = 0.15, nSamples=1e+3,
+							  om = 2, g = 3, theta = c(0.6,0.6,0.05,7), theta_prime = c(0.6,0.6,0.05,7), 
+							  hf = 1/2, hm = 1/2, dStar = 0.8, 
+							  tlimit = 10^5)
+
+#' Dominance Reversal SA fitness
+deltaSelfingPolySpaceMakeData(sMax = 0.15, nSamples=1e+3,
+							  om = 2, g = 3, theta = c(0.6,0.6,0.05,7), theta_prime = c(0.6,0.6,0.05,7), 
+							  hf = 1/4, hm = 1/4, dStar = 0.8, 
+							  tlimit = 10^5)
+
 ############################################
 ## Plots showing change in polymorphic
 ## pararmeter space as a function of the
