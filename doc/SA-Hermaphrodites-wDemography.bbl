@@ -1,0 +1,30 @@
+\begin{thebibliography}{4}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[{de~Vries and
+  Caswell(2019{\natexlab{\emph{a}}})}]{deVriesCaswell2019b}
+de~Vries, C., and H.~Caswell. 2019{\natexlab{\emph{a}}}.
+\newblock Selection in two-sex stage-structured populations: Genetics,
+  demography, and polymorphism.
+\newblock Theoretical Population Biology 130:160--169.
+
+\bibitem[{de~Vries and
+  Caswell(2019{\natexlab{\emph{b}}})}]{deVriesCaswell2019a}
+---{}---{}---. 2019{\natexlab{\emph{b}}}.
+\newblock Stage-structured evolutionary demography: Linking life histories,
+  population genetics, and ecological dynamics.
+\newblock American Naturalist 193:545--559.
+
+\bibitem[{Lee et~al.(2016)Lee, Fishman, Kelly, and Willis}]{LeeKelly2015}
+Lee, Y.~W., L.~Fishman, J.~K. Kelly, and J.~H. Willis. 2016.
+\newblock A segregating inversion generates fitness variation in yellow
+  monkeyflower (\textit{Mimulus guttatus}).
+\newblock Genetics 202:1473--1484.
+
+\bibitem[{Peterson et~al.(2016)Peterson, Kay, and Angert}]{PetersonEtAl2016}
+Peterson, M.~L., K.~M. Kay, and A.~L. Angert. 2016.
+\newblock The scale of local adaptation in mimulus guttatus: comparing life
+  history races, ecotypes, and populations.
+\newblock New Phytologist 211:345--356.
+
+\end{thebibliography}

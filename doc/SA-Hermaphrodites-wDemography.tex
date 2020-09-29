@@ -1,0 +1,457 @@
+\documentclass[11pt]{article}
+% Preamble
+\usepackage[sc]{mathpazo} %Like Palatino with extensive math support
+\usepackage{fullpage}
+\usepackage[authoryear,sectionbib,sort]{natbib} %\bibpunct{(}{)}{;}{author-year}{}{,}
+\bibliographystyle{amnatnat}
+\setlength{\bibsep}{0.0pt}
+\linespread{1.7}
+\usepackage[utf8]{inputenc}
+\usepackage[left]{lineno}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{color,soul}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{pdflscape}
+\titleformat{\section}[block]{\Large\bfseries\filcenter}{\thesection}{1em}{}
+\titleformat{\subsection}[block]{\Large\itshape\filcenter}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}[block]{\large\itshape}{\thesubsubsection}{1em}{}
+\titleformat{\paragraph}[runin]{\itshape}{\theparagraph}{1em}{}[. ]\renewcommand{\refname}{Literature Cited}
+
+\newcommand\encircle[1]{%
+  \tikz[baseline=(X.base)] 
+    \node (X) [draw, shape=circle, inner sep=0] {\strut #1};}
+
+
+% Graphics package
+\usepackage{graphicx}
+\graphicspath{{../output/figs/}.pdf}
+
+% Change default margins
+\usepackage[top=0.75in, bottom=0.75in, left=0.75in, right=0.75in]{geometry}
+
+% Definitions
+\def\mathbi#1{\textbf{\em #1}}
+\def\mbf#1{\mathbf{#1}}
+\def\mbb#1{\mathbb{#1}}
+\def\mcal#1{\mathcal{#1}}
+\newcommand{\bo}[1]{{\bf #1}}
+\newcommand{\tr}{{\mbox{\tiny \sf T}}}
+
+\newcommand{\bm}[1]{\mbox{\boldmath $#1$}}
+
+%===========================================
+% Basic info from Journal
+
+%%%%%%%%%%%%%%%%
+% Line numbering
+%%%%%%%%%%%%%%%%
+
+% Please use line numbering with your initial submission and
+% subsequent revisions. After acceptance, please turn line numbering
+% off by adding percent signs to the lines %\usepackage{lineno} and
+% to %\linenumbers{} and %\modulolinenumbers[3] below.
+%
+% To avoid line numbering being thrown off around math environments,
+% the math environments have to be wrapped using
+% \begin{linenomath*} and \end{linenomath*}
+%
+% (Thanks to Vlastimil Krivan for pointing this out to us!)
+
+%%%%%%%%%%%%
+% Authorship
+%%%%%%%%%%%%
+% Please remove authorship information while your paper is under review,
+% unless you wish to waive your anonymity under double-blind review. You
+% will need to add this information back in to your final files after
+% acceptance.
+
+% The journal does not have numbered sections in the main portion of
+% articles. Please refrain from using section references (à la
+% section~\ref{section:CountingOwlEggs}), and refer to sections by name
+% (e.g. section ``Counting Owl Eggs'').
+
+% You may wish to remove the Acknowledgments section while your paper 
+% is under review (unless you wish to waive your anonymity under
+% double-blind review) if the Acknowledgments reveal your identity.
+% If you remove this section, you will need to add it back in to your
+% final files after acceptance.
+
+%If you have deposited data to Dryad, you should cite them somewhere in the main text (usually in the Methods or Results sections). A sentence like the following will do. All data are available in the Dryad Digital Repository (\citealt{CookEtAl2015}).
+
+%===========================================
+
+% This version of the LaTeX template was last updated on
+% November 8, 2019.
+
+\begin{document}
+\title{Evolutionary demography and the maintenance of sexually antagonistic polymorphism in outcrossers and simultaneous hermaphrodites}
+\author{Colin Olito$^{1,\ast}$ \\ 
+Charlotte de Vries$^{2}$}
+\date{\today}
+\maketitle
+
+\noindent{} 1. Department of Biology, Lund University, Lund 223 62, Sweden;
+
+\noindent{} 2.  Department of Evolutionary Biology and Environmental Studies, University of Zurich, Zurich CH-8057, Switzerland;
+
+\noindent{} $\ast$ Corresponding author; e-mail: colin.olito@gmail.com
+
+\bigskip
+
+\textit{Manuscript elements}: Figure~1, figure~2, table~1, online appendices~A and B (including figure~A1 and figure~A2). Figure~2 is to print in color.
+
+\bigskip
+
+\textit{Keywords}: Intralocus sexual conflict, Evolutionary Demography, Balancing selection, Hermaphrodite, mixed mating systems, inbreeding depression 
+
+\bigskip
+
+\textit{Manuscript type}: Article. %Or e-article, note, e-note, natural history miscellany, e-natural history miscellany, comment, reply, invited symposium, or historical perspective.
+
+\bigskip
+
+\noindent{\footnotesize Prepared using the suggested \LaTeX{} template for \textit{Am.\ Nat.}}
+
+%\linenumbers{}
+%\modulolinenumbers[3]
+
+\newpage{}
+
+
+%====================
+% Begin Main Text
+%====================
+
+\section*{Outline}
+
+OK, just putting some ideas out here based roughly on our conversations about an {\itshape AmNat}-style article, the results we have so far, and what I think we should be able to do with data from COMPADRE. 
+
+\begin{enumerate}
+	\item {\bf Introduction}
+	\begin{enumerate}
+		\item Briefly introduce sexual antagonism and intra-locus sexual conflict.
+		\item Simultaneous hermaphrodites, mixed mating systems, unique predictions for SA polymorphism.
+		\item Introduce Evolutionary Demography, pivot to focus on the consequences of taking demography into account explicitly for the maintenance of SA polymorphism.
+		\item Introduce key difference between existing population genetic models of SA polymorphism and our models: possibility of diverse population and evolutionary dynamics. 
+		\item Explain and highlight "demographically viable" parameter space, indicate that we are interested in whether parameter space predicted to be polymorphic by Pop.~gen.~models is, indeed, "demographically viable"
+		\item Building upon the two-sex stage-structured matrix models developed by \citet{deVriesCaswell2019a,deVriesCaswell2019b}, we develop stage-structured matrix models that can accommodate selection through male and female function in simultaneous hermaphrodites with mixed mating systems. The models also allow for the effects of inbreeding depression to manifest in several demographic parameters, allowing us to explore the fitness consequences of early- vs.~late-acting inbreeding depression.
+	\end{enumerate}
+
+	\item {\bf Vignette 1: When is polymorphism demographically viable?}
+	\begin{enumerate}
+		\item Review previous predictions for outcrossers \& partial selfing
+		\begin{enumerate}
+			\item Greater scope for SA polymorphism in outcrossers vs.~selfers
+			\item Greater scope for SA polymorphism when SA fitness effects are recessive (dominance reversal).
+		\end{enumerate}
+		\item Key results summarized in Fig.~1: 
+		\begin{enumerate}
+			\item when populations do not have high growth-rates (i.e., when $\lambda \approx 1$), much of of polymorphic parameter space becomes demographically inviable.
+			\item Specifically, would-be polymorphic paramter space becomes inviable when segregating male-beneficial/female-deleterious alleles can reduce fecundity enough to drive the population extinct.
+			\item This effect is most dramatic for separate-sexed species and predominant outcrossers. Selfing shelters the population from the female-deleterious fitness effects because there is no opportunity for selection via male function. This can also be thought of as reproductive assurance in our model....
+		\end{enumerate}
+	\end{enumerate}
+
+	\item {\bf Vignette 2: Effects of inbreeding depression}
+	\begin{enumerate}
+		\item Review effect of I.D.~in population genetic models: causes selfing populations to look more like outcrossing ones (at least in terms of where SA polymorphism is maintained). This is because a fraction of selfed ovules are aborted, meaning the overall ratio of outcrossed vs.~selfed progeny increases.
+		\item Reiterate that selfing is often viewed as a mechanism for reproductive assurance.
+		\item Key results summarized in Fig.~2
+		\begin{enumerate}
+			\item Pop.~Gen.~models predict that higher early-acting ID should lead to greater proportion of polymorphic parameter space, while our models predict that it should decrease.
+			\item When and how ID affects fitness of offspring produced by selfing can change the location and steepness of the decline in polymorphic parameter space.
+			\item A perhaps obvious, but sometimes overlooked implication of our model predictions: selfing can offer reproductive assurance, and SA polymorphisms can be maintained in a non-trivial proportion of parameter space in partially selfing populations... BUT demographically, the population must be able to "afford" the loss of selfed ovules/offspring.
+		\end{enumerate}
+	\end{enumerate}
+
+	\item {\bf Vignette 3: Examples using real data}
+	\begin{enumerate}
+		\item We can parameterize our model with real populations' demographic rates, and make explicit predictions regarding the opportunity for SA polymorphism given the species' demography. We provide two illustrative examples:
+		\item Opportunities for SA polymorphism in {\itshape Mimulus guttatus} (now {\itshape Erythranthe guttata})
+		\item Possibly use data from \citet{PetersonEtAl2016} Eagle Meadows population, which is the 'local' population in their big common garden local adaptation expeirment.
+		\begin{enumerate}
+			\item Illustrate funnel plot using {\itshape E.~gutatta} demographic rates.
+			\item Fun little example: PLOT inversion from \citet{LeeKelly2015}, on that funnel!
+		\end{enumerate}
+
+		\item Do sexually dimorphic species exhibit demographic rates that increase opportunities for SA polymorphism?
+		\begin{enumerate}
+			\item Compare proportion of viable polymorphic parameter space for sexually dimorphic species vs.~close hermaphroditic relative
+			\item Possibly {\itshape Silene acaulis} (gynodioecious or dioecious) vs.~hermaphrodite {\itshape Silene} species?
+		\end{enumerate}
+	\end{enumerate}
+
+\end{enumerate}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%
+\newpage{}
+\section*{Abstract}
+%%%%%%%%%%%%%%%%%%%%
+\ldots 
+
+\newpage{}
+
+\section*{Introduction}
+
+\ldots
+
+\section*{Methods}
+
+\ldots 
+
+\subsection*{The quickness of the fox}
+
+\ldots  
+
+\subsubsection*{Third-order heading}
+
+\ldots
+
+\paragraph*{Fourth-order heading}
+\ldots
+
+
+
+\section*{Results}
+
+\ldots
+
+\subsection*{The height of the jump}
+
+\ldots
+
+\subsection*{The laziness of the dog}
+
+\ldots
+
+
+\section*{Discussion}
+
+\ldots
+
+\section*{Conclusion}
+
+\ldots
+
+%%%%%%%%%%%%%%%%%%%%%
+% Acknowledgments
+%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Acknowledgments}
+
+OEC would like to thank Madlen Wilmes, Gyuri Barab\'{a}s, Flo D\'{e}barre, Vlastimil K\v{r}ivan, and Greg Dwyer for their comments and suggestions on this template.
+
+\newpage{}
+
+\section*{Appendix A: Supplementary Figures}
+
+% In many cases, The American Naturalist allows authors to typeset 
+% their own supplementary material in an author-supplied PDF. For author-
+% supplied PDFs, please consult the AmNat_supp_template.tex document,
+% available from https://www.journals.uchicago.edu/journals/an/instruct 
+%
+% By contrast, the Appendix instructions below apply to cases in which
+% supplementary material is to be typeset by the AmNat editorial staff.
+% That notably includes descriptions of methods, tables defining parameters,
+% and other material necessary for reproducing the MS's results.
+%
+% Please reset counters for the appendix (thus normally figure A1, 
+% figure A2, table A1, etc.).
+%
+% In certain cases, it may be appropriate to have a PRINT appendix in
+% addition to (or instead of) an online appendix. In this case, please 
+% name the print appendix Appendix A, and any subsequent appendixes (if 
+% there are any) should be named Online Appendix B, Online Appendix C,
+% etc.
+%
+% Counters for each appendix should match the letter of that appendix.
+% For example, tables in Appendix C should be numbered table C1, table C2,
+% etc. This applies to tables, equations, and figures.
+%
+% It's better not to use the \appendix command, because we have some
+% formatting peculiarities that \appendix conflicts with.
+
+\renewcommand{\theequation}{A\arabic{equation}}
+\renewcommand{\thetable}{A\arabic{table}}
+\setcounter{equation}{0}  % reset counter 
+\setcounter{figure}{0}
+\setcounter{table}{0}
+
+\subsection*{Fox--dog encounters through the ages}
+
+The quick red fox jumps over the lazy brown dog. The quick red fox has always jumped over the lazy brown dog. The quick red fox began jumping over the lazy brown dog in the 19th century and has never ceased from so jumping, as we shall see in figure~\ref{Fig:Jumps}. But there can be surprises (figure~\ref{Fig:JumpsOk}).
+
+If the order and location of figures is not otherwise clear, feel free to include explanatory dummy text like this:
+
+[Figure A1 goes here.]
+
+[Figure A2 goes here.]
+
+\subsection*{Further insights}
+
+Tables in the appendices can appear in the appendix text (see table~\ref{Table:Rivers} for an example), unlike appendix figure legends which should be grouped at the end of the document together with the other figure legends.
+
+\begin{table}[h]
+\caption{Various rivers, cities, and animals}
+\label{Table:Rivers}
+\centering
+\begin{tabular}{lll}\hline
+River        & City        & Animal            \\ \hline
+Chicago      & Chicago     & Raccoon           \\
+Des Plaines  & Joliet      & Coyote            \\
+Illinois     & Peoria      & Cardinal          \\
+Kankakee     & Bourbonnais & White-tailed deer \\
+Mississippi  & Galena      & Bald eagle        \\ \hline
+\end{tabular}
+\bigskip{}
+\\
+{\footnotesize Note: See table~\ref{Table:Founders} below for further table formatting hints.}
+\end{table}
+
+Lorem ipsum dolor sit amet, as we have seen in figures~\ref{Fig:Jumps} and \ref{Fig:JumpsOk}.
+
+\newpage{}
+\renewcommand{\theequation}{B\arabic{equation}}
+% redefine the command that creates the equation number.
+\renewcommand{\thetable}{B\arabic{table}}
+\setcounter{equation}{0}  % reset counter 
+\setcounter{table}{0}
+
+\section*{Appendix B: Additional Methods}
+
+\subsection*{Measuring the height of fox jumps without a meterstick}
+
+Pellentesque ac nibh placerat, luctus lectus non, elementum mauris. 
+Morbi odio velit, eleifend ut hendrerit vitae, consequat sit amet 
+nulla. Pellentesque porttitor vitae nisl quis tempus. Pellentesque 
+habitant morbi tristique senectus et netus et malesuada fames ac 
+turpis egestas. Praesent ut nisi odio. Vivamus vel lorem gravida 
+odio molestie volutpat condimentum et arcu. 
+
+\begin{equation}
+{ \frac{1}{N_k-1} \sum \limits_{t=1}^{N_k} (M_{tjk} - \bar{M}_{jk})^2}
+\end{equation}
+
+\subsection*{Quantifying the brownness of the dog}
+
+Pellentesque eu nulla odio. Nulla aliquam porta metus, quis malesuada orci faucibus quis. Suspendisse nunc magna, tristique sit amet sollicitudin nec, elementum et lacus. Sed vitae elementum mi. In hac habitasse platea dictumst. Etiam eu tortor elit. Sed ac tortor purus. Aliquam volutpat, odio sit amet posuere pretium, dolor ex interdum ante, sed luctus quam eros ac nulla. 
+
+\begin{equation}
+{ (\sum \limits_{p=1}^P {n_{sp}})^{-1}\sum \limits_{p=1}^P {n_{sp}Q_{p}}}
+\end{equation}
+
+\newpage{}
+
+%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%
+% You can either type your references following the examples below, or
+% compile your BiBTeX database and paste the contents of your .bbl file
+% here. The amnatnat.bst style file should work for this---but please
+% let us know if you run into any hitches with it!
+%
+% If you upload a .bib file with your submission, please upload the .bbl
+% file as well; this will be required for typesetting.
+%
+% The list below includes sample journal articles, book chapters, and
+% Dryad references.
+\bibliography{Refs2}
+
+\newpage{}
+
+\section*{Tables}
+\renewcommand{\thetable}{\arabic{table}}
+\setcounter{table}{0}
+
+\begin{table}[h]
+\caption{Founders of \textit{The~American Naturalist}}
+\label{Table:Founders}
+\centering
+\begin{tabular}{lll}\hline
+Early editor            & Years with the journal \\ \hline
+Alpheus S. Packard Jr.  & 1867--1886 \\
+Frederick W. Putnam     & 1867--1874 \\ 
+Edward S. Morse         & 1867--1871 \\ 
+Alpheus Hyatt           & 1867--1871 \\
+Edward Drinker Cope$^a$ & 1878--1897 \\
+J.~S. Kingsley          & 1887--1896 \\ \hline 
+\end{tabular}
+\bigskip{}
+\\
+{\footnotesize Note: Table titles should be short. Further details should go in a `notes' area after the tabular environment, like this. $^a$ Published the first description of \textit{Dimetrodon}.}
+\end{table}
+
+\newpage{}
+
+\section*{Figure legends}
+
+\begin{figure}[h!]
+%\includegraphics{horn-of-okapi}
+\caption{Figure legends can be longer than the titles of tables. However, they should not be excessively long.}
+\label{Fig:OkapiHorn}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+% Videos
+%%%%%%%%%%%%%%%%%%%%%
+% If you have videos, journal style for them is similar to that for
+% figures. You'll want to include a still image (such as a JPEG)
+% to give your readers a preview of what the video looks like.
+
+%%%%% Include the text below if you have videos
+
+\renewcommand{\figurename}{Video} 
+\setcounter{figure}{0}
+% Thanks to Flo Debarre for the pro tip of putting
+% \renewcommand{\figurename}{Video} before the Video legend and
+% \renewcommand{\figurename}{Figure} after it!
+
+\begin{figure}[h!]
+%\includegraphics{VideoScreengrab.jpg}
+\caption{Video legends can follow the same principles as figure legends. Counters should be set and reset so that videos and figures are enumerated separately.}
+\label{VideoExample}
+\end{figure}
+
+\renewcommand{\figurename}{Figure}
+\setcounter{figure}{1}
+
+%%%%% Include the above if you have videos
+
+
+\begin{figure}[h!]
+%\includegraphics{elegance}
+\caption{In this way, figure legends can be listed at the end of the document, with references that work, even though the graphic itself should be included for final files after acceptance. Instead, upload the relevant figure files separately to Editorial Manager; Editorial Manager should insert them at the end of the PDF automatically.}
+\label{Fig:AnotherFigure}
+\end{figure}
+
+\subsection*{Online figure legends}
+
+\renewcommand{\thefigure}{A\arabic{figure}}
+\setcounter{figure}{0}
+
+\begin{figure}[h!]
+%\includegraphics{jumps20m}
+\caption{\textit{A}, the quick red fox proceeding to jump 20~m straight into the air over not one, but several lazy dogs. \textit{B}, the quick red fox landing gracefully despite the skepticism of naysayers.}
+\label{Fig:Jumps}
+\end{figure}
+
+\begin{figure}[h!]
+%\includegraphics{jumps20m}
+\caption{The quicker the red fox jumps, the likelier it is to land near an okapi. For further details,.}
+\label{Fig:JumpsOk}
+\end{figure}
+
+\renewcommand{\thefigure}{B\arabic{figure}}
+\setcounter{figure}{0}
+
+\end{document}
