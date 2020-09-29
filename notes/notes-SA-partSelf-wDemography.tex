@@ -28,7 +28,7 @@
 % Packages from Am. Nat. Template
 \usepackage[sc]{mathpazo} %Like Palatino with extensive math support
 \usepackage{fullpage}
-\usepackage[authoryear,sectionbib,sort]{natbib}
+\usepackage[authoryear,sectionbib,sort] {natbib}
 \linespread{1.15}
 \usepackage[utf8]{inputenc}
 \usepackage{lineno}
@@ -1458,7 +1458,7 @@ The coexistence conditions become:
 \begin{equation} \label{eq:coexist_bigAA}
 	\lambda_{AA} < 
 			\rho\left(\begin{array}{cc}
-\mathbf{U}_{Aa} + \frac{1}{2} (1 - \delta C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{\mbf{F}_{AA}\hat{\mbf{p}}_{AA}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \hat{\mathbf{p}}_{AA}	} & (1-C_{aa}) \mbf{F}_{aa} \\
+\mathbf{U}_{Aa} + \frac{1}{2} (1 - \delta C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{\mbf{F}_{AA}\hat{\mbf{p}}_{AA}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \hat{\mathbf{p}}_{AA}	} & (1-C_{aa}) \mbf{F}_{aa}+ (1 - C_{AA})\frac{\mbf{F}_{AA}\hat{\mbf{p}}_{AA}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{AA}^\prime \hat{\mathbf{p}}_{AA}	}  \\
 \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}_{aa} +C_{aa} (1 - \delta) \mbf{F}_{aa}  \\ 
 			\end{array} \right), \\ 
 \end{equation} 
@@ -1466,7 +1466,7 @@ The coexistence conditions become:
 \begin{equation} \label{eq:coexist_baa}
 	\lambda_{AA} < 
 			\rho\left(\begin{array}{cc}
-\mathbf{U}_{Aa} + \frac{1}{2} (1 - \delta C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{aa})\frac{\mbf{F}_{aa}\hat{\mbf{p}}_{aa}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{aa}^\prime \hat{\mathbf{p}}_{aa}	} & (1-C_{AA}) \mbf{F}_{AA} \\
+\mathbf{U}_{Aa} + \frac{1}{2} (1 - \delta C_{Aa}) \mbf{F}_{Aa} +\frac{1}{2} (1 - C_{aa})\frac{\mbf{F}_{aa}\hat{\mbf{p}}_{aa}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{aa}^\prime \hat{\mathbf{p}}_{aa}	} & (1-C_{AA}) \mbf{F}_{AA}+\ (1 - C_{aa})\frac{\mbf{F}_{aa}\hat{\mbf{p}}_{aa}\otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime}{\mathbf{1}^\tr_\omega \mathbf{F}_{aa}^\prime \hat{\mathbf{p}}_{aa}	} \\
 \frac{1}{4} C_{Aa} (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}_{AA} +C_{AA} (1 - \delta) \mbf{F}_{AA}  \\ 
 			\end{array} \right), \\ 
 \end{equation} 
@@ -1526,7 +1526,7 @@ And the invasion condition becomes (\hl{based on my earlier guess, so still an (
 \lambda_{AA}> 
 			\rho\left(
 					\begin{array}{cc|cc}
-						\sigma_{Aa}(1 - \gamma_{Aa}) &  \frac{1}{2} (1 - \delta C_{Aa}) f_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{f^\prime_{Aa}f_{AA}}{f^\prime_{AA}} &0 & (1-C_{aa})f_{aa}\\
+						\sigma_{Aa}(1 - \gamma_{Aa}) &  \frac{1}{2} (1 - \delta C_{Aa}) f_{Aa} +\frac{1}{2} (1 - C_{AA})\frac{f^\prime_{Aa}f_{AA}}{f^\prime_{AA}} &0 & (1-C_{aa})f_{aa}+ (1 - C_{AA})\frac{f^\prime_{aa}f_{AA}}{f^\prime_{AA}}\\
 						\sigma_{Aa} \gamma_{Aa}     & s_{Aa}& 0 & 0\\ \hline
 							0 & \frac{1}{4}C_{Aa}(1-\delta)f_{Aa} &\sigma_{aa}(1 - \gamma_{aa})  & C_{aa}(1-\delta)f_{aa}\\
 								0 & 0 & \sigma_{aa} \gamma_{aa}     & s_{aa}
