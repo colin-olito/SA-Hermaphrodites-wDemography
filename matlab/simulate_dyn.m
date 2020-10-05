@@ -1,6 +1,6 @@
-function [lambda_sim]=simulate_dyn(theta,hf,hm,sf,sm,delta,nzero)
+function [lambda_sim]=simulate_dyn(theta, hf,hm,sf,sm,delta,nzero)
  %[lambda_sim,pout,nout]=simulate_dyn(theta,hf,hm,sf,sm,delta,nzero)
-                              
+                      
 s1=theta(1,:);
 s2=theta(2,:);
 gam=theta(3,:);
@@ -79,7 +79,7 @@ tlimit=2000;
 nout=nan*ones(tlimit,length(nzero)); 
 pout=nan*ones(tlimit,length(nzero));
 it=0;
-thres=0.0001;
+thres=0.000001;
 pdiff=1;
 while it<tlimit && pdiff>thres
         it=it+1;
