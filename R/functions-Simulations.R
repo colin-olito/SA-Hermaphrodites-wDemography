@@ -571,10 +571,10 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 #' theta: 	vector of length 4, c(sigma_J, sigma_A, gamma, f_ii)
 #' selPars:	vector of length 4, c(hf, hm, sf, sm,)
 selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
-					  om = 2, g = 3, theta = c(0.6,0.6,0.05,6.1), theta_prime = 6.1, 
+					  om = 2, g = 3, theta = c(0.6,0.6,0.05,6.1), theta_prime = 6, 
 					  hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 					  delta_j = 0, delta_a = 0, delta_gamma = 0,
-					  tlimit = 10^5, intInit = FALSE, writeFile=TRUE, progBar = TRUE, ...) {
+					  tlimit = 10^5, intInit = FALSE, eqThreshold = 1e-6, writeFile=TRUE, progBar = TRUE, ...) {
 	
 	sfs           <-  runif(min = 0, max=sMax, n=nSamples)
 	sms           <-  runif(min = 0, max=sMax, n=nSamples)
@@ -601,13 +601,13 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 			results  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
 										hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, delta = delta, 
 										delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
-										tlimit = 10^5, Ainvade = Ainvade, intInit = intInit)
+										tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = intInit)
 			intInit  <-  FALSE
 			extinct[i]       <-  results$extinct
 			polymorphism[i]  <-  results$polymorphism
 			pEq[i,]          <-  results$pEq
 			zeta_i[i,]       <-  results$zeta_i
-			lambda_i[i,]     <-  results$lambda_full
+			lambda_i[i,]     <-  results$lambda_inv
 
 		if(progBar){
 			cat('\r', paste(100*(i/nSamples),'% Complete'))
