@@ -62,3 +62,7 @@ rep.col<-function(x,n){
 squashIm <- function(x) {
 	if (all(Im(z <- zapsmall(x))==0)) as.numeric(z) else x
 }
+
+eucDist <- function(x1, x2) {
+  sqrt(sum((x1 - x2)^2))
+} 

@@ -178,12 +178,12 @@ calcZeta  <-  function(om, Fii, Fii_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, la
 
 
 #########################
-##  Calculate Atilde[ntilde] for 
-##  boundary conditions
-AtildeBound  <-  function(nBound, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, Ig, HS, HX, K, Z, blkFS, blkFX, reorder=TRUE) {
+##  Evaluate Atilde[ntilde] for 
+##  a given initial equilibrium
+evalAtilde  <-  function(nHat, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, Ig, HS, HX, K, Z, blkFS, blkFX, reorder=TRUE) {
 
         #Creating the male gamete pool
-        nX    <-  nBound[1:g*om] + nBound[(g*om+1):(2*g*om)]
+        nX    <-  nHat[1:g*om] + nHat[(g*om+1):(2*g*om)]
         ngam  <-  ones(c(1,2)) %*% W_prime %*% blkFX_prime %*% nX
         
         #Equation 5 in the manuscript
@@ -219,18 +219,130 @@ AtildeBound  <-  function(nBound, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, 
 						   cbind(FtildeX            , (UtildeX + FtildeX)))
 
         if(reorder == FALSE) {
-        	AtildeCoexist  <-  Atilde	
+        	AtildeEval  <-  Atilde	
         } else{
-        AtildeCoexist  <-  Atilde[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om),
+        	AtildeEval  <-  Atilde[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om),
 								  c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
 		}
-        return(AtildeCoexist)
+        return(AtildeEval)
 }
 
 
 
 
+#############################
+#' Forward dynamics to Equil 
+#'
+#' Parameters:
+#' om:		Number of stages in life-cycle
+#' g:		number of genotypes (default 3 for 1-locus, 2-allele)
+#' theta: 	vector of length 4 (but actually becomes vector of length 7), c(sigmaS_J, sigmaS_A, sigmaX_J, sigmaX_A, gammaS, gammaX, f_ii)
+#' theta_prime: Pollen production (specific value is not super important, default is set to equal f)
+#' hf,hm:	Dominance coefficient for SA fitness effects
+#' sf,sm:	Selection coefficient for SA fitness effects
+#' C:		Population selfing rate
+#' delta:	Early-acting inbreeding depression (proportion ovules aborted due to I.D.)
+#' delta_j:	Proportional decrease in juvenile survival rate for inbred offspring
+#' delta_j:	Proportional decrease in adult survival rate for inbred offspring
+#' delta_gamma: Proportional decrease in juv. --> adult transition rate for inbred offspring
+#' tlimit:	Max # of generations for fwd simulation
+#' Ainvade:	Should A allele start off rare
+#' intInit:	Optional initial frequency of A allele
+fwdDyn2Eq  <-  function(nzero, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, Ig, HS, HX, K, Z, blkFS, blkFX, tlimit, eqThreshold, ...){
 
+	# initial state vector, frequency vector, and empty storage matrix for time-series
+	n     <-  t(t(nzero))
+	p     <-  n/norm(as.matrix(n), type="1")
+	tmp   <-  kronecker(diag(g),ones(c(1,om))) %*% (nzero[1:(om*g)] + nzero[(om*g)+1:(om*g)])
+	p_g   <-  tmp/colSums(tmp)
+	nout  <-  zeros(c((2*om*g),tlimit))
+	
+	# set arbitrary value for Euclidian distance 
+	# used to check if eq. has been reached 
+	pDist  <-  1
+	
+	# begin generation loop
+	i  <-  1
+	while( pDist > eqThreshold && i <= tlimit) {
+
+		# Populate n timeseries for current generation
+		nout[,i]  <-  n
+
+        #Creating the male gamete pool
+        nX    <-  n[1:(g*om)] + n[(g*om+1):(2*g*om)]
+        ngam  <-  ones(c(1,2)) %*% W_prime %*% blkFX_prime %*% nX
+        
+        #Equation 5 in the manuscript
+        q_prime <- (W_prime%*%blkFX_prime%*%nX)/ngam[1] 
+
+        UtildeS  <-  blkUS
+        UtildeX  <-  blkUX
+
+        # Parent-Offspring genotype map - Selfing
+        HS <- rbind(c(1, 1/4, 0),
+					c(0, 1/2, 0),
+					c(0, 1/4, 1))
+        # Parent-Offspring genotype map - Outcrossing
+        HX <- zeros(c(g,g))
+
+        for (ii in 1:g){
+            Pi  <-  Ig[,ii]
+            qi  <-  W %*% Pi #allele frequencies in oocytes of genotype i
+
+            # genotype frequencies in the offspring of mothers of genotype i
+            # produced by outcrossing (equation 16 in de Vries and Caswell, 2018a (American Naturalist))
+            Piprime  <-  Z %*% kronecker(qi,q_prime)
+
+            HX[,ii]  <-  Piprime # the outcrossing parent-offspring matrix
+        }
+
+        blkHS    <-  kronecker(Iom,HS)
+        blkHX    <-  kronecker(Iom,HX)
+
+        FtildeS  <-  t(K) %*% blkHS %*% K %*% blkFS
+        FtildeX  <-  t(K) %*% blkHX %*% K %*% blkFX
+        Atilde   <-  rbind(cbind((UtildeS + FtildeS), FtildeS),
+						   cbind(FtildeX            , (UtildeX + FtildeX)))
+
+		# Project population into next generation
+        nnext  <-  Atilde %*% n
+
+        # Regulate population size to avoid crashing simulation
+		if (sum(nnext) > 1e+200) {
+			nnext  <-  nnext * 1e-10
+			n      <-  nnext
+			pnext  <-  n/norm(as.matrix(n), type="1")
+			pcheck <-  p
+			p      <-  pnext
+		} else{
+			n      <-  nnext
+			pnext  <-  n/norm(as.matrix(n), type="1")
+			pcheck <-  p
+			p      <-  pnext
+		}
+
+		# check to see if equilibrium has been reached
+		pDist  <-  eucDist(pnext, pcheck)
+
+		# next generation
+		i  <-  i + 1
+	}
+
+	# clean up time-series
+	nout         <-  nout[,1:(i-1)]
+	temp         <-  kronecker(diag(g),ones(c(1,om))) %*% (nout[1:(3*om),] + nout[(3*om+1):(6*om),])
+	p_genotypes  <-  sweep(temp,2,colSums(temp),'/')
+
+	# Return results
+	results  <-  list(
+					  "nout"         =  nout,
+					  "n"            =  nout[,ncol(nout)],
+					  "p"            =  p,
+					  "p_genotypes"  =  p_genotypes,
+					  "eqReached"    =  pDist <= eqThreshold
+					)
+	return(results)
+}
 
 
 
@@ -256,7 +368,7 @@ AtildeBound  <-  function(nBound, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, 
 fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_prime = 5.9, 
 							 hf = 1/2, hm = 1/2, sf = 0.1, sm = 0.105, C = 0, delta = 0, 
 							 delta_j = 0, delta_a = 0, delta_gamma = 0, datMat = NA,
-							 tlimit = 10^4, Ainvade = FALSE, intInit = FALSE, ...) {
+							 tlimit = 10^4, eqThreshold = 1e-6, Ainvade = FALSE, intInit = FALSE, ...) {
 
 	# Create identity and ones matrices
 	Ig   <-  diag(g)
@@ -318,16 +430,6 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 								   c(0,0))	
 	}
 
-	# Genotype-specific growth rates
-	Atilde_genotype  <-  zeros(c(2*om,2*om,g))
-	lambda_full      <-  as.vector(zeros(c(1,g)))
-	for (i in 1:3){
-		Atilde_genotype[,,i]  <- rbind( cbind(USi[,,i] + C*(1 - delta)*Fii[,,i], C*(1 - delta)*Fii[,,i]), 
-										cbind((1 - C)*Fii[,,i], UXi[,,i] + (1 - C)*Fii[,,i])
-								   	   )
-		lambda_full[i]    <-  max(squashIm(eigen(Atilde_genotype[,,i],symmetric=FALSE, only.values = TRUE)$values))
-	}
-
 	# CREATE BLOCK DIAGONAL MATRICES
 	d 			 <-  diag(g)
 	blkD         <-  kronecker(Iom,d)
@@ -353,165 +455,90 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 				c(0,0,0,1)
 				)
 
-	#Initial conditions for invasion: nzero  <-  [juv_AA, ad_AA, juv_Aa, ad_Aa, juv_aa, ad_aa]
-		# All aa
-		if(Ainvade) {
-			nzero  <-  round(c(C*100*c(rep(0,times = 2*om), as.vector(220*UXi[,1,1])), 
-						 (1 - C)*100*c(rep(0,times = 2*om), as.vector(220*UXi[,1,1]))))
-		} 
-		#All AA
-		if(!Ainvade) {
-			nzero  <-  round(c(C*100*c(as.vector(220*UXi[,1,1]), rep(0,times = 2*om)),
-						 (1 - C)*100*c(as.vector(220*UXi[,1,1]), rep(0,times = 2*om))))
-		}
-		#All Aa
-		if(intInit) {
-			nzero  <-  round(c(C*100*c(rep(0,times = om), as.vector(220*UXi[,1,1]), rep(0,times = om)),
-				         (1 - C)*100*c(rep(0,times = om), as.vector(220*UXi[,1,1]), rep(0,times = om))))
-		}
-
-	# INITIAL CONDITIONS
-	nzero  <- c(nzero)
-	n      <- t(t(nzero))
-	nout   <- zeros(c((2*om*g),tlimit))
-
 	###############################################################
 	# Simulating the Stage X genotype dynamics - generation loop
 	###############################################################
-	i       <-  1
-	tmp     <-  kronecker(diag(g),ones(c(1,om))) %*% (nzero[1:6] + nzero[7:12])
-	p       <-  tmp/colSums(tmp)
-	pDelta  <-  c(1,1,1)
-	# begin generation loop
-	while( sum(n) > 1  &&  any(pDelta > 1e-9) && i <= tlimit) {
 
-		# Populate n & p timeseries for current generation
-		nout[,i]  <-  n
+	# Set initial state vectors for each boundary (fixed for AA & aa)
+	n0AA  <-  c(      C*c(99,1, rep(0,times = 2*om)),
+				(1 - C)*c(99,1, rep(0,times = 2*om)))
+	n0aa  <-  c(      C*c(rep(0,times = 2*om), 99,1), 
+				(1 - C)*c(rep(0,times = 2*om), 99,1))
 
-	    # Introduce new allele by introducing one heterozygote juvenile (produced by )
-	    if (i==10){
-			n[(om+1)]       <-  1
-			n[(om*g+om+1)]  <-  1
-	    }
+	# Simulate to demographic equilibrium for each boundary
+	AAEq  <-  fwdDyn2Eq(nzero=n0AA, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold)
+	aaEq  <-  fwdDyn2Eq(nzero=n0aa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold)
 
-        #Creating the male gamete pool
-        nX    <-  n[1:(g*om)] + n[(g*om+1):(2*g*om)]
-        ngam  <-  ones(c(1,2)) %*% W_prime %*% blkFX_prime %*% nX
-        
-        #Equation 5 in the manuscript
-        q_prime <- (W_prime%*%blkFX_prime%*%nX)/ngam[1] 
 
-        UtildeS  <-  blkUS
-        UtildeX  <-  blkUX
-
-        # Parent-Offspring genotype map - Selfing
-        HS <- rbind(c(1, 1/4, 0),
-					c(0, 1/2, 0),
-					c(0, 1/4, 1))
-        # Parent-Offspring genotype map - Outcrossing
-        HX <- zeros(c(g,g))
-
-        for (ii in 1:g){
-            Pi  <-  Ig[,ii]
-            qi  <-  W %*% Pi #allele frequencies in oocytes of genotype i
-
-            # genotype frequencies in the offspring of mothers of genotype i
-            # produced by outcrossing (equation 16 in de Vries and Caswell, 2018a (American Naturalist))
-            Piprime  <-  Z %*% kronecker(qi,q_prime)
-
-            HX[,ii]  <-  Piprime # the outcrossing parent-offspring matrix
-        }
-
-        blkHS    <-  kronecker(Iom,HS)
-        blkHX    <-  kronecker(Iom,HX)
-
-        FtildeS  <-  t(K) %*% blkHS %*% K %*% blkFS
-        FtildeX  <-  t(K) %*% blkHX %*% K %*% blkFX
-        Atilde   <-  rbind(cbind((UtildeS + FtildeS), FtildeS),
-						   cbind(FtildeX            , (UtildeX + FtildeX)))
-
-		# Project population into next generation
-        nnext  <-  Atilde %*% n
-
-        # Regulate population size to avoid crashing simulation
-		if (sum(nnext) > 1e+200) {
-			nnext  <-  nnext * 1e-10
-			n      <-  nnext
-			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% (nnext[1:g*om] + nnext[(g*om+1):(2*g*om)])
-			pnext  <-  tmp/colSums(tmp)
-			pcheck <-  p
-			p      <-  pnext
+	# use intermediate frequency to find Eq.?
+	if(intInit) {
+		initEq  <-  c(      C*c(32,4/3,32,4/3,32,4/3), 
+					  (1 - C)*c(32,4/3,32,4/3,32,4/3))
 		} else{
-			n      <-  nnext
-			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% (nnext[1:g*om] + nnext[(g*om+1):(2*g*om)])
-			pnext  <-  tmp/colSums(tmp)
-			pcheck <-  p
-			p      <-  pnext
-		}
+			# pick boundary for invasion based on major allele frequency		
+			if(Ainvade) {
+				initEq  <-  aaEq$n
+			}
+			if(!Ainvade) {
+				initEq  <-  AAEq$n
+			}
+			# Introduce rare allele in heterozygotes
+			initEq[(om+1)]       <-  0.1
+			initEq[(om*g+om+1)]  <-  0.1
+ 		}
 
-		if(i > 20) {
-			pDelta  <-  abs(pnext - pcheck)
-		}
+	# Simulate to demographic equilibrium with rare allele
+	invadeEq  <-  fwdDyn2Eq(nzero=initEq, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=tlimit, eqThreshold=eqThreshold)
 
-		#  Calculate eigenvalues based on Analytic results
-		if(i == 1) {
+	#  Calculate invasion conditions based on initial equilibrium			
+	# NOTE: we rearrange the order of the phat values so they match
+	# the structure of our jacobian, which was ordered by genotype, then self/outcross
+	nHat_AA   <-  AAEq$n[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
+	nHat_aa   <-  aaEq$n[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
+	nHat_inv  <-  invadeEq$n[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
 
-			# initial frequencies for the two boundaries 
-			# where AA genotype is fixed, and where aa genotype is fixed
-			nBoundAA  <-  round(c(C*100*c(as.vector(220*UXi[,1,1]), rep(0,times = 2*om)),
-						 (1 - C)*100*c(as.vector(220*UXi[,1,1]), rep(0,times = 2*om))))
-			nBoundaa  <-  round(c(C*100*c(rep(0,times = 2*om), as.vector(220*UXi[,1,1])), 
-							(1 - C)*100*c(rep(0,times = 2*om), as.vector(220*UXi[,1,1]))))
-			pBoundAA  <-  nBoundAA/norm(as.matrix(nBoundAA), type="1")
-			pBoundaa  <-  nBoundaa/norm(as.matrix(nBoundaa), type="1")
+	# calculate Atilde[ntilde]
+	Atilde_AA   <-  evalAtilde(nHat=nHat_AA, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
+	Atilde_aa   <-  evalAtilde(nHat=nHat_aa, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
+	Atilde_inv  <-  evalAtilde(nHat=nHat_inv, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
 			
-			# we rearrange the order of the phat values so they match
-			# the structure of our jacobian, which was ordered by genotype, then self/outcross
-			pHat_AA    <-  pBoundAA[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
-			pHat_aa    <-  pBoundaa[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
+	# Calculate a naive genotype-specific eigenvalue for comparison
+	# note, that this gives the same value for lambda_i as we get 
+	# elsewhere in the simulation (see lambda_full)
+	lambda_AA  <-  c(max(squashIm(eigen(Atilde_AA[c(1:(2*om)), c(1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
+					 max(squashIm(eigen(Atilde_AA[c((2*om)+1:(2*om)), c((2*om)+1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
+					 max(squashIm(eigen(Atilde_AA[c((4*om)+1:(2*om)),c((4*om)+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
+					  )
+	lambda_aa  <-  c(max(squashIm(eigen(Atilde_aa[c(1:(2*om)), c(1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
+					 max(squashIm(eigen(Atilde_aa[c((2*om)+1:(2*om)), c((2*om)+1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
+					 max(squashIm(eigen(Atilde_aa[c((4*om)+1:(2*om)),c((4*om)+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
+					  )
+	lambda_inv  <-  c(max(squashIm(eigen(Atilde_inv[c(1:(2*om)), c(1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
+					 max(squashIm(eigen(Atilde_inv[c((2*om)+1:(2*om)), c((2*om)+1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
+					 max(squashIm(eigen(Atilde_inv[c((4*om)+1:(2*om)),c((4*om)+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
+					  )
 			
-			# calculate Atilde[ptilde]
-			testAtilde_AA  <-  AtildeBound(nBound=pBoundAA, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
-			testAtilde_aa  <-  AtildeBound(nBound=pBoundaa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
-			
-			# Calculate a naive genotype-specific eigenvalue for comparison
-			# note, that this gives the same value for lambda_i as we get 
-			# elsewhere in the simulation (see lambda_full)
-			testLambda_AA  <-  c(max(squashIm(eigen(testAtilde_AA[c(1:4), c(1:4)],  symmetric=FALSE, only.values = TRUE)$values)),
-							     max(squashIm(eigen(testAtilde_AA[c(5:8), c(5:8)],  symmetric=FALSE, only.values = TRUE)$values)),
-							     max(squashIm(eigen(testAtilde_AA[c(9:12),c(9:12)], symmetric=FALSE, only.values = TRUE)$values))
-							  )
-			testLambda_aa  <-  c(max(squashIm(eigen(testAtilde_aa[c(1:4), c(1:4)],  symmetric=FALSE, only.values = TRUE)$values)),
-							     max(squashIm(eigen(testAtilde_aa[c(5:8), c(5:8)],  symmetric=FALSE, only.values = TRUE)$values)),
-							     max(squashIm(eigen(testAtilde_aa[c(9:12),c(9:12)], symmetric=FALSE, only.values = TRUE)$values))
-							  )
-			
-			# Calcuate lambda_AA and lambda_aa both using the as described in the notes file
-			# (Eq(17) in the linearization at the boundary equilibrium subsection)
-			lambda_i   <-  c(testLambda_AA[1], testLambda_aa[3])
+	# Calcuate lambda_AA and lambda_aa as described in the notes file
+	# (Eq(17) in the linearization at the boundary equilibrium subsection)
+	lambda_i   <-  c(lambda_AA[1], lambda_aa[3])
 
-
-			# Calculate coexistence conditions based on leading eigenvalue of the Jacobian
-			zeta_i  <-  calcZeta(om=om, Fii=Fii, Fii_pr=Fii_pr, USi=USi, UXi=UXi,
-								 pHat_AA=pHat_AA, pHat_aa=pHat_aa, C=C, delta=delta, 
-								 lambda_AA_aa=lambda_i)
-		}
-
-		i  <-  i + 1
-	}
+	# Calculate coexistence conditions based on leading eigenvalue of the Jacobian
+	pHat_AA  <-  nHat_AA/norm(as.matrix(nHat_AA), type="1")
+	pHat_aa  <-  nHat_aa/norm(as.matrix(nHat_aa), type="1")
+	zeta_i  <-  calcZeta(om=om, Fii=Fii, Fii_pr=Fii_pr, USi=USi, UXi=UXi,
+						 pHat_AA=pHat_AA, pHat_aa=pHat_aa, C=C, delta=delta, 
+						 lambda_AA_aa=lambda_i)
 
 	##################
 	# results
-	nout  <-  nout[,1:(i-1)]
-	temp         <-  kronecker(diag(g),ones(c(1,om))) %*% (nout[1:(3*om),] + nout[(3*om+1):(6*om),])
-	p_genotypes  <-  sweep(temp,2,colSums(temp),'/')
 	res  <-  list(
-					"nout"         =  nout,
-					"p_genotypes"  =  p_genotypes,
-					"pEq"          =  p_genotypes[,ncol(p_genotypes)],
-					"pDelta"       =  pDelta,
-					"nzero"        =  nzero,
-					"lambda_full"  =  lambda_full,
+					"nout"         =  invadeEq$nout,
+					"p_genotypes"  =  invadeEq$p_genotypes,
+					"pEq"          =  invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)],
+					"eqReached"    =  invadeEq$eqReached,
+					"lambda_AA"    =  lambda_AA,
+					"lambda_aa"    =  lambda_aa,
+					"lambda_inv"   =  lambda_inv,
 					"zeta_i"       =  zeta_i,
 					"om"           =  om,
 					"g"            =  g,
@@ -529,9 +556,8 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 					"tlimit"       =  tlimit,
 					"Ainvade"      =  Ainvade,
 					"intInit"      =  intInit,
-					"extinct"      =  sum(n) < 1,
-					"polymorphism" =  !any(round(p_genotypes[,ncol(p_genotypes)], digits=5) == 1),
-					"runtime"      =  (i-1)
+					"extinct"      =  all(lambda_inv < 1),
+					"polymorphism" =  !any(round(invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)], digits=5) == 1)
 					)
 	return(res)
 
@@ -1494,9 +1520,9 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 	i       <-  1
 	tmp     <-  kronecker(diag(g),ones(c(1,om))) %*% (nzero[1:g*om] + nzero[(g*om+1):(2*g*om)])
 	p       <-  tmp/colSums(tmp)
-	pDelta  <-  c(1,1,1)
+	pDist  <-  c(1,1,1)
 	# begin generation loop
-	while( sum(n) > 1  &&  any(pDelta > 1e-9) && i <= tlimit) {
+	while( sum(n) > 1  &&  any(pDist > 1e-9) && i <= tlimit) {
 
 		# Populate n & p timeseries for current generation
 		nout[,i]  <-  n
@@ -1564,7 +1590,7 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 
 		#  Start checking if allele frequencies are in equilibrium
 		if(i > 20) {
-			pDelta  <-  abs(pnext - pcheck)
+			pDist  <-  abs(pnext - pcheck)
 		}
 
 		#  Burn-in calculation of # of individuals in each stage
@@ -1572,15 +1598,15 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 		if(i < 10) {
 			pBoundAA  <-  nBoundAA/norm(as.matrix(nBoundAA), type="1")
 			pBoundaa  <-  nBoundaa/norm(as.matrix(nBoundaa), type="1")
-			nBoundAA  <-  AtildeBound(nBound=pBoundAA, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX, reorder=FALSE) %*% nBoundAA
-			nBoundaa  <-  AtildeBound(nBound=pBoundaa, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX, reorder=FALSE) %*% nBoundaa
+			nBoundAA  <-  evalAtilde(nBound=pBoundAA, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX, reorder=FALSE) %*% nBoundAA
+			nBoundaa  <-  evalAtilde(nBound=pBoundaa, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX, reorder=FALSE) %*% nBoundaa
         }
 
 		#  Calculate eigenvalues based on Analytic results
         if(i == 10) {
 			# calculate Atilde[ptilde]
-			testAtilde_AA  <-  AtildeBound(nBound=pBoundAA, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
-			testAtilde_aa  <-  AtildeBound(nBound=pBoundaa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
+			testAtilde_AA  <-  evalAtilde(nBound=pBoundAA, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
+			testAtilde_aa  <-  evalAtilde(nBound=pBoundaa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
 			
 			# Calculate a naive genotype-specific eigenvalue for comparison
 			# note, that this gives the same value for lambda_i as we get 
@@ -1621,7 +1647,7 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 					"nout"         =  nout,
 					"p_genotypes"  =  p_genotypes,
 					"pEq"          =  p_genotypes[,(i-1)],
-					"pDelta"       =  pDelta,
+					"pDist"       =  pDist,
 					"nzero"        =  nzero,
 					"lambda_full"  =  lambda_full,
 					"zeta_i"       =  zeta_i,
