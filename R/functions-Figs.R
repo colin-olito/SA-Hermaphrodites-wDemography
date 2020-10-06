@@ -1080,7 +1080,7 @@ deltaSelfingLoadPolySpaceFig  <-  function(df1, df2) {
         }
         # Make the plot
         par(omi=rep(0.5, 4), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s')
-        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,1), ylim = c(0,0.12), ylab='', xlab='', cex.lab=1.2)
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.925), ylim = c(0,0.12), ylab='', xlab='', cex.lab=1.2)
         usr  <-  par('usr')
         rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
         plotGrid(lineCol='grey80')
@@ -1134,7 +1134,7 @@ deltaSelfingLoadPolySpaceFig  <-  function(df1, df2) {
             PGSpace[i]     <-  popGen_PolySpace_Delta_DomRev(C=CLine2[i], delta=dLine2[i], sMax=pars2$sMax)
         }
         # Make the plot
-        plot(NA, axes=FALSE, type='n', main='', xlim = c(0,1), ylim = c(0,0.8), ylab='', xlab='', cex.lab=1.2)
+        plot(NA, axes=FALSE, type='n', main='', xlim = c(0,0.925), ylim = c(0,0.8), ylab='', xlab='', cex.lab=1.2)
         usr  <-  par('usr')
         rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
         plotGrid(lineCol='grey80')

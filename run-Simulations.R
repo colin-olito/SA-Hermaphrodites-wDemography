@@ -17,7 +17,7 @@
 ##  Dependencies
 rm(list=ls())
 source('R/functions-Simulations.R')
-
+source('R/loadData-Compadre.R')
 
 
 
@@ -41,7 +41,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 0.15, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -59,7 +59,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 0.15, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -77,7 +77,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 0.15, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -101,7 +101,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 0.15, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -119,7 +119,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 0.15, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -137,7 +137,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 0.15, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -168,7 +168,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 1, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -186,7 +186,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 1, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -204,7 +204,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 1, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -229,7 +229,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 1, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -247,7 +247,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 1, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -265,7 +265,7 @@ source('R/functions-Simulations.R')
 					)
 
 	selLoop(sMax = 1, nSamples=1000,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, writeFile = TRUE)
@@ -556,7 +556,7 @@ deltaSelfingPolySpaceMakeData(sMax = 0.15, nSamples=1e+3,
 					"dg"     =  0
 					)
 	polyParamSpaceMakeData( sMax = 0.15, nSamples=5000,
-							om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 							hf = pars$hf, hm = pars$hm, delta = pars$delta, 
 							delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 							tlimit = 10^5)
@@ -574,7 +574,7 @@ deltaSelfingPolySpaceMakeData(sMax = 0.15, nSamples=1e+3,
 					"dg"     =  0
 					)
 	polyParamSpaceMakeData( sMax = 0.15, nSamples=1000,
-							om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 							hf = pars$hf, hm = pars$hm, delta = pars$delta, 
 							delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 							tlimit = 10^5)

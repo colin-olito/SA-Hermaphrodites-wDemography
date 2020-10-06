@@ -9,7 +9,7 @@
 #		
 
 
-rm(list=ls())
+#rm(list=ls())
 #####################
 ##  Dependencies
 source('R/functions-MatModels.R')
@@ -151,27 +151,22 @@ predDelta  <-  function(dStar, b=1/2, a=0.2, C) {
 ###########################################
 #' Eigenvalue Calculator for full demographic model
 #' 
-#(C*(1 - delta)/(1 - C*delta))
-#(1 - (C*(1 - delta)/(1 - C*delta)))
 calcZeta  <-  function(om, Fii, Fii_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, lambda_AA_aa){
-	n_AABound  <-  round(c(C*(1 - delta)*100*c(141.3,18.2,0,0,0,0),(1 - C)*100*c(141.3,18.2,0,0,0,0)))[c(1,2,7,8,3,4,9,10,5,6,11,12)]
-	n_aaBound  <-  round(c(C*(1 - delta)*100*c(0,0,0,0,141.3,18.2),(1 - C)*100*c(0,0,0,0,141.3,18.2)))[c(1,2,7,8,3,4,9,10,5,6,11,12)]
-	pHat_AA    <-  n_AABound/norm(as.matrix(n_AABound), type="1")
-	pHat_aa    <-  n_aaBound/norm(as.matrix(n_aaBound), type="1")
-	pn_AA      <-  ones(c(om)) %*% Fii_pr[,,1] %*% (pHat_AA[1:2] + pHat_AA[3:4])
-	pn_aa      <-  ones(c(om)) %*% Fii_pr[,,3] %*% (pHat_aa[9:10] + pHat_aa[11:12])
+
+	pn_AA   <-  ones(c(om)) %*% Fii_pr[,,1] %*% (pHat_AA[1:om] + pHat_AA[om+1:om])
+	pn_aa   <-  ones(c(om)) %*% Fii_pr[,,3] %*% (pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)])
 	M22_AA  <-  rbind(
-					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(2,2))),
-					cbind(           ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])),
-						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,2])), 
-						                 (1 - C)*Fii[,,3] + kronecker(c(((1 - C)/(  pn_AA)))*Fii[,,1]%*%(pHat_AA[1:2] + pHat_AA[3:4]), (ones(om)%*%Fii_pr[,,3]))),
+					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(om,om))),
+					cbind(           ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%Fii_pr[,,2])),
+						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%Fii_pr[,,2])), 
+						                 (1 - C)*Fii[,,3] + kronecker(c(((1 - C)/(  pn_AA)))*Fii[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%Fii_pr[,,3]))),
 					cbind(((C*(1 - delta))/4)*Fii[,,2], ((C*(1 - delta))/4)*Fii[,,2], USi[,,3] + C*(1 - delta)*Fii[,,3])
 					)
 	M22_aa  <-  rbind(
-					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(2,2))),
-					cbind(           ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12]), (ones(om)%*%Fii_pr[,,2])),
-						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12]), (ones(om)%*%Fii_pr[,,2])),
-						                 (1 - C)*Fii[,,1] + kronecker(c(((1 - C)/(  pn_aa)))*Fii[,,3]%*%(pHat_aa[9:10] + pHat_aa[11:12]), (ones(om)%*%Fii_pr[,,1]))),
+					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(om,om))),
+					cbind(           ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%Fii_pr[,,2])),
+						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%Fii_pr[,,2])),
+						                 (1 - C)*Fii[,,1] + kronecker(c(((1 - C)/(  pn_aa)))*Fii[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%Fii_pr[,,1]))),
 					cbind(((C*(1 - delta))/4)*Fii[,,2], ((C*(1 - delta))/4)*Fii[,,2], USi[,,1] + C*(1 - delta)*Fii[,,1])
 					)
 	zeta_i  <-  c(max(squashIm(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values)),
@@ -185,10 +180,10 @@ calcZeta  <-  function(om, Fii, Fii_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, la
 #########################
 ##  Calculate Atilde[ntilde] for 
 ##  boundary conditions
-AtildeBound  <-  function(nBound, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, Ig, HS, HX, K, Z, blkFS, blkFX) {
+AtildeBound  <-  function(nBound, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, Ig, HS, HX, K, Z, blkFS, blkFX, reorder=TRUE) {
 
         #Creating the male gamete pool
-        nX    <-  nBound[1:6] + nBound[7:12]
+        nX    <-  nBound[1:g*om] + nBound[(g*om+1):(2*g*om)]
         ngam  <-  ones(c(1,2)) %*% W_prime %*% blkFX_prime %*% nX
         
         #Equation 5 in the manuscript
@@ -222,7 +217,13 @@ AtildeBound  <-  function(nBound, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom,
         FtildeX  <-  t(K) %*% blkHX %*% K %*% blkFX
         Atilde   <-  rbind(cbind((UtildeS + FtildeS), FtildeS),
 						   cbind(FtildeX            , (UtildeX + FtildeX)))
-        AtildeCoexist  <-  Atilde[c(1,2,7,8,3,4,9,10,5,6,11,12),c(1,2,7,8,3,4,9,10,5,6,11,12)]
+
+        if(reorder == FALSE) {
+        	AtildeCoexist  <-  Atilde	
+        } else{
+        AtildeCoexist  <-  Atilde[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om),
+								  c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
+		}
         return(AtildeCoexist)
 }
 
@@ -238,67 +239,61 @@ AtildeBound  <-  function(nBound, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom,
 #' Forward Simulation 
 #'
 #' Parameters:
-#' dims: 	vector c(om, g), with om = # stages, g = # genotypes
+#' om:		Number of stages in life-cycle
+#' g:		number of genotypes (default 3 for 1-locus, 2-allele)
 #' theta: 	vector of length 4 (but actually becomes vector of length 7), c(sigmaS_J, sigmaS_A, sigmaX_J, sigmaX_A, gammaS, gammaX, f_ii)
-#' theta: 	vector of length 7, c(sigmaS_J, sigmaS_A, gammaS, sigmaX_J, sigmaX_A, gammaX, f_ii)
-fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_prime = c(0.6, 0.6, 0.6, 0.6, 0.05, 0.05, 5.9), 
-								hf = 1/2, hm = 1/2, sf = 0.1, sm = 0.105, C = 0, delta = 0, 
-								delta_j = 0, delta_a = 0, delta_gamma = 0,
-								tlimit = 10^4, Ainvade = FALSE, intInit = FALSE, ...) {
+#' theta_prime: Pollen production (specific value is not super important, default is set to equal f)
+#' hf,hm:	Dominance coefficient for SA fitness effects
+#' sf,sm:	Selection coefficient for SA fitness effects
+#' C:		Population selfing rate
+#' delta:	Early-acting inbreeding depression (proportion ovules aborted due to I.D.)
+#' delta_j:	Proportional decrease in juvenile survival rate for inbred offspring
+#' delta_j:	Proportional decrease in adult survival rate for inbred offspring
+#' delta_gamma: Proportional decrease in juv. --> adult transition rate for inbred offspring
+#' tlimit:	Max # of generations for fwd simulation
+#' Ainvade:	Should A allele start off rare
+#' intInit:	Optional initial frequency of A allele
+fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_prime = 5.9, 
+							 hf = 1/2, hm = 1/2, sf = 0.1, sm = 0.105, C = 0, delta = 0, 
+							 delta_j = 0, delta_a = 0, delta_gamma = 0, datMat = NA,
+							 tlimit = 10^4, Ainvade = FALSE, intInit = FALSE, ...) {
 
 	# Create identity and ones matrices
 	Ig   <-  diag(g)
 	Iom  <-  diag(om)
 	eg   <-  ones(c(g,1))
 	eom  <-  ones(c(om,1))
-	K    <-  vecperm(om,g)
+	K    <-  vecperm(om,g)	
 
 	####################################################
 	# PARAMETERS AND INITIAL CONDITIONS 
-	####################################################
-
+	####################################################	
 	# BASELINE PARAMETERS for survival and 
 	# fertility through Female and Male function, depending on whether individuals
 	# are produce by selfing or outcrossing
 	# theta=[sigmaS_J, sigmaS_A, gammaS, sigmaX_J, sigmaX_A, gammaX, f_ii]
 	# Late-acting inbreeding depression
-	theta        <-  c(0,0,0, theta)
-	theta[1]     <-  theta[4]*(1 - delta_j)
-	theta[2]     <-  theta[5]*(1 - delta_a)
-	theta[3]     <-  theta[6]*(1 - delta_gamma)
-	theta        <-  rep.col(theta,3)
-	theta_prime  <-  rep.col(theta_prime,3)
-	theta_prime  <-  rep.col(theta_prime,3)
-
+	theta     <-  c(0,0,0, theta)
+	theta[1]  <-  theta[4]*(1 - delta_j)
+	theta[2]  <-  theta[5]*(1 - delta_a)
+	theta[3]  <-  theta[6]*(1 - delta_gamma)
+	theta     <-  rep.col(theta,3)
+	f_prime   <-  rep(theta_prime,3)	
+	
 	# Fitness Expressions
 	fii        <-  c(1, 1 - hf*sf, 1 - sf)
-	fii_prime  <-  c(1 - sm, 1 - hm*sm, 1)
-
+	fii_prime  <-  c(1 - sm, 1 - hm*sm, 1)	
+	
 	##SELECTION DIFFERENTIAL FEMALE-FUNCTION
-	theta[7,]  <-  theta[7,]*fii
-
+	theta[7,]  <-  theta[7,]*fii	
+	
 	#SELECTION DIFFERENTIAL MALE-FUNCTION
-	theta_prime[7,]  <-  theta_prime[7,]*fii_prime
-
-	#Initial conditions for invasion: nzero  <-  [juv_AA, ad_AA, juv_Aa, ad_Aa, juv_aa, ad_aa]
-	# All aa
-		if(Ainvade) {
-			nzero  <- round(c(C*(1 - delta)*100*c(0,0,0,0,141.3,18.2),(1 - C)*100*c(0,0,0,0,141.3,18.2)))
-		} 
-		#All AA
-		if(!Ainvade) {
-			nzero  <-  round(c(C*(1 - delta)*100*c(141.3,18.2,0,0,0,0),(1 - C)*100*c(141.3,18.2,0,0,0,0)))
-		}
-		#All Aa
-		if(intInit) {
-			nzero  <-  round(c(C*(1 - delta)*100*c(0,0,141.3,18.2,0,0),(1 - C)*100*c(0,0,141.3,18.2,0,0)))
-		}
-
+	f_prime  <-  f_prime*fii_prime	
+	
 
 	####################################################
 	# Population and female fertility perameters
-	####################################################
-
+	####################################################	
 	sigmaS_J   <-  theta[1,]
 	sigmaS_A   <-  theta[2,]
 	gammaS     <-  theta[3,]
@@ -306,37 +301,24 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta
 	sigmaX_A   <-  theta[5,]
 	gammaX     <-  theta[6,]
 	f          <-  theta[7,]
-	f_prime    <-  theta_prime[7,]
 	USi        <-  zeros(c(om,om,g))
 	UXi        <-  zeros(c(om,om,g))
 	Fii        <-  zeros(c(om,om,g))
 	Fii_pr     <-  zeros(c(om,om,g))
-	Nfun       <-  zeros(c(om,om,g))
-	R          <-  zeros(c(om,om,g))
-	lambda     <-  zeros(c(1,g))
-	R_0        <-  zeros(c(1,g))
-	eigs_temp  <-  zeros(c(g,2))
 
 	# create genotype-specific survival and fertility submatrices
 	for (i in 1:3){
-	    USi[,,i]       <- rbind(c(sigmaS_J[i]*(1 - gammaS[i]), 0         ),
-	                            c(sigmaS_J[i]*gammaS[i],       sigmaS_A[i]))
-	    UXi[,,i]       <- rbind(c(sigmaX_J[i]*(1 - gammaX[i]), 0         ),
-	                            c(sigmaX_J[i]*gammaX[i],       sigmaX_A[i]))
-	    Fii[,,i]       <- rbind(c(0,f[i]),
-						        c(0,0))
-	    Fii_pr[,,i]    <- rbind(c(0,f_prime[i]),
-								c(0,0))
-    
-		# genotype-specific population growth rate
-		eigs_temp[i,]  <-  eigen((C*(1 - delta)*Fii[,,i] + USi[,,i]) + ((1 - C)*Fii[,,i] + UXi[,,i]), symmetric=FALSE, only.values = TRUE)$values
-		lambda[i]      <-  max(eigs_temp)
-		Nfun[,,i]      <-  solve((diag(2) - (C*(1 - delta)*USi[,,i] + (1 - C)*UXi[,,i])), diag(2))
-		R[,,i]         <-  (C*(1 - delta)*Fii[,,i] + (1 - C)*Fii[,,i]) %*% Nfun[,,i]
-		#genotype-specific R0
-		R_0[i] <- max(eigen(R[,,i],symmetric=FALSE, only.values = TRUE)$values)
+		   USi[,,i]       <- rbind(c(sigmaS_J[i]*(1 - gammaS[i]), 0         ),
+		                           c(sigmaS_J[i]*gammaS[i],       sigmaS_A[i]))
+		   UXi[,,i]       <- rbind(c(sigmaX_J[i]*(1 - gammaX[i]), 0         ),
+		                           c(sigmaX_J[i]*gammaX[i],       sigmaX_A[i]))
+		   Fii[,,i]       <- rbind(c(0,f[i]),
+							       c(0,0))
+		   Fii_pr[,,i]    <- rbind(c(0,f_prime[i]),
+								   c(0,0))	
 	}
 
+	# Genotype-specific growth rates
 	Atilde_genotype  <-  zeros(c(2*om,2*om,g))
 	lambda_full      <-  as.vector(zeros(c(1,g)))
 	for (i in 1:3){
@@ -371,31 +353,49 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta
 				c(0,0,0,1)
 				)
 
+	#Initial conditions for invasion: nzero  <-  [juv_AA, ad_AA, juv_Aa, ad_Aa, juv_aa, ad_aa]
+		# All aa
+		if(Ainvade) {
+			nzero  <-  round(c(C*100*c(rep(0,times = 2*om), as.vector(220*UXi[,1,1])), 
+						 (1 - C)*100*c(rep(0,times = 2*om), as.vector(220*UXi[,1,1]))))
+		} 
+		#All AA
+		if(!Ainvade) {
+			nzero  <-  round(c(C*100*c(as.vector(220*UXi[,1,1]), rep(0,times = 2*om)),
+						 (1 - C)*100*c(as.vector(220*UXi[,1,1]), rep(0,times = 2*om))))
+		}
+		#All Aa
+		if(intInit) {
+			nzero  <-  round(c(C*100*c(rep(0,times = om), as.vector(220*UXi[,1,1]), rep(0,times = om)),
+				         (1 - C)*100*c(rep(0,times = om), as.vector(220*UXi[,1,1]), rep(0,times = om))))
+		}
+
 	# INITIAL CONDITIONS
 	nzero  <- c(nzero)
 	n      <- t(t(nzero))
 	nout   <- zeros(c((2*om*g),tlimit))
-	pout   <- zeros(c(g,tlimit))
 
 	###############################################################
 	# Simulating the Stage X genotype dynamics - generation loop
 	###############################################################
-	i  <-  1
-	tmp       <-  kronecker(diag(g),ones(c(1,om))) %*% (nzero[1:6] + nzero[7:12])
-	p         <-  tmp/colSums(tmp)
-	pDelta    <-  c(1,1,1)
+	i       <-  1
+	tmp     <-  kronecker(diag(g),ones(c(1,om))) %*% (nzero[1:6] + nzero[7:12])
+	p       <-  tmp/colSums(tmp)
+	pDelta  <-  c(1,1,1)
 	# begin generation loop
 	while( sum(n) > 1  &&  any(pDelta > 1e-9) && i <= tlimit) {
 
+		# Populate n & p timeseries for current generation
 		nout[,i]  <-  n
 
-	    # Introduce new allele by introducing one heterozygote juvenile
+	    # Introduce new allele by introducing one heterozygote juvenile (produced by )
 	    if (i==10){
-	      n[9]  <-  1
+			n[(om+1)]       <-  1
+			n[(om*g+om+1)]  <-  1
 	    }
 
         #Creating the male gamete pool
-        nX    <-  n[1:6] + n[7:12]
+        nX    <-  n[1:(g*om)] + n[(g*om+1):(2*g*om)]
         ngam  <-  ones(c(1,2)) %*% W_prime %*% blkFX_prime %*% nX
         
         #Equation 5 in the manuscript
@@ -437,13 +437,13 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta
 		if (sum(nnext) > 1e+200) {
 			nnext  <-  nnext * 1e-10
 			n      <-  nnext
-			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% (nnext[1:6] + nnext[7:12])
+			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% (nnext[1:g*om] + nnext[(g*om+1):(2*g*om)])
 			pnext  <-  tmp/colSums(tmp)
 			pcheck <-  p
 			p      <-  pnext
 		} else{
 			n      <-  nnext
-			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% (nnext[1:6] + nnext[7:12])
+			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% (nnext[1:g*om] + nnext[(g*om+1):(2*g*om)])
 			pnext  <-  tmp/colSums(tmp)
 			pcheck <-  p
 			p      <-  pnext
@@ -455,21 +455,24 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta
 
 		#  Calculate eigenvalues based on Analytic results
 		if(i == 1) {
+
 			# initial frequencies for the two boundaries 
 			# where AA genotype is fixed, and where aa genotype is fixed
-			nBoundAA  <-  round(c(C*(1 - delta)*100*c(141.3,18.2,0,0,0,0),(1 - C)*100*c(141.3,18.2,0,0,0,0)))
-			nBoundaa  <-  round(c(C*(1 - delta)*100*c(0,0,0,0,141.3,18.2),(1 - C)*100*c(0,0,0,0,141.3,18.2)))
+			nBoundAA  <-  round(c(C*100*c(as.vector(220*UXi[,1,1]), rep(0,times = 2*om)),
+						 (1 - C)*100*c(as.vector(220*UXi[,1,1]), rep(0,times = 2*om))))
+			nBoundaa  <-  round(c(C*100*c(rep(0,times = 2*om), as.vector(220*UXi[,1,1])), 
+							(1 - C)*100*c(rep(0,times = 2*om), as.vector(220*UXi[,1,1]))))
 			pBoundAA  <-  nBoundAA/norm(as.matrix(nBoundAA), type="1")
 			pBoundaa  <-  nBoundaa/norm(as.matrix(nBoundaa), type="1")
 			
 			# we rearrange the order of the phat values so they match
 			# the structure of our jacobian, which was ordered by genotype, then self/outcross
-			pHat_AA    <-  pBoundAA[c(1,2,7,8,3,4,9,10,5,6,11,12)]
-			pHat_aa    <-  pBoundaa[c(1,2,7,8,3,4,9,10,5,6,11,12)]
+			pHat_AA    <-  pBoundAA[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
+			pHat_aa    <-  pBoundaa[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
 			
 			# calculate Atilde[ptilde]
-			testAtilde_AA  <-  AtildeBound(nBound=pBoundAA, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
-			testAtilde_aa  <-  AtildeBound(nBound=pBoundaa, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
+			testAtilde_AA  <-  AtildeBound(nBound=pBoundAA, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
+			testAtilde_aa  <-  AtildeBound(nBound=pBoundaa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
 			
 			# Calculate a naive genotype-specific eigenvalue for comparison
 			# note, that this gives the same value for lambda_i as we get 
@@ -486,8 +489,7 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta
 			# Calcuate lambda_AA and lambda_aa both using the as described in the notes file
 			# (Eq(17) in the linearization at the boundary equilibrium subsection)
 			lambda_i   <-  c(testLambda_AA[1], testLambda_aa[3])
-#			lambda2_i  <-  c(t(ones(2*om*g)) %*% testAtilde_AA %*% pHat_AA,
-#							 t(ones(2*om*g)) %*% testAtilde_aa %*% pHat_aa)
+
 
 			# Calculate coexistence conditions based on leading eigenvalue of the Jacobian
 			zeta_i  <-  calcZeta(om=om, Fii=Fii, Fii_pr=Fii_pr, USi=USi, UXi=UXi,
@@ -500,16 +502,15 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta
 
 	##################
 	# results
-	temp         <-  kronecker(diag(g),ones(c(1,om))) %*% (nout[1:6,] + nout[7:12,])
+	nout  <-  nout[,1:(i-1)]
+	temp         <-  kronecker(diag(g),ones(c(1,om))) %*% (nout[1:(3*om),] + nout[(3*om+1):(6*om),])
 	p_genotypes  <-  sweep(temp,2,colSums(temp),'/')
 	res  <-  list(
 					"nout"         =  nout,
-					"pout"         =  pout,
 					"p_genotypes"  =  p_genotypes,
-					"pEq"          =  p_genotypes[,(i-1)],
+					"pEq"          =  p_genotypes[,ncol(p_genotypes)],
 					"pDelta"       =  pDelta,
 					"nzero"        =  nzero,
-					"lambda"       =  lambda,
 					"lambda_full"  =  lambda_full,
 					"zeta_i"       =  zeta_i,
 					"om"           =  om,
@@ -529,7 +530,7 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta
 					"Ainvade"      =  Ainvade,
 					"intInit"      =  intInit,
 					"extinct"      =  sum(n) < 1,
-					"polymorphism" =  !any(round(p_genotypes[,(i-1)], digits=5) == 1),
+					"polymorphism" =  !any(round(p_genotypes[,ncol(p_genotypes)], digits=5) == 1),
 					"runtime"      =  (i-1)
 					)
 	return(res)
@@ -544,7 +545,7 @@ fwdDemModelSim  <-  function(	om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta
 #' theta: 	vector of length 4, c(sigma_J, sigma_A, gamma, f_ii)
 #' selPars:	vector of length 4, c(hf, hm, sf, sm,)
 selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
-					  om = 2, g = 3, theta = c(0.6,0.6,0.05,6.1), theta_prime = c(0.6,0.6,0.05,6.1), 
+					  om = 2, g = 3, theta = c(0.6,0.6,0.05,6.1), theta_prime = 6.1, 
 					  hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 					  delta_j = 0, delta_a = 0, delta_gamma = 0,
 					  tlimit = 10^5, intInit = FALSE, writeFile=TRUE, progBar = TRUE, ...) {
@@ -645,7 +646,7 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 #' Parameter space for different Selfing rates & dominance
 #'
 polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
-									 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = c(0.6,0.6,0.05,6), 
+									 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 									 hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 									 delta_j = 0, delta_a = 0, delta_gamma = 0,
 									 tlimit = 10^5) {
@@ -727,7 +728,7 @@ polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 #' Parameter space for different Selfing rates & dominance
 #'
 deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
-									om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = c(0.6,0.6,0.05,6.5), 
+									om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
 									hf = 1/2, hm = 1/2, C = 1/2,
 									tlimit = 10^5) {
 	
@@ -1012,7 +1013,7 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 #' Parameter space for different Selfing rates & dominance
 #'
 deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
-											om = 2, g = 3, theta = c(0.6,0.6,0.05,7), theta_prime = c(0.6,0.6,0.05,7), 
+											om = 2, g = 3, theta = c(0.6,0.6,0.05,7), theta_prime = 7, 
 											hf = 1/2, hm = 1/2, dStar = 0.8, 
 											tlimit = 10^5) {
 	
@@ -1276,5 +1277,471 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 	filename <-  paste("./output/simData/deltaSelfingSimPolySpace", "_sMax", sMax, "_nSamples", nSamples, "_dStar", dStar, "_hf", hf, "_hm", hm,
 					   "_f", theta[4], ".csv", sep="")
 	write.csv(results.df, file=filename, row.names = FALSE)
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+###################################################
+#  ANALYSES USING REAL DEMOGRAPHIC DATA
+###################################################
+
+#' Parameters:
+#' datMat:	List of Demography matrices from COMPADRE
+#' theta: 	vector of demographic parameters from Peterson et al. (2016)
+#' 			theta = list(D, G, F, O, A, S, R), where
+#' 			D = seed bank survival (0.534)
+#' 			G = seed germination rate (0.469)
+#' 			F = flower production (0.64)
+#' 			O = ovules per flower (614)
+#' 			A = seedling recruits proportional to clonal rosette recruits (6.7e-4)
+#' 			S = overwinter survival (0.179)
+#' 			R = rosette production (8.71)
+#' hf,hm:	Dominance coefficient for SA fitness effects
+#' sf,sm:	Selection coefficient for SA fitness effects
+#' C:		Population selfing rate
+#' delta_o:	Early-acting inbreeding depression (proportional loss of ovules due to I.D.)
+#' delta_j:	Proportional decrease in juvenile survival rate for inbred offspring
+#' delta_j:	Proportional decrease in adult survival rate for inbred offspring
+#' delta_gamma: Proportional decrease in juv. --> adult transition rate for inbred offspring
+#' tlimit:	Max # of generations for fwd simulation
+#' Ainvade:	Should A allele start off rare
+#' intInit:	Optional initial frequency of A allele
+fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TRUE,
+								hf = 1/2, hm = 1/2, sf = 0.025, sm = 0.03, C = 0,
+								tlimit = 10^4, Ainvade = FALSE, intInit = FALSE, ...) {
+
+	# calculate # life stages from data matrices
+	g   <-  3
+	om  <-  ncol(datMat$A)
+
+	# Create identity and ones matrices
+	Ig   <-  diag(g)
+	Iom  <-  diag(om)
+	eg   <-  ones(c(g,1))
+	eom  <-  ones(c(om,1))
+	K    <-  vecperm(om,g)
+
+	# Fitness Expressions
+	fii        <-  c(1, 1 - hf*sf, 1 - sf)
+	fii_prime  <-  c(1 - sm, 1 - hm*sm, 1)
+
+	# unpack demographic parameters
+	D  <-  theta.list$D
+	G  <-  theta.list$G
+	F  <-  theta.list$F
+	O  <-  theta.list$O
+	A  <-  theta.list$A
+	S  <-  theta.list$S
+	R  <-  theta.list$R
+
+	# unpack inbreeding depression parameters
+	delta_D  <-  delta.list$delta_D
+	delta_G  <-  delta.list$delta_G
+	delta_F  <-  delta.list$delta_F
+	delta_O  <-  delta.list$delta_O
+	delta_S  <-  delta.list$delta_S
+
+	if(useCompadre) {
+	# unpack inbreeding depression parameters
+	delta_O  <-  delta.list$delta_O
+	delta_S  <-  delta.list$delta_S
+
+	# create delta matrix 
+	deltaMat  <-  matrix(rbind( c(1, (1 - delta_O), (1 - delta_O)),
+								c(1, (1 - delta_O), (1 - delta_O)),
+								c(1, (1 - delta_S), (1 - delta_S))), nrow=om, ncol=om)
+	datMatF_S  <-  datMat$F*deltaMat
+	datMatF_X  <-  datMat$F
+	datMatU_S  <-  datMat$U*deltaMat
+	datMatU_X  <-  datMat$U
+	}
+
+	if(!useCompadre) {
+	parDatMatS  <-  list(
+					 U = matrix(rbind(c(D*(1 - delta_D)*(1 - (G*(1 - delta_G))), 0, 0),
+									  c(D*(1 - delta_D)*G*(1 - delta_G), F*(1 - delta_F)*O*(1 - delta_O)*A*G*(1 - delta_G), F*(1 - delta_F)*O*(1 - delta_O)*A*G*(1 - delta_G)),
+									  c(0, S*(1 - delta_S)*R*(1 - delta_S), S*(1 - delta_S)*R*(1 - delta_S))), nrow=om, ncol=om),
+					 F = matrix(rbind(c(0, F*(1 - delta_F)*O*(1 - delta_O)*A*(1 - G*(1 - delta_G)), F*(1 - delta_F)*O*(1 - delta_O)*A*(1 - G*(1 - delta_G))),
+									  c(0, 0, 0),
+									  c(0, 0, 0)), nrow=om, ncol=om)
+					 )
+	parDatMatX  <-  list(
+					 U = matrix(rbind(c(D*(1 - G), 0, 0),
+									  c(D*G, F*O*A*G, F*O*A*G),
+									  c(0, S*R, S*R)), nrow=om, ncol=om),
+					 F = matrix(rbind(c(0, F*O*A*(1 - G), F*O*A*(1 - G)),
+									  c(0, 0, 0),
+									  c(0, 0, 0)), nrow=om, ncol=om)
+					 )
+	}
+	#Initial conditions for invasion: nzero  <-  [Seed_AA, Seedling_AA, Ramet_AA, Seed_Aa, Seedling_Aa, Ramet_Aa, Seed_aa, Seedling_aa, Ramet_aa]
+	if(useCompadre){
+		# All aa
+		if(Ainvade) {
+			nzero   <- round(c(C*100*c(rep(0,times = 2*om), as.vector(220*datMat$U[,1])),
+						 (1 - C)*100*c(rep(0,times = 2*om), as.vector(220*datMat$U[,1]))))
+			nBoundAA  <-  round(c(C*100*c(as.vector(220*datMat$U[,1]), rep(0,times = 2*om)),
+						  (1 - C)*100*c(as.vector(220*datMat$U[,1]), rep(0,times = 2*om))))
+			nBoundaa  <-  nzero
+		} 
+		#All AA
+		if(!Ainvade) {
+			nzero   <-  round(c(C*100*c(as.vector(220*datMat$U[,1]), rep(0,times = 2*om)),
+						  (1 - C)*100*c(as.vector(220*datMat$U[,1]), rep(0,times = 2*om))))
+			nBoundAA  <-  nzero
+			nBoundaa  <- round(c(C*100*c(rep(0,times = 2*om), as.vector(220*datMat$U[,1])),
+						 (1 - C)*100*c(rep(0,times = 2*om), as.vector(220*datMat$U[,1]))))
+		}
+	}
+	if(!useCompadre){
+		# All aa
+		if(Ainvade) {
+			nzero  <- round(c(C*100*c(rep(0,times = 2*om), as.vector(220*parDatMatX$U[,1])), 
+						(1 - C)*100*c(rep(0,times = 2*om), as.vector(220*parDatMatX$U[,1]))))
+		} 
+		#All AA
+		if(!Ainvade) {
+			nzero  <-  round(c(C*100*c(as.vector(220*parDatMatX$U[,1]), rep(0,times = 2*om)), 
+						 (1 - C)*100*c(as.vector(220*parDatMatX$U[,1]), rep(0,times = 2*om))))
+		}
+	}
+
+	####################################################
+	# Population and female fertility perameters
+	####################################################
+	USi        <-  zeros(c(om,om,g))
+	UXi        <-  zeros(c(om,om,g))
+	Fii        <-  zeros(c(om,om,g))
+	Fii_pr     <-  zeros(c(om,om,g))
+
+	# create genotype-specific survival and fertility submatrices
+	for (i in 1:g){
+	    
+	    if(useCompadre) {
+			USi[,,i]     <-  datMatU_S
+			UXi[,,i]     <-  datMatU_X
+			Fii[,,i]     <-  datMatF_S
+			Fii_pr[,,i]  <-  datMatF_X
+	    }
+		if(!useCompadre) {
+	    	USi[,,i]     <-  parDatMatS$U
+	    	UXi[,,i]     <-  parDatMatX$U
+	    	Fii[,,i]     <-  parDatMatS$F
+	    	Fii_pr[,,i]  <-  parDatMatX$F
+		}
+		Fii[,,i]     <-  Fii[,,i]*matrix(rbind(   c(1,fii[i],fii[i]),
+												  c(1,1,1),
+												  c(1,1,1)), nrow=om, ncol=om)
+		Fii_pr[,,i]  <-  Fii_pr[,,i]*matrix(rbind(c(1,fii_prime[i],fii_prime[i]),
+												  c(1,1,1),
+												  c(1,1,1)), nrow=om, ncol=om)
+	}
+
+	# Genotype-specific growth rates
+	Atilde_genotype  <-  zeros(c(2*om,2*om,g))
+	lambda_full      <-  as.vector(zeros(c(1,g)))
+	for (i in 1:g){
+		Atilde_genotype[,,i]  <- rbind( cbind(USi[,,i] + C*Fii[,,i], C*Fii[,,i]), 
+										cbind((1 - C)*Fii[,,i], UXi[,,i] + (1 - C)*Fii[,,i])
+								   	   )
+		lambda_full[i]    <-  max(squashIm(eigen(Atilde_genotype[,,i],symmetric=FALSE, only.values = TRUE)$values))
+	}
+
+	# CREATE BLOCK DIAGONAL MATRICES
+	d 			 <-  diag(g)
+	blkD         <-  kronecker(Iom,d)
+	blkUS        <-  zeros(c(g*om,g*om))
+	blkUX        <-  zeros(c(g*om,g*om))
+	blkFS        <-  zeros(c(g*om,g*om))
+	blkFX        <-  zeros(c(g*om,g*om))
+	blkFX_prime  <-  zeros(c(g*om,g*om))
+	for (i in 1:g){
+		blkUS        <-  blkUS + kronecker(emat(g,g,i,i),USi[,,i])
+		blkUX        <-  blkUX + kronecker(emat(g,g,i,i),UXi[,,i])
+		blkFS        <-  blkFS + kronecker(emat(g,g,i,i),C*Fii[,,i])
+		blkFX        <-  blkFX + kronecker(emat(g,g,i,i),(1 - C)*Fii[,,i])
+		blkFX_prime  <-  blkFX_prime + kronecker(emat(g,g,i,i),(1 - C)*Fii_pr[,,i])
+	}
+	W_prime  <-  rbind(cbind(ones(c(1,om)),.5*ones(c(1,om)),0*ones(c(1,om))),
+					   cbind(0*ones(c(1,om)),.5*ones(c(1,om)),ones(c(1,om))))
+	W <- rbind( c(1,0.5,0),
+				c(0,0.5,1)
+				)
+	Z <- rbind( c(1,0,0,0),
+				c(0,1,1,0),
+				c(0,0,0,1)
+				)
+
+	# INITIAL CONDITIONS
+	n         <-  t(t(c(nzero)))
+	nout      <-  zeros(c((2*om*g),tlimit))
+	nBoundAA  <-  t(t(c(nBoundAA)))
+	nBoundaa  <-  t(t(c(nBoundaa)))
+
+	###############################################################
+	# Simulating the Stage X genotype dynamics - generation loop
+	###############################################################
+	i       <-  1
+	tmp     <-  kronecker(diag(g),ones(c(1,om))) %*% (nzero[1:g*om] + nzero[(g*om+1):(2*g*om)])
+	p       <-  tmp/colSums(tmp)
+	pDelta  <-  c(1,1,1)
+	# begin generation loop
+	while( sum(n) > 1  &&  any(pDelta > 1e-9) && i <= tlimit) {
+
+		# Populate n & p timeseries for current generation
+		nout[,i]  <-  n
+
+		# Introduce new allele by introducing one heterozygote seed
+		if (i==10){
+			n[(om+2)]       <-  1
+			n[(om*g+om+2)]  <-  1
+		}
+
+        #Creating the male gamete pool
+        nX    <-  n[1:(g*om)] + n[(g*om+1):(2*g*om)]
+        ngam  <-  ones(c(1,2)) %*% W_prime %*% blkFX_prime %*% nX
+        
+        #Equation 5 in the manuscript
+        q_prime <- (W_prime%*%blkFX_prime%*%nX)/ngam[1] 
+
+        UtildeS  <-  blkUS
+        UtildeX  <-  blkUX
+
+        # Parent-Offspring genotype map - Selfing
+        HS <- rbind(c(1, 1/4, 0),
+					c(0, 1/2, 0),
+					c(0, 1/4, 1))
+        # Parent-Offspring genotype map - Outcrossing
+        HX <- zeros(c(g,g))
+
+        for (ii in 1:g){
+            Pi  <-  Ig[,ii]
+            qi  <-  W %*% Pi #allele frequencies in oocytes of genotype i
+
+            # genotype frequencies in the offspring of mothers of genotype i
+            # produced by outcrossing (equation 16 in de Vries and Caswell, 2018a (American Naturalist))
+            Piprime  <-  Z %*% kronecker(qi,q_prime)
+
+            HX[,ii]  <-  Piprime # the outcrossing parent-offspring matrix
+        }
+
+        blkHS    <-  kronecker(Iom,HS)
+        blkHX    <-  kronecker(Iom,HX)
+
+        FtildeS  <-  t(K) %*% blkHS %*% K %*% blkFS
+        FtildeX  <-  t(K) %*% blkHX %*% K %*% blkFX
+        Atilde   <-  rbind(cbind((UtildeS + FtildeS), FtildeS),
+						   cbind(FtildeX            , (UtildeX + FtildeX)))
+
+		# Project population into next generation
+        nnext  <-  Atilde %*% n
+        
+        # Regulate population size to avoid crashing simulation
+		if (sum(nnext) > 1e+200) {
+			nnext  <-  nnext * 1e-10
+			n      <-  nnext
+			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% (nnext[1:g*om] + nnext[(g*om+1):(2*g*om)])
+			pnext  <-  tmp/colSums(tmp)
+			pcheck <-  p
+			p      <-  pnext
+		} else{
+			n      <-  nnext
+			tmp    <-  kronecker(diag(g),ones(c(1,om))) %*% (nnext[1:g*om] + nnext[(g*om+1):(2*g*om)])
+			pnext  <-  tmp/colSums(tmp)
+			pcheck <-  p
+			p      <-  pnext
+		}
+
+		#  Start checking if allele frequencies are in equilibrium
+		if(i > 20) {
+			pDelta  <-  abs(pnext - pcheck)
+		}
+
+		#  Burn-in calculation of # of individuals in each stage
+		#  prior to introduction of rare allele
+		if(i < 10) {
+			pBoundAA  <-  nBoundAA/norm(as.matrix(nBoundAA), type="1")
+			pBoundaa  <-  nBoundaa/norm(as.matrix(nBoundaa), type="1")
+			nBoundAA  <-  AtildeBound(nBound=pBoundAA, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX, reorder=FALSE) %*% nBoundAA
+			nBoundaa  <-  AtildeBound(nBound=pBoundaa, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX, reorder=FALSE) %*% nBoundaa
+        }
+
+		#  Calculate eigenvalues based on Analytic results
+        if(i == 10) {
+			# calculate Atilde[ptilde]
+			testAtilde_AA  <-  AtildeBound(nBound=pBoundAA, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
+			testAtilde_aa  <-  AtildeBound(nBound=pBoundaa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
+			
+			# Calculate a naive genotype-specific eigenvalue for comparison
+			# note, that this gives the same value for lambda_i as we get 
+			# elsewhere in the simulation (see lambda_full)
+			testLambda_AA  <-  c(max(squashIm(eigen(testAtilde_AA[c(1:(2*om)),      c(1:(2*om))],      symmetric=FALSE, only.values = TRUE)$values)),
+							     max(squashIm(eigen(testAtilde_AA[c(2*om+1:(2*om)), c(2*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values)),
+							     max(squashIm(eigen(testAtilde_AA[c(4*om+1:(2*om)), c(4*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
+								)
+			testLambda_aa  <-  c(max(squashIm(eigen(testAtilde_aa[c(1:(2*om)),      c(1:(2*om))],      symmetric=FALSE, only.values = TRUE)$values)),
+							     max(squashIm(eigen(testAtilde_aa[c(2*om+1:(2*om)), c(2*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values)),
+							     max(squashIm(eigen(testAtilde_aa[c(4*om+1:(2*om)), c(4*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
+								)
+			
+			# Calcuate lambda_AA and lambda_aa both using the as described in the notes file
+			# (Eq(17) in the linearization at the boundary equilibrium subsection)
+			lambda_i   <-  c(testLambda_AA[1], testLambda_aa[3])
+
+			# we rearrange the order of the phat values so they match
+			# the structure of our jacobian, which was ordered by genotype, then self/outcross
+			pHat_AA    <-  pBoundAA[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
+			pHat_aa    <-  pBoundaa[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
+
+			# Calculate coexistence conditions based on leading eigenvalue of the Jacobian
+			zeta_i  <-  calcZeta(om=om, Fii=Fii, Fii_pr=Fii_pr, USi=USi, UXi=UXi,
+								 pHat_AA=pHat_AA, pHat_aa=pHat_aa, C=C, delta=0, 
+								 lambda_AA_aa=lambda_i)
+		}
+
+		i  <-  i + 1
+	}
+
+	##################
+	# results
+	nout  <-  nout[,1:(i-1)]
+	temp         <-  kronecker(diag(g),ones(c(1,om))) %*% (nout[1:(3*om),] + nout[(3*om+1):(6*om),])
+	p_genotypes  <-  sweep(temp,2,colSums(temp),'/')
+	res  <-  list(	"data"         =  datMat,
+					"nout"         =  nout,
+					"p_genotypes"  =  p_genotypes,
+					"pEq"          =  p_genotypes[,(i-1)],
+					"pDelta"       =  pDelta,
+					"nzero"        =  nzero,
+					"lambda_full"  =  lambda_full,
+					"zeta_i"       =  zeta_i,
+					"om"           =  om,
+					"g"            =  g,
+					"theta"        =  unlist(theta.list),
+					"hf"           =  hf,
+					"hm"           =  hm,
+					"sf"           =  sf,
+					"sm"           =  sm,
+					"C"            =  C,
+					"delta"        =  unlist(delta.list),
+					"tlimit"       =  tlimit,
+					"Ainvade"      =  Ainvade,
+					"intInit"      =  intInit,
+					"extinct"      =  sum(n) < 1,
+					"polymorphism" =  !any(round(p_genotypes[,(i-1)], digits=5) == 1),
+					"runtime"      =  (i-1)
+					)
+	return(res)
+
+}
+
+
+
+
+
+##############################
+#' Loop over selection space 
+#' Using Compadre Data
+#'
+#' Parameters:
+#' dims: 	vector c(om, g), with om = # stages, g = # genotypes
+#' theta: 	vector of length 4, c(sigma_J, sigma_A, gamma, f_ii)
+#' selPars:	vector of length 4, c(hf, hm, sf, sm,)
+selLoopDatMat  <-  function(sMax = 0.15, nSamples=1e+2, taxa = "Mimulus",
+							datMat, theta.list, delta.list, useCompadre = FALSE,
+							hf = 1/2, hm = 1/2, C = 0, 
+							tlimit = 10^5, intInit = FALSE, writeFile=TRUE, progBar = TRUE, ...) {
+	
+	sfs           <-  runif(min = 0, max=sMax, n=nSamples)
+	sms           <-  runif(min = 0, max=sMax, n=nSamples)
+	extinct       <-  rep(NA,times=nSamples)
+	polymorphism  <-  rep(NA,times=nSamples)
+	pEq           <-  matrix(0, ncol=3, nrow=nSamples)
+	zeta_i        <-  matrix(0, ncol=2, nrow=nSamples)
+	lambda_i      <-  matrix(0, ncol=3, nrow=nSamples)
+
+	for(i in 1:nSamples) {
+		if(hf == hm && hf == 1/2) {
+			qHat  <-  popGen_qHat_Add(sf = sfs[i], sm = sms[i], C = C)
+		}
+		if(hf == hm && hf < 1/2) {
+			qHat  <-  popGen_qHat_DomRev(h = hf, sf = sfs[i], sm = sms[i], C = C)
+		}
+			if(qHat < 1/2){
+				Ainvade  <-  TRUE
+			}
+			if(qHat > 1/2){
+				Ainvade  <-  FALSE
+			}
+
+
+			results  <-  fwdSimCompadreDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
+										hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C,
+										tlimit = 10^5, Ainvade = Ainvade, intInit = intInit)
+
+			intInit  <-  FALSE
+			extinct[i]       <-  results$extinct
+			polymorphism[i]  <-  results$polymorphism
+			pEq[i,]          <-  results$pEq
+			zeta_i[i,]       <-  results$zeta_i
+			lambda_i[i,]     <-  results$lambda_full
+
+		if(progBar){
+			cat('\r', paste(100*(i/nSamples),'% Complete'))
+		}
+
+	}
+
+	# compile results as data frame
+	hfVec       <-  rep(hf, times=nSamples)
+	hmVec       <-  rep(hm, times=nSamples)
+	CVec        <-  rep(C, times=nSamples)
+	results.df  <-  as.data.frame(cbind(sfs, 
+										sms, 
+										extinct, 
+										polymorphism, 
+										pEq, 
+										zeta_i,
+										lambda_i,
+										hfVec, 
+										hmVec, 
+										CVec
+										)
+								 )
+	colnames(results.df)  <-  c("sf",
+								"sm",
+								"extinct",
+								"poly",
+								"Eq_pAA",
+								"Eqp_Aa",
+								"Eq_paa",
+								"zeta_AA",
+								"zeta_aa",
+								"lambda_AA",
+								"lambda_Aa",
+								"lambda_aa",
+								"hf",
+								"hm",
+								"C"
+								)
+
+	# export data as .csv to ./output/data
+	if(writeFile) {
+			filename <-  paste("./output/simData/simSfxSm_", taxa, "_sMax", sMax, "_nSamples", nSamples, 
+							   "_hf", hf, "_hm", hm, "_C", C, "_Compadre", useCompadre, ".csv", sep="")
+			write.csv(results.df, file=filename, row.names = FALSE)
+	} else{
+			return(results.df)
+	}
 
 }
