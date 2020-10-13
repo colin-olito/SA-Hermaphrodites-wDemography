@@ -39,35 +39,41 @@ cdb_Mg   <-  cdb_check_species(compadre, "Mimulus guttatus", return_db = TRUE)
 # Author info and population names
 cdb_Mg$Authors
 cdb_Mg$MatrixPopulation
+cdb_Mg$MatrixStartYear
 
-# load class info for Eagle river population from Petersen et al. (2016).
+# load class info for Eagle Meadows population from Petersen et al. (2016).
 # this is a perennial montane population that was used as the 'local'
 # population in this study. All other populations were grown in a common
-# garden in the field at Eagle River.
+# garden in the field at Eagle Meadows
 classInfo        <-  matrixClass(cdb_Mg)
-Mg_ER            <-  cdb_Mg[22]
-Mg_ER_classInfo  <-  classInfo[[22]]
+Mg_EM            <-  cdb_Mg[22]
+Mg_EM_classInfo  <-  classInfo[[22]]
 
 # Look at matrices
-Mg_ER$mat
-matList_Mg_ER  <-  list(
-						"A"  =  matA(Mg_ER)[[1]],
-						"U"  =  matU(Mg_ER)[[1]],
-						"F"  =  matF(Mg_ER)[[1]],
-						"C"  =  matC(Mg_ER)[[1]]
+Mg_EM$mat
+matList_Mg_EM  <-  list(
+						"A"  =  matA(Mg_EM)[[1]],
+						"U"  =  matU(Mg_EM)[[1]],
+						"F"  =  matF(Mg_EM)[[1]],
+						"C"  =  matC(Mg_EM)[[1]]
 						)
 for(i in 1:4) {
-	colnames(matList_Mg_ER[[i]])  <-  classInfo[[22]][,2]
+	rownames(matList_Mg_EM[[i]])  <-  classInfo[[22]][,2]
+	colnames(matList_Mg_EM[[i]])  <-  classInfo[[22]][,2]
 }
-matList_Mg_ER
+matList_Mg_EM
 
-# replace NA's with 0's in U matrix
-# this ensures that all individuals 
-# die after the 2nd season. No immortals allowed!
-matList_Mg_ER$U[3,2:3]  <-  0
+# Mistake in Data(?!?). Data from COMPADRE has NA's in U, 
+# but according to Matrix 1 in Peterson et al. (2016) 
+# and values reported in Table 1 from the Corregendum,
+# these values should be as follows:
+matList_Mg_EM$A[3,c(2,3)]  <-  0.179*8.71
+matList_Mg_EM$U[3,c(2,3)]  <-  0.179*8.71
 
 # Take a look at lambda for this population
-popdemo::eigs(matList_Mg_ER$A, what="lambda")
+popdemo::eigs(matList_Mg_EM$A, what="lambda")
+
+
 
 
 
