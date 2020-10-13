@@ -65,6 +65,14 @@ toPdf(polySpaceFig(df1 = "simPolySpace_sMax0.15_nSamples5000_hf0.5_hm0.5_delta0_
 			figPath(name='polymorphicSpace.pdf'), width=5, height=7)
 embed_fonts(figPath(name='polymorphicSpace.pdf'))
 
+toPdf(polySpaceFig(df1 = "simPolySpaceNew_sMax0.15_nSamples2000_hf0.5_hm0.5_delta0_dj0_da0_dg0_f5.8",
+				   df2 = "simPolySpaceNew_sMax0.15_nSamples2000_hf0.5_hm0.5_delta0_dj0_da0_dg0_f6",
+				   df3 = "simPolySpaceNew_sMax0.15_nSamples2000_hf0.5_hm0.5_delta0_dj0_da0_dg0_f6.5",
+				   df4 = "simPolySpaceNew_sMax0.15_nSamples1000_hf0.25_hm0.25_delta0_dj0_da0_dg0_f5.8",
+				   df5 = "simPolySpaceNew_sMax0.15_nSamples1000_hf0.25_hm0.25_delta0_dj0_da0_dg0_f5.9",
+				   df6 = "simPolySpaceNew_sMax0.15_nSamples1000_hf0.25_hm0.25_delta0_dj0_da0_dg0_f6.5"), 
+			figPath(name='polymorphicSpaceNew.pdf'), width=5, height=7)
+embed_fonts(figPath(name='polymorphicSpaceNew.pdf'))
 
 
 #'  Polymorphic parameter space as a function of inbreeding depression

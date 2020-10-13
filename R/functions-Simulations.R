@@ -151,27 +151,53 @@ predDelta  <-  function(dStar, b=1/2, a=0.2, C) {
 ###########################################
 #' Eigenvalue Calculator for full demographic model
 #' 
-calcZeta  <-  function(om, Fii, Fii_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, lambda_AA_aa){
+#calcZeta  <-  function(om, FSi, FXi, FXi_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, lambda_i){
+#
+#	pn_AA   <-  ones(c(om)) %*% FXi_pr[,,1] %*% (pHat_AA[1:om] + pHat_AA[om+1:om])
+#	pn_aa   <-  ones(c(om)) %*% FXi_pr[,,3] %*% (pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)])
+#	M22_AA  <-  rbind(
+#					cbind(USi[,,2] + C*(1 - delta)*FSi[,,2]/2, C*(1 - delta)*FSi[,,2]/2, zeros(c(om,om))),
+#					cbind(           ((1 - C)/2)*FXi[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,2])),
+#						  UXi[,,2] + ((1 - C)/2)*FXi[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,2])), 
+#						                 (1 - C)*FXi[,,3] + kronecker(c(((1 - C)/(  pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,3]))),
+#					cbind(((C*(1 - delta))/4)*FSi[,,2], ((C*(1 - delta))/4)*FSi[,,2], USi[,,3] + C*(1 - delta)*FSi[,,3])
+#					)
+#	M22_aa  <-  rbind(
+#					cbind(USi[,,2] + C*(1 - delta)*FSi[,,2]/2, C*(1 - delta)*FSi[,,2]/2, zeros(c(om,om))),
+#					cbind(           ((1 - C)/2)*FXi[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,2])),
+#						  UXi[,,2] + ((1 - C)/2)*FXi[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,2])),
+#						                 (1 - C)*FXi[,,1] + kronecker(c(((1 - C)/(  pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,1]))),
+#					cbind(((C*(1 - delta))/4)*FSi[,,2], ((C*(1 - delta))/4)*FSi[,,2], USi[,,1] + C*(1 - delta)*FSi[,,1])
+#					)
+#	zeta_i  <-  c(max(Re(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values)),
+#				  max(Re(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values)))
+#	zeta_i  <-  zeta_i/lambda_i[c(1,3)]
+#	return(zeta_i)
+#}
 
-	pn_AA   <-  ones(c(om)) %*% Fii_pr[,,1] %*% (pHat_AA[1:om] + pHat_AA[om+1:om])
-	pn_aa   <-  ones(c(om)) %*% Fii_pr[,,3] %*% (pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)])
+
+
+calcZeta  <-  function(om, FSi, FXi, FXi_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, lambda_i){
+
+	pn_AA   <-  ones(c(om)) %*% FXi_pr[,,1] %*% (pHat_AA[1:om] + pHat_AA[om+1:om])
+	pn_aa   <-  ones(c(om)) %*% FXi_pr[,,3] %*% (pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)])
 	M22_AA  <-  rbind(
-					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(om,om))),
-					cbind(           ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%Fii_pr[,,2])),
-						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*Fii[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%Fii_pr[,,2])), 
-						                 (1 - C)*Fii[,,3] + kronecker(c(((1 - C)/(  pn_AA)))*Fii[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%Fii_pr[,,3]))),
-					cbind(((C*(1 - delta))/4)*Fii[,,2], ((C*(1 - delta))/4)*Fii[,,2], USi[,,3] + C*(1 - delta)*Fii[,,3])
+					cbind(USi[,,2] + FSi[,,2]/2, FSi[,,2]/2, zeros(c(om,om))),
+					cbind(           (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,2])),
+						  UXi[,,2] + (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,2])), 
+						                   FXi[,,3] + kronecker(c((1/(  pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,3]))),
+					cbind((1/4)*FSi[,,2], (1/4)*FSi[,,2], USi[,,3] + FSi[,,3])
 					)
 	M22_aa  <-  rbind(
-					cbind(USi[,,2] + C*(1 - delta)*Fii[,,2]/2, C*(1 - delta)*Fii[,,2]/2, zeros(c(om,om))),
-					cbind(           ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%Fii_pr[,,2])),
-						  UXi[,,2] + ((1 - C)/2)*Fii[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*Fii[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%Fii_pr[,,2])),
-						                 (1 - C)*Fii[,,1] + kronecker(c(((1 - C)/(  pn_aa)))*Fii[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%Fii_pr[,,1]))),
-					cbind(((C*(1 - delta))/4)*Fii[,,2], ((C*(1 - delta))/4)*Fii[,,2], USi[,,1] + C*(1 - delta)*Fii[,,1])
+					cbind(USi[,,2] + FSi[,,2]/2, FSi[,,2]/2, zeros(c(om,om))),
+					cbind(           (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,2])),
+						  UXi[,,2] + (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,2])),
+						                   FXi[,,1] + kronecker(c((1/(  pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,1]))),
+					cbind((1/4)*FSi[,,2], (1/4)*FSi[,,2], USi[,,1] + FSi[,,1])
 					)
-	zeta_i  <-  c(max(squashIm(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values)),
-				  max(squashIm(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values)))
-	zeta_i  <-  zeta_i/lambda_AA_aa
+	zeta_i  <-  c(max(Re(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values)),
+				  max(Re(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values)))
+	zeta_i  <-  zeta_i/lambda_i[c(1,3)]
 	return(zeta_i)
 }
 
@@ -222,7 +248,7 @@ evalAtilde  <-  function(nHat, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom
         	AtildeEval  <-  Atilde	
         } else{
         	AtildeEval  <-  Atilde[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om),
-								  c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
+								   c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
 		}
         return(AtildeEval)
 }
@@ -248,7 +274,7 @@ evalAtilde  <-  function(nHat, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom
 #' tlimit:	Max # of generations for fwd simulation
 #' Ainvade:	Should A allele start off rare
 #' intInit:	Optional initial frequency of A allele
-fwdDyn2Eq  <-  function(nzero, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, Ig, HS, HX, K, Z, blkFS, blkFX, tlimit, eqThreshold, ...){
+fwdDyn2Eq  <-  function(nzero, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, Ig, K, Z, blkFS, blkFX, tlimit, eqThreshold, ...){
 
 	# initial state vector, frequency vector, and empty storage matrix for time-series
 	n     <-  t(t(nzero))
@@ -337,6 +363,7 @@ fwdDyn2Eq  <-  function(nzero, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom
 	results  <-  list(
 					  "nout"         =  nout,
 					  "n"            =  nout[,ncol(nout)],
+					  "lambda_sim"   =  sum(nout[,ncol(nout)]) / sum(nout[,ncol(nout)-1]),
 					  "p"            =  p,
 					  "p_genotypes"  =  p_genotypes,
 					  "eqReached"    =  pDist <= eqThreshold
@@ -368,7 +395,7 @@ fwdDyn2Eq  <-  function(nzero, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom
 fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_prime = 5.9, 
 							 hf = 1/2, hm = 1/2, sf = 0.1, sm = 0.105, C = 0, delta = 0, 
 							 delta_j = 0, delta_a = 0, delta_gamma = 0, datMat = NA,
-							 tlimit = 10^4, eqThreshold = 1e-6, Ainvade = FALSE, intInit = FALSE, ...) {
+							 tlimit = 10^4, eqThreshold = 1e-8, Ainvade = FALSE, intInit = FALSE, ...) {
 
 	# Create identity and ones matrices
 	Ig   <-  diag(g)
@@ -406,28 +433,33 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 	####################################################
 	# Population and female fertility perameters
 	####################################################	
-	sigmaS_J   <-  theta[1,]
-	sigmaS_A   <-  theta[2,]
-	gammaS     <-  theta[3,]
-	sigmaX_J   <-  theta[4,]
-	sigmaX_A   <-  theta[5,]
-	gammaX     <-  theta[6,]
-	f          <-  theta[7,]
-	USi        <-  zeros(c(om,om,g))
-	UXi        <-  zeros(c(om,om,g))
-	Fii        <-  zeros(c(om,om,g))
-	Fii_pr     <-  zeros(c(om,om,g))
-
+	sigmaS_J  <-  theta[1,]
+	sigmaS_A  <-  theta[2,]
+	gammaS    <-  theta[3,]
+	sigmaX_J  <-  theta[4,]
+	sigmaX_A  <-  theta[5,]
+	gammaX    <-  theta[6,]
+	f         <-  theta[7,]
+	USi       <-  zeros(c(om,om,g))
+	UXi       <-  zeros(c(om,om,g))
+	FXi       <-  zeros(c(om,om,g))
+	FSi       <-  zeros(c(om,om,g))
+	FXi_pr    <-  zeros(c(om,om,g))
+	lambda_i  <-  zeros(g)
 	# create genotype-specific survival and fertility submatrices
 	for (i in 1:3){
-		   USi[,,i]       <- rbind(c(sigmaS_J[i]*(1 - gammaS[i]), 0         ),
-		                           c(sigmaS_J[i]*gammaS[i],       sigmaS_A[i]))
-		   UXi[,,i]       <- rbind(c(sigmaX_J[i]*(1 - gammaX[i]), 0         ),
-		                           c(sigmaX_J[i]*gammaX[i],       sigmaX_A[i]))
-		   Fii[,,i]       <- rbind(c(0,f[i]),
-							       c(0,0))
-		   Fii_pr[,,i]    <- rbind(c(0,f_prime[i]),
-								   c(0,0))	
+		USi[,,i]       <- rbind(c(sigmaS_J[i]*(1 - gammaS[i]), 0         ),
+		                        c(sigmaS_J[i]*gammaS[i],       sigmaS_A[i]))
+		UXi[,,i]       <- rbind(c(sigmaX_J[i]*(1 - gammaX[i]), 0         ),
+		                        c(sigmaX_J[i]*gammaX[i],       sigmaX_A[i]))
+		FSi[,,i]       <- rbind(c(0,C*(1 - delta)*f[i]),
+						        c(0,0))
+		FXi[,,i]       <- rbind(c(0,(1 - C)*f[i]),
+							    c(0,0))
+		FXi_pr[,,i]    <- rbind(c(0,f_prime[i]),
+								c(0,0))	
+		# Calculate gentoype-specific pop. growth rates
+		lambda_i[i]  <-  max(Re(eigen(FSi[,,i] + USi[,,i] + FXi[,,i], symmetric=FALSE, only.values = TRUE)$values))
 	}
 
 	# CREATE BLOCK DIAGONAL MATRICES
@@ -441,9 +473,9 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 	for (i in 1:g){
 	    blkUS        <-  blkUS + kronecker(emat(g,g,i,i),USi[,,i])
 	    blkUX        <-  blkUX + kronecker(emat(g,g,i,i),UXi[,,i])
-	    blkFS        <-  blkFS + kronecker(emat(g,g,i,i),C*(1 - delta)*Fii[,,i])
-	    blkFX        <-  blkFX + kronecker(emat(g,g,i,i),(1 - C)*Fii[,,i])
-	    blkFX_prime  <-  blkFX_prime + kronecker(emat(g,g,i,i),(1 - C)*Fii_pr[,,i])
+	    blkFS        <-  blkFS + kronecker(emat(g,g,i,i),FSi[,,i])
+	    blkFX        <-  blkFX + kronecker(emat(g,g,i,i),FXi[,,i])
+	    blkFX_prime  <-  blkFX_prime + kronecker(emat(g,g,i,i),FXi_pr[,,i])
 	}
 	W_prime  <-  rbind(cbind(ones(c(1,om)),.5*ones(c(1,om)),0*ones(c(1,om))),
 					   cbind(0*ones(c(1,om)),.5*ones(c(1,om)),ones(c(1,om))))
@@ -460,10 +492,10 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 	###############################################################
 
 	# Set initial state vectors for each boundary (fixed for AA & aa)
-	n0AA  <-  c(      C*c(99,1, rep(0,times = 2*om)),
-				(1 - C)*c(99,1, rep(0,times = 2*om)))
-	n0aa  <-  c(      C*c(rep(0,times = 2*om), 99,1), 
-				(1 - C)*c(rep(0,times = 2*om), 99,1))
+	n0AA  <-  c(      C*c(c(100-om, rep(1,times=(om-1))), rep(0,times = 2*om)),
+				(1 - C)*c(c(100-om, rep(1,times=(om-1))), rep(0,times = 2*om)))
+	n0aa  <-  c(      C*c(rep(0,times = 2*om), c(100-om, rep(1,times=(om-1)))), 
+				(1 - C)*c(rep(0,times = 2*om), c(100-om, rep(1,times=(om-1)))))
 
 	# Simulate to demographic equilibrium for each boundary
 	AAEq  <-  fwdDyn2Eq(nzero=n0AA, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold)
@@ -490,44 +522,16 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 	# Simulate to demographic equilibrium with rare allele
 	invadeEq  <-  fwdDyn2Eq(nzero=initEq, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=tlimit, eqThreshold=eqThreshold)
 
-	#  Calculate invasion conditions based on initial equilibrium			
-	# NOTE: we rearrange the order of the phat values so they match
-	# the structure of our jacobian, which was ordered by genotype, then self/outcross
-	nHat_AA   <-  AAEq$n[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
-	nHat_aa   <-  aaEq$n[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
-	nHat_inv  <-  invadeEq$n[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
-
-	# calculate Atilde[ntilde]
-	Atilde_AA   <-  evalAtilde(nHat=nHat_AA, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
-	Atilde_aa   <-  evalAtilde(nHat=nHat_aa, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
-	Atilde_inv  <-  evalAtilde(nHat=nHat_inv, om=om, g=g, W_prime=W_prime, blkFX_prime = blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, HS=HS, HX=HX, K=K, Z=Z, blkFS=blkFS,blkFX=blkFX)
-			
-	# Calculate a naive genotype-specific eigenvalue for comparison
-	# note, that this gives the same value for lambda_i as we get 
-	# elsewhere in the simulation (see lambda_full)
-	lambda_AA  <-  c(max(squashIm(eigen(Atilde_AA[c(1:(2*om)), c(1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
-					 max(squashIm(eigen(Atilde_AA[c((2*om)+1:(2*om)), c((2*om)+1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
-					 max(squashIm(eigen(Atilde_AA[c((4*om)+1:(2*om)),c((4*om)+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
-					  )
-	lambda_aa  <-  c(max(squashIm(eigen(Atilde_aa[c(1:(2*om)), c(1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
-					 max(squashIm(eigen(Atilde_aa[c((2*om)+1:(2*om)), c((2*om)+1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
-					 max(squashIm(eigen(Atilde_aa[c((4*om)+1:(2*om)),c((4*om)+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
-					  )
-	lambda_inv  <-  c(max(squashIm(eigen(Atilde_inv[c(1:(2*om)), c(1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
-					 max(squashIm(eigen(Atilde_inv[c((2*om)+1:(2*om)), c((2*om)+1:(2*om))],  symmetric=FALSE, only.values = TRUE)$values)),
-					 max(squashIm(eigen(Atilde_inv[c((4*om)+1:(2*om)),c((4*om)+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
-					  )
-			
-	# Calcuate lambda_AA and lambda_aa as described in the notes file
-	# (Eq(17) in the linearization at the boundary equilibrium subsection)
-	lambda_i   <-  c(lambda_AA[1], lambda_aa[3])
-
 	# Calculate coexistence conditions based on leading eigenvalue of the Jacobian
+	# NOTE: we rearrange the order of the pHat_i values so they match the structure
+	# of the jacobian, which is ordered by genotype then self/outcross
+	nHat_AA  <-  AAEq$n[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
+	nHat_aa  <-  aaEq$n[c(1:om, g*om+1:om, om+1:om, g*om+om+1:om, 2*om+1:om, g*om+2*om+1:om)]
 	pHat_AA  <-  nHat_AA/norm(as.matrix(nHat_AA), type="1")
 	pHat_aa  <-  nHat_aa/norm(as.matrix(nHat_aa), type="1")
-	zeta_i  <-  calcZeta(om=om, Fii=Fii, Fii_pr=Fii_pr, USi=USi, UXi=UXi,
+	zeta_i   <-  calcZeta(om=om, FSi=FSi, FXi=FXi, FXi_pr=FXi_pr, USi=USi, UXi=UXi,
 						 pHat_AA=pHat_AA, pHat_aa=pHat_aa, C=C, delta=delta, 
-						 lambda_AA_aa=lambda_i)
+						 lambda_i=lambda_i)
 
 	##################
 	# results
@@ -536,9 +540,7 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 					"p_genotypes"  =  invadeEq$p_genotypes,
 					"pEq"          =  invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)],
 					"eqReached"    =  invadeEq$eqReached,
-					"lambda_AA"    =  lambda_AA,
-					"lambda_aa"    =  lambda_aa,
-					"lambda_inv"   =  lambda_inv,
+					"lambda_i"     =  lambda_i,
 					"zeta_i"       =  zeta_i,
 					"om"           =  om,
 					"g"            =  g,
@@ -556,8 +558,8 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 					"tlimit"       =  tlimit,
 					"Ainvade"      =  Ainvade,
 					"intInit"      =  intInit,
-					"extinct"      =  all(lambda_inv < 1),
-					"polymorphism" =  !any(round(invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)], digits=5) == 1)
+					"extinct"      =  invadeEq$lambda_sim < 1,
+					"polymorphism" =  !any(round(invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)], digits=3) == 1)
 					)
 	return(res)
 
@@ -607,7 +609,7 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 			polymorphism[i]  <-  results$polymorphism
 			pEq[i,]          <-  results$pEq
 			zeta_i[i,]       <-  results$zeta_i
-			lambda_i[i,]     <-  results$lambda_inv
+			lambda_i[i,]     <-  results$lambda_i
 
 		if(progBar){
 			cat('\r', paste(100*(i/nSamples),'% Complete'))
@@ -616,9 +618,9 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 	}
 
 	# compile results as data frame
-	hfVec       <-  rep(hf, times=nSamples)
-	hmVec       <-  rep(hm, times=nSamples)
-	CVec        <-  rep(C, times=nSamples)
+	hfVec       <-  rep(hf,    times=nSamples)
+	hmVec       <-  rep(hm,    times=nSamples)
+	CVec        <-  rep(C,     times=nSamples)
 	deltaVec    <-  rep(delta, times=nSamples)
 	results.df  <-  as.data.frame(cbind(sfs, 
 										sms, 
@@ -653,7 +655,7 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 
 	# export data as .csv to ./output/data
 	if(writeFile) {
-			filename <-  paste("./output/simData/demSimsSfxSm", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, 
+			filename <-  paste("./output/simData/demSimsSfxSmNew", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, 
 							"_C", C, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, "_f", theta[4], ".csv", sep="")
 			write.csv(results.df, file=filename, row.names = FALSE)
 	} else{
@@ -675,7 +677,7 @@ polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 									 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 									 hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 									 delta_j = 0, delta_a = 0, delta_gamma = 0,
-									 tlimit = 10^5) {
+									 tlimit = 10^5, eqThreshold = 1e-8) {
 	
 	Cs             <-  seq(0,0.9, by=0.1)
 	extinct        <-  c()
@@ -697,8 +699,8 @@ polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 						 om = om, g = g, theta = theta, theta_prime = theta_prime, 
 						 hf = hf, hm = hm, C = Cs[i], delta = delta,
 						 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
-						 tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
-	
+						 tlimit = tlimit, eqThreshold = eqThreshold, writeFile = FALSE, progBar = FALSE)
+
 		# Calculate & store results for plotting
 		extinct[i]        <-  sum(res$extinct)/nSamples
 		popGenPoly[i]     <-  popGen_PolySpace(hf=hf, hm=hm, C=Cs[i], sMax=sMax)
@@ -738,7 +740,7 @@ polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 								 )
 
 	# Export data as .csv to ./output/data
-	filename <-  paste("./output/simData/simPolySpace", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, 
+	filename <-  paste("./output/simData/simPolySpaceNew", "_sMax", sMax, "_nSamples", nSamples, "_hf", hf, "_hm", hm, 
 					   "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, "_f", theta[4], ".csv", sep="")
 	write.csv(results.df, file=filename, row.names = FALSE)
 
@@ -756,7 +758,7 @@ polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 									om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
 									hf = 1/2, hm = 1/2, C = 1/2,
-									tlimit = 10^5) {
+									tlimit = 10^5, eqThreshold = 1e-8) {
 	
 #	d    =  c(seq(0,0.3, by=0.05), seq(0.3, 0.9, by=0.1))
 #	d_j  =  c(0, seq(0.1,0.2, by=0.02), seq(0.3, 0.9, by=0.1))
@@ -791,7 +793,7 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = C, delta = d[i],
 							delta_j = 0, delta_a = 0, delta_gamma = 0,
-							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+							tlimit = tlimit, eqThreshold = eqThreshold, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
 	
 		# Calculate & store results for plotting
 		d_extinct[i]        <-  sum(d_res$extinct)/nSamples
@@ -837,7 +839,7 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = C, delta = 0,
 							delta_j = d_j[i], delta_a = 0, delta_gamma = 0,
-							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+							tlimit = tlimit, eqThreshold = eqThreshold, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
 	
 		# Calculate & store results for plotting
 		d_j_extinct[i]        <-  sum(d_j_res$extinct)/nSamples
@@ -884,7 +886,7 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = C, delta = 0,
 							delta_j = 0, delta_a = d_a[i], delta_gamma = 0,
-							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+							tlimit = tlimit, eqThreshold = eqThreshold, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
 	
 		# Calculate & store results for plotting
 		d_a_extinct[i]        <-  sum(d_a_res$extinct)/nSamples
@@ -930,7 +932,7 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = C, delta = 0,
 							delta_j = 0, delta_a = 0, delta_gamma = d_g[i],
-							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+							tlimit = tlimit, eqThreshold = eqThreshold, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
 	
 		# Calculate & store results for plotting
 		d_g_extinct[i]        <-  sum(d_g_res$extinct)/nSamples
@@ -1041,7 +1043,7 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 											om = 2, g = 3, theta = c(0.6,0.6,0.05,7), theta_prime = 7, 
 											hf = 1/2, hm = 1/2, dStar = 0.8, 
-											tlimit = 10^5) {
+											tlimit = 10^5, eqThreshold = 1e-8) {
 	
 	if(hf == 1/2 & hm == 1/2) {
 		Cs        <-  seq(0, 0.9, by=0.05)
@@ -1070,7 +1072,8 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = Cs[i], delta = deltaSeq[i],
 							delta_j = 0, delta_a = 0, delta_gamma = 0,
-							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+							tlimit = tlimit, eqThreshold = eqThreshold, 
+							intInit = FALSE, writeFile = FALSE, progBar = FALSE)
 	
 		# Calculate & store results for plotting
 		d_extinct[i]        <-  sum(d_res$extinct)/nSamples
@@ -1116,7 +1119,8 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = Cs[i], delta = 0,
 							delta_j = deltaSeq[i], delta_a = 0, delta_gamma = 0,
-							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+							tlimit = tlimit, eqThreshold = eqThreshold, 
+							intInit = FALSE, writeFile = FALSE, progBar = FALSE)
 	
 		# Calculate & store results for plotting
 		d_j_extinct[i]        <-  sum(d_j_res$extinct)/nSamples
@@ -1163,7 +1167,8 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = Cs[i], delta = 0,
 							delta_j = 0, delta_a = deltaSeq[i], delta_gamma = 0,
-							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+							tlimit = tlimit, eqThreshold = eqThreshold, 
+							intInit = FALSE, writeFile = FALSE, progBar = FALSE)
 	
 		# Calculate & store results for plotting
 		d_a_extinct[i]        <-  sum(d_a_res$extinct)/nSamples
@@ -1209,7 +1214,8 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = Cs[i], delta = 0,
 							delta_j = 0, delta_a = 0, delta_gamma = deltaSeq[i],
-							tlimit = tlimit, intInit = FALSE, writeFile = FALSE, progBar = FALSE)
+							tlimit = tlimit, eqThreshold = eqThreshold, 
+							intInit = FALSE, writeFile = FALSE, progBar = FALSE)
 	
 		# Calculate & store results for plotting
 		d_g_extinct[i]        <-  sum(d_g_res$extinct)/nSamples
@@ -1300,7 +1306,7 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 								 )
 
 	# Export data as .csv to ./output/data
-	filename <-  paste("./output/simData/deltaSelfingSimPolySpace", "_sMax", sMax, "_nSamples", nSamples, "_dStar", dStar, "_hf", hf, "_hm", hm,
+	filename <-  paste("./output/simData/deltaSelfingSimPolySpaceNew", "_sMax", sMax, "_nSamples", nSamples, "_dStar", dStar, "_hf", hf, "_hm", hm,
 					   "_f", theta[4], ".csv", sep="")
 	write.csv(results.df, file=filename, row.names = FALSE)
 
@@ -1342,6 +1348,7 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 #' tlimit:	Max # of generations for fwd simulation
 #' Ainvade:	Should A allele start off rare
 #' intInit:	Optional initial frequency of A allele
+#' STILL NOT WORKING
 fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TRUE,
 								hf = 1/2, hm = 1/2, sf = 0.025, sm = 0.03, C = 0,
 								tlimit = 10^4, Ainvade = FALSE, intInit = FALSE, ...) {
@@ -1480,7 +1487,7 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 		Atilde_genotype[,,i]  <- rbind( cbind(USi[,,i] + C*Fii[,,i], C*Fii[,,i]), 
 										cbind((1 - C)*Fii[,,i], UXi[,,i] + (1 - C)*Fii[,,i])
 								   	   )
-		lambda_full[i]    <-  max(squashIm(eigen(Atilde_genotype[,,i],symmetric=FALSE, only.values = TRUE)$values))
+		lambda_full[i]    <-  max(Re(eigen(Atilde_genotype[,,i],symmetric=FALSE, only.values = TRUE)$values))
 	}
 
 	# CREATE BLOCK DIAGONAL MATRICES
@@ -1611,13 +1618,13 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 			# Calculate a naive genotype-specific eigenvalue for comparison
 			# note, that this gives the same value for lambda_i as we get 
 			# elsewhere in the simulation (see lambda_full)
-			testLambda_AA  <-  c(max(squashIm(eigen(testAtilde_AA[c(1:(2*om)),      c(1:(2*om))],      symmetric=FALSE, only.values = TRUE)$values)),
-							     max(squashIm(eigen(testAtilde_AA[c(2*om+1:(2*om)), c(2*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values)),
-							     max(squashIm(eigen(testAtilde_AA[c(4*om+1:(2*om)), c(4*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
+			testLambda_AA  <-  c(max(Re(eigen(testAtilde_AA[c(1:(2*om)),      c(1:(2*om))],      symmetric=FALSE, only.values = TRUE)$values)),
+							     max(Re(eigen(testAtilde_AA[c(2*om+1:(2*om)), c(2*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values)),
+							     max(Re(eigen(testAtilde_AA[c(4*om+1:(2*om)), c(4*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
 								)
-			testLambda_aa  <-  c(max(squashIm(eigen(testAtilde_aa[c(1:(2*om)),      c(1:(2*om))],      symmetric=FALSE, only.values = TRUE)$values)),
-							     max(squashIm(eigen(testAtilde_aa[c(2*om+1:(2*om)), c(2*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values)),
-							     max(squashIm(eigen(testAtilde_aa[c(4*om+1:(2*om)), c(4*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
+			testLambda_aa  <-  c(max(Re(eigen(testAtilde_aa[c(1:(2*om)),      c(1:(2*om))],      symmetric=FALSE, only.values = TRUE)$values)),
+							     max(Re(eigen(testAtilde_aa[c(2*om+1:(2*om)), c(2*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values)),
+							     max(Re(eigen(testAtilde_aa[c(4*om+1:(2*om)), c(4*om+1:(2*om))], symmetric=FALSE, only.values = TRUE)$values))
 								)
 			
 			# Calcuate lambda_AA and lambda_aa both using the as described in the notes file
