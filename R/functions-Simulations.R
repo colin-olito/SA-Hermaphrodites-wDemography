@@ -334,8 +334,8 @@ fwdDyn2Eq  <-  function(nzero, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom
         nnext  <-  Atilde %*% n
 
         # Regulate population size to avoid crashing simulation
-		if (sum(nnext) > 1e+200) {
-			nnext  <-  nnext * 1e-10
+		if (sum(nnext) > 1e+100) {
+			nnext  <-  nnext * 1e-20
 			n      <-  nnext
 			pnext  <-  n/norm(as.matrix(n), type="1")
 			pcheck <-  p
@@ -446,6 +446,7 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 	FSi       <-  zeros(c(om,om,g))
 	FXi_pr    <-  zeros(c(om,om,g))
 	lambda_i  <-  zeros(g)
+	
 	# create genotype-specific survival and fertility submatrices
 	for (i in 1:3){
 		USi[,,i]       <- rbind(c(sigmaS_J[i]*(1 - gammaS[i]), 0         ),
@@ -458,6 +459,7 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 							    c(0,0))
 		FXi_pr[,,i]    <- rbind(c(0,f_prime[i]),
 								c(0,0))	
+		
 		# Calculate gentoype-specific pop. growth rates
 		lambda_i[i]  <-  max(Re(eigen(FSi[,,i] + USi[,,i] + FXi[,,i], symmetric=FALSE, only.values = TRUE)$values))
 	}
@@ -492,10 +494,10 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 	###############################################################
 
 	# Set initial state vectors for each boundary (fixed for AA & aa)
-	n0AA  <-  c(      C*c(c(100-om, rep(1,times=(om-1))), rep(0,times = 2*om)),
-				(1 - C)*c(c(100-om, rep(1,times=(om-1))), rep(0,times = 2*om)))
-	n0aa  <-  c(      C*c(rep(0,times = 2*om), c(100-om, rep(1,times=(om-1)))), 
-				(1 - C)*c(rep(0,times = 2*om), c(100-om, rep(1,times=(om-1)))))
+	n0AA  <-  c(      C*c(c(100-(om-1), rep(1,times=(om-1))), rep(0,times = 2*om)),
+				(1 - C)*c(c(100-(om-1), rep(1,times=(om-1))), rep(0,times = 2*om)))
+	n0aa  <-  c(      C*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))), 
+				(1 - C)*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))))
 
 	# Simulate to demographic equilibrium for each boundary
 	AAEq  <-  fwdDyn2Eq(nzero=n0AA, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold)
@@ -509,10 +511,10 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 		} else{
 			# pick boundary for invasion based on major allele frequency		
 			if(Ainvade) {
-				initEq  <-  aaEq$n
+				initEq  <-  aaEq$p*100
 			}
 			if(!Ainvade) {
-				initEq  <-  AAEq$n
+				initEq  <-  AAEq$p*100
 			}
 			# Introduce rare allele in heterozygotes
 			initEq[(om+1)]       <-  0.1
@@ -1329,7 +1331,7 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 
 #' Parameters:
 #' datMat:	List of Demography matrices from COMPADRE
-#' theta: 	vector of demographic parameters from Peterson et al. (2016)
+#' theta.list: 	list of demographic parameters from Peterson et al. (2016)
 #' 			theta = list(D, G, F, O, A, S, R), where
 #' 			D = seed bank survival (0.534)
 #' 			G = seed germination rate (0.469)
@@ -1338,20 +1340,23 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 #' 			A = seedling recruits proportional to clonal rosette recruits (6.7e-4)
 #' 			S = overwinter survival (0.179)
 #' 			R = rosette production (8.71)
+#' delta.list: 	list of demographic parameters from Peterson et al. (2016)
+#' 			delta_D
+#' 			delta_G
+#' 			delta_F
+#' 			delta_O
+#' 			delta_S
 #' hf,hm:	Dominance coefficient for SA fitness effects
 #' sf,sm:	Selection coefficient for SA fitness effects
 #' C:		Population selfing rate
-#' delta_o:	Early-acting inbreeding depression (proportional loss of ovules due to I.D.)
-#' delta_j:	Proportional decrease in juvenile survival rate for inbred offspring
-#' delta_j:	Proportional decrease in adult survival rate for inbred offspring
-#' delta_gamma: Proportional decrease in juv. --> adult transition rate for inbred offspring
 #' tlimit:	Max # of generations for fwd simulation
+#' eqThreshold:	threshold per gen. change in allele frequencies for determining demographic equilibrium
 #' Ainvade:	Should A allele start off rare
 #' intInit:	Optional initial frequency of A allele
 #' STILL NOT WORKING
-fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TRUE,
+fwdSimMimulusDat  <-  function(datMat, theta.list, delta.list, useCompadre = TRUE,
 								hf = 1/2, hm = 1/2, sf = 0.025, sm = 0.03, C = 0,
-								tlimit = 10^4, Ainvade = FALSE, intInit = FALSE, ...) {
+								tlimit = 10^4, eqThreshold=1e-9, Ainvade = FALSE, intInit = FALSE, ...) {
 
 	# calculate # life stages from data matrices
 	g   <-  3
@@ -1417,45 +1422,16 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 									  c(0, 0, 0)), nrow=om, ncol=om)
 					 )
 	}
-	#Initial conditions for invasion: nzero  <-  [Seed_AA, Seedling_AA, Ramet_AA, Seed_Aa, Seedling_Aa, Ramet_Aa, Seed_aa, Seedling_aa, Ramet_aa]
-	if(useCompadre){
-		# All aa
-		if(Ainvade) {
-			nzero   <- round(c(C*100*c(rep(0,times = 2*om), as.vector(220*datMat$U[,1])),
-						 (1 - C)*100*c(rep(0,times = 2*om), as.vector(220*datMat$U[,1]))))
-			nBoundAA  <-  round(c(C*100*c(as.vector(220*datMat$U[,1]), rep(0,times = 2*om)),
-						  (1 - C)*100*c(as.vector(220*datMat$U[,1]), rep(0,times = 2*om))))
-			nBoundaa  <-  nzero
-		} 
-		#All AA
-		if(!Ainvade) {
-			nzero   <-  round(c(C*100*c(as.vector(220*datMat$U[,1]), rep(0,times = 2*om)),
-						  (1 - C)*100*c(as.vector(220*datMat$U[,1]), rep(0,times = 2*om))))
-			nBoundAA  <-  nzero
-			nBoundaa  <- round(c(C*100*c(rep(0,times = 2*om), as.vector(220*datMat$U[,1])),
-						 (1 - C)*100*c(rep(0,times = 2*om), as.vector(220*datMat$U[,1]))))
-		}
-	}
-	if(!useCompadre){
-		# All aa
-		if(Ainvade) {
-			nzero  <- round(c(C*100*c(rep(0,times = 2*om), as.vector(220*parDatMatX$U[,1])), 
-						(1 - C)*100*c(rep(0,times = 2*om), as.vector(220*parDatMatX$U[,1]))))
-		} 
-		#All AA
-		if(!Ainvade) {
-			nzero  <-  round(c(C*100*c(as.vector(220*parDatMatX$U[,1]), rep(0,times = 2*om)), 
-						 (1 - C)*100*c(as.vector(220*parDatMatX$U[,1]), rep(0,times = 2*om))))
-		}
-	}
 
 	####################################################
 	# Population and female fertility perameters
 	####################################################
-	USi        <-  zeros(c(om,om,g))
-	UXi        <-  zeros(c(om,om,g))
-	Fii        <-  zeros(c(om,om,g))
-	Fii_pr     <-  zeros(c(om,om,g))
+	USi       <-  zeros(c(om,om,g))
+	UXi       <-  zeros(c(om,om,g))
+	FXi       <-  zeros(c(om,om,g))
+	FSi       <-  zeros(c(om,om,g))
+	FXi_pr    <-  zeros(c(om,om,g))
+	lambda_i  <-  zeros(g)
 
 	# create genotype-specific survival and fertility submatrices
 	for (i in 1:g){
@@ -1463,31 +1439,24 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 	    if(useCompadre) {
 			USi[,,i]     <-  datMatU_S
 			UXi[,,i]     <-  datMatU_X
-			Fii[,,i]     <-  datMatF_S
-			Fii_pr[,,i]  <-  datMatF_X
+			FSi[,,i]     <-  datMatF_S
+			FXi[,,i]     <-  datMatF_X
+			FXi_pr[,,i]  <-  datMatF_X
 	    }
 		if(!useCompadre) {
 	    	USi[,,i]     <-  parDatMatS$U
 	    	UXi[,,i]     <-  parDatMatX$U
-	    	Fii[,,i]     <-  parDatMatS$F
-	    	Fii_pr[,,i]  <-  parDatMatX$F
+	    	FSi[,,i]     <-  parDatMatS$F
+	    	FXi[,,i]     <-  parDatMatS$F
+	    	FXi_pr[,,i]  <-  parDatMatX$F
 		}
-		Fii[,,i]     <-  Fii[,,i]*matrix(rbind(   c(1,fii[i],fii[i]),
-												  c(1,1,1),
-												  c(1,1,1)), nrow=om, ncol=om)
-		Fii_pr[,,i]  <-  Fii_pr[,,i]*matrix(rbind(c(1,fii_prime[i],fii_prime[i]),
-												  c(1,1,1),
-												  c(1,1,1)), nrow=om, ncol=om)
-	}
 
-	# Genotype-specific growth rates
-	Atilde_genotype  <-  zeros(c(2*om,2*om,g))
-	lambda_full      <-  as.vector(zeros(c(1,g)))
-	for (i in 1:g){
-		Atilde_genotype[,,i]  <- rbind( cbind(USi[,,i] + C*Fii[,,i], C*Fii[,,i]), 
-										cbind((1 - C)*Fii[,,i], UXi[,,i] + (1 - C)*Fii[,,i])
-								   	   )
-		lambda_full[i]    <-  max(Re(eigen(Atilde_genotype[,,i],symmetric=FALSE, only.values = TRUE)$values))
+		FSi[,,i][FSi[,,i] != 0]        <-  C*(FSi[,,i][FSi[,,i] != 0])*fii[i]
+		FXi[,,i][FXi[,,i] != 0]        <-  (1 - C)*(FXi[,,i][FXi[,,i] != 0])*fii[i]
+		FXi_pr[,,i][FXi_pr[,,i] != 0]  <-  (FXi_pr[,,i][FXi_pr[,,i] != 0])*fii_prime[i]
+
+		# Calculate gentoype-specific pop. growth rates
+		lambda_i[i]  <-  max(Re(eigen(FSi[,,i] + USi[,,i] + FXi[,,i], symmetric=FALSE, only.values = TRUE)$values))
 	}
 
 	# CREATE BLOCK DIAGONAL MATRICES
@@ -1501,9 +1470,9 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 	for (i in 1:g){
 		blkUS        <-  blkUS + kronecker(emat(g,g,i,i),USi[,,i])
 		blkUX        <-  blkUX + kronecker(emat(g,g,i,i),UXi[,,i])
-		blkFS        <-  blkFS + kronecker(emat(g,g,i,i),C*Fii[,,i])
-		blkFX        <-  blkFX + kronecker(emat(g,g,i,i),(1 - C)*Fii[,,i])
-		blkFX_prime  <-  blkFX_prime + kronecker(emat(g,g,i,i),(1 - C)*Fii_pr[,,i])
+		blkFS        <-  blkFS + kronecker(emat(g,g,i,i),FSi[,,i])
+		blkFX        <-  blkFX + kronecker(emat(g,g,i,i),FXi[,,i])
+		blkFX_prime  <-  blkFX_prime + kronecker(emat(g,g,i,i),FXi_pr[,,i])
 	}
 	W_prime  <-  rbind(cbind(ones(c(1,om)),.5*ones(c(1,om)),0*ones(c(1,om))),
 					   cbind(0*ones(c(1,om)),.5*ones(c(1,om)),ones(c(1,om))))
@@ -1520,14 +1489,14 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 	###############################################################
 
 	# Set initial state vectors for each boundary (fixed for AA & aa)
-	n0AA  <-  c(      C*c(c(100-om, rep(1,times=(om-1))), rep(0,times = 2*om)),
-				(1 - C)*c(c(100-om, rep(1,times=(om-1))), rep(0,times = 2*om)))
-	n0aa  <-  c(      C*c(rep(0,times = 2*om), c(100-om, rep(1,times=(om-1)))), 
-				(1 - C)*c(rep(0,times = 2*om), c(100-om, rep(1,times=(om-1)))))
+	n0AA  <-  c(      C*c(c(100-(om-1), rep(1,times=(om-1))), rep(0,times = 2*om)),
+				(1 - C)*c(c(100-(om-1), rep(1,times=(om-1))), rep(0,times = 2*om)))
+	n0aa  <-  c(      C*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))), 
+				(1 - C)*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))))
 
 	# Simulate to demographic equilibrium for each boundary
-	AAEq  <-  fwdDyn2Eq(nzero=n0AA, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold)
-	aaEq  <-  fwdDyn2Eq(nzero=n0aa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold)
+	AAEq  <-  fwdDyn2Eq(nzero=n0AA, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^3, eqThreshold=eqThreshold)
+	aaEq  <-  fwdDyn2Eq(nzero=n0aa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^3, eqThreshold=eqThreshold)
 
 
 	# use intermediate frequency to find Eq.?
@@ -1537,10 +1506,10 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 		} else{
 			# pick boundary for invasion based on major allele frequency		
 			if(Ainvade) {
-				initEq  <-  aaEq$n
+				initEq  <-  aaEq$p*10
 			}
 			if(!Ainvade) {
-				initEq  <-  AAEq$n
+				initEq  <-  AAEq$p*10
 			}
 			# Introduce rare allele in heterozygotes
 			initEq[(om+1)]       <-  0.1
@@ -1558,38 +1527,31 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 	pHat_AA  <-  nHat_AA/norm(as.matrix(nHat_AA), type="1")
 	pHat_aa  <-  nHat_aa/norm(as.matrix(nHat_aa), type="1")
 	zeta_i   <-  calcZeta(om=om, FSi=FSi, FXi=FXi, FXi_pr=FXi_pr, USi=USi, UXi=UXi,
-						 pHat_AA=pHat_AA, pHat_aa=pHat_aa, C=C, delta=delta, 
+						 pHat_AA=pHat_AA, pHat_aa=pHat_aa, C=C, delta=delta_O, 
 						 lambda_i=lambda_i)
-
 
 	##################
 	# results
-	nout  <-  nout[,1:(i-1)]
-	temp         <-  kronecker(diag(g),ones(c(1,om))) %*% (nout[1:(3*om),] + nout[(3*om+1):(6*om),])
-	p_genotypes  <-  sweep(temp,2,colSums(temp),'/')
-	res  <-  list(	"data"         =  datMat,
-					"nout"         =  nout,
-					"p_genotypes"  =  p_genotypes,
-					"pEq"          =  p_genotypes[,(i-1)],
-					"pDist"       =  pDist,
-					"nzero"        =  nzero,
-					"lambda_full"  =  lambda_full,
+	res  <-  list(
+					"nout"         =  invadeEq$nout,
+					"p_genotypes"  =  invadeEq$p_genotypes,
+					"pEq"          =  invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)],
+					"eqReached"    =  invadeEq$eqReached,
+					"lambda_i"     =  lambda_i,
 					"zeta_i"       =  zeta_i,
 					"om"           =  om,
 					"g"            =  g,
-					"theta"        =  unlist(theta.list),
 					"hf"           =  hf,
 					"hm"           =  hm,
 					"sf"           =  sf,
 					"sm"           =  sm,
 					"C"            =  C,
-					"delta"        =  unlist(delta.list),
+					"delta.list"   =  delta.list,
 					"tlimit"       =  tlimit,
 					"Ainvade"      =  Ainvade,
 					"intInit"      =  intInit,
-					"extinct"      =  sum(n) < 1,
-					"polymorphism" =  !any(round(p_genotypes[,(i-1)], digits=5) == 1),
-					"runtime"      =  (i-1)
+					"extinct"      =  invadeEq$lambda_sim < 1,
+					"polymorphism" =  !any(round(invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)], digits=3) == 1)
 					)
 	return(res)
 
@@ -1607,10 +1569,10 @@ fwdSimCompadreDat  <-  function(datMat, theta.list, delta.list, useCompadre = TR
 #' dims: 	vector c(om, g), with om = # stages, g = # genotypes
 #' theta: 	vector of length 4, c(sigma_J, sigma_A, gamma, f_ii)
 #' selPars:	vector of length 4, c(hf, hm, sf, sm,)
-selLoopDatMat  <-  function(sMax = 0.15, nSamples=1e+2, taxa = "Mimulus",
+selLoopDatMat  <-  function(sMax = 0.15, nSamples = 1e+2,
 							datMat, theta.list, delta.list, useCompadre = FALSE,
 							hf = 1/2, hm = 1/2, C = 0, 
-							tlimit = 10^5, intInit = FALSE, writeFile=TRUE, progBar = TRUE, ...) {
+							tlimit = 10^5, intInit = FALSE, eqThreshold=1e-9, writeFile=TRUE, progBar = TRUE, ...) {
 	
 	sfs           <-  runif(min = 0, max=sMax, n=nSamples)
 	sms           <-  runif(min = 0, max=sMax, n=nSamples)
@@ -1635,16 +1597,16 @@ selLoopDatMat  <-  function(sMax = 0.15, nSamples=1e+2, taxa = "Mimulus",
 			}
 
 
-			results  <-  fwdSimCompadreDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
+			results  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = useCompadre,
 										hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C,
-										tlimit = 10^5, Ainvade = Ainvade, intInit = intInit)
+										tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = intInit)
 
 			intInit  <-  FALSE
 			extinct[i]       <-  results$extinct
 			polymorphism[i]  <-  results$polymorphism
 			pEq[i,]          <-  results$pEq
 			zeta_i[i,]       <-  results$zeta_i
-			lambda_i[i,]     <-  results$lambda_full
+			lambda_i[i,]     <-  results$lambda_i
 
 		if(progBar){
 			cat('\r', paste(100*(i/nSamples),'% Complete'))
@@ -1687,7 +1649,7 @@ selLoopDatMat  <-  function(sMax = 0.15, nSamples=1e+2, taxa = "Mimulus",
 
 	# export data as .csv to ./output/data
 	if(writeFile) {
-			filename <-  paste("./output/simData/simSfxSm_", taxa, "_sMax", sMax, "_nSamples", nSamples, 
+			filename <-  paste("./output/simData/Mimulus_SfxSm", "_sMax", sMax, "_nSamples", nSamples, 
 							   "_hf", hf, "_hm", hm, "_C", C, "_Compadre", useCompadre, ".csv", sep="")
 			write.csv(results.df, file=filename, row.names = FALSE)
 	} else{
@@ -1695,3 +1657,11 @@ selLoopDatMat  <-  function(sMax = 0.15, nSamples=1e+2, taxa = "Mimulus",
 	}
 
 }
+
+
+
+
+
+
+
+
