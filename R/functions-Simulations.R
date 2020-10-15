@@ -560,6 +560,7 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 					"tlimit"       =  tlimit,
 					"Ainvade"      =  Ainvade,
 					"intInit"      =  intInit,
+					"lambda_sim"   =  invadeEq$lambda_sim,
 					"extinct"      =  invadeEq$lambda_sim < 1,
 					"polymorphism" =  !any(round(invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)], digits=3) == 1)
 					)
@@ -587,6 +588,7 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 	pEq           <-  matrix(0, ncol=3, nrow=nSamples)
 	zeta_i        <-  matrix(0, ncol=2, nrow=nSamples)
 	lambda_i      <-  matrix(0, ncol=3, nrow=nSamples)
+	lambda_sim    <-  rep(0, nrow=nSamples)
 
 	for(i in 1:nSamples) {
 		if(hf == hm && hf == 1/2) {
@@ -606,12 +608,13 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 										hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, delta = delta, 
 										delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 										tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = intInit)
-			intInit  <-  FALSE
+			intInit          <-  FALSE
 			extinct[i]       <-  results$extinct
 			polymorphism[i]  <-  results$polymorphism
 			pEq[i,]          <-  results$pEq
 			zeta_i[i,]       <-  results$zeta_i
 			lambda_i[i,]     <-  results$lambda_i
+			lambda_sim[i,]   <-  results$lambda_sim
 
 		if(progBar){
 			cat('\r', paste(100*(i/nSamples),'% Complete'))
@@ -631,6 +634,7 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 										pEq, 
 										zeta_i,
 										lambda_i,
+										lambda_sim,
 										hfVec, 
 										hmVec, 
 										CVec, 
@@ -649,6 +653,7 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 								"lambda_AA",
 								"lambda_Aa",
 								"lambda_aa",
+								"lambda_sim",
 								"hf",
 								"hm",
 								"C",
@@ -1316,11 +1321,168 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 
 
 
+midPoint  <-  function(x1,x2) {
+	x1 + (x2-x1)/2
+}
 
 
+##############################
+#' Identify extinction threshold across sf x sm parameter space
+#' faster method for calculating proportions of sf x sm where
+#' different dynamical outcomes happen(?)
+#'
+extinctThreshTitrate  <-  function(sMax=0.15, res=0.0015, 
+								   om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+								   hf = 1/2, hm = 1/2, C = 0, delta = 0, 
+								   delta_j = 0, delta_a = 0, delta_gamma = 0,
+								   tlimit = 10^5, Ainvade=FALSE, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE) {
+	
+	# vector of sf values to titrate along
+	sfs          <-  seq(res,(sMax-res),by=res)
+	sms          <-  sfs
+	smThreshold  <-  rep(NA, times=length(sfs))
+	sfThreshold  <-  smThreshold
 
+	# Three values we need to keep track of
+	titrateStartVals  <-  matrix(rbind(c(sfs[1], sfs[length(sfs)]),
+								  c(NA,NA)),nrow=2,ncol=2)
+	rownames(titrateStartVals)  <-  c("sVals", "extinct")
+	colnames(titrateStartVals)  <-  c("left", "right")
 
+	# loop over sf values
+	for(i in 1:length(sfs)) {
 
+		titrateVals  <-  titrateStartVals
+
+		# start at boundaries of [0, sMax]
+		L  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+								 hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,1], C = C, delta = delta, 
+								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
+		R  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+								 hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,2], C = C, delta = delta, 
+								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
+		
+		# check to see if extinction outcomes differ. If not, go to next sf value
+		if(all(L$lambda_sim > 1 && R$lambda_sim > 1)) {
+			if(verbose) {
+					cat('\r', paste("sf grad.:", round(100*(i/length(sfs))), "% complete"))
+					flush.console()
+				}
+			next
+		} else {
+			# if they do, titrate to estimate threshold
+			titrateVals[2,]  <-  c(L$lambda_sim, R$lambda_sim)
+			titrateDelta     <-  1
+
+			while(!all(titrateVals[2,1] > 1 && titrateVals[2,2] > 1) & titrateDelta > res) {
+				sm_prop       <-  midPoint(titrateVals[1,1],titrateVals[1,2])
+				titrateDelta  <-  sm_prop - min(titrateVals[1,1], titrateVals[1,2])
+			
+				proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											 hf = hf, hm = hm, sf = sfs[i], sm = sm_prop, C = C, delta = delta, 
+											 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+											 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
+				# replace appropraite boundary value
+				if(proposal$lambda_sim  < 1) {
+					titrateVals[1,][titrateVals[2,] < 1]  <-  sm_prop
+					titrateVals[2,][titrateVals[2,] < 1]  <-  proposal$lambda_sim
+				}
+				if(proposal$lambda_sim  > 1) {
+					titrateVals[1,][titrateVals[2,] > 1]  <-  sm_prop
+					titrateVals[2,][titrateVals[2,] > 1]  <-  proposal$lambda_sim
+				}
+				if(verbose) {
+					cat('\r', paste("sf grad.:", round(100*(i/length(sfs))), "% complete; Titration ratio = ", round(titrateDelta/res, digits=2), "(done when < 1)"))
+					flush.console()
+				}
+
+			}
+
+		}
+		# Record sm threshold value
+		smThreshold[i]  <-  sm_prop
+	}
+
+	# loop over sm values
+	for(i in 1:length(sms)) {
+
+		titrateVals  <-  titrateStartVals
+
+		# start at boundaries of [0, sMax]
+		L  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+								 hf = hf, hm = hm, sf = titrateVals[1,1], sm = sms[i], C = C, delta = delta, 
+								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+								 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
+		R  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+								 hf = hf, hm = hm, sf = titrateVals[1,2], sm = sms[i], C = C, delta = delta, 
+								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+								 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
+		
+		# check to see if extinction outcomes differ. If not, go to next sf value
+		if(all(L$lambda_sim > 1 && R$lambda_sim > 1)) {
+			if(verbose) {
+					cat('\r', paste("sm grad.:", round(100*(i/length(sms))), "% complete"))
+					flush.console()
+				}
+			next
+		} else {
+			# if they do, titrate to estimate threshold
+			titrateVals[2,]  <-  c(L$lambda_sim, R$lambda_sim)
+			titrateDelta     <-  1
+
+			while(!all(titrateVals[2,1] > 1 && titrateVals[2,2] > 1) & titrateDelta > res) {
+				sf_prop       <-  midPoint(titrateVals[1,1],titrateVals[1,2])
+				titrateDelta  <-  sf_prop - min(titrateVals[1,1], titrateVals[1,2])
+			
+				proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											 hf = hf, hm = hm, sf = sf_prop, sm = sms[i], C = C, delta = delta, 
+											 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+											 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
+				# replace appropraite boundary value
+				if(proposal$lambda_sim  < 1) {
+					titrateVals[1,][titrateVals[2,] < 1]  <-  sf_prop
+					titrateVals[2,][titrateVals[2,] < 1]  <-  proposal$lambda_sim
+				}
+				if(proposal$lambda_sim  > 1) {
+					titrateVals[1,][titrateVals[2,] > 1]  <-  sf_prop
+					titrateVals[2,][titrateVals[2,] > 1]  <-  proposal$lambda_sim
+				}
+				if(verbose) {
+					cat('\r', paste("sm grad.:", round(100*(i/length(sms))), "% complete; Titrate ratio = ", round(titrateDelta/res, digits=2), "(done when < 1)"))
+					flush.console()
+				}
+
+			}
+
+		}
+		# Record sf threshold value
+		sfThreshold[i]  <-  sf_prop
+	}
+
+	# compile results as data frame
+	results.df  <-  as.data.frame(cbind(sfs, 
+										smThreshold, 
+										sms, 
+										sfThreshold
+										)
+								 )
+	colnames(results.df)  <-  c("sf",
+								"smThreshold",
+								"sms",
+								"sfThreshold"
+								)
+
+	# export data as .csv to ./output/data
+	if(writeFile) {
+			filename <-  paste("./output/simData/extThreshold_SfxSm", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
+							"_C", C, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, "_f", theta[4], ".csv", sep="")
+			write.csv(results.df, file=filename, row.names = FALSE)
+	} else{
+			return(results.df)
+	}
+}
 
 
 
@@ -1572,7 +1734,8 @@ fwdSimMimulusDat  <-  function(datMat, theta.list, delta.list, useCompadre = TRU
 selLoopDatMat  <-  function(sMax = 0.15, nSamples = 1e+2,
 							datMat, theta.list, delta.list, useCompadre = FALSE,
 							hf = 1/2, hm = 1/2, C = 0, 
-							tlimit = 10^5, intInit = FALSE, eqThreshold=1e-9, writeFile=TRUE, progBar = TRUE, ...) {
+							tlimit = 10^5, intInit = FALSE, eqThreshold=1e-9, 
+							writeFile=TRUE, progBar = TRUE, ...) {
 	
 	sfs           <-  runif(min = 0, max=sMax, n=nSamples)
 	sms           <-  runif(min = 0, max=sMax, n=nSamples)
@@ -1664,4 +1827,156 @@ selLoopDatMat  <-  function(sMax = 0.15, nSamples = 1e+2,
 
 
 
+
+##############################
+#' Identify extinction threshold across sf x sm parameter space
+#' faster method for calculating proportions of sf x sm where
+#' different dynamical outcomes happen(?)
+#'
+extinctThreshTitrateMimulus  <-  function(sMax = 0.15, res=0.001, 
+										  datMat, theta.list, delta.list, useCompadre = FALSE,
+										  hf = 1/2, hm = 1/2, C = 0, 
+										  tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+										  writeFile=TRUE, verbose=TRUE) {
+	
+	# vector of sf values to titrate along
+	sfs          <-  seq(res,(sMax-res),by=res)
+	sms          <-  sfs
+	smThreshold  <-  rep(NA, times=length(sfs))
+	sfThreshold  <-  smThreshold
+
+	# Three values we need to keep track of
+	titrateStartVals  <-  matrix(rbind(c(sfs[1], sfs[length(sfs)]),
+								  c(NA,NA)),nrow=2,ncol=2)
+	rownames(titrateStartVals)  <-  c("sVals", "extinct")
+	colnames(titrateStartVals)  <-  c("left", "right")
+
+	# loop over sf values
+	for(i in 1:length(sfs)) {
+
+		titrateVals  <-  titrateStartVals
+
+		# start at boundaries of [0, sMax]
+		L  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
+								hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,1], C = C,
+								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
+		R  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
+								hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,2], C = C,
+								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
+		
+		# check to see if extinction outcomes differ. If not, go to next sf value
+		if(all(L$lambda_sim > 1 && R$lambda_sim > 1)) {
+			if(verbose) {
+					cat('\r', paste("sf grad.:", round(100*(i/length(sfs))), "% complete"))
+					flush.console()
+				}
+			next
+		} else {
+			# if they do, titrate to estimate threshold
+			titrateVals[2,]  <-  c(L$lambda_sim, R$lambda_sim)
+			titrateDelta     <-  1
+
+			while(!all(titrateVals[2,1] > 1 && titrateVals[2,2] > 1) & titrateDelta > res) {
+				sm_prop       <-  midPoint(titrateVals[1,1],titrateVals[1,2])
+				titrateDelta  <-  sm_prop - min(titrateVals[1,1], titrateVals[1,2])
+			
+				proposal  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
+											   hf = hf, hm = hm, sf = sfs[i], sm = sm_prop, C = C,
+											   tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
+
+				# replace appropraite boundary value
+				if(proposal$lambda_sim  < 1) {
+					titrateVals[1,][titrateVals[2,] < 1]  <-  sm_prop
+					titrateVals[2,][titrateVals[2,] < 1]  <-  proposal$lambda_sim
+				}
+				if(proposal$lambda_sim  > 1) {
+					titrateVals[1,][titrateVals[2,] > 1]  <-  sm_prop
+					titrateVals[2,][titrateVals[2,] > 1]  <-  proposal$lambda_sim
+				}
+				if(verbose) {
+					cat('\r', paste("sf grad.:", round(100*(i/length(sfs))), "% complete; Titrate ratio = ", round(titrateDelta/res, digits=2), "(done when < 1)"))
+					flush.console()
+				}
+			}
+		}
+		# Record sm threshold value
+		smThreshold[i]  <-  sm_prop
+	}
+
+	# loop over sm values
+	for(i in 1:length(sms)) {
+
+		titrateVals  <-  titrateStartVals
+
+		# start at boundaries of [0, sMax]
+		L  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
+								hf = hf, hm = hm, sf = titrateVals[1,1], sm = sms[i], C = C,
+								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
+		R  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
+								hf = hf, hm = hm, sf = titrateVals[1,2], sm = sms[i], C = C,
+								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
+		
+		# check to see if extinction outcomes differ. If not, go to next sf value
+		if(all(L$lambda_sim > 1 && R$lambda_sim > 1)) {
+			if(verbose) {
+					cat('\r', paste("sm grad.:", round(100*(i/length(sms))), "% complete"))
+					flush.console()
+				}
+			next
+		} else {
+			# if they do, titrate to estimate threshold
+			titrateVals[2,]  <-  c(L$lambda_sim, R$lambda_sim)
+			titrateDelta     <-  1
+
+			while(!all(titrateVals[2,1] > 1 && titrateVals[2,2] > 1) & titrateDelta > res) {
+				sf_prop       <-  midPoint(titrateVals[1,1],titrateVals[1,2])
+				titrateDelta  <-  sf_prop - min(titrateVals[1,1], titrateVals[1,2])
+			
+				proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											 hf = hf, hm = hm, sf = sf_prop, sm = sms[i], C = C, delta = delta, 
+											 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+											 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
+				# replace appropraite boundary value
+				if(proposal$lambda_sim  < 1) {
+					titrateVals[1,][titrateVals[2,] < 1]  <-  sf_prop
+					titrateVals[2,][titrateVals[2,] < 1]  <-  proposal$lambda_sim
+				}
+				if(proposal$lambda_sim  > 1) {
+					titrateVals[1,][titrateVals[2,] > 1]  <-  sf_prop
+					titrateVals[2,][titrateVals[2,] > 1]  <-  proposal$lambda_sim
+				}
+				if(verbose) {
+					cat('\r', paste("sm grad.:", round(100*(i/length(sms))), "% complete; Titrate ratio = ", round(titrateDelta/res, digits=2), "(done when < 1)"))
+					flush.console()
+				}
+
+			}
+
+		}
+		# Record sf threshold value
+		sfThreshold[i]  <-  sf_prop
+	}
+
+	# compile results as data frame
+	results.df  <-  as.data.frame(cbind(sfs, 
+										smThreshold, 
+										sms, 
+										sfThreshold 
+										)
+								 )
+	colnames(results.df)  <-  c("sf",
+								"smThreshold",
+								"sms",
+								"sfThreshold"
+								)
+
+	# export data as .csv to ./output/data
+	if(writeFile) {
+			filename <-  paste("./output/simData/extThreshold_SfxSm", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
+							"_C", C, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, "_f", theta[4], ".csv", sep="")
+			write.csv(results.df, file=filename, row.names = FALSE)
+	} else{
+			return(results.df)
+	}
+}
 
