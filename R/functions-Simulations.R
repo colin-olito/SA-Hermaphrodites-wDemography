@@ -1487,6 +1487,183 @@ extinctThreshTitrate  <-  function(sMax=0.15, res=0.0015,
 
 
 
+
+
+##############################
+#' Identify extinction threshold across sf x sm parameter space
+#' faster method for calculating proportions of sf x sm where
+#' different dynamical outcomes happen(?)
+#'
+extinctThreshTitrateRotate  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
+								   om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 6, 
+								   hf = 1/2, hm = 1/2, C = 0, delta = 0, 
+								   delta_j = 0, delta_a = 0, delta_gamma = 0,
+								   tlimit = 10^5, Ainvade=FALSE, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE) {
+	
+	# vector of sf values to titrate along
+	sfs          <-  seq(0, sMax, by=res)
+	sms          <-  sfs
+	extinctionThreshold  <-  cbind(rep(NA, times=2*length(sfs)),
+								   rep(NA, times=2*length(sfs)))
+
+	# Three values we need to keep track of
+	titrateVals  <-  matrix(rbind(c(0, 0, NA),
+								  c(0, 0, NA)), nrow=2,ncol=3)
+	rownames(titrateVals)  <-  c("left", "right")
+	colnames(titrateVals)  <-  c("sm", "sf", "lambda")
+
+plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
+
+	# loop over titration start values for upper-left triangle
+	# of sf x sm space
+	for(i in 1:(length(sfs)-1)) {
+
+		# Step through starting point on upper-left edges of sf x sm space
+		titrateVals[1,c(1:2)]  <-  c(0, sfs[length(sfs)-i])
+		titrateVals[2,c(1:2)]  <-  c(sms[i+1], sMax)
+		titrateVals[,3]        <-  c(NA,NA)
+
+points(	titrateVals[,2] ~ 	titrateVals[,1])
+		# calculate population growth rate at these boundaries
+		L  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+								 hf = hf, hm = hm, sf = titrateVals[1,2], sm = titrateVals[1,1], C = C, delta = delta, 
+								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
+		R  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+								 hf = hf, hm = hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C = C, delta = delta, 
+								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
+		
+		# check to see if extinction outcomes differ. If not, go to next sf value
+		if(all(L$lambda_sim > 1 && R$lambda_sim > 1)) {
+			if(verbose) {
+					cat('\r', paste("Titration", round(100*(i/(2*length(sfs)))), "% complete"))
+					flush.console()
+				}
+			next
+		} 
+		if(!all(L$lambda_sim > 1 && R$lambda_sim > 1)) {
+
+			# if they do, titrate to find threshold
+			titrateVals[,3]  <-  c(L$lambda_sim, R$lambda_sim)
+			titrateDelta     <-  eucDist(titrateVals[1,c(1:2)], titrateVals[2,c(1:2)])
+
+			while(!all(titrateVals[,3] > 1) && titrateDelta > precision) {
+				s_prop       <-  c(midPoint(titrateVals[1,1],titrateVals[2,1]),
+								   midPoint(titrateVals[1,2],titrateVals[2,2]))
+
+				titrateDelta  <-  eucDist(s_prop, titrateVals[1,c(1:2)])
+				proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											 hf = hf, hm = hm, sf = s_prop[2], sm = s_prop[1], C = C, delta = delta, 
+											 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+											 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
+				# replace appropraite boundary value
+				if(proposal$lambda_sim  < 1) {
+					titrateVals[titrateVals[,3] < 1, ]  <-  c(s_prop, proposal$lambda_sim)
+				}
+				if(proposal$lambda_sim  > 1) {
+					titrateVals[titrateVals[,3] > 1, ]  <-  c(s_prop, proposal$lambda_sim)
+				}
+				if(verbose) {
+					cat('\r', paste("Titration", round(100*(i/(2*length(sfs)))), "% complete; Tit. ratio = ", round(titrateDelta/res, digits=2), "(done when < 1)"))
+					flush.console()
+				}
+
+			}
+		# Record sm threshold value
+		extinctionThreshold[i,]  <-  s_prop
+		points(extinctionThreshold[i,2] ~ extinctionThreshold[i,1], pch=3, cex=2)
+
+		}
+
+	}
+
+	# loop over titration start values for lower-right triangle
+	# of sf x sm space
+	for(i in 1:(length(sfs)-1)) {
+
+		# Step through starting point on upper-left edges of sf x sm space
+		titrateVals[1,c(1:2)]  <-  c(sfs[i+1], 0)
+		titrateVals[2,c(1:2)]  <-  c(sMax, sms[length(sms)-i])
+		titrateVals[,3]        <-  c(NA,NA)
+
+points(	titrateVals[,2] ~ 	titrateVals[,1])
+		# calculate population growth rate at these boundaries
+		L  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+								 hf = hf, hm = hm, sf = titrateVals[1,2], sm = titrateVals[1,1], C = C, delta = delta, 
+								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
+		R  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+								 hf = hf, hm = hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C = C, delta = delta, 
+								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
+
+		# check to see if extinction outcomes differ. If not, go to next sf value
+		if(all(L$lambda_sim > 1 && R$lambda_sim > 1)) {
+			if(verbose) {
+					cat('\r', paste("Titration", round(100*((length(sfs)+i)/(2*length(sfs)))), "% complete"))
+					flush.console()
+				}
+			next
+		} 
+		if(!all(L$lambda_sim > 1 && R$lambda_sim > 1)) {
+			
+			# if they do, titrate to find threshold
+			titrateVals[,3]  <-  c(L$lambda_sim, R$lambda_sim)
+			titrateDelta     <-  eucDist(titrateVals[1,c(1:2)], titrateVals[2,c(1:2)])
+
+			while(!all(titrateVals[,3] > 1) && titrateDelta > precision) {
+				s_prop       <-  c(midPoint(titrateVals[1,1],titrateVals[2,1]),
+								   midPoint(titrateVals[1,2],titrateVals[2,2]))
+				titrateDelta  <-  eucDist(s_prop, titrateVals[1,c(1:2)])
+				proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											 hf = hf, hm = hm, sf = s_prop[2], sm = s_prop[1], C = C, delta = delta, 
+											 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+											 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
+				# replace appropraite boundary value
+				if(proposal$lambda_sim  < 1) {
+					titrateVals[titrateVals[,3] < 1, ]  <-  c(s_prop, proposal$lambda_sim)
+				}
+				if(proposal$lambda_sim  > 1) {
+					titrateVals[titrateVals[,3] > 1, ]  <-  c(s_prop, proposal$lambda_sim)
+				}
+				if(verbose) {
+					cat('\r', paste("Titration", round(100*((length(sfs)+i)/(2*length(sfs)))), "% complete; Tit. ratio = ", round(titrateDelta/precision, digits=2), "(done when < 1)"))
+					flush.console()
+				}
+
+			}
+
+		# Record sm threshold value
+		extinctionThreshold[(length(sfs) + i),]  <-  s_prop
+		points(extinctionThreshold[(length(sfs) + i),2] ~ extinctionThreshold[(length(sfs) + i),1], pch=3, cex=2)
+
+		}
+
+	}
+
+#plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
+#points(extinctionThreshold[,2] ~ extinctionThreshold[,1], pch=3, cex=2)
+
+	# compile results as data frame
+	results.df  <-  as.data.frame(extinctionThreshold)
+	colnames(results.df)  <-  c("sm",
+								"sf"
+								)
+
+	# export data as .csv to ./output/data
+	if(writeFile) {
+			filename <-  paste("./output/simData/extThresholdRotate_SfxSm", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
+							"_C", C, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, "_f", theta[4], ".csv", sep="")
+			write.csv(results.df, file=filename, row.names = FALSE)
+	} else{
+			return(results.df)
+	}
+}
+
+
+
+
 ###################################################
 #  ANALYSES USING REAL DEMOGRAPHIC DATA
 ###################################################
@@ -1894,7 +2071,7 @@ extinctThreshTitrateMimulus  <-  function(sMax = 0.15, res=0.001,
 					titrateVals[2,][titrateVals[2,] > 1]  <-  proposal$lambda_sim
 				}
 				if(verbose) {
-					cat('\r', paste("sf grad.:", round(100*(i/length(sfs))), "% complete; Titrate ratio = ", round(titrateDelta/res, digits=2), "(done when < 1)"))
+					cat('\r', paste("sf grad.:", round(100*(i/length(sfs))), "% complete; Titrate ratio = ", round(titrateDelta/precision, digits=2), "(done when < 1)"))
 					flush.console()
 				}
 			}
