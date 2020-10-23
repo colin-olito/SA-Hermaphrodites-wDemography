@@ -15,7 +15,7 @@
 ##  Dependencies
 rm(list=ls())
 source('R/functions-Simulations.R')
-#source('R/loadData-Compadre.R')
+source('R/loadData-Compadre.R')
 
 
 
@@ -566,3 +566,52 @@ deltaSelfingPolySpaceMakeData(sMax = 0.15, nSamples=1e+3,
 							delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 							tlimit = 10^5, eqThreshold = 1e-8)
 
+
+
+
+
+
+
+#################################################
+#' Find extinction threshold for Mimulus example
+
+datMat  <-  matList_Mg_EM
+theta.list  <-  list(D = 0.534, 
+					 G = 0.469,
+					 F = 0.64,
+					 O = 614,
+					 A = 6.7e-4,
+					 S = 0.179,
+					 R = 8.71)
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0,
+					 delta_F = 0,
+					 delta_O = 0,
+					 delta_S = 0
+					 )
+
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 0.35, C = 0, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 writeFile=TRUE, verbose=TRUE) 
+
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 0.35, C = 0.24, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 writeFile=TRUE, verbose=TRUE) 
+
+# delta values calculated from Willis (1993)
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0.085,
+					 delta_F = 0.2,
+					 delta_O = 0,
+					 delta_S = 0.38
+					 )
+
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 0.35, C = 0.24, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 writeFile=TRUE, verbose=TRUE) 

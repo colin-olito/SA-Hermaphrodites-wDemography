@@ -1176,3 +1176,93 @@ deltaSelfingLoadPolySpaceFig  <-  function(df1, df2) {
         proportionalLabel(0.5, -0.35, expression(paste("Selfing Rate (", italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
 }
+
+
+
+
+
+
+
+
+
+# Simple inv6 Fig
+MimulusInv6Fig  <-  function() {
+
+    sfs  <-  seq(0,1, by=0.001)
+    sms  <-  seq(0,1, by=0.001)
+
+    hf  <-  1/2
+    hm  <-  0.35
+
+    sfInv6  <-  0.308
+    smInv6  <-  0.88
+
+    inv_A  <-  popGen_A_invade(hf=hf, hm=hm, sm=sms, C=0)
+    inv_a  <-  popGen_a_invade(hf=hf, hm=hm, sm=sms, C=0)
+    inv_a[inv_a > 1]  <-  1
+
+# Color scheme
+    COLS  <-  list(
+                    "PG"     =  transparentColor('#252525', opacity=1),
+                    "fill"   =  transparentColor('#252525', opacity=0.25),
+                    "inv6"   =  transparentColor('tomato', opacity=1),
+                    "inv6bg" =  transparentColor('tomato', opacity=0.6)
+                    )
+# Set plot layout
+    layout.mat  <- matrix(c(1:2), nrow=1, ncol=2, byrow=TRUE)
+    layout      <- layout(layout.mat,respect=TRUE)
+
+    ## Panel A: Outcrossing
+
+        # Make the plot
+        par(omi=rep(0.5, 4), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s')
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,1.05), ylim = c(0,1.05), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        polygon(c(rev(sms),sms), c(rev(inv_A), inv_a), col=transparentColor('grey80', 0.6), border=NA)
+        lines(inv_A ~ sms, lwd=2, col=COLS$PG)
+        lines(inv_a[1:436] ~ sms[1:436], lwd=2, col=COLS$PG)
+        points(sfInv6 ~ smInv6, pch=21, col=COLS$inv6, bg=COLS$inv6bg, cex=1.25)
+        # axes        
+        axis(1, las=1)
+        axis(2, las=1)
+        proportionalLabel((smInv6-0.05), (sfInv6-0.07), expression(italic('inv6')), cex=1, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.1, expression(paste(italic(C), " = ", 0)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.35, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(0.5, -0.35, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+
+    ## Panel B: partial selfing
+
+    inv_A  <-  popGen_A_invade(hf=hf, hm=hm, sm=sms, C=0.24) #, C=0.38)
+    inv_a  <-  popGen_a_invade(hf=hf, hm=hm, sm=sms, C=0.24) #, C=0.38)
+    inv_a[inv_a > 1]  <-  1
+
+        # Make the plot
+        plot(NA, axes=FALSE, type='n', main='', xlim = c(0,1.05), ylim = c(0,1.05), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        polygon(c(rev(sms),sms), c(rev(inv_A), inv_a), col=transparentColor('grey80', 0.6), border=NA)
+        lines(inv_A ~ sms, lwd=2, col=COLS$PG)
+        lines(inv_a[1:572] ~ sms[1:572], lwd=2, col=COLS$PG)
+        points(sfInv6 ~ smInv6, pch=21, col=COLS$inv6, bg=COLS$inv6bg, cex=1.25)
+        # axes        
+        axis(1, las=1)
+        axis(2, las=1, labels=NA)
+        proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.1, expression(paste(italic(C), " = ", 0.24)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.5, -0.35, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel((smInv6-0.05), (sfInv6-0.07), expression(italic('inv6')), cex=1, adj=c(0.5, 0.5), xpd=NA)
+
+
+
+}
+
+

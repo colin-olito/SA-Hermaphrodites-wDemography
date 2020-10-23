@@ -96,3 +96,13 @@ toPdf(deltaSelfingLoadPolySpaceFig(
 			figPath(name='deltaSelfingPolySpace.pdf'), width=5, height=7)
 embed_fonts(figPath(name='deltaSelfingPolySpace.pdf'))
 
+
+
+
+
+#'  Polymorphic parameter space as a function of the selfing rate
+#'  using heuristic model of inbreeding depression ~ selfing
+toPdf(MimulusInv6Fig(),
+			figPath(name='mimulusInv6Fig.pdf'), width=7, height=5)
+embed_fonts(figPath(name='mimulusInv6Fig.pdf'))
+

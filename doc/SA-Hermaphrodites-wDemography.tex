@@ -134,53 +134,85 @@ OK, just putting some ideas out here based roughly on our conversations about an
 \begin{enumerate}
 	\item {\bf Introduction}
 	\begin{enumerate}
-		\item Briefly introduce sexual antagonism and intra-locus sexual conflict.
-		\item Simultaneous hermaphrodites, mixed mating systems, unique predictions for SA polymorphism.
-		\item Introduce Evolutionary Demography, pivot to focus on the consequences of taking demography into account explicitly for the maintenance of SA polymorphism.
-		\item Introduce key difference between existing population genetic models of SA polymorphism and our models: possibility of diverse population and evolutionary dynamics. 
-		\item Explain and highlight "demographically viable" parameter space, indicate that we are interested in whether parameter space predicted to be polymorphic by Pop.~gen.~models is, indeed, "demographically viable"
-		\item Building upon the two-sex stage-structured matrix models developed by \citet{deVriesCaswell2019a,deVriesCaswell2019b}, we develop stage-structured matrix models that can accommodate selection through male and female function in simultaneous hermaphrodites with mixed mating systems. The models also allow for the effects of inbreeding depression to manifest in several demographic parameters, allowing us to explore the fitness consequences of early- vs.~late-acting inbreeding depression.
+		\item Briefly introduce sexual antagonism and intra-locus sexual conflict. (Colin)
+		\item Simultaneous hermaphrodites, mixed mating systems, unique predictions for SA polymorphism. (Colin)
+		\item Introduce Evolutionary Demography, pivot to focus on the consequences of taking demography into account explicitly for the maintenance of SA polymorphism. (Lotte)
+		\item Introduce key difference between existing population genetic models of SA polymorphism and our models: possibility of diverse population and evolutionary dynamics. (Lotte then Colin)
+		\item Explain and highlight "demographically viable" parameter space, indicate that we are interested in whether parameter space predicted to be polymorphic by Pop.~gen.~models is, indeed, "demographically viable" (Lotte then Colin)
+		\begin{itemize}
+			\item Pop. Gen. models tacitly assume stable population size, parameterize genotypic fitnesses relative to the 'best performing' genotype. Non-overlapping generations. Casually define fitness as lifetime reproductive fitness of a given genotype.
+			\item "In practice, these genotypic fitnesses emerge from myriad process acting throughout the life-history of individuals"
+			\item these processes contribute to key demographic rates such as the intrinsic population growth rate, 
+			\item 
+		\end{itemize}
+		\item Building upon the two-sex stage-structured matrix models developed by \citet{deVriesCaswell2019a,deVriesCaswell2019b}, we develop stage-structured matrix models that can accommodate selection through male and female function in simultaneous hermaphrodites with mixed mating systems. The models also allow for the effects of inbreeding depression to manifest in several demographic parameters, allowing us to explore the fitness consequences of early- vs.~late-acting inbreeding depression. (Colin then Lotte)
 	\end{enumerate}
 
-	\item {\bf Vignette 1: When is polymorphism demographically viable?}
+	\item {\bf Methods}
+		\begin{enumerate}
+			\item Citation heavy review of de Vries \& Caswell AmNat (2018) \& de Vries \& Caswell AmNat (2019) TheorPopBiol
+			\item Briefly describe extension to simultaneous hermaphrodites, citing Jordan \& Connallon (2014), Abbot \& Tazzyman (2014), Olito (2017). 
+			\item breakdown into individuals produced by selfing vs.~outcrossing.
+			\item Brief anatomy of $\mathbf{\tilde{A}}$.
+			\item Analysis. Invasion analysis \& abridged derivation of invasion conditions \& identification of extinction threholds.
+			\item Cite Appendix with full derivation distilled from notes file.
+		\end{enumerate}
+
+	\item {\bf When is polymorphism demographically viable?}
 	\begin{enumerate}
 		\item Review previous predictions for outcrossers \& partial selfing
 		\begin{enumerate}
 			\item Greater scope for SA polymorphism in outcrossers vs.~selfers
 			\item Greater scope for SA polymorphism when SA fitness effects are recessive (dominance reversal).
+			\item but our model allows us to see where/when invasion of SA alleles can drive the population extinct
+			\item \textbf{Fig.1 - illustration of funnel plots w/ extinction isoclines}
 		\end{enumerate}
-		\item Key results summarized in Fig.~1: 
+
+		\item Key results summarized in \textbf{Fig.~2}: 
 		\begin{enumerate}
-			\item when populations do not have high growth-rates (i.e., when $\lambda \approx 1$), much of of polymorphic parameter space becomes demographically inviable.
+			\item For simplicity, temporarily assume no inbreeding depression ($\delta = 0$).
+			\item When populations do not have high growth-rates (i.e., when $\lambda \approx 1$), much of of polymorphic parameter space becomes demographically inviable.
 			\item Specifically, would-be polymorphic paramter space becomes inviable when segregating male-beneficial/female-deleterious alleles can reduce fecundity enough to drive the population extinct.
 			\item This effect is most dramatic for separate-sexed species and predominant outcrossers. Selfing shelters the population from the female-deleterious fitness effects because there is no opportunity for selection via male function. This can also be thought of as reproductive assurance in our model....
+			\item Convergence to pop.~gen.~predictions when $f$ is big.
 		\end{enumerate}
 	\end{enumerate}
 
-	\item {\bf Vignette 2: Effects of inbreeding depression}
+	\item {\bf Effects of inbreeding depression}
 	\begin{enumerate}
 		\item Review effect of I.D.~in population genetic models: causes selfing populations to look more like outcrossing ones (at least in terms of where SA polymorphism is maintained). This is because a fraction of selfed ovules are aborted, meaning the overall ratio of outcrossed vs.~selfed progeny increases.
-		\item Reiterate that selfing is often viewed as a mechanism for reproductive assurance.
-		\item Key results summarized in Fig.~2
+		\item Matrix model allows us to explore effects of I.D. in different parts of the life-cycle (early- vs.~late-acting I.D.). Point out that previous pop.~gen.~models only address early-acting I.D. via ovule viability.
+		\item MAKE CLEAR that purging of deleterious recessives thought to cause I.D. is already included in the model results presented in Fig.~3
+		\item Key results summarized in Fig.~3
 		\begin{enumerate}
-			\item Pop.~Gen.~models predict that higher early-acting ID should lead to greater proportion of polymorphic parameter space, while our models predict that it should decrease.
-			\item When and how ID affects fitness of offspring produced by selfing can change the location and steepness of the decline in polymorphic parameter space.
+			\item Pop.~Gen.~models predict that higher early-acting ID should lead to greater proportion of polymorphic parameter space, while our models predict that we get a critical threshold of selfing at which population viability plummets.
+			\item When and how I.D. influences fitness during the life-cyclecan change the location and steepness of the decline in polymorphic parameter space.
+			\item Critically, largest deviations from pop.~gen.~predictions happen for predominantly selfing populations.
 			\item A perhaps obvious, but sometimes overlooked implication of our model predictions: selfing can offer reproductive assurance, and SA polymorphisms can be maintained in a non-trivial proportion of parameter space in partially selfing populations... BUT demographically, the population must be able to "afford" the loss of selfed ovules/offspring.
+			\item HIGHLIGHT that this result holds even though we incorporated decrease of the mutation load due to inbreeding (and corresponding decrease in I.D.)...	
 		\end{enumerate}
 	\end{enumerate}
 
-	\item {\bf Vignette 3: Examples using real data}
+	\item {\bf Mimulus as a potential real world example}
 	\begin{enumerate}
 		\item We can parameterize our model with real populations' demographic rates, and make explicit predictions regarding the opportunity for SA polymorphism given the species' demography. We provide two illustrative examples:
 		\item Opportunities for SA polymorphism in {\itshape Mimulus guttatus} (now {\itshape Erythranthe guttata})
 		\item Possibly use data from \citet{PetersonEtAl2016} Eagle Meadows population, which is the 'local' population in their big common garden local adaptation expeirment.
 		\begin{enumerate}
 			\item Illustrate funnel plot using {\itshape E.~gutatta} demographic rates.
-			\item Fun little example: PLOT inversion from \citet{LeeKelly2015}, on that funnel!
+			\item \textbf{Fig.~4}: PLOT inversion from \citet{LeeKelly2015}, on that funnel!
 		\end{enumerate}
 
-		\item Do sexually dimorphic species exhibit demographic rates that increase opportunities for SA polymorphism?
 	\end{enumerate}
+
+	\item Discussion
+		\begin{enumerate}
+			\item Classic prediction from demography that most species should have a $\lambda \approx 1$
+			\item If true, the demographic impacts on the opportunities for the maintenance of sexually antagonistic polymorphisms may be pervasive...
+			\item Condition dependence, fecundity, scope for sexual confict/antagonistic polymorphism?
+			\item Do sexually dimorphic species exhibit demographic rates that increase opportunities for SA polymorphism?
+
+		\end{enumerate}
 
 \end{enumerate}
 
