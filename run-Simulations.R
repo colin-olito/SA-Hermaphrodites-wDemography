@@ -18,6 +18,130 @@ source('R/functions-Simulations.R')
 source('R/loadData-Compadre.R')
 
 
+#############################
+# Simulations for final figs
+#############################
+
+## Additive SA Fitness
+## hf = hm = 1/2
+
+	# Obligate Outcrossing
+	# C = 0
+	pars  <-  list(
+					"hf"     =  1/2,
+					"hm"     =  1/2,
+					"C"      =  0,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+						  om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 6, 
+						  hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+						  delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+						  tlimit = 10^2, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+	# Intermediate Selfing
+	# C = 1/4
+	pars  <-  list(
+					"hf"     =  1/2,
+					"hm"     =  1/2,
+					"C"      =  1/4,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+						  om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 6, 
+						  hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+						  delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+						  tlimit = 10^2, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+
+	# Intermediate Selfing
+	# C = 1/2
+	pars  <-  list(
+					"hf"     =  1/2,
+					"hm"     =  1/2,
+					"C"      =  1/2,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+						  om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 6, 
+						  hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+						  delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+						  tlimit = 10^2, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+
+## Partially Recessive SA Fitness
+## hf = hm = 1/4
+
+	# Obligate Outcrossing
+	# C = 0
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  1/4,
+					"C"      =  0,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6, 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, eqThreshold = 1e-8, writeFile = TRUE)
+
+	# Intermediate Selfing
+	# C = 1/4
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  1/4,
+					"C"      =  1/4,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6, 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, eqThreshold = 1e-8, writeFile = TRUE)
+
+	# Intermediate Selfing
+	# C = 1/2
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  1/4,
+					"C"      =  1/2,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+	selLoop(sMax = 0.15, nSamples=100,
+			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6, 
+			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
+			tlimit = 10^5, eqThreshold = 1e-8, writeFile = TRUE)
+
+
+
+
+
 
 ######################
 # Preliminary figures
@@ -158,25 +282,6 @@ source('R/loadData-Compadre.R')
 			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
 			tlimit = 10^5, eqThreshold = 1e-8, writeFile = TRUE)
-
-	# Intermediate Selfing w/ I.D.
-	# C = 1/2, delta = 0.5
-#	pars  <-  list(
-#					"hf"     =  1/4,
-#					"hm"     =  1/4,
-#					"C"      =  1/2,
-#					"delta"  =  1/5,
-#					"dj"     =  0,
-#					"da"     =  0,
-#					"dg"     =  0
-#					)
-
-#	selLoop(sMax = 0.15, nSamples=100,
-#			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
-#			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
-#			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
-#			tlimit = 10^5, eqThreshold = 1e-8, writeFile = TRUE)
-
 
 
 
