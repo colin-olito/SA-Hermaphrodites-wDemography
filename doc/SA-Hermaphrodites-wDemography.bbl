@@ -1,5 +1,54 @@
-\begin{thebibliography}{4}
+\begin{thebibliography}{37}
 \providecommand{\natexlab}[1]{#1}
+
+\bibitem[{Abbott(2011)}]{Abbott2011}
+Abbott, J.~K. 2011.
+\newblock Intra-locus sexual conflict and sexually antagonistic genetic
+  variation in hermaphroditic animals.
+\newblock Proc.~Roy.~Soc.~Lond.~B 278:161--169.
+
+\bibitem[{Bolnick and Nosil(2007)}]{BolnickNosil2007}
+Bolnick, D.~I., and P.~Nosil. 2007.
+\newblock Natural selection in populations subject to a migration load.
+\newblock Evolution 61:2229--2243.
+
+\bibitem[{Bonduriansky and Chenoweth(2009)}]{BondurianskyChenoweth2009}
+Bonduriansky, R., and S.~F. Chenoweth. 2009.
+\newblock Intralocus sexual conflict.
+\newblock Trends in Ecology and Evolution 24:280--288.
+
+\bibitem[{Charlesworth and Hughes(2000)}]{CharlesworthHughes2000}
+Charlesworth, B., and K.~A. Hughes. 2000.
+\newblock The maintenance of genetic variation in life history traits.
+\newblock Pages 369--391 \emph{in} R.~Singh and C.~Krimbas, eds. Evolutionary
+  Genetics from Molecules to Morphology. Cambridge Uni- versity Press,
+  Cambridge, U.~K.
+
+\bibitem[{Charlesworth(1999)}]{Charlesworth1999}
+Charlesworth, D. 1999.
+\newblock Theories of the evolution of dioecy.
+\newblock Chap.~2, pages 33--60 \emph{in} M.~A. Geber, T.~E. Dawson, and L.~F.
+  Delph, eds. Gender and sexual dimorphism in flowering plants. Springer
+  Science and Business Media, Heidelberg, Germany.
+
+\bibitem[{Connallon and Clark(2012)}]{ConnallonClark2012}
+Connallon, T., and A.~G. Clark. 2012.
+\newblock A general population genetic framework for antagonistic selection
+  that accounts for demography and recurrent mutation.
+\newblock Genetics 190:1477--1489.
+
+\bibitem[{Connallon and Hall(2018)}]{ConnallonHall2018}
+Connallon, T., and M.~D. Hall. 2018.
+\newblock Genetic constraints on adaptation: a theoretical primer for the
+  genomics era.
+\newblock Ann.~N.~Y.~Acad.~Sci. 1422:65--87.
+
+\bibitem[{Connallon et~al.(2019)Connallon, Sharma, and
+  Olito}]{ConnallonSharmaOlito2019}
+Connallon, T., S.~Sharma, and C.~Olito. 2019.
+\newblock Evolutionary consequences of sex-specific selection in variable
+  environments: Four simple models reveal diverse evolutionary outcomes.
+\newblock American Naturalist 193:93--105.
 
 \bibitem[{de~Vries and
   Caswell(2019{\natexlab{\emph{a}}})}]{deVriesCaswell2019b}
@@ -15,16 +64,165 @@ de~Vries, C., and H.~Caswell. 2019{\natexlab{\emph{a}}}.
   population genetics, and ecological dynamics.
 \newblock American Naturalist 193:545--559.
 
+\bibitem[{Fisher(1930)}]{Fisher1930}
+Fisher, R.~A. 1930.
+\newblock The genetical theory of natural selection.
+\newblock The Clarendon Press, Oxford, UK.
+
+\bibitem[{Goodwillie et~al.(2005)Goodwillie, Kalisz, and
+  Eckert}]{Goodwillie2005}
+Goodwillie, C., S.~Kalisz, and C.~G. Eckert. 2005.
+\newblock The evolutionary enigma of mixed mating systems in plants:
+  occurrence, theoretical explanations, and empirical evidence.
+\newblock Ann.~Rev.~Ecol.~Evol.~Syst. 36:47--79.
+
+\bibitem[{Haldane(1957)}]{Haldane1957}
+Haldane, J.~B.~S. 1957.
+\newblock The cost of natural selection.
+\newblock J.~Genetics 55:511--524.
+
+\bibitem[{Igic and Kohn(2006)}]{Igic2006}
+Igic, B., and J.~R. Kohn. 2006.
+\newblock The distribution of plant mating systems: study bias against
+  obligately outcrossing species.
+\newblock Evolution 60:1098--1103.
+
+\bibitem[{Jarne and Auld(2006)}]{JarneAuld2006}
+Jarne, P., and J.~R. Auld. 2006.
+\newblock Animals mix it up too: the distribution of self-fertilization among
+  hermaphroditic animals.
+\newblock Evolution 60:1816--1824.
+
+\bibitem[{Jordan and Charlesworth(2012)}]{JordanCharlesworth2012}
+Jordan, C.~Y., and D.~Charlesworth. 2012.
+\newblock The potential for sexually antagonistic polymorphism in different
+  genome regions.
+\newblock Evolution 66:505--516.
+
+\bibitem[{Jordan and Connallon(2014)}]{JordanConnallon2014}
+Jordan, C.~Y., and T.~Connallon. 2014.
+\newblock Sexually antagonistic polymorphism in simultaneous hermaphrodites.
+\newblock Evolution 68:3555--3569.
+
+\bibitem[{Kidwell et~al.(1977)Kidwell, Clegg, Stewart, and Prout}]{Kidwell1977}
+Kidwell, J.~F., M.~T. Clegg, F.~M. Stewart, and T.~Prout. 1977.
+\newblock Regions of stable equilibria for models of selection in the two sexes
+  under random mating.
+\newblock Genetics 85:171--183.
+
+\bibitem[{Kirkpatrick and Barton(1997)}]{KirkpatrickBarton1997}
+Kirkpatrick, M., and N.~Barton. 1997.
+\newblock Evolution of a species' range.
+\newblock American Naturalist 150:1--23.
+
+\bibitem[{Lande(1980)}]{Lande1980}
+Lande, R. 1980.
+\newblock Sexual dimorphism, sexual selection, and adaptation in polygenic
+  characters.
+\newblock Evolution 34:292--305.
+
+\bibitem[{Lande and Shannon(1996)}]{LandeShannon1996}
+Lande, R., and S.~Shannon. 1996.
+\newblock The role of genetic variation in adaptation and population
+  persistence in a changing environment.
+\newblock Evolution 50:434--437.
+
 \bibitem[{Lee et~al.(2016)Lee, Fishman, Kelly, and Willis}]{LeeKelly2015}
 Lee, Y.~W., L.~Fishman, J.~K. Kelly, and J.~H. Willis. 2016.
 \newblock A segregating inversion generates fitness variation in yellow
   monkeyflower (\textit{Mimulus guttatus}).
 \newblock Genetics 202:1473--1484.
 
+\bibitem[{Lloyd and Webb(1986)}]{LloydWebb1986}
+Lloyd, D.~G., and C.~J. Webb. 1986.
+\newblock The avoidance of interference between the presentation of pollen and
+  stigmas in angiosperms i. dichogamy.
+\newblock NZ J.~Botany 24:135--162.
+
+\bibitem[{Matthews et~al.(2019)Matthews, Hangartner, Chapple, and
+  Connallon}]{MatthewsConnallon2019}
+Matthews, G., S.~Hangartner, D.~G. Chapple, and T.~Connallon. 2019.
+\newblock Quantifying maladaptation during the evolution of sexual dimorphism.
+\newblock Proc.~Roy.~Soc.~B 286:20191372.
+
+\bibitem[{Olito(2017)}]{Olito2017}
+Olito, C. 2017.
+\newblock Consequences of genetic linkage for the maintenance of sexually
+  antagonistic polymorphism in hermaphrodites.
+\newblock Evolution 71:458--464.
+
+\bibitem[{Olito et~al.(2018)Olito, Abbott, and Jordan}]{Olito-etal-2018}
+Olito, C., J.~K. Abbott, and C.~Y. Jordan. 2018.
+\newblock The interaction between sex-specific selection and local adaptation
+  in species without separate sexes.
+\newblock Phil.~Tran.~Roy.~Soc.~B 373:20170426.
+
+\bibitem[{Olito and Connallon(2019)}]{Olito2019}
+Olito, C., and T.~Connallon. 2019.
+\newblock Sexually antagonistic variation and the evolution of dimorphic sexual
+  systems.
+\newblock American Naturalist 193:688--701.
+
+\bibitem[{Orr and Unckless(2008)}]{OrrUnckless2008}
+Orr, H.~A., and R.~L. Unckless. 2008.
+\newblock Population extinction and the genetics of adaptation.
+\newblock American Naturalist 172:160--169.
+
+\bibitem[{Otto et~al.(2011)Otto, Pannell, Peichel, Ashman, Charlesworth,
+  Chippindale, Delph, Guerrero, Scarpino, and McAllister}]{Otto2011}
+Otto, S.~P., J.~R. Pannell, C.~L. Peichel, T.-L. Ashman, D.~Charlesworth, A.~K.
+  Chippindale, L.~F. Delph, R.~F. Guerrero, S.~V. Scarpino, and B.~F.
+  McAllister. 2011.
+\newblock About par: The distinct evolutionary dynamics of the pseudoautosomal
+  region.
+\newblock Trends in Genetics 27:358--367.
+
 \bibitem[{Peterson et~al.(2016)Peterson, Kay, and Angert}]{PetersonEtAl2016}
 Peterson, M.~L., K.~M. Kay, and A.~L. Angert. 2016.
 \newblock The scale of local adaptation in mimulus guttatus: comparing life
   history races, ecotypes, and populations.
 \newblock New Phytologist 211:345--356.
+
+\bibitem[{Rice(1992)}]{Rice1992}
+Rice, W.~R. 1992.
+\newblock Sexually antagonistic genes: experimental evidence.
+\newblock Science 256:1436--1439.
+
+\bibitem[{Rice and Chippindale(2001)}]{RiceChippindale2001}
+Rice, W.~R., and A.~K. Chippindale. 2001.
+\newblock Intersexual ontogenetic conflict.
+\newblock J.~Evol.~Biol. 14:685--693.
+
+\bibitem[{Ruzicka et~al.(2020)Ruzicka, Dutoit, Czuppon, Jordan, Li, Olito,
+  Runemark, Svensson, Yazdi, and Connallon}]{RuzickaESEB2020}
+Ruzicka, F., L.~Dutoit, P.~Czuppon, C.~Y. Jordan, X.~Li, C.~Olito, A.~Runemark,
+  E.~I. Svensson, H.~P. Yazdi, and T.~Connallon. 2020.
+\newblock The search for sexually antagonistic genes: Practical insights from
+  studies of local adaptation and statistical genomics.
+\newblock Evol.~Lett. 4-5:398--415.
+
+\bibitem[{Smith(1976)}]{Maynard-Smith1976}
+Smith, J.~M. 1976.
+\newblock What determines the rate of adaptation?
+\newblock American Naturalist 110:331--338.
+
+\bibitem[{Tazzyman and Abbott(2015)}]{Tazzyman2015}
+Tazzyman, S.~J., and J.~K. Abbott. 2015.
+\newblock Self-fertilization and inbreeding limit the scope for sexually
+  antagonisitc polymorphism.
+\newblock J.~Evol.~Biol. 28:723--729.
+
+\bibitem[{Wang et~al.(2020)Wang, Barrett, Li, Niu, Duan, Zhang, and
+  Li}]{WangBarrett2020}
+Wang, H., S.~C.~H. Barrett, X.~Li, Y.~Niu, Y.~Duan, Z.~Zhang, and Q.~Li. 2020.
+\newblock Sexual conflict in protandrous flowers and the evolution of
+  gynodioecy.
+\newblock Evolution TBD:XXX--XXX.
+
+\bibitem[{Webb and Lloyd(1986)}]{WebbLloyd1986}
+Webb, C.~J., and D.~G. Lloyd. 1986.
+\newblock The avoidance of interference between the presentation of pollen and
+  stigmas in angiosperms ii. herkogamy.
+\newblock NZ J.~Botany 24:163--178.
 
 \end{thebibliography}

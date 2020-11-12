@@ -139,12 +139,12 @@ OK, just putting some ideas out here based roughly on our conversations about an
 		\item Introduce Evolutionary Demography, pivot to focus on the consequences of taking demography into account explicitly for the maintenance of SA polymorphism. (Lotte)
 		\item Introduce key difference between existing population genetic models of SA polymorphism and our models: possibility of diverse population and evolutionary dynamics. (Lotte then Colin)
 		\item Explain and highlight "demographically viable" parameter space, indicate that we are interested in whether parameter space predicted to be polymorphic by Pop.~gen.~models is, indeed, "demographically viable" (Lotte then Colin)
-		\begin{itemize}
+		\begin{enumerate}
 			\item Pop. Gen. models tacitly assume stable population size, parameterize genotypic fitnesses relative to the 'best performing' genotype. Non-overlapping generations. Casually define fitness as lifetime reproductive fitness of a given genotype.
 			\item "In practice, these genotypic fitnesses emerge from myriad process acting throughout the life-history of individuals"
 			\item these processes contribute to key demographic rates such as the intrinsic population growth rate, 
 			\item 
-		\end{itemize}
+		\end{enumerate}
 		\item Building upon the two-sex stage-structured matrix models developed by \citet{deVriesCaswell2019a,deVriesCaswell2019b}, we develop stage-structured matrix models that can accommodate selection through male and female function in simultaneous hermaphrodites with mixed mating systems. The models also allow for the effects of inbreeding depression to manifest in several demographic parameters, allowing us to explore the fitness consequences of early- vs.~late-acting inbreeding depression. (Colin then Lotte)
 	\end{enumerate}
 
@@ -228,45 +228,93 @@ OK, just putting some ideas out here based roughly on our conversations about an
 
 \newpage{}
 
+%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%
 
-\ldots
+Whether a population persists or goes extinct depends in large part on its ability to adapt to the environment. Yet, the process of adaptation can be impeded by a variety of genetic and environmental factors, including deleterious mutations \citep{Haldane1957}, environmental shifts causing a population to chase a new phenotypic optimum \citep{Maynard-Smith1976, LandeShannon1996,OrrUnckless2008}, maladaptive gene-flow \citep{KirkpatrickBarton1997, BolnickNosil2007}, as well as genetic constraints arising from intrinsic features of the inheritance system \citep{ConnallonHall2018}. 
 
+Conflicting selection and gene-flow between different classes of individuals in a population, or genetic trade-offs between fitness components, can impose genetic constraints on adaptation with particularly interesting evolutionary consequences \citep{CharlesworthHughes2000, ConnallonHall2018}. Such constraints hinder adaptation by preventing individuals (or classes of individuals) from reaching the phenotypic optimum in one or more fitness components, potentially increasing the population's overall risk of extinction. At the same time, they provide an effective mechanism for the maintenance of genetic variation, which in turn influences the population's capactiy for future adaptation \citep{Fisher1930, CharlesworthHughes2000, ConnallonHall2018, MatthewsConnallon2019}. Hence, for genetically constrained traits the nature and extent of genetic variation observed in natural populations should reflect the balance between the contribution of constraints to the maintainance of genetic polymorphisms, and the demographic consequences of the resulting maladaptation.
+%Genetic trade-offs between fitness components due to pleiotropy represent a form of genetic constraint with particularly interesting evolutionary consequences because they act as a double-edged sword
+%The nature and extent of genetic variation observed in natural populations should therefore reflect the balance between the contribution of those constraints to the maintainance of genetic polymorphism and the demographic consequences of the resulting maladaptation.
+
+Genetic trade-offs between male and female fitness are a common feature of sexually reproducing populations, and are thought to contribute not only to the maintenance of genetic variation, but also the evolution of sexual dimorphism and gender-related traits \citep{Lande1980, Rice1992, Charlesworth1999, RiceChippindale2001, BondurianskyChenoweth2009,Olito2019}. When such genetic trade-offs occur, "sexually antagonistic" selection (abbreviated SA hereafter) can arise when beneficial alleles for one sex are deleterious when expressed in the other \citep{Kidwell1977, Rice1992, ConnallonClark2012}. Moreover, alleles with opposing fitness effects through male and female sex functions create analogous genetic constraints on fitness in hermaphrodite populations, where both maternal and paternal reproductive success contribute jointly to each individuals' overall fitness \citep{LloydWebb1986, WebbLloyd1986, Abbott2011, JordanConnallon2014}. 
+
+The evolutionary dynamics of SA alleles in hermaphrodites differ from those in dioecious populations because individuals may reproduce through a combination of self- and outcross fertilization \citep{Goodwillie2005, Igic2006, JarneAuld2006}. Such mixed-mating systems have important theoretical consequences for the maintenance of SA polymorphisms in hermaphrodite populations. Self-fertilization is predicted to reduce the total parameter space where balanced SA polymorphisms can be maintained, while simultaneously creating a bias in selection through the female sex function (\citealt{JordanConnallon2014}; but see \citealt{Tazzyman2015}. Yet, other processes, such as genetic linkage to other SA loci or a sex-determining region \citep{Otto2011, JordanCharlesworth2012, Olito2017, Olito2019}, or spatial heterogeneity and the complexity of the life-cycle \citep{Olito-etal-2018,ConnallonSharmaOlito2019} can expand the parameter space for SA polymorphism. Overall, both theoretical predictions and current empirical data suggest there is ample scope for SA trade-offs and the maintenance of SA polymorphisms in both dioecious and hermaphrodite populations \citep{Abbott2011, WangBarrett2020}, although identifying specific SA loci from genome sequence data remains challenging \citep{RuzickaESEB2020}.
+\bigskip
+
+\begin{enumerate}
+	\item Introduce Evolutionary Demography, pivot to focus on the consequences of taking demography into account explicitly for the maintenance of SA polymorphism. [Lotte]
+	\item Introduce key difference between existing population genetic models of SA polymorphism and our models: possibility of diverse population and evolutionary dynamics. [Lotte then Colin]
+	\item Explain and highlight "demographically viable" parameter space, indicate that we are interested in whether parameter space predicted to be polymorphic by Pop.~gen.~models is, indeed, "demographically viable" [Lotte then Colin]
+		\begin{enumerate}
+			\item Pop. Gen. models tacitly assume large and/or stable population size, parameterize genotypic fitnesses relative to the 'best performing' genotype. Non-overlapping generations. Casually define fitness as lifetime reproductive fitness of a given genotype.
+			\item "In practice, these genotypic fitnesses emerge from myriad process acting throughout the life-history of individuals"
+			\item these processes contribute to key demographic rates such as the intrinsic population growth rate, 
+		\end{enumerate}
+\end{enumerate}
+\bigskip
+
+In this article, we build upon the models of \citet{deVriesCaswell2019a} and \citet{deVriesCaswell2019b} to develop a stage-structured mendelian matrix model that accommodates selection through male and female function in simultaneous hermaphrodites with mixed mating systems. Using the model, we jointly analyze the evolutionary and demographic consequences of SA selection in obligately outcrossing (equivalent to dioecy) and partially selfing hermaphrodite populations. We focus our analyses on identifying the parameter conditions under which SA polymorphisms are maintained by balancing selection {\itshape and} the population is also demographically viable (i.e., has a positive intrinsic growth rate). The model also allows for the effects of inbreeding depression to manifest in different life-history stages, enabling us to explore the fitness consequences of early- vs.~late-acting inbreeding depression on the model predictions. 
+
+A key finding from our model is that when the intrinsic population growth rate is not large (i.e., $\lambda$ is close to $1$), the deleterious effects on female fecundity of segregating male-beneficial SA alleles can render much of the parameter space for SA polymorphism demographically inviable. Under some conditions, self-fertilization can alleviate the demographic costs of balanced SA polymorphisms, but the concommitant costs of inbreeding depression greatly exacerbate them. Overall, our findings suggest that previous population genetic theory assuming large and/or constant population sizes probably represents a 'best case scenario' for the maintenance of SA polymorphisms, and provide a more nuanced picture of the nature of SA genetic variation that we should expect to find in natural populations.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Methods}
-
+%%%%%%%%%%%%%%%%%%%%%%%%
 \ldots 
 
+%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{The quickness of the fox}
 
 \ldots  
+
 
 \subsubsection*{Third-order heading}
 
 \ldots
 
+
 \paragraph*{Fourth-order heading}
 \ldots
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Results}
-
+%%%%%%%%%%%%%%%%%%%%%%%%
 \ldots
 
+
+
+ \begin{figure}[htbp]
+ \centering
+ \includegraphics[width=\linewidth]{./extinctionThresholdsFig}
+ \caption{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the mendelian stage-structured matrix model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). We are particularly interested in identifying and quantifying "demographically viable polymorphic parameter space", which corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two dominance scenarios (additivity with $h = 1/2$, and dominance reversal with $h = 1/4$); extinction thresholds are illustrated for three different values of female fecundity ($f$ values annotated on each panel). }
+ \label{fig:extinctionThresholds}
+ \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{The height of the jump}
 
 \ldots
 
+%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{The laziness of the dog}
 
 \ldots
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Discussion}
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 \ldots
 
+%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 \ldots
 
