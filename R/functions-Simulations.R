@@ -174,9 +174,6 @@ predDelta  <-  function(dStar, b=1/2, a=0.2, C) {
 #	zeta_i  <-  zeta_i/lambda_i[c(1,3)]
 #	return(zeta_i)
 #}
-
-
-
 calcZeta  <-  function(om, FSi, FXi, FXi_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, lambda_i){
 
 	pn_AA   <-  ones(c(om)) %*% FXi_pr[,,1] %*% (pHat_AA[1:om] + pHat_AA[om+1:om])
@@ -1319,10 +1316,24 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 
 }
 
-
+pickInvadingAllele  <-  function(hf, hm, sf, sm, C) {
+		if(hf == hm && hf == 1/2) {
+			qHat  <-  popGen_qHat_Add(sf = sf, sm = sm, C = C)
+		}
+		if(hf == hm && hf < 1/2) {
+			qHat  <-  popGen_qHat_DomRev(h = hf, sf = sf, sm = sm, C = C)
+		}
+			if(qHat < 1/2){
+				Ainvade  <-  TRUE
+			}
+			if(qHat > 1/2){
+				Ainvade  <-  FALSE
+			}
+	Ainvade
+}
 
 midPoint  <-  function(x1,x2) {
-	x1 + (x2-x1)/2
+	x1 + (x2-x1)/2 + runif(1, min=-1, max=1)*(x2-x1)/10
 }
 
 
@@ -1331,11 +1342,12 @@ midPoint  <-  function(x1,x2) {
 #' faster method for calculating proportions of sf x sm where
 #' different dynamical outcomes happen(?)
 #'
-extinctThreshTitrate  <-  function(sMax=0.15, res=0.0015, precision = 1e-4,
+extinctThreshTitrate  <-  function(sMax=0.15, res=0.015, precision = 1e-4,
 								   om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 								   hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 								   delta_j = 0, delta_a = 0, delta_gamma = 0,
-								   tlimit = 10^5, Ainvade=FALSE, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE) {
+								   tlimit = 10^5, Ainvade=FALSE, eqThreshold = 1e-8, 
+								   makePlots=FALSE, verbose=TRUE, writeFile=TRUE) {
 	
 	# vector of sf values to titrate along
 	sfs          <-  seq(0, sMax, by=res)
@@ -1349,74 +1361,82 @@ extinctThreshTitrate  <-  function(sMax=0.15, res=0.0015, precision = 1e-4,
 	rownames(titrateStartVals)  <-  c("sVals", "extinct")
 	colnames(titrateStartVals)  <-  c("left", "right")
 
-plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
+if(makePlots) {
+	dev.new()
+	plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
+}
 	# loop over sf values
 	for(i in 1:length(sfs)) {
 
-		titrateVals  <-  titrateStartVals
+		titrateVals   <-  titrateStartVals
+		titrateDelta  <-  1
 
-		# start at boundaries of [0, sMax]
+		# start tit. at boundaries of [0, sMax] OR at narrower window based on previous threshold
 		L  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
-								 hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,1], C = C, delta = delta, 
-								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
-								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
+							  hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,1], C = C, delta = delta, 
+							  delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+							  tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = FALSE)
 		R  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
-								 hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,2], C = C, delta = delta, 
-								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
-								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
+							  hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,2], C = C, delta = delta, 
+							  delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+							  tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = TRUE, intInit = FALSE)
 		
-		# check to see if extinction outcomes differ. If not, go to next sf value
-		if(all(L$lambda_sim > 1 && R$lambda_sim > 1)) {
+		# If populations are viable at both boundaries of sf x sm space, 
+		# go to next sf value
+		if(L$lambda_sim > 1 && R$lambda_sim > 1) {
 			if(verbose) {
-					cat('\r', paste("sf grad.:", round(100*(i/length(sfs))), "% complete"))
+					cat('\r', paste("Titrating sf value ", i, "/", length(sfs)))
 					flush.console()
 				}
 			next
-		} else {
-			# if they do, titrate to estimate threshold
-			titrateVals[2,]  <-  c(L$lambda_sim, R$lambda_sim)
-			titrateDelta     <-  1
+		} 
+		# If extinction occurs at both boundaries of sf x sm space,
+		# set sm extinction threshold to 0
+		if(L$lambda_sim < 1 && R$lambda_sim < 1) {
+			smThreshold[i]  <-  0
+if(makePlots) {
+	points(sfs[i] ~ 0)
+}
+			next
+		}
+		
+		# if extinction outcomes differ, titrate to find threshold
+		titrateVals[2,]  <-  c(L$lambda_sim, R$lambda_sim)
+		errCount  <-  0
+		while(titrateDelta > precision && errCount < 21) {
 
-			while(!all(titrateVals[2,1] > 1 && titrateVals[2,2] > 1) & titrateDelta > precision) {
-
-				# If extinction occurs at both edges of sf x sm space,
-				# set sm extinction threshold to 0
-				if(all(titrateVals[2,] < 1)) {
-					smThreshold[i]  <-  0
-					points(sfs[i] ~ 0, pch=3, cex=2)
-					next
-				}
-
-				# If extinction outcome differs, propose new boundary
-				# midway between previous boundary values
-				sm_prop       <-  midPoint(titrateVals[1,1],titrateVals[1,2])
-				titrateDelta  <-  sm_prop - min(titrateVals[1,1], titrateVals[1,2])
-			
-
-				proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
-											 hf = hf, hm = hm, sf = sfs[i], sm = sm_prop, C = C, delta = delta, 
-											 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
-											 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
-				# replace appropriate boundary value
-				if(proposal$lambda_sim  < 1) {
-					titrateVals[1,][titrateVals[2,] < 1]  <-  sm_prop
-					titrateVals[2,][titrateVals[2,] < 1]  <-  proposal$lambda_sim
-				}
-				if(proposal$lambda_sim  > 1) {
-					titrateVals[1,][titrateVals[2,] > 1]  <-  sm_prop
-					titrateVals[2,][titrateVals[2,] > 1]  <-  proposal$lambda_sim
-				}
-				if(verbose) {
-					cat('\r', paste("sf grad.:", round(100*(i/length(sfs))), "% complete; Titration ratio = ", round(titrateDelta/precision, digits=2), "(done when < 1)"))
-					flush.console()
-				}
-
+			# Propose new tit. boundary midway between previous boundary values
+			sm_prop       <-  midPoint(titrateVals[1,1],titrateVals[1,2])
+			titrateDelta  <-  sm_prop - min(titrateVals[1,1], titrateVals[1,2])
+			errCount  <-  errCount + 1
+if(makePlots) {
+	points(sfs[i] ~ sm_prop, cex=0.25)
+}
+			proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+										 hf = hf, hm = hm, sf = sfs[i], sm = sm_prop, C = C, delta = delta, 
+										 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+										 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
+			# replace appropriate boundary value
+			if(proposal$lambda_sim  < 1) {
+				titrateVals[1,][titrateVals[2,] < 1]  <-  sm_prop
+				titrateVals[2,][titrateVals[2,] < 1]  <-  proposal$lambda_sim
+			}
+			if(proposal$lambda_sim  > 1) {
+				titrateVals[1,][titrateVals[2,] > 1]  <-  sm_prop
+				titrateVals[2,][titrateVals[2,] > 1]  <-  proposal$lambda_sim
+			}
+			if(verbose) {
+				cat('\r', paste("Titrating sf value ", i, "/", length(sfs), "; Tit. ratio = ", round(titrateDelta/precision, digits=2), "(done when < 1)"))
+				flush.console()
 			}
 
 		}
+
 		# Record sm threshold value
-points(sfs[i] ~ sm_prop, pch=3, cex=2)
 		smThreshold[i]  <-  sm_prop
+if(makePlots) {
+	points(sfs[i] ~ smThreshold[i])
+}
 	}
 
 	# Rename titrate Columns for top/bottom titration
@@ -1428,79 +1448,98 @@ points(sfs[i] ~ sm_prop, pch=3, cex=2)
 		titrateVals   <-  titrateStartVals
 		titrateDelta  <-  1
 
-		# start at boundaries of [0, sMax]
-		T  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
-								 hf = hf, hm = hm, sf = titrateVals[1,2], sm = sms[i], C = C, delta = delta, 
-								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
-								 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
+		# if sms value is smaller than the smallest smThreshold value found
+		# by L/R titration, go to next sm tit. value 
+		if(!all(is.na(smThreshold)) && sms[i] < min(na.omit(smThreshold))) {
+			if(verbose) {
+					cat('\r', paste("Titrating sm value ", i, "/", length(sfs)))
+					flush.console()
+				}
+			next
+		}
+
+		# if the tit. sm value is larger than the smallest smThreshold
+		# found by L/R titration, narrow the titration window using 
+		if(!all(is.na(smThreshold)) && sms[i] > min(na.omit(smThreshold))) {
+			smDev  <-  smThreshold[!is.na(smThreshold)] - sms[i]
+			titrateVals[1,]  <-  c( 0, 
+									min(sfs[!is.na(smThreshold)][ smDev == max(smDev[ smDev < 0])], sMax))
+		} 
+
+		# start at boundaries of [0, sMax] OR at narrower window based on previous threshold
 		B  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
 								 hf = hf, hm = hm, sf = titrateVals[1,1], sm = sms[i], C = C, delta = delta, 
 								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
-								 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
+								 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
+		T  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+								 hf = hf, hm = hm, sf = titrateVals[1,2], sm = sms[i], C = C, delta = delta, 
+								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+								 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
 		
-		# If extinction outcomes do not differ AND the sm tit. value is less than
-		# the smallest smThreshold detected by L/R titration, go to next sm tit. value
-		if(all(B$lambda_sim > 1 && T$lambda_sim > 1) && sms[i] < min(na.omit(smThreshold))) {
+		# If extinction does not occur at either boundary of sf x sm space,
+		# go to next sm tit. value
+		if(B$lambda_sim > 1 && T$lambda_sim > 1) {
 			if(verbose) {
-					cat('\r', paste("sm grad.:", round(100*(i/length(sms))), "% complete"))
+					cat('\r', paste("Titrating sm value ", i, "/", length(sfs)))
 					flush.console()
 				}
 			next
-		} 
-
-		titrateVals[2,]  <-  c(B$lambda_sim, T$lambda_sim)
+		}
 		# If extinction occurs at both T & B,
 		# set sf extinction threshold to 0
-		if(all(titrateVals[2,] < 1)) {
+		if(B$lambda_sim < 1 && T$lambda_sim < 1) {
 			sfThreshold[i]  <-  0
-			points(0 ~ sms[i], pch=3, cex=2)
+if(makePlots) {
+	points(0 ~ sms[i])
+}
 			next
 		}
 
-		# If sm tit. value is LARGER than the smallest smThreshold 
-		# detected by L/R titration, titrate from bottom upwards
-		if(sms[i] > min(na.omit(smThreshold))) {
+		# Assign lambda vals. to tit. values
+		titrateVals[2,]  <-  c(B$lambda_sim, T$lambda_sim)
+		errCount  <-  0
+		# Titrate!
+		while(titrateDelta > precision && errCount < 21) {
 
-			# Find sf value for Top boundary using closest smThreshold value
-			# that was SMALLER than the current sm tit. value
-			smDev  <-  smThreshold[!is.na(smThreshold)] - sms[i]
-			titrateVals[1,2]  <-  sfs[!is.na(smThreshold)][ smDev == max(smDev[ smDev < 0])]
-			T  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
-								 hf = hf, hm = hm, sf = titrateVals[1,2], sm = sms[i], C = C, delta = delta, 
-								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
-								 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
-			titrateVals[2,2]  <-  T$lambda_sim
-
-			while(!all(titrateVals[2,] > 1) && titrateDelta > precision) {
-
-				# If extinction outcome differs, propose new boundary
-				# midway between previous boundary values
-				sf_prop       <-  midPoint(titrateVals[1,1],titrateVals[1,2])
-				titrateDelta  <-  sf_prop - min(titrateVals[1,1], titrateVals[1,2])
-				proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
-											 hf = hf, hm = hm, sf = sf_prop, sm = sms[i], C = C, delta = delta, 
-											 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
-											 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
-				# replace appropriate boundary value
-				if(proposal$lambda_sim  < 1) {
-					titrateVals[1,][titrateVals[2,] < 1]  <-  sf_prop
-					titrateVals[2,][titrateVals[2,] < 1]  <-  proposal$lambda_sim
-				}
-				if(proposal$lambda_sim  > 1) {
-					titrateVals[1,][titrateVals[2,] > 1]  <-  sf_prop
-					titrateVals[2,][titrateVals[2,] > 1]  <-  proposal$lambda_sim
-				}
-				if(verbose) {
-					cat('\r', paste("sm grad.:", round(100*(i/length(sms))), "% complete; Titrate ratio = ", round(titrateDelta/precision, digits=2), "(done when < 1)"))
-					flush.console()
-				}
-
+			# If extinction outcome differs, propose new boundary
+			# midway between previous boundary values
+			sf_prop       <-  midPoint(titrateVals[1,1],titrateVals[1,2])
+			errCount  <-  errCount + 1
+			titrateDelta  <-  sf_prop - min(titrateVals[1,1], titrateVals[1,2])
+if(makePlots) {
+	points(sf_prop ~ sms[i], cex=0.5)
+}
+			proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+										 hf = hf, hm = hm, sf = sf_prop, sm = sms[i], C = C, delta = delta, 
+										 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+										 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = FALSE)
+			
+			# replace appropriate boundary value
+			if(proposal$lambda_sim  < 1) {
+				titrateVals[1,][titrateVals[2,] < 1]  <-  sf_prop
+				titrateVals[2,][titrateVals[2,] < 1]  <-  proposal$lambda_sim
+			}
+			if(proposal$lambda_sim  > 1) {
+				titrateVals[1,][titrateVals[2,] > 1]  <-  sf_prop
+				titrateVals[2,][titrateVals[2,] > 1]  <-  proposal$lambda_sim
+			}
+			if(verbose) {
+				cat('\r', paste("Titrating sf value ", i, "/", length(sfs), "; Tit. ratio = ", round(titrateDelta/precision, digits=2), "(done when < 1)"))
+				flush.console()
 			}
 
 		}
+
 		# Record sf threshold value
-points(sf_prop ~ sms[i], pch=3, cex=2)
 		sfThreshold[i]  <-  sf_prop
+if(makePlots) {
+	points(sfThreshold[i] ~ sms[i], pch=2)
+}
+	}
+
+	# clean up any smThreshold values that fall below the largest sfThreshold value
+	if(!all(is.na(sfThreshold))) {
+		smThreshold[sfs < max(na.omit(sfThreshold))]  <-  NA
 	}
 
 	# compile results as data frame
@@ -1554,6 +1593,7 @@ extinctThreshTitrateRotate  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
 	rownames(titrateVals)  <-  c("left", "right")
 	colnames(titrateVals)  <-  c("sm", "sf", "lambda")
 
+dev.new()
 plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
 #plot(NA, xlim=c(0,1), ylim=c(0,1))
 
@@ -1722,7 +1762,6 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 
 
 #####################################################
-
 ###########################
 #' Find Boundary Eq. & Evaluate Zeta_i
 #'
@@ -1897,7 +1936,7 @@ titrateInvBoundaries  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
 	rownames(titrateVals)  <-  c("left", "right")
 	colnames(titrateVals)  <-  c("sm", "sf", "Zeta_AA")
 
-plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
+# plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
 
 	# loop over sf values, and titrate for sm value corresponding to
 	# a allele invasion condition 
@@ -1927,7 +1966,7 @@ plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
 		# sm value in loop
 		if(all(titrateVals[,3] > 1)) {
 			aInvBound[i]  <-  sMax
-			points(aInvBound[i] ~ sms[i], cex=1)
+#			points(aInvBound[i] ~ sms[i], cex=1)
 			next
 		}
 
@@ -1960,7 +1999,7 @@ plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
 
 		# Record sm threshold value
 		aInvBound[i]  <-  s_prop[2]
-		points(aInvBound[i] ~ sms[i], cex=1)
+#		points(aInvBound[i] ~ sms[i], cex=1)
 	}
 
 	## Titrate to find invasion boundary for A allele 
@@ -1999,7 +2038,7 @@ plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
 		# sm value in loop
 		if(all(titrateVals[,3] > 1)) {
 			AInvBound[i]  <-  0
-			points(AInvBound[i] ~ sms[i], cex=1)
+#			points(AInvBound[i] ~ sms[i], cex=1)
 			next
 		}
 
@@ -2032,7 +2071,7 @@ plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
 
 		# Record sm threshold value
 		AInvBound[i]  <-  s_prop[2]
-		points(AInvBound[i] ~ sms[i], cex=1)
+#		points(AInvBound[i] ~ sms[i], cex=1)
 	}
 
 
@@ -2051,8 +2090,251 @@ plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
 
 
 
+###################################################
+# makeData functions using titration to quantify
+# demographically viable polymorphic parameter 
+# space 
+###################################################
+
+#' function to make data to quantify demographically viable 
+#' polymorphic parameter space for different dominance, scenarios
+#' selfing rates, and fertility values.
+makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4,
+									 om = 2, g = 3, theta = c(0.6,0.6,0.05,NA), theta_prime = NA, 
+									 hVals= c(1/2, 1/4), fVals = c(5.8, 5.9, 6.0, 6.5), 
+									 delta = 0, delta_j = 0, delta_a = 0, delta_gamma = 0,
+									 tlimit = 10^5, eqThreshold = 1e-8) {
+
+	# Vector of selfing rates, storage dataframe
+	Cs       <-  seq(0,0.9, by=0.1)
+	dataSet  <-  rep(NA, times=10)
+
+	# Setup progress bar
+	print('Making Data For Fig.2')
+	pb   <-  txtProgressBar(min=0, max=(length(hVals)*length(fVals)*length(Cs)), style=3)
+	setTxtProgressBar(pb, 0)
+
+	# Loop over dominance, fertility, selfing
+	for(i in 1:length(hVals)) {
+		for(j in 1:length(fVals)) {
+
+			# assign fertility value to theta & theta_prime
+			theta[4]     <-  fVals[j]
+			theta_prime  <-  fVals[j]
+
+			for(k in 1:length(Cs)) {
+
+				# Find Invasion Boundaries
+				invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
+												  om = om, g = g, theta = theta, theta_prime = theta_prime, 
+												  hf = hVals[i], hm = hVals[i], C = Cs[k], 
+												  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+												  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
+
+				# Find Extinction Threshold
+				extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
+												  om = om, g = g, theta = theta, theta_prime = theta_prime, 
+												  hf = hVals[i], hm = hVals[i], C = Cs[k], 
+												  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+												  tlimit = tlimit, eqThreshold = eqThreshold, 
+												  makePlots=FALSE, verbose=FALSE, writeFile=FALSE)
+
+				# Append new data to dataSet
+				dataSet  <-  rbind(dataSet, cbind(rep(hVals[i], times=nrow(invData)),
+												  rep(fVals[j], times=nrow(invData)),
+												  rep(Cs[k], times=nrow(invData)),
+												  invData, 
+												  extData))
+
+			# Update Progress Bar
+			setTxtProgressBar(pb, (((i-1)*length(fVals)*length(Cs)) + (j-1)*length(Cs) + (k)))
 
 
+			}
+		}
+	}	
+
+	# trim first row of dataSet before saving file & assign column names
+	dataSet  <-  dataSet[-1,]
+	colnames(dataSet)  <-  c("h", "f", "C", "smInv", "aInv", "AInv", "sf", "smExt", "sm", "sfExt")
+
+	# Export data as .csv to ./output/data
+	filename <-  paste("./output/simData/dataPolySpaceFig", "_sMax", sMax, "_res", res, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, ".csv", sep="")
+	write.csv(dataSet, file=filename, row.names = FALSE)
+
+}
+
+
+#' function to make data to quantify demographically viable 
+#' polymorphic parameter space for different dominance,
+#' selfing rates, and inbreeding depression values.
+makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-4,
+									 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
+									 hVals= c(1/2, 1/4), dStar = 0.8, 
+									 delta = 0, delta_j = 0, delta_a = 0, delta_gamma = 0,
+									 tlimit = 10^5, eqThreshold = 1e-8) {
+
+
+	# Storage for data
+	dataSet  <-  rep(NA, times=11)
+
+	print('Making Data For Fig.3')
+
+	# Loop over dominance values
+	for(i in 1:length(hVals)) {
+
+		cat('\r', "hVal = ", hVals[i], '\n')
+
+		if(hVals[i] == 1/2) {
+			Cs  <-  seq(0, 0.9, by=0.05)
+		}
+		if(hVals[i] == 1/4) {
+			Cs  <-  c(0.01, seq(0.05, 0.9, by=0.05))
+		}	
+		
+		# Define dStar ~ C
+		deltaSeq  <-  predDelta(dStar=dStar, b=1/2, a=0.2, C=Cs)
+
+		# Start progress bar
+		print("Cs grad for delta")
+		pb   <-  txtProgressBar(min=0, max=length(Cs), style=3)
+		setTxtProgressBar(pb, 0)
+
+		# loop over Cs for delta
+		for(j in 1:length(Cs)){
+			# Find Invasion Boundaries
+			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
+											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  delta = deltaSeq[j], delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
+
+				# Find Extinction Threshold
+			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
+											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  delta = deltaSeq[j], delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+											  tlimit = tlimit, eqThreshold = eqThreshold, 
+											  makePlotts=FALSE, verbose = TRUE, writeFile=FALSE)
+
+			# Append new data to dataSet
+			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
+											  rep(hVals[i], times=nrow(invData)),
+											  rep(deltaSeq[j], times=nrow(invData)),
+											  rep(Cs[j], times=nrow(invData)),
+											  invData, 
+											  extData))
+			# Update Progress Bar
+			setTxtProgressBar(pb, j)
+		}
+
+		# Start progress bar
+		print("Cs grad for delta_j")
+		pb   <-  txtProgressBar(min=0, max=length(Cs), style=3)
+		setTxtProgressBar(pb, 0)
+
+		# loop over Cs for delta_j
+		for(j in 1:length(Cs)){
+			# Find Invasion Boundaries
+			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
+											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  delta = delta, delta_j = deltaSeq[j], delta_a = delta_a, delta_gamma = delta_gamma,
+											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
+
+				# Find Extinction Threshold
+			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
+											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  delta = delta, delta_j = deltaSeq[j], delta_a = delta_a, delta_gamma = delta_gamma,
+											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = TRUE, writeFile=FALSE)
+
+			# Append new data to dataSet
+			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
+											  rep(hVals[i], times=nrow(invData)),
+											  rep(deltaSeq[j], times=nrow(invData)),
+											  rep(Cs[j], times=nrow(invData)),
+											  invData, 
+											  extData))
+			# Update Progress Bar
+			setTxtProgressBar(pb, j)
+		}
+
+		# Start progress bar
+		print("Cs grad for delta_a")
+		pb   <-  txtProgressBar(min=0, max=length(Cs), style=3)
+		setTxtProgressBar(pb, 0)
+
+		# loop over Cs for delta_a
+		for(j in 1:length(Cs)){
+			# Find Invasion Boundaries
+			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
+											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  delta = delta, delta_j = delta_j, delta_a = deltaSeq[j], delta_gamma = delta_gamma,
+											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
+
+				# Find Extinction Threshold
+			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
+											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  delta = delta, delta_j = delta_j, delta_a = deltaSeq[j], delta_gamma = delta_gamma,
+											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = TRUE, writeFile=FALSE)
+
+			# Append new data to dataSet
+			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
+											  rep(hVals[i], times=nrow(invData)),
+											  rep(deltaSeq[j], times=nrow(invData)),
+											  rep(Cs[j], times=nrow(invData)),
+											  invData, 
+											  extData))
+			# Update Progress Bar
+			setTxtProgressBar(pb, j)
+		}
+
+		# Start progress bar
+		print("Cs grad for delta_g")
+		pb   <-  txtProgressBar(min=0, max=length(Cs), style=3)
+		setTxtProgressBar(pb, 0)
+
+		# loop over Cs for delta_gamma
+		for(j in 1:length(Cs)){
+			# Find Invasion Boundaries
+			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
+											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = deltaSeq[j],
+											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
+
+				# Find Extinction Threshold
+			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
+											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
+											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = deltaSeq[j],
+											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = TRUE, writeFile=FALSE)
+
+			# Append new data to dataSet
+			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
+											  rep(hVals[i], times=nrow(invData)),
+											  rep(deltaSeq[j], times=nrow(invData)),
+											  rep(Cs[j], times=nrow(invData)),
+											  invData, 
+											  extData))
+			# Update Progress Bar
+			setTxtProgressBar(pb, j)
+		}
+
+	}
+
+	# trim first row of dataSet before saving file & assign column names
+	dataSet  <-  dataSet[-1,]
+	colnames(dataSet)  <-  c("Delta", "h", "deltaVal", "C", "smInv", "aInv", "AInv", "sf", "smExt", "sm", "sfExt")
+
+	# Export data as .csv to ./output/data
+	filename <-  paste("./output/simData/dataDeltaPolySpaceFig", "_sMax", sMax, "_res", res, "dStar", dStar, "f", theta[4], ".csv", sep="")
+	write.csv(dataSet, file=filename, row.names = FALSE)
+
+}
 
 
 

@@ -19,6 +19,15 @@ rm(list=ls())
 ## Dependencies
 source('R/functions-Figs.R')
 
+
+#################
+# Figs for Paper
+#################
+
+toPdf(demViablePolySpaceFig(), 
+			figPath(name='extinctionThresholdsFig.pdf'), width=10, height=5)
+embed_fonts(figPath(name='extinctionThresholdsFig.pdf'))
+
 ###############
 # PRELIM FIGS
 ###############

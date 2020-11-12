@@ -22,6 +22,9 @@ source('R/loadData-Compadre.R')
 # Simulations for final figs
 #############################
 
+##########################################################
+# Fig. 1 - illustrate inv. conditions & ext. threshold
+
 ## Additive SA Fitness
 ## hf = hm = 1/2
 
@@ -37,11 +40,29 @@ source('R/loadData-Compadre.R')
 					"dg"     =  0
 					)
 
-titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
-						  om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 6, 
-						  hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
-						  delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
-						  tlimit = 10^2, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+#titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+#					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+#					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+#					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+#					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+
 
 	# Intermediate Selfing
 	# C = 1/4
@@ -56,11 +77,26 @@ titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
 					)
 
 titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
-						  om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 6, 
-						  hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
-						  delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
-						  tlimit = 10^2, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
 
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
 
 	# Intermediate Selfing
 	# C = 1/2
@@ -75,11 +111,26 @@ titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
 					)
 
 titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
-						  om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 6, 
-						  hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
-						  delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
-						  tlimit = 10^2, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
 
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
 
 ## Partially Recessive SA Fitness
 ## hf = hm = 1/4
@@ -96,11 +147,27 @@ titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
 					"dg"     =  0
 					)
 
-	selLoop(sMax = 0.15, nSamples=100,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6, 
-			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
-			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
-			tlimit = 10^5, eqThreshold = 1e-8, writeFile = TRUE)
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_prime = 5.9, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.0), theta_prime = 6.0, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
 
 	# Intermediate Selfing
 	# C = 1/4
@@ -114,11 +181,29 @@ titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
 					"dg"     =  0
 					)
 
-	selLoop(sMax = 0.15, nSamples=100,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6, 
-			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
-			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
-			tlimit = 10^5, eqThreshold = 1e-8, writeFile = TRUE)
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+						 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+						 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+						 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+						 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+						 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_prime = 5.9, 
+						 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+						 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+						 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+						 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.0), theta_prime = 6.0, 
+						 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+						 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+						 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+
 
 	# Intermediate Selfing
 	# C = 1/2
@@ -132,15 +217,48 @@ titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
 					"dg"     =  0
 					)
 
-	selLoop(sMax = 0.15, nSamples=100,
-			om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6, 
-			hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
-			delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg, 
-			tlimit = 10^5, eqThreshold = 1e-8, writeFile = TRUE)
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_prime = 5.9, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.0), theta_prime = 6.0, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
 
 
 
 
+
+
+
+
+##########################################################
+# Fig. 2 - Dem. viable polymorphic param. space (no I.D.)
+
+makeDataPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
+						om = 2, g = 3, theta = c(0.6,0.6,0.05,NA), theta_prime = NA, 
+						hVals= c(1/2, 1/4), fVals = c(5.8, 5.9, 6.0, 6.5), 
+						delta = 0, delta_j = 0, delta_a = 0, delta_gamma = 0,
+						tlimit = 10^5, eqThreshold = 1e-8)
+
+
+
+##########################################################
+# Fig. 3 - Effects of inbreeding depression (no I.D.)
 
 
 ######################

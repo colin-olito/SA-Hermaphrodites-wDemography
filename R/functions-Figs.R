@@ -69,6 +69,31 @@ proportionalLabel <- function(px, py, lab, adj=c(0, 1), text=TRUE, log=FALSE, ..
     }
 }
 
+
+
+proportionalArrows <- function(px1, py1, px2, py2, adj=c(0, 1), log=FALSE, length=length, ...) {
+    usr  <-  par('usr')
+    x.p1  <-  usr[1] + px1*(usr[2] - usr[1])
+    y.p1  <-  usr[3] + py1*(usr[4] - usr[3])
+    x.p2  <-  usr[1] + px2*(usr[2] - usr[1])
+    y.p2  <-  usr[3] + py2*(usr[4] - usr[3])
+    if(log=='x') {
+        x.p1  <-  10^(x.p1)
+        x.p2  <-  10^(x.p2)
+    }
+    if(log=='y') {
+        y.p1  <-  10^(y.p1)
+        y.p2  <-  10^(y.p2)
+    }
+    if(log=='xy') {
+        x.p1  <-  10^(x.p1)
+        y.p1  <-  10^(y.p1)
+        x.p2  <-  10^(x.p2)
+        y.p2  <-  10^(y.p2)
+    }
+    arrows(x0=x.p1, y0=y.p1, x1=x.p2, y1=y.p2, length=length,...)
+}
+
 #' Draw equally-spaced white lines on plot window.
 #'
 #' @title Equally-spaced white lines on plot window
@@ -128,11 +153,312 @@ fibonacci.scale  <-  function(n) {
     (fibs/max(fibs))[-2]
 }
 
+##############################################################
+##############################################################
+##  Final Figs for Paper
+##############################################################
+##############################################################
+
+demViablePolySpaceFig  <-  function() {
+
+    # Import data sets
+    invA       <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extA_f5.8  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extA_f6.0  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+    extA_f6.2  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f6.2.csv", head=TRUE)
+
+    invB       <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.5_hm0.5_C0.25_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extB_f5.8  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.5_hm0.5_C0.25_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extB_f6.0  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.5_hm0.5_C0.25_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+    extB_f6.2  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.5_hm0.5_C0.25_delta0_dj0_da0_dg0_f6.2.csv", head=TRUE)
+
+    invC       <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.5_hm0.5_C0.5_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extC_f5.8  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.5_hm0.5_C0.5_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extC_f6.0  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.5_hm0.5_C0.5_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+    extC_f6.2  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.5_hm0.5_C0.5_delta0_dj0_da0_dg0_f6.2.csv", head=TRUE)
+
+    invD       <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.25_hm0.25_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extD_f5.8  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.25_hm0.25_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extD_f5.9  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.25_hm0.25_C0_delta0_dj0_da0_dg0_f5.9.csv", head=TRUE)
+    extD_f6.0  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.25_hm0.25_C0_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+
+    invE       <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.25_hm0.25_C0.25_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extE_f5.8  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.25_hm0.25_C0.25_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extE_f5.9  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.25_hm0.25_C0.25_delta0_dj0_da0_dg0_f5.9.csv", head=TRUE)
+    extE_f6.0  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.25_hm0.25_C0.25_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+
+    invF       <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.25_hm0.25_C0.5_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extF_f5.8  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.25_hm0.25_C0.5_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    extF_f5.9  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.25_hm0.25_C0.5_delta0_dj0_da0_dg0_f5.9.csv", head=TRUE)
+    extF_f6.0  <-  read.csv("./output/simData/extThreshold_SfxSm_sMax0.15_res0.0015_hf0.25_hm0.25_C0.5_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+
+    # Clean up a couple missing values from data
+    extA_f5.8$sfThreshold[16]  <-  mean(extA_f5.8$sfThreshold[15], extA_f5.8$sfThreshold[17])
+    extA_f6.0$sfThreshold[87]  <-  mean(extA_f6.0$sfThreshold[86], extA_f6.0$sfThreshold[88])
+    extA_f6.2$sfThreshold[88]  <-  mean(extA_f6.2$sfThreshold[87], extA_f6.2$sfThreshold[89])   
+    extA_f6.2$sfThreshold[95]  <-  mean(extA_f6.2$sfThreshold[94], extA_f6.2$sfThreshold[96])   
+    extA_f6.2$sfThreshold[56]  <-  extA_f6.2$sfThreshold[57]
+    extD_f5.8$sfThreshold[33]  <-  mean(extD_f5.8$sfThreshold[32], extD_f5.8$sfThreshold[34])
+    extD_f5.8$sfThreshold[37]  <-  mean(extD_f5.8$sfThreshold[36], extD_f5.8$sfThreshold[38])
+    extD_f5.8$sf[11]           <-  mean(extD_f5.8$sf[11], extD_f5.8$sfThreshold[21])
+    extD_f5.8$smThreshold[11]  <-  mean(extD_f5.8$smThreshold[12], extD_f5.8$sms[21])
+    extE_f5.8$sfThreshold[67]  <-  mean(extE_f5.8$sfThreshold[66], extE_f5.8$sfThreshold[68])
+    extE_f5.8$sf[9]            <-  mean(extE_f5.8$sf[9], extE_f5.8$sfThreshold[29])
+    extE_f5.8$smThreshold[11]  <-  mean(extE_f5.8$smThreshold[10], extE_f5.8$sms[29])
+    extE_f5.9$sfThreshold[87]  <-  mean(extE_f5.9$sfThreshold[86], extE_f5.9$sfThreshold[88])
+    extD_f6.0$sfThreshold[83]  <-  (extD_f6.0$sfThreshold[82] + extD_f6.0$sfThreshold[84])/2
+
+# Color scheme
+    COLS  <-  list("line"     =  transparentColor('#252525', opacity=1),
+                   "extinct"  =  transparentColor('red', opacity=0.15))
+
+# Set plot layout
+layout.mat <- matrix(c(1:6), nrow=2, ncol=3, byrow=TRUE)
+layout     <- layout(layout.mat,respect=TRUE)
+
+##  Row 1: Additive allelic effects
+
+    ##  Panel A: C = 0; hf = hm = 1/2
+        par(omi=rep(0.5, 4), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s',xpd=TRUE)
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.15), ylim = c(0,0.15), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Extinction Thresholds
+        # f = 5.8 polygon
+            t    <-  cbind(extA_f5.8$sf[!is.na(extA_f5.8$smThreshold)], extA_f5.8$smThreshold[!is.na(extA_f5.8$smThreshold)])
+            t    <-  rbind(t, c(0.15, 0.15))
+            b    <-  cbind(extA_f5.8$sms[!is.na(extA_f5.8$sfThreshold)], extA_f5.8$sfThreshold[!is.na(extA_f5.8$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extA_f5.8)   
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extA_f5.8)   
+        proportionalLabel(0.85, 0.14, expression(paste(italic(f), " = 5.8")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        # f = 6.0 polygon
+            t    <-  cbind(extA_f6.0$sf[!is.na(extA_f6.0$smThreshold)], extA_f6.0$smThreshold[!is.na(extA_f6.0$smThreshold)])
+            t    <-  rbind(t, c(0.15, 0.15))
+            b    <-  cbind(extA_f6.0$sms[!is.na(extA_f6.0$sfThreshold)], extA_f6.0$sfThreshold[!is.na(extA_f6.0$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extA_f6.0)   
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extA_f6.0)   
+        proportionalLabel(0.91, 0.35, expression(paste("6.0")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        # f = 6.2 polygon
+            t    <-  cbind(extA_f6.2$sf[!is.na(extA_f6.2$smThreshold)], extA_f6.2$smThreshold[!is.na(extA_f6.2$smThreshold)])
+            t    <-  rbind(t, c(0.15, 0.15))
+            b    <-  cbind(extA_f6.2$sms[!is.na(extA_f6.2$sfThreshold)], extA_f6.2$sfThreshold[!is.na(extA_f6.2$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extA_f6.2)   
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extA_f6.2)   
+        proportionalLabel(0.91, 0.54, expression(paste("6.2")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        # Invasion Boundaries
+        lines(aInvBound[1:88] ~ sms[1:88], lty=1, lwd=1.5, col=COLS$line, data=invA)
+        lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invA)
+        # axes        
+        axis(1, las=1, labels=NA)
+        axis(2, las=1)
+        proportionalLabel(-0.5, 0.5, expression(paste(italic(h), " = 1/2")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 0')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.04, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    ##  Panel B: C = 1/4; hf = hm = 1/2
+        # Make the plot
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.15), ylim = c(0,0.15), ylab='', xlab='', cex.lab=1.2, bty='L')
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Extinction Thresholds
+        # f = 5.8 polygon
+            t    <-  cbind(extB_f5.8$sf[!is.na(extB_f5.8$smThreshold)], extB_f5.8$smThreshold[!is.na(extB_f5.8$smThreshold)])
+            b    <-  cbind(extB_f5.8$sms[!is.na(extB_f5.8$sfThreshold)], extB_f5.8$sfThreshold[!is.na(extB_f5.8$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extB_f5.8)
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extB_f5.8)
+        proportionalLabel(0.85, 0.14, expression(paste(italic(f), " = 5.8")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        # f = 6.0 polygon
+            t    <-  cbind(extB_f6.0$sf[!is.na(extB_f6.0$smThreshold)], extB_f6.0$smThreshold[!is.na(extB_f6.0$smThreshold)])
+            b    <-  cbind(extB_f6.0$sms[!is.na(extB_f6.0$sfThreshold)], extB_f6.0$sfThreshold[!is.na(extB_f6.0$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extB_f6.0)   
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extB_f6.0)   
+        proportionalLabel(0.91, 0.35, expression(paste("6.0")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        # f = 6.2 polygon
+            t    <-  cbind(extB_f6.2$sf[!is.na(extB_f6.2$smThreshold)], extB_f6.2$smThreshold[!is.na(extB_f6.2$smThreshold)])
+            b    <-  cbind(extB_f6.2$sms[!is.na(extB_f6.2$sfThreshold)], extB_f6.2$sfThreshold[!is.na(extB_f6.2$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extB_f6.2)   
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extB_f6.2)   
+#        proportionalLabel(0.9, 0.44, expression(paste("6.2")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(1.1, 0.525, expression(paste("6.2")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalArrows(px1=1.1, py1=0.525, px2=0.97, py2=0.525, length=0.03)
+        # Invasion Boundaries
+        lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
+        lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
+        # axes        
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, labels=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/4')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.04, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    ##  Panel C: C = 1/2; hf = hm = 1/2
+        # Make the plot
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.15), ylim = c(0,0.15), ylab='', xlab='', cex.lab=1.2, bty='L')
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Extinction Thresholds
+        # f = 5.8 polygon
+            t    <-  cbind(extC_f5.8$sf[!is.na(extC_f5.8$smThreshold)], extC_f5.8$smThreshold[!is.na(extC_f5.8$smThreshold)])
+            b    <-  cbind(extC_f5.8$sms[!is.na(extC_f5.8$sfThreshold)], extC_f5.8$sfThreshold[!is.na(extC_f5.8$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extC_f5.8)
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extC_f5.8)
+        proportionalLabel(0.85, 0.14, expression(paste(italic(f), " = 5.8")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        # f = 6.0 polygon
+            t    <-  cbind(extC_f6.0$sf[!is.na(extC_f6.0$smThreshold)], extC_f6.0$smThreshold[!is.na(extC_f6.0$smThreshold)])
+            b    <-  cbind(extC_f6.0$sms[!is.na(extC_f6.0$sfThreshold)], extC_f6.0$sfThreshold[!is.na(extC_f6.0$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extC_f6.0)   
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extC_f6.0)   
+#        proportionalLabel(0.85, 0.22, expression(paste("6.0")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+#        proportionalArrows(0.875, 0.26, 0.95, 0.3, length=0.051, lwd=1)
+        proportionalLabel(1.1, 0.32, expression(paste("6.0")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalArrows(px1=1.1, py1=0.32, px2=0.97, py2=0.32, length=0.03)
+        # Invasion Boundaries
+        lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invC)
+        lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invC)
+        # axes        
+        axis(1, las=1, labels=NA)
+        axis(2, las=1, labels=NA)
+        proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/2')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.04, 1.075, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+
+##  Row 2: Dominance Reversal
+  ##  Panel D: C = 0; hf = hm = 1/4
+        # Make the plot
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.15), ylim = c(0,0.15), ylab='', xlab='', cex.lab=1.2, bty='L')
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Extinction Thresholds
+        # f = 5.8 polygon
+            t    <-  cbind(extD_f5.8$sf[!is.na(extD_f5.8$smThreshold)], extD_f5.8$smThreshold[!is.na(extD_f5.8$smThreshold)])
+            t    <-  rbind(t, c(0.15, 0.15))
+            b    <-  cbind(extD_f5.8$sms[!is.na(extD_f5.8$sfThreshold)], extD_f5.8$sfThreshold[!is.na(extD_f5.8$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extD_f5.8)   
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extD_f5.8)   
+        proportionalLabel(0.45, 0.8, expression(paste(italic(f), " = 5.8")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=75)
+        # f = 5.9 polygon
+            t    <-  cbind(extD_f5.9$sf[!is.na(extD_f5.9$smThreshold)], extD_f5.9$smThreshold[!is.na(extD_f5.9$smThreshold)])
+            t    <-  rbind(t, c(0.15, 0.15))
+            b    <-  cbind(extD_f5.9$sms[!is.na(extD_f5.9$sfThreshold)], extD_f5.9$sfThreshold[!is.na(extD_f5.9$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extD_f5.9)   
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extD_f5.9)   
+#        proportionalLabel(0.85, 0.25, expression(paste("5.9")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.64, 0.86, expression(paste("5.9")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=75)
+        # f = 6.0 polygon
+            t    <-  cbind(extD_f6.0$sf[!is.na(extD_f6.0$smThreshold)], extD_f6.0$smThreshold[!is.na(extD_f6.0$smThreshold)])
+            t    <-  rbind(t, c(0.15, 0.15))
+            b    <-  cbind(extD_f6.0$sms, extD_f6.0$sfThreshold)
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extD_f6.0)   
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extD_f6.0)   
+#        proportionalLabel(0.85, 0.7, expression(paste("6.0")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.83, 0.86, expression(paste("6.0")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=75)
+        # Invasion Boundaries
+        lines(aInvBound[1:33] ~ sms[1:33], lty=1, lwd=1.5, col=COLS$line, data=invD)
+        lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invD)
+        # axes        
+        axis(1, las=1)
+        axis(2, las=1)
+        proportionalLabel(-0.5, 0.5, expression(paste(italic(h), " = 1/4")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(0.04, 1.075, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+
+  ##  Panel E: C = 1/4; hf = hm = 1/4
+        # Make the plot
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.15), ylim = c(0,0.15), ylab='', xlab='', cex.lab=1.2, bty='L')
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Extinction Thresholds
+        # f = 5.8 polygon
+            t    <-  cbind(extE_f5.8$sf[!is.na(extE_f5.8$smThreshold)], extE_f5.8$smThreshold[!is.na(extE_f5.8$smThreshold)])
+            t    <-  rbind(t, c(0.15, 0.15))
+            b    <-  cbind(extE_f5.8$sms[!is.na(extE_f5.8$sfThreshold)], extE_f5.8$sfThreshold[!is.na(extE_f5.8$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extE_f5.8)   
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extE_f5.8)   
+#        proportionalLabel(0.85, 0.14, expression(paste(italic(f), " = 5.8")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.8, 0.85, expression(paste(italic(f), " = 5.8")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=60)
+        # f = 5.9 polygon
+            t    <-  cbind(extE_f5.9$sf[!is.na(extE_f5.9$smThreshold)], extE_f5.9$smThreshold[!is.na(extE_f5.9$smThreshold)])
+            b    <-  cbind(extE_f5.9$sms[!is.na(extE_f5.9$sfThreshold)], extE_f5.9$sfThreshold[!is.na(extE_f5.9$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extE_f5.9)
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extE_f5.9)
+#        proportionalLabel(0.85, 0.33, expression(paste("5.9")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.9, 0.63, expression(paste("5.9")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=60)
+        # Invasion Boundaries
+        lines(aInvBound[1:68] ~ sms[1:68], lty=1, lwd=1.5, col=COLS$line, data=invE)
+        lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invE)
+        # axes        
+        axis(1, las=1)
+        axis(2, las=1, labels=NA)
+        proportionalLabel(0.04, 1.075, 'E', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+  ##  Panel F: C = 1/2; hf = hm = 1/4
+        # Make the plot
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.15), ylim = c(0,0.15), ylab='', xlab='', cex.lab=1.2, bty='L')
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Extinction Thresholds
+        # f = 5.8 polygon
+            t    <-  cbind(extF_f5.8$sf[!is.na(extF_f5.8$smThreshold)], extF_f5.8$smThreshold[!is.na(extF_f5.8$smThreshold)])
+            t    <-  rbind(t, c(0.15, 0.15))
+            b    <-  cbind(extF_f5.8$sms[!is.na(extF_f5.8$sfThreshold)], extF_f5.8$sfThreshold[!is.na(extF_f5.8$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extF_f5.8)   
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extF_f5.8)   
+#        proportionalLabel(0.85, 0.14, expression(paste(italic(f), " = 5.8")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.85, 0.36, expression(paste(italic(f), " = 5.8")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=30)
+        # f = 5.9 polygon
+            t    <-  cbind(extF_f5.9$sf[!is.na(extF_f5.9$smThreshold)], extF_f5.9$smThreshold[!is.na(extF_f5.9$smThreshold)])
+            b    <-  cbind(extF_f5.9$sms[!is.na(extF_f5.9$sfThreshold)], extF_f5.9$sfThreshold[!is.na(extF_f5.9$sfThreshold)])
+            polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lty=1, lwd=0.5, col=COLS$line, data=extF_f5.9)
+        lines(sfThreshold ~ sms, lty=1, lwd=0.5, col=COLS$line, data=extF_f5.9)
+#        proportionalLabel(0.85, 0.33, expression(paste("5.9")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(1.1, 0.24, expression(paste("5.9")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalArrows(px1=1.1, py1=0.24, px2=0.97, py2=0.24, length=0.03)
+        # Invasion Boundaries
+        lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invF)
+        lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invF)
+        # axes        
+        axis(1, las=1)
+        axis(2, las=1, labels=NA)
+        proportionalLabel(0.04, 1.075, 'F', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+}
 
 
 ##############################################################
 ##############################################################
 ##  Preliminary Figs
+##############################################################
+##############################################################
 
 
 #' Figs showing Kidwell Funnel plots with simulation results
@@ -552,7 +878,6 @@ legend(#"topright",inset=c(-0.2,0),
         axis(2, las=1, labels=NA)
         proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel(0.03, 1.075, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-
 
 }
 
@@ -1043,9 +1368,6 @@ deltaEffectsPolySpaceFig  <-  function(df1, df2, df3, df4, df5, df6) {
 
 
 
-
-df1  <-  "deltaSelfingSimPolySpace_sMax0.15_nSamples1000_dStar0.8_hf0.5_hm0.5_f7"
-df2  <-  "deltaSelfingSimPolySpace_sMax0.15_nSamples1000_dStar0.8_hf0.25_hm0.25_f7"
 deltaSelfingLoadPolySpaceFig  <-  function(df1, df2) {
 
 # Make filenames for import from df names
@@ -1237,9 +1559,9 @@ MimulusInv6Fig  <-  function() {
 
 
     ## Panel B: partial selfing
-
-    inv_A  <-  popGen_A_invade(hf=hf, hm=hm, sm=sms, C=0.24) #, C=0.38)
-    inv_a  <-  popGen_a_invade(hf=hf, hm=hm, sm=sms, C=0.24) #, C=0.38)
+        #alternative selfing rate (C=0.38)
+    inv_A  <-  popGen_A_invade(hf=hf, hm=hm, sm=sms, C=0.24)
+    inv_a  <-  popGen_a_invade(hf=hf, hm=hm, sm=sms, C=0.24)
     inv_a[inv_a > 1]  <-  1
 
         # Make the plot
@@ -1260,8 +1582,6 @@ MimulusInv6Fig  <-  function() {
         proportionalLabel(0.5, 1.1, expression(paste(italic(C), " = ", 0.24)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel(0.5, -0.35, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel((smInv6-0.05), (sfInv6-0.07), expression(italic('inv6')), cex=1, adj=c(0.5, 0.5), xpd=NA)
-
-
 
 }
 
