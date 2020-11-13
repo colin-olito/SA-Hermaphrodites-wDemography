@@ -50,19 +50,17 @@ Connallon, T., S.~Sharma, and C.~Olito. 2019.
   environments: Four simple models reveal diverse evolutionary outcomes.
 \newblock American Naturalist 193:93--105.
 
-\bibitem[{de~Vries and
-  Caswell(2019{\natexlab{\emph{a}}})}]{deVriesCaswell2019b}
-de~Vries, C., and H.~Caswell. 2019{\natexlab{\emph{a}}}.
-\newblock Selection in two-sex stage-structured populations: Genetics,
-  demography, and polymorphism.
-\newblock Theoretical Population Biology 130:160--169.
-
-\bibitem[{de~Vries and
-  Caswell(2019{\natexlab{\emph{b}}})}]{deVriesCaswell2019a}
----{}---{}---. 2019{\natexlab{\emph{b}}}.
+\bibitem[{de~Vries and Caswell(2019a)}]{deVriesCaswell2019a}
+de~Vries, C., and H.~Caswell. 2019a.
 \newblock Stage-structured evolutionary demography: Linking life histories,
   population genetics, and ecological dynamics.
 \newblock American Naturalist 193:545--559.
+
+\bibitem[{de~Vries and Caswell(2019b)}]{deVriesCaswell2019b}
+---{}---{}---. 2019b.
+\newblock Selection in two-sex stage-structured populations: Genetics,
+  demography, and polymorphism.
+\newblock Theor. Population Biology 130:160--169.
 
 \bibitem[{Fisher(1930)}]{Fisher1930}
 Fisher, R.~A. 1930.
