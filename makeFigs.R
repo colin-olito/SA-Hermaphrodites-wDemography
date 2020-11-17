@@ -28,6 +28,17 @@ toPdf(demViablePolySpaceFig(),
 			figPath(name='extinctionThresholdsFig.pdf'), width=10, height=5)
 embed_fonts(figPath(name='extinctionThresholdsFig.pdf'))
 
+
+
+#################
+# Supp. Figs
+#################
+
+toPdf(suppPolySpaceThresholdFigs(), 
+			figPath(name='polySpaceSuppFig.pdf'), width=10, height=5)
+embed_fonts(figPath(name='polySpaceSuppFig.pdf'))
+
+
 ###############
 # PRELIM FIGS
 ###############

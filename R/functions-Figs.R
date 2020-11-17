@@ -454,6 +454,107 @@ layout     <- layout(layout.mat,respect=TRUE)
 }
 
 
+
+##############################################################
+##############################################################
+##  Final Supplemental Figs
+##############################################################
+##############################################################
+
+suppPolySpaceThresholdFigs  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.003_delta0_dj0_da0_dg0") {
+
+    # Make filenames for import from df names
+    fName  <-  paste('./output/simData/', df, '.csv', sep="")
+
+    # import data
+    data  <-  read.csv(file=fName, header=TRUE)
+
+    # Clean up aberrant smExt value
+    data$smExt[90]  <-  mean(c(data$smExt[89], data$smExt[91]))
+
+    # Extract plotting parameter values from df names
+    d1   <-  strsplit(df, '_')[[1]][c(2:7)]
+    pars  <-  list(
+                    "sMax"  =  as.numeric(strsplit(d1[1],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(d1[2],'s')[[1]][2]),
+                    "d"     =  as.numeric(strsplit(d1[3],'a')[[1]][2]),
+                    "dj"    =  as.numeric(strsplit(d1[4],'j')[[1]][2]),
+                    "da"    =  as.numeric(strsplit(d1[5],'a')[[1]][2]),
+                    "dg"    =  as.numeric(strsplit(d1[6],'g')[[1]][2])
+                    )
+
+    hLev  <-  unique(data$h)
+    fLev  <-  unique(data$f)
+    CLev  <-  unique(data$C)
+    nHs   <-  length(hLev)
+    nCs   <-  length(CLev)
+
+    # Color scheme
+    COLS  <-  list("line"     =  transparentColor('#252525', opacity=1),
+                   "extinct"  =  transparentColor('red', opacity=0.15))
+
+    # Set plot layout
+    nMat        <-  nHs*nCs
+    layout.mat  <- matrix(c(1:nMat), nrow=nHs, ncol=nCs, byrow=TRUE)
+    layout      <- layout(layout.mat,respect=TRUE)
+
+    # loop through and generate plots
+    for(i in 1:nHs) {
+        # Subset data
+        dd  <-  data[data$h == hLev[i],]            
+        
+        for(j in 1:nCs) {
+            
+            d  <-  dd[dd$C == CLev[j],]            
+            if(i == 1 && j == 1){
+                par(omi=rep(0.5, 4), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s',xpd=TRUE)
+            }
+            plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.15), ylim = c(0,0.15), ylab='', xlab='', cex.lab=1.2)
+            usr  <-  par('usr')
+            rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+            plotGrid(lineCol='grey80')
+            box()
+            # Plot Thresholds and Invasion boundaries
+            for(k in 1:length(unique(d$f))) {
+                # Extinction Thresholds
+                lines(sf ~ smExt, lty=1, lwd=0.75, col=COLS$line, data=d[d$f == fLev[k],])
+                lines(sfExt ~ sm, lty=1, lwd=0.75, col=COLS$line, data=d[d$f == fLev[k],])
+                fTextLoc  <-  (min(d$sfExt[d$f == fLev[k]][pars$sMax/pars$res])/(pars$sMax+abs(2*usr[1])))
+                proportionalLabel(0.88, fTextLoc, substitute(paste(italic(f), " = ", ff), list(ff = fLev[k])), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+                if(k == 1) {
+                    # Invasion Boundaries
+                    lines(aInv[aInv < pars$sMax] ~ smInv[aInv < pars$sMax], lty=1, lwd=2, col=COLS$line, data=d[d$f == fLev[k],])
+                    lines(AInv ~ smInv, lty=1, lwd=2, col=COLS$line, data=d[d$f == fLev[k],])
+                }
+            }
+            axis(1, las=1, labels=NA)
+            axis(2, las=1, labels=NA)
+            # labels & annotations
+            if(i == 1 && j == 1){
+                axis(2, las=1)
+                proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+            }
+            if(i == 2 && j == 1){
+                axis(2, las=1)
+                proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+            }
+            if(i == 1) {
+                proportionalLabel(0.5, 1.15, substitute(paste(italic(C), " = ", CC), list(CC = CLev[j])), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+            }
+            if(j==1) {
+                proportionalLabel(-0.5, 0.5, substitute(paste(italic(h), " = ", hh), list(hh = hLev[i])), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+            }
+            if(i == 2) {
+                axis(1, las=1)
+                proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+            }
+        }
+    }
+ 
+}
+
+
+
 ##############################################################
 ##############################################################
 ##  Preliminary Figs

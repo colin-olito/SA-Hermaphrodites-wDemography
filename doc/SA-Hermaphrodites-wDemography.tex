@@ -2,8 +2,8 @@
 % Preamble
 \usepackage[sc]{mathpazo} %Like Palatino with extensive math support
 \usepackage{fullpage}
-\usepackage[authoryear,sectionbib,sort]{natbib} %\bibpunct{(}{)}{;}{author-year}{}{,}
-\bibliographystyle{amnatnat}
+\usepackage[authoryear,sectionbib,sort]{natbib}
+\bibliographystyle{amnat}
 \setlength{\bibsep}{0.0pt}
 \linespread{1.7}
 \usepackage[utf8]{inputenc}
@@ -18,11 +18,14 @@
 \usepackage{tikz}
 \usepackage{pdflscape}
 \usepackage[colorlinks=true, allcolors=black]{hyperref}
+
+% Section Header Formats
 \titleformat{\section}[block]{\Large\bfseries\filcenter}{\thesection}{1em}{}
 \titleformat{\subsection}[block]{\Large\itshape\filcenter}{\thesubsection}{1em}{}
 \titleformat{\subsubsection}[block]{\large\itshape}{\thesubsubsection}{1em}{}
 \titleformat{\paragraph}[runin]{\itshape}{\theparagraph}{1em}{}[. ]\renewcommand{\refname}{Literature Cited}
 
+% Special Math Characters
 \newcommand\encircle[1]{%
   \tikz[baseline=(X.base)] 
     \node (X) [draw, shape=circle, inner sep=0] {\strut #1};}
@@ -326,9 +329,9 @@ The matrices $\mbf{H}^S(\tilde{\mbf{n}})$ and $\mbf{H}^X(\tilde{\mbf{n}})$ conta
 
  \begin{figure}[htbp]
  \centering
- \includegraphics[width=\linewidth]{./extinctionThresholdsFig}
+ \includegraphics[width=\linewidth]{../output/figs/extinctionThresholdsFig.pdf}
  \caption{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the mendelian stage-structured matrix model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). We are particularly interested in identifying and quantifying "demographically viable polymorphic parameter space", which corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two dominance scenarios (additivity with $h = 1/2$, and dominance reversal with $h = 1/4$); extinction thresholds are illustrated for three different values of female fecundity ($f$ values annotated on each panel). }
- \label{fig:extinctionThresholds}
+ \label{fig:extThresholds}
  \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -475,7 +478,7 @@ Pellentesque eu nulla odio. Nulla aliquam porta metus, quis malesuada orci fauci
 %
 % The list below includes sample journal articles, book chapters, and
 % Dryad references.
-\bibliography{Refs2}
+\bibliography{Refs2.bib}
 
 \newpage{}
 
