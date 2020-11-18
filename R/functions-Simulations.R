@@ -2164,6 +2164,80 @@ makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4,
 
 }
 
+#' For some reason, the titrations leave some aberrant
+#' gaps in the sf_thresholds in the resulting data file.
+#' This function fixes these gaps.
+cleanPolySpaceData  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.003_delta0_dj0_da0_dg0") {
+
+	# Make filenames for import from df names
+    fName  <-  paste('./output/simData/', df, '.csv', sep="")
+
+    # import data
+    data  <-  read.csv(file=fName, header=TRUE)
+
+    # Extract plotting parameter values from df names
+    d1   <-  strsplit(df, '_')[[1]][c(2:7)]
+    pars  <-  list(
+                    "sMax"  =  as.numeric(strsplit(d1[1],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(d1[2],'s')[[1]][2]),
+                    "d"     =  as.numeric(strsplit(d1[3],'a')[[1]][2]),
+                    "dj"    =  as.numeric(strsplit(d1[4],'j')[[1]][2]),
+                    "da"    =  as.numeric(strsplit(d1[5],'a')[[1]][2]),
+                    "dg"    =  as.numeric(strsplit(d1[6],'g')[[1]][2])
+                    )
+
+    hLev  <-  unique(data$h)
+    fLev  <-  unique(data$f)
+    CLev  <-  unique(data$C)
+    nHs   <-  length(hLev)
+    nCs   <-  length(CLev)
+    nFs   <-  length(fLev)
+	newSfExt  <-  c()
+
+	# loop through and fill NA gaps
+	for(i in 1:nHs) {
+        for(j in 1:nFs) {
+			for(k in 1:nCs) {
+				# Subset data by Dominance
+				d  <-  data[data$h == hLev[i],]            
+				# Subset data by Selfing Rate
+				d  <-  d[d$f == fLev[j],]     
+				# Subset data by Fertility Value
+				d  <-  d[d$C == CLev[k],]     
+
+				# loop over sfExt and identify NA gaps
+				for(n in 1:length(d$sfExt)) {
+					if(all(is.na(d$sfExt[1:n]))) {
+						next
+					}
+					if(sum(!is.na(d$sfExt)) == 1) {
+						next
+					}
+					
+					if(is.na(d$sfExt[n])) {
+
+						step  <- 1
+						d$sfExt[c((n-1),(n+step))]
+						while(any(is.na(d$sfExt[c((n-1),(n+step))])) && n+step <= nrow(d)) {
+							step  <-  step + 1
+						}
+						gapEdges  <-  d$sfExt[c((n-1),(n+step))]
+						gapFill  <-  rep((gapEdges[2] - gapEdges[1]), times=step)
+						gapFill  <-  d$sfExt[n-1] + (gapFill / (seq(1:step) + 1))
+						d$sfExt[n:(n+step-1)]  <-  gapFill
+					}
+				}
+
+				newSfExt  <-  c(newSfExt, d$sfExt)
+			}
+		}
+	}
+
+	data$sfExt  <-  newSfExt
+	return(data)
+}
+
+
 
 #' function to make data to quantify demographically viable 
 #' polymorphic parameter space for different dominance,

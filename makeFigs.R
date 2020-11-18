@@ -35,8 +35,8 @@ embed_fonts(figPath(name='extinctionThresholdsFig.pdf'))
 #################
 
 toPdf(suppPolySpaceThresholdFigs(), 
-			figPath(name='polySpaceSuppFig.pdf'), width=10, height=5)
-embed_fonts(figPath(name='polySpaceSuppFig.pdf'))
+			figPath(name='SuppFig-polySpace.pdf'), width=20, height=8)
+embed_fonts(figPath(name='SuppFig-polySpace.pdf'))
 
 
 ###############

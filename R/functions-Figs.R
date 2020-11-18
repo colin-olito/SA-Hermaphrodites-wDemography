@@ -2,8 +2,8 @@
 # DEPENDENCIES
 ###############
 library(extrafont)
-loadfonts(quiet = TRUE)
 library(fontcm)
+loadfonts(quiet = TRUE)
 library(plyr)
 library(lattice)
 library(latticeExtra)
@@ -470,6 +470,7 @@ suppPolySpaceThresholdFigs  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.00
     data  <-  read.csv(file=fName, header=TRUE)
 
     # Clean up aberrant smExt value
+    data  <-  cleanPolySpaceData(df = df)
     data$smExt[90]  <-  mean(c(data$smExt[89], data$smExt[91]))
 
     # Extract plotting parameter values from df names
@@ -519,8 +520,8 @@ suppPolySpaceThresholdFigs  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.00
                 # Extinction Thresholds
                 lines(sf ~ smExt, lty=1, lwd=0.75, col=COLS$line, data=d[d$f == fLev[k],])
                 lines(sfExt ~ sm, lty=1, lwd=0.75, col=COLS$line, data=d[d$f == fLev[k],])
-                fTextLoc  <-  (min(d$sfExt[d$f == fLev[k]][pars$sMax/pars$res])/(pars$sMax+abs(2*usr[1])))
-                proportionalLabel(0.88, fTextLoc, substitute(paste(italic(f), " = ", ff), list(ff = fLev[k])), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+                fTextLoc  <-  ((min(d$sfExt[d$f == fLev[k]][pars$sMax/pars$res])*0.97)/(pars$sMax+abs(2*usr[1])))
+                proportionalLabel(0.85, fTextLoc, substitute(paste(italic(f), " = ", ff), list(ff = fLev[k])), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
                 if(k == 1) {
                     # Invasion Boundaries
                     lines(aInv[aInv < pars$sMax] ~ smInv[aInv < pars$sMax], lty=1, lwd=2, col=COLS$line, data=d[d$f == fLev[k],])
