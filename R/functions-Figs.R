@@ -470,7 +470,7 @@ suppPolySpaceThresholdFigs  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.00
     data  <-  read.csv(file=fName, header=TRUE)
 
     # Clean up aberrant smExt value
-    data  <-  cleanPolySpaceData(df = df)
+    data  <-  cleanPolySpaceData(df = data)
     data$smExt[90]  <-  mean(c(data$smExt[89], data$smExt[91]))
 
     # Extract plotting parameter values from df names
