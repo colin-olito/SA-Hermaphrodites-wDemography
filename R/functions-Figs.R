@@ -455,9 +455,163 @@ layout     <- layout(layout.mat,respect=TRUE)
 
 
 
+#' Fig showing Proportion of polymorphic parameter space
+#' 
+polySpaceFigTitrate  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.003_delta0_dj0_da0_dg0") {
+
+    # Make filenames for import from df names
+    fName  <-  paste('./output/simData/', df, '.csv', sep="")
+
+    # Extract plotting parameter values from df names
+    df1  <-  strsplit(df, '_')[[1]][c(2:7)]
+    pars  <-  list(
+                    "sMax"  =  as.numeric(strsplit(df1[1],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(df1[2],'s')[[1]][2]),
+                    "d"     =  as.numeric(strsplit(df1[3],'a')[[1]][2]),
+                    "dj"    =  as.numeric(strsplit(df1[4],'j')[[1]][2]),
+                    "da"    =  as.numeric(strsplit(df1[5],'a')[[1]][2]),
+                    "dg"    =  as.numeric(strsplit(df1[6],'g')[[1]][2])
+                    )
+
+    # import data
+    data  <-  read.csv(file=fName, header=TRUE)
+
+    # clean data set & quantify parameter space
+    dat   <-  quantPolySpace(data = data, pars = pars)
+
+    # Color scheme
+    COLS  <-  list(
+                    "PG"    =  transparentColor('#252525', opacity=1),
+                    "low"   =  transparentColor('dodgerblue4', opacity=0.6),
+                    "med"   =  transparentColor('darkolivegreen4', opacity=0.6),
+                    "hi"    =  transparentColor('tomato', opacity=0.6),
+                    "low2"  =  transparentColor('dodgerblue4', opacity=1),
+                    "med2"  =  transparentColor('darkolivegreen4', opacity=1),
+                    "hi2"   =  transparentColor('tomato', opacity=1)
+                   )
+
+#  Create vector of selfing rates for pop gen function.
+    CLine          <-  seq(0,0.9,length=100)
+    addPGSpace     <-  c()
+    domRevPGSpace  <-  c()
+    for(i in 1:length(CLine)) {
+        addPGSpace[i]     <-  popGen_PolySpace(hf=0.5, hm=0.5, C=CLine[i], sMax=pars$sMax)
+        domRevPGSpace[i]  <-  popGen_PolySpace(hf=0.25, hm=0.25, C=CLine[i], sMax=pars$sMax)
+    }
+
+# Set plot layout
+    layout.mat  <- matrix(c(1,2), nrow=2, ncol=1, byrow=TRUE)
+    layout      <- layout(layout.mat,respect=TRUE)
+
+    ##  Panel A: hf = hm = 1/2
+        # subset data
+        d  <-  dat[dat$h == 0.5,]
+        dlow  <-  d[d$f == 5.8,]
+        dmed  <-  d[d$f == 6.0,]
+        dhi   <-  d[d$f == 6.5,]
+        # Make the plot
+        par(omi=rep(0.5, 4), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s')
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,max(d$C)), ylim = c(0,0.105), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        lines(addPGSpace ~ CLine, lwd=2, col=COLS$PG)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$low, col=COLS$low2, data=dlow)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$med, col=COLS$med2, data=dmed)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$hi, col=COLS$hi2, data=dhi)
+        # axes        
+        axis(1, las=1, labels=NA)
+        axis(2, las=1)
+        proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.1, substitute(paste(italic(h), " = ", hh), list(hh = pars2$hf)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.5, 1.1, expression(paste(italic(h), " = ", 1/2)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.3, 0.5, expression(paste("Proportion of parameter space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+        #Legend
+        legend( x       =  usr[2],
+                y       =  usr[4],
+                legend  =  c(
+                             expression(paste("Pop. Gen.")),
+                             substitute(paste("High fertility (", italic(f), " = ", ff, ")"), list(ff = dhi$f[1])),
+                             substitute(paste("Med. fertility (", italic(f), " = ", ff, ".0)"), list(ff = dmed$f[1])),
+                             substitute(paste("Low  fertility (", italic(f), " = ", ff, ")"), list(ff = dlow$f[1]))),
+                 lty     =  c(1,NA,NA,NA),
+                 lwd     =  c(2,NA,NA,NA),
+                 col     =  c(COLS$PG,
+                              COLS$hi2,
+                              COLS$med2,
+                              COLS$low2),
+                 pch     =  c(NA,21,21,21),
+                 pt.bg   =  c(NA,
+                              COLS$hi,
+                              COLS$med,
+                              COLS$low),
+                 cex     =  0.65,
+                 pt.cex  =  0.75,
+                 xjust   =  1,
+                 yjust   =  1,
+                 bty     =  'n',
+                 border  =  NA)
+
+    ##  Panel B: hf = hm = 1/2
+        # subset data
+        d  <-  dat[dat$h == 0.25,]
+        dlow  <-  d[d$f == 5.8,]
+        dmed  <-  d[d$f == 5.9,]
+        dhi   <-  d[d$f == 6.5,]
+        # Make the plot
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,max(d$C)), ylim = c(0,(max(d$PrViaPoly)*1.05)), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        lines(domRevPGSpace ~ CLine, lwd=2, col=COLS$PG)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$low, col=COLS$low2, data=dlow)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$med, col=COLS$med2, data=dmed)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$hi, col=COLS$hi2, data=dhi)
+        # axes        
+        axis(1, las=1)
+        axis(2, las=1)
+        proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.1, substitute(paste(italic(h), " = ", hh), list(hh = pars5$hf)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.5, 1.1, expression(paste(italic(h), " = ", 1/4)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.5, -0.3, expression(paste("Selfing rate (",italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.3, 0.5, expression(paste("Proportion of parameter space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+        #Legend
+        legend( x       =  usr[2],
+                y       =  usr[4],
+                legend  =  c(
+                             expression(paste("Pop. Gen.")),
+                             substitute(paste("High fertility (", italic(f), " = ", ff, ")"), list(ff = dhi$f[1])),
+                             substitute(paste("Med. fertility (", italic(f), " = ", ff, ")"), list(ff = dmed$f[1])),
+                             substitute(paste("Low  fertility (", italic(f), " = ", ff, ")"), list(ff = dlow$f[1]))),
+                 lty     =  c(1,NA,NA,NA),
+                 lwd     =  c(2,NA,NA,NA),
+                 col     =  c(COLS$PG,
+                              COLS$hi2,
+                              COLS$med2,
+                              COLS$low2),
+                 pch     =  c(NA,21,21,21),
+                 pt.bg   =  c(NA,
+                              COLS$hi,
+                              COLS$med,
+                              COLS$low),
+                 cex     =  0.65,
+                 pt.cex  =  0.75,
+                 xjust   =  1,
+                 yjust   =  1,
+                 bty     =  'n',
+                 border  =  NA)        
+}
+
+
 ##############################################################
 ##############################################################
-##  Final Supplemental Figs
+##  Figures for Supplementary Material
 ##############################################################
 ##############################################################
 
@@ -470,7 +624,7 @@ suppPolySpaceThresholdFigs  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.00
     data  <-  read.csv(file=fName, header=TRUE)
 
     # Clean up aberrant smExt value
-    data  <-  cleanPolySpaceData(df = data)
+    data  <-  cleanPolySpaceData(data = data)
     data$smExt[90]  <-  mean(c(data$smExt[89], data$smExt[91]))
 
     # Extract plotting parameter values from df names

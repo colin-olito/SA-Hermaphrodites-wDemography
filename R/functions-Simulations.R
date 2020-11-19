@@ -2165,11 +2165,15 @@ makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4,
 
 }
 
+
 ##############################
 #' For some reason, the titrations leave some aberrant
 #' gaps in the sf_thresholds in the resulting data file.
 #' This function fixes these gaps.
-cleanPolySpaceData  <-  function(df) {
+#' 
+#' Parameters
+#' df:	polySpace dataframe
+cleanPolySpaceData  <-  function(data) {
 
     # Get plotting levels from df
     hLev  <-  unique(data$h)
@@ -2230,45 +2234,33 @@ cleanPolySpaceData  <-  function(df) {
 #' demographically viable polymorphic parameter space
 #' (i.e., hacky numerical integration of curves in 
 #' SuppFig-polySpace.pdf file)
-quantPolySpace  <-  function(df) {
-
-	# Make filenames for import from df names
-    fName  <-  paste('./output/simData/', df, '.csv', sep="")
-
-    # import data
-    data  <-  read.csv(file=fName, header=TRUE)
+#' 
+#' #' Parameters:
+#' df:	data.frame object form dataPolySpaceFig_*.csv
+quantPolySpace  <-  function(data, pars) {
 
     # Clean up aberrant smExt value
-    data  <-  cleanPolySpaceData(df = data)
+    data  <-  cleanPolySpaceData(data = data)
     data$smExt[90]  <-  mean(c(data$smExt[89], data$smExt[91]))
 
-    # Extract plotting parameter values from df names
-    d1   <-  strsplit(df, '_')[[1]][c(2:7)]
-    pars  <-  list(
-                    "sMax"  =  as.numeric(strsplit(d1[1],'x')[[1]][2]),
-                    "res"   =  as.numeric(strsplit(d1[2],'s')[[1]][2]),
-                    "d"     =  as.numeric(strsplit(d1[3],'a')[[1]][2]),
-                    "dj"    =  as.numeric(strsplit(d1[4],'j')[[1]][2]),
-                    "da"    =  as.numeric(strsplit(d1[5],'a')[[1]][2]),
-                    "dg"    =  as.numeric(strsplit(d1[6],'g')[[1]][2])
-                    )
-
-    res   <-  pars$res
-    sMax  <-  pars$sMax
-    hLev  <-  unique(data$h)
-    fLev  <-  unique(data$f)
-    CLev  <-  unique(data$C)
-    nHs   <-  length(hLev)
-    nFs   <-  length(fLev)
-    nCs   <-  length(CLev)
-    results   <-  rep(0, times=9)
+    # Extract plotting parameter values from df pars,
+    # get levels for loops
+    res      <-  pars$res
+    sMax     <-  pars$sMax
+    hLev     <-  unique(data$h)
+    fLev     <-  unique(data$f)
+    CLev     <-  unique(data$C)
+    nHs      <-  length(hLev)
+    nFs      <-  length(fLev)
+    nCs      <-  length(CLev)
+    results  <-  rep(0, times=9)
 
 	# total area of sf x sm parameter space
-	totSpace   <-  sum(rep(sMax, times=nrow(d)-1)*res)
+	totSpace   <-  sum(rep(sMax*res, times=(sMax/res)))
 
     # loop through and subset data
 	for(i in 1:nHs) {
-        for(j in 1:nFs) {
+		for(j in 1:nFs) {
 			for(k in 1:nCs) {
 
 				# Subset data by Dominance
@@ -2279,28 +2271,28 @@ quantPolySpace  <-  function(df) {
 				d  <-  d[d$C == CLev[k],]
 
 				# Calculate approx. total polymorphic space
-				polySpace  <-  sum((d$aInv*res) - (d$AInv*res))
+				polySpace  <-  sum((d$aInv - d$AInv)*res)
 				PrPoly     <-  polySpace/totSpace
 
 				# Calculate approx. total extinction space
-				if(length(d$smExt[!is.na(d$smExt)]) <= 1) {
+				if(length(d$smExt[!is.na(d$smExt)]) < 1) {
 					extSpace   <-  0
 					PrExt      <-  0
 					viaPoly    <-  polySpace
 					PrViaPoly  <-  PrPoly
-						
 				} else {
-						extSm     <-  (sMax - d$smExt[!is.na(d$smExt)])*res
-						bottSm    <-  min(d$smExt[!is.na(d$smExt)])
-						extSf     <-  (bottSm - d$sfExt[!is.na(d$sfExt)])*res
-						extSpace  <-  sum(extSm, extSf)
+						extSm     <-  sum((sMax - d$smExt[!is.na(d$smExt)])*res)
+						bottSm    <-  d$sf[!is.na(d$smExt)][1]
+						extSf     <-  sum((bottSm - d$sfExt[!is.na(d$sfExt)])*res)
+						extSpace  <-  extSm + extSf
 						PrExt     <-  extSpace/totSpace
 
 						# Calculate demographically viable polymorphic parameter space
-						aFixExt    <-  (d$AInv - d$sfExt)*res
-						aFixExt    <-  sum(aFixExt[!is.na(aFixExt)])
-						polyExt    <-  extSpace - lessExt
-						viaPoly    <-  polySpace - polyExt
+						aFixExt    <-  (d$AInv - bottSm)*res
+						aFixExt    <-  aFixExt[aFixExt > 0]
+						aFixExt    <-  sum(aFixExt[!is.na(aFixExt)]) + extSf
+						extPoly    <-  extSpace - aFixExt
+						viaPoly    <-  polySpace - extPoly
 						PrViaPoly  <-  viaPoly/totSpace
 					}
 
@@ -2315,9 +2307,10 @@ quantPolySpace  <-  function(df) {
 	colnames(results)  <-  c("h", "f", "C", "polySpace", "PrPoly", "extSpace", "PrExt", "viaPoly", "PrViaPoly")
 	results  <-  as.data.frame(results, row.names=FALSE)
 
-	# Export data as .csv to ./output/data
-	filename <-  paste("./output/simData/dataPolySpaceFigTitrate", "_sMax", sMax, "_res", res, "_delta", pars$d, "_dj", pars$dj, "_da", pars$da, "_dg", pars$dg, ".csv", sep="")
-	write.csv(results, file=filename, row.names = FALSE)
+	return(results)
+#	# Export data as .csv to ./output/data
+#	filename <-  paste("./output/simData/dataPolySpaceFigTitrate", "_sMax", sMax, "_res", res, "_delta", pars$d, "_dj", pars$dj, "_da", pars$da, "_dg", pars$dg, ".csv", sep="")
+#	write.csv(results, file=filename, row.names = FALSE)
 
 }
 

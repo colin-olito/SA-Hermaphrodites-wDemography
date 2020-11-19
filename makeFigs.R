@@ -24,10 +24,15 @@ source('R/functions-Figs.R')
 # Figs for Paper
 #################
 
+# Fig. 1 - Illustration of invasion conditions & extinction thresholds
 toPdf(demViablePolySpaceFig(), 
 			figPath(name='extinctionThresholdsFig.pdf'), width=10, height=5)
 embed_fonts(figPath(name='extinctionThresholdsFig.pdf'))
 
+# Fig. 2 - Quantification of demographically viable parameter space, no inbreeding depression
+toPdf(polySpaceFigTitrate(), 
+			figPath(name='polymorphicSpaceTitrate.pdf'), width=5, height=7)
+embed_fonts(figPath(name='polymorphicSpaceTitrate.pdf'))
 
 
 #################
