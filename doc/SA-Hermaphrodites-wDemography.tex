@@ -3,7 +3,7 @@
 \usepackage[sc]{mathpazo} %Like Palatino with extensive math support
 \usepackage{fullpage}
 \usepackage[authoryear,sectionbib,sort]{natbib}
-\bibliographystyle{amnat}
+\bibliographystyle{amnatnat}
 \setlength{\bibsep}{0.0pt}
 \linespread{1.7}
 \usepackage[utf8]{inputenc}
@@ -18,6 +18,7 @@
 \usepackage{tikz}
 \usepackage{pdflscape}
 \usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage{nameref}
 
 % Section Header Formats
 \titleformat{\section}[block]{\Large\bfseries\filcenter}{\thesection}{1em}{}
@@ -303,15 +304,17 @@ The population state at time $t$ is described by a stage $\times$ genotype distr
 
 The population projection matrix $\tilde{\mbf{A}}$ is constructed from four sets of matrices representing the demographic and genetic processes: The matrices $\mbf{U}^{S}_{i}$ and $\mbf{U}^{X}_{i}$ contains transition and survival probabilities for each genotype, produced by selfing and outcrossing respectively. The matrices $\mbf{F}_{i}$ and $\mbf{F}^{\prime}_{i}$ contain the genotype $\times$ stage specific contribution via female and male sex-functions of genotype $i$ to the female and male gamete pools, respectively, and therefore to zygotes in the next generation. In principle, the model can admit any kind of pleiotropy among demographic traits because the transition and fertility matrices can differ among genotypes in any way. For simplicity, we assume linear, time-invariant demography.
 
-Similar to the two-sex model of \citet{deVriesCaswell2019b}, we define the matrices $\mbf{H}^S_{j}(\tilde{\mbf{n}})$ and $\mbf{H}^X_{j}(\tilde{\mbf{n}})$, which map the genotypes of the parent in stage $j$ to the genotypes of their offspring produced by selfing and outcrossing, respectively. The $(k, l)$ entry of $\mbf{H}^{X}_{j}$ and $\mbf{H}^{S}_{i}$ is the probability that an offspring of a genotype $l$ mother, of stage $i$, has genotype $k$. For the purpose of this article, we assume that mating is random with respect to stage and hence that the parent-offspring map is the same for all stages (i.e., $\mbf{H}^S_{j}(\tilde{\mbf{n}}) = \mbf{H}^S(\tilde{\mbf{n}})$, and $\mbf{H}^X_{j}(\tilde{\mbf{n}}) = \mbf{H}^X(\tilde{\mbf{n}})$). 
+Similar to the two-sex model of \citet{deVriesCaswell2019b}, we define the matrices $\mbf{H}^S_{j}(\tilde{\mbf{n}})$ and $\mbf{H}^X_{j}(\tilde{\mbf{n}})$, which map the genotypes of the parent in stage $j$ to the genotypes of their offspring produced by selfing and outcrossing, respectively. The $(k, l)$ entry of $\mbf{H}^{X}_{j}$ and $\mbf{H}^{S}_{i}$ is the probability that an offspring of a genotype $l$ mother, of stage $i$, has genotype $k$. For the purpose of this article, we assume that mating is random with respect to stage and hence that the parent-offspring map is the same for all stages (i.e., $\mbf{H}^S_{j}(\tilde{\mbf{n}}) = \mbf{H}^S(\tilde{\mbf{n}})$, and $\mbf{H}^X_{j}(\tilde{\mbf{n}}) = \mbf{H}^X(\tilde{\mbf{n}})$). The matrices $\mbf{H}^S(\tilde{\mbf{n}})$ and $\mbf{H}^X(\tilde{\mbf{n}})$ contain the population genetic processes and are presented in the next section.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Mating and offspring production under partial selfing}
 
-The matrices $\mbf{H}^S(\tilde{\mbf{n}})$ and $\mbf{H}^X(\tilde{\mbf{n}})$ contain the population genetic processes and are derived in detail in \hl{Appendix A: Section A.x}. 	
+Simultaneous hermaphrodites express both male and female sex functions (i.e., can be both a mother and father), and have the potential to reproduce by a combination of self- and outcross-fertilizations. Maternal outcrossing involves receiving male gametes from another individual in the population, while paternal outcrossing involves exporting male gametes to another individual and fertilizing their ovules. Self-fertilization is acheived when an individual's male gametes fertilize their own ovules. These modes of reproduction complicate mating in our model relative to the two-sex stage-structured model of \citet{deVriesCaswell2019b}.
+
+Let $C$ denote the proportion of each individual's ovules that are self-fertilized (the remaining $1 - C$ are outcrossed), and $\delta$ represent the viability cost suffered by self-fertilized offspring due to inbreeding depression \citep{Charlesworth1987}. In \hl{Appendix A.x}, we present a more general model of genotype-specific self-fertilization rates (after \citealt{JordanConnallon2014}). Outcrossing proceeds similarly to a two-sex model of reproduction \citep{deVriesCaswell2019b}, where the number of offspring is determined by the maternal genotype, while the male genotype determines paternal "mating success". 
 
 %%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Analyses}
+\subsection*{Analyses} \label{sec:analyses}
 
 \ldots
 
@@ -332,6 +335,15 @@ The matrices $\mbf{H}^S(\tilde{\mbf{n}})$ and $\mbf{H}^X(\tilde{\mbf{n}})$ conta
  \includegraphics[width=\linewidth]{../output/figs/extinctionThresholdsFig.pdf}
  \caption{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the mendelian stage-structured matrix model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). We are particularly interested in identifying and quantifying "demographically viable polymorphic parameter space", which corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two dominance scenarios (additivity with $h = 1/2$, and dominance reversal with $h = 1/4$); extinction thresholds are illustrated for three different values of female fecundity ($f$ values annotated on each panel). }
  \label{fig:extThresholds}
+ \end{figure}
+
+
+
+ \begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.75]{../output/figs/polymorphicSpaceTitrate.pdf}
+ \caption{Proportion of demographically viable parameter space in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$) predicted by the matrix model, plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under additive (panel A, $h = 1/2$), and partially recessive (panel B, $h = 1/4$) SA fitness effects. Each point was calculated by approximate numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see \hyperref[sec:analyses]{Analyses} section), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines). } 
+ \label{fig:polySpace}
  \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -478,7 +490,7 @@ Pellentesque eu nulla odio. Nulla aliquam porta metus, quis malesuada orci fauci
 %
 % The list below includes sample journal articles, book chapters, and
 % Dryad references.
-\bibliography{Refs2.bib}
+\bibliography{Refs2}
 
 \newpage{}
 

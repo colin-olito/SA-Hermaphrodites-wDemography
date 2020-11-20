@@ -2339,12 +2339,7 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 
 		cat('\r', "hVal = ", hVals[i], '\n')
 
-		if(hVals[i] == 1/2) {
-			Cs  <-  seq(0, 0.9, by=0.05)
-		}
-		if(hVals[i] == 1/4) {
-			Cs  <-  c(0.01, seq(0.05, 0.9, by=0.05))
-		}	
+		Cs  <- c(seq(0, 0.5, by=0.025), 0.75, 0.9)
 		
 		# Define dStar ~ C
 		deltaSeq  <-  predDelta(dStar=dStar, b=1/2, a=0.2, C=Cs)
@@ -2369,7 +2364,7 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
 											  delta = deltaSeq[j], delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, 
-											  makePlotts=FALSE, verbose = TRUE, writeFile=FALSE)
+											  makePlots=FALSE, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
 			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
@@ -2401,7 +2396,7 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
 											  delta = delta, delta_j = deltaSeq[j], delta_a = delta_a, delta_gamma = delta_gamma,
-											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = TRUE, writeFile=FALSE)
+											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
 			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
@@ -2433,7 +2428,7 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
 											  delta = delta, delta_j = delta_j, delta_a = deltaSeq[j], delta_gamma = delta_gamma,
-											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = TRUE, writeFile=FALSE)
+											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
 			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
@@ -2465,7 +2460,7 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
 											  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = deltaSeq[j],
-											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = TRUE, writeFile=FALSE)
+											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
 			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
