@@ -348,8 +348,7 @@ The fertility matrices for self-fertilization and outcrossing are defined as
 	\mcal{F}^X = \mbf{K}^{\intercal} \mbb{H}^X(\tilde{\mbf{p}}) \mbf{K} \mbb{F}^X \numberthis
 \end{equation}
 
-\noindent where $\mbf{K}$ is the vec-permutation matrix (Henderson and Searle 1981). From right to left, the block-diagonal matrices $\mbb{F}^j$ produce offspring as a function of the genotype of the mother, the vec-permutation matrix $\mbf{K}$ rearranges the vector, the block-diagonal
-matrix $\mbb{H}^j(\tilde{\mbf{p}})$ allocates the offspring to their genotypes, and $\mbf{K}^{\intercal}$ returns the vector to its original orientation.
+\noindent where $\mbf{K}$ is the vec-permutation matrix (Henderson and Searle 1981). From right to left, the block-diagonal matrices $\mbb{F}^j$ produce offspring as a function of the genotype of the mother, the vec-permutation matrix $\mbf{K}$ rearranges the vector, the block-diagonal matrix $\mbb{H}^j(\tilde{\mbf{p}})$ allocates the offspring to their genotypes, and $\mbf{K}^{\intercal}$ returns the vector to its original orientation.
 
 Substituting Eq(\ref{eq:HS}) into Eq(\ref{eq:FS}), Eq(\ref{eq:HX}) into Eq(\ref{eq:FX}), and simplifying yields
 
@@ -385,12 +384,12 @@ Combining all the component matrices yields the overall eco-evolutionary project
 	&\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
 		 \underbrace{\left(
 			\begin{array}{ccc|ccc}
-				\mcal{U}^S_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
-				\mbf{0} & \mcal{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
-				\mbf{0} & \mbf{0} & \mcal{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
-				\mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{AA} & \mbf{0} & \mbf{0} \\
-				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{aa} & \mbf{0}\\
-				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mcal{U}^X_{aa}
+				\mbf{U}^S_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{0} & \mbf{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{U}^X_{AA} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{U}^X_{aa} & \mbf{0}\\
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{U}^X_{aa}
 			\end{array} \right)}_{\tilde{\mbf{U}}} + \\ 
 	&\underbrace{\left(
 			\begin{array}{ccc|ccc}
