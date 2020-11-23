@@ -44,6 +44,11 @@ toPdf(suppPolySpaceThresholdFigs(),
 embed_fonts(figPath(name='SuppFig-polySpace.pdf'))
 
 
+toPdf(suppDeltaPolySpaceThresholdFigs(), 
+			figPath(name='SuppFig-deltaPolySpace.pdf'), width=40, height=20)
+embed_fonts(figPath(name='SuppFig-deltaPolySpace.pdf'))
+
+
 ###############
 # PRELIM FIGS
 ###############

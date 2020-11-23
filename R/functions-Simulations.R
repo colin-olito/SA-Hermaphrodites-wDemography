@@ -2399,7 +2399,7 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
-			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
+			dataSet  <-  rbind(dataSet, cbind(rep("d_j", times=nrow(invData)),
 											  rep(hVals[i], times=nrow(invData)),
 											  rep(deltaSeq[j], times=nrow(invData)),
 											  rep(Cs[j], times=nrow(invData)),
@@ -2431,7 +2431,7 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
-			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
+			dataSet  <-  rbind(dataSet, cbind(rep("d_a", times=nrow(invData)),
 											  rep(hVals[i], times=nrow(invData)),
 											  rep(deltaSeq[j], times=nrow(invData)),
 											  rep(Cs[j], times=nrow(invData)),
@@ -2463,7 +2463,7 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
-			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
+			dataSet  <-  rbind(dataSet, cbind(rep("d_g", times=nrow(invData)),
 											  rep(hVals[i], times=nrow(invData)),
 											  rep(deltaSeq[j], times=nrow(invData)),
 											  rep(Cs[j], times=nrow(invData)),
@@ -2480,10 +2480,178 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 	colnames(dataSet)  <-  c("Delta", "h", "deltaVal", "C", "smInv", "aInv", "AInv", "sf", "smExt", "sm", "sfExt")
 
 	# Export data as .csv to ./output/data
-	filename <-  paste("./output/simData/dataDeltaPolySpaceFig", "_sMax", sMax, "_res", res, "dStar", dStar, "f", theta[4], ".csv", sep="")
+	filename <-  paste("./output/simData/dataDeltaPolySpaceFig", "_sMax", sMax, "_res", res, "_dStar", dStar, "_f", theta[4], ".csv", sep="")
 	write.csv(dataSet, file=filename, row.names = FALSE)
 
 }
+
+
+
+
+##############################
+#' For some reason, the titrations leave some aberrant
+#' gaps in the sf_thresholds in the resulting data file.
+#' This function fixes these gaps.
+#' 
+#' Parameters
+#' df:	dataDeltaPolySpace dataframe
+cleanDeltaPolySpaceData  <-  function(data) {
+
+    # Get plotting levels from df
+    hLev  <-  unique(data$h)
+    dLev  <-  unique(data$Delta)
+    CLev  <-  unique(data$C)
+    nHs   <-  length(hLev)
+    nDs   <-  length(dLev)
+    nCs   <-  length(CLev)
+	newSfExt  <-  c()
+	newaInv   <-  c()
+
+	# loop through and fill NA gaps
+	for(i in 1:nHs) {
+        for(j in 1:nDs) {
+			for(k in 1:nCs) {
+				# Subset data by Dominance
+				d  <-  data[data$h == hLev[i],]            
+				# Subset data by Fertility Value
+				d  <-  d[d$Delta == dLev[j],]     
+				# Subset data by Selfing Rate
+				d  <-  d[d$C == CLev[k],]     
+
+				# loop over sfExt and identify NA gaps
+				for(n in 1:length(d$sfExt)) {
+					if(all(is.na(d$sfExt[1:n]))) {
+						next
+					}
+					if(sum(!is.na(d$sfExt)) == 1) {
+						next
+					}
+					
+					if(is.na(d$sfExt[n])) {
+
+						step  <- 1
+						d$sfExt[c((n-1),(n+step))]
+						while(any(is.na(d$sfExt[c((n-1),(n+step))])) && n+step <= nrow(d)) {
+							step  <-  step + 1
+						}
+						gapEdges  <-  d$sfExt[c((n-1),(n+step))]
+						gapFill  <-  rep((gapEdges[2] - gapEdges[1]), times=step)
+						gapFill  <-  d$sfExt[n-1] + (gapFill / (seq(1:step) + 1))
+						d$sfExt[n:(n+step-1)]  <-  gapFill
+					}
+				}
+				newSfExt  <-  c(newSfExt, d$sfExt)
+
+				# Check aInvade at C = 0
+				if(j > 1){
+					d$aInv[1]  <-  d$aInv[2]
+				}
+				newaInv  <-  c(newaInv, d$aInv)
+
+			}
+		}
+	}
+
+	data$sfExt  <-  newSfExt
+	data$aInv   <-  newaInv
+	return(data)
+}
+
+
+
+
+
+
+#   NEED TO FIX !!!!!
+##############################
+#' function to summarize polySpaceData to quantify 
+#' demographically viable polymorphic parameter space
+#' (i.e., hacky numerical integration of curves in 
+#' SuppFig-polySpace.pdf file)
+#' 
+#' #' Parameters:
+#' df:	data.frame object form dataDeltaPolySpaceFig_*.csv
+quantDeltaPolySpace  <-  function(data, pars) {
+
+    # Clean up aberrant smExt value
+    data  <-  cleanDeltaPolySpaceData(data = data)
+    data$smExt[6530:6544]  <-  0
+    data$sfExt[6578:6579]  <-  0
+
+    # Extract plotting parameter values from df pars,
+    # get levels for loops
+    res      <-  pars$res
+    sMax     <-  pars$sMax
+    hLev     <-  unique(data$h)
+    dLev     <-  unique(data$Delta)
+    CLev     <-  unique(data$C)
+    nHs      <-  length(hLev)
+    nDs      <-  length(dLev)
+    nCs      <-  length(CLev)
+    results  <-  rep(0, times=9)
+
+	# total area of sf x sm parameter space
+	totSpace   <-  sum(rep(sMax*res, times=(sMax/res)))
+
+    # loop through and subset data
+	for(i in 1:nHs) {
+		for(j in 1:nDs) {
+			for(k in 1:nCs) {
+
+				# Subset data by Dominance
+				d  <-  data[data$h == hLev[i],]
+				# Subset data by Fertility Value
+				d  <-  d[d$Delta == dLev[j],]
+				# Subset data by Selfing Rate
+				d  <-  d[d$C == CLev[k],]
+
+				# Calculate approx. total polymorphic space
+				polySpace  <-  sum((d$aInv - d$AInv)*res)
+				PrPoly     <-  polySpace/totSpace
+
+				# Calculate approx. total extinction space
+				if(length(d$smExt[!is.na(d$smExt)]) < 1) {
+					extSpace   <-  0
+					PrExt      <-  0
+					viaPoly    <-  polySpace
+					PrViaPoly  <-  PrPoly
+				} else {
+						extSm     <-  sum((sMax - d$smExt[!is.na(d$smExt)])*res)
+						bottSm    <-  d$sf[!is.na(d$smExt)][1]
+						extSf     <-  sum((bottSm - d$sfExt[!is.na(d$sfExt)])*res)
+						extSpace  <-  extSm + extSf
+						PrExt     <-  extSpace/totSpace
+
+						# Calculate demographically viable polymorphic parameter space
+						aFixExt    <-  (d$AInv - bottSm)*res
+						aFixExt    <-  aFixExt[aFixExt > 0]
+						aFixExt    <-  sum(aFixExt[!is.na(aFixExt)]) + extSf
+						extPoly    <-  extSpace - aFixExt
+						viaPoly    <-  polySpace - extPoly
+						PrViaPoly  <-  viaPoly/totSpace
+					}
+
+				# append results
+				results  <-  rbind(results, c(hLev[i], dLev[j], CLev[k], polySpace, PrPoly, extSpace, PrExt, viaPoly, PrViaPoly))
+
+			}
+		}
+	}
+
+	results  <-  results[-1,]
+	colnames(results)  <-  c("h", "Delta", "C", "polySpace", "PrPoly", "extSpace", "PrExt", "viaPoly", "PrViaPoly")
+	results  <-  as.data.frame(results, row.names=FALSE)
+
+	return(results)
+#	# Export data as .csv to ./output/data
+#	filename <-  paste("./output/simData/dataPolySpaceFigTitrate", "_sMax", sMax, "_res", res, "_delta", pars$d, "_dj", pars$dj, "_da", pars$da, "_dg", pars$dg, ".csv", sep="")
+#	write.csv(results, file=filename, row.names = FALSE)
+
+}
+
+
+
+
 
 
 

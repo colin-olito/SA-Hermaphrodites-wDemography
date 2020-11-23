@@ -449,7 +449,7 @@ Combining all the component matrices yields the overall eco-evolutionary project
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Sexually antagonistic selection \& inbreeding depression} \label{sec:SAsel}
 
-We now construct and analyze a genotype $\times$stage-classified model for a hypothetical species with intralocus sexual conflict via the two sex functions. To keep the model analytically tractable, we assume our hypothetical species has two life stages: juveniles and adults (i.e., $\omega = 2$), and that only adults are reproductively active. Suppose that there is a genetic trade-off between the sex-functions at a single bi-allelic locus such that allele $A$ is beneficial for female fertility but detrimental for male reproductive success (e.g., pollen production), and that allele $a$ has the reverse effect (see Table \ref{tab:Fitness}). The allele does not affect survival and transition rates. However, the survival matrices can be used to model the fitness effects of inbreeding depression at later stages of development by allowing different stage-specific survival and transition rates for individuals produced by self-fertilization vs.~outcrossing. By contrast, the parameter $\sigma$ only affects inbreeding depression through viability of selfed ovlues. With this in mind, we define survival matrices for individuals produced by selfing and outcrossing as follows:
+We now construct and analyze a genotype $\times$stage-classified model for a hypothetical species with intralocus sexual conflict via the two sex functions. To keep the model analytically tractable, we assume our hypothetical species has two life stages: juveniles and adults (i.e., $\omega = 2$), and that only adults are reproductively active. Suppose that there is a genetic trade-off between the sex-functions at a single bi-allelic locus such that allele $A$ is beneficial for female fertility but detrimental for male reproductive success (e.g., pollen production), and that allele $a$ has the reverse effect. Following convention, we parameterize the relative fitnesses of each genotype through each sex function ($w_{i}$ and $w^{\prime}_{i}$) to be bounded by $(0,1)$, with dominance and selection coefficients $h_f, s_f$ and $h_m, s_m$ determining the decrease in fertility through each sex function relative to the most fit genotype ($AA$ has highest female fertility, $aa$ the highest male fertility; see Table \ref{tab:Fitness}). The SA locus does not affect survival and transition rates. However, the survival matrices can be used to model the fitness effects of inbreeding depression at later stages of development by allowing different stage-specific survival and transition rates for individuals produced by self-fertilization vs.~outcrossing. By contrast, the parameter $\sigma$ only affects inbreeding depression through viability of selfed ovlues. With this in mind, we define survival matrices for individuals produced by selfing and outcrossing as follows:
 \begin{linenomath*}
 \begin{equation} \label{eq:US}
 	\mbf{U}^S = \left(
@@ -479,7 +479,7 @@ The fertility matrices through female and male function are
 \begin{equation}\label{eq:FS}
 	\mbf{F}_{i} = \left(
 					\begin{array}{cc}
-						0 & f_{i} \\
+						0 & f w_{i} \\
 						0 & 0
 					\end{array}
 				\right),
@@ -490,27 +490,26 @@ The fertility matrices through female and male function are
 \begin{equation}\label{eq:FX}
 	\mbf{F}^{\prime}_{i} = \left(
 					\begin{array}{cc}
-						0 & f^{\prime}_{i} \\
+						0 & f^{\prime} w^{\prime}_{i} \\
 						0 & 0
 					\end{array}
 				\right),
 \end{equation}
 \end{linenomath*}
 
-\noindent where $f_{i}$ is the genotype specific adult fertility though female function, and $f^{\prime}_{i}$ is the same through male function (see Table \ref{tab:Fitness}). 
-
+\noindent where $f$ and $f^{\prime}$ represent adult fertilities, and $w_{i}$ and $w^{\prime}_{i}$ the genotypic relative fitness expressions for female and male sex-functions (see Table \ref{tab:Fitness}). 
 
 \begin{table}[htbp]
  \centering
- \caption{\bf Fitness expressions for Sexually Antagonistic selection in hermaphrodites}
+ \caption{\bf Fitness expressions for Sexually Antagonistic selection in hermaphrodites ()}
 \label{tab:Fitness}
 \begin{tabular}{lccc}
  \toprule
 					&  \multicolumn{3}{c}{{\textit{Genotype}}} \\ 
 \cline{2-4}
 					& $AA$			& $Aa$ 					& $aa$ 		\\ \hline
-Female function:	& $f_{AA}$		& $f_{Aa}(1 - h_f s_f)$	& $f_{aa}(1 - s_f)$ \\	
-Male function:		& $f^{\prime}_{AA}(1 - s_m)$& $f^{\prime}_{Aa}(1 - h_m s_m)$	& $f^{\prime}_{aa}$ 		\\	
+Female function ($w_{i}$):	& $1$		& $1 - h_f s_f$	& $1 - s_f$ \\	
+Male function ($w^{\prime}_{i}$):		& $1 - s_m$& $1 - h_m s_m$	& $1$ 		\\	
 \hline
 \end{tabular}
 \end{table}

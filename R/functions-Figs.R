@@ -456,7 +456,7 @@ layout     <- layout(layout.mat,respect=TRUE)
 
 
 #' Fig showing Proportion of polymorphic parameter space
-#' 
+#' (w/out inbreeding depression)
 polySpaceFigTitrate  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.003_delta0_dj0_da0_dg0") {
 
     # Make filenames for import from df names
@@ -609,6 +609,147 @@ polySpaceFigTitrate  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.003_delta
 }
 
 
+#' Fig showing Effect of Inbreeding Depression on 
+#' Proportion of polymorphic parameter space
+
+deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sMax0.15_res0.003_dStar0.8_f6.5") {
+
+   # Make filenames for import from df names
+    fName  <-  paste('./output/simData/', df, '.csv', sep="")
+
+    # import data
+    data  <-  read.csv(file=fName, header=TRUE)
+
+    # Extract plotting parameter values from df names
+    d1   <-  strsplit(df, '_')[[1]][c(2:5)]
+    pars  <-  list(
+                    "sMax"  =  as.numeric(strsplit(d1[1],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(d1[2],'s')[[1]][2]),
+                    "dStar" =  as.numeric(strsplit(d1[3],'r')[[1]][2]),
+                    "f"     =  as.numeric(strsplit(d1[4],'f')[[1]][2])
+                    )
+    hLev  <-  unique(data$h)
+    dLev  <-  unique(data$Delta)
+    CLev  <-  unique(data$C)
+    nHs   <-  length(hLev)
+    nDs   <-  length(dLev)
+    nCs   <-  length(CLev)
+
+    # clean data set & quantify parameter space
+    dat   <-  quantDeltaPolySpace(data = data, pars = pars)
+
+
+# Color scheme
+    COLS  <-  list(
+                    "PG"     =  transparentColor('#252525', opacity=1),
+                    "dSim"   =  transparentColor('#252525', opacity=0.6),
+                    "d_j"    =  transparentColor('dodgerblue4', opacity=0.6),
+                    "d_a"    =  transparentColor('dodgerblue', opacity=0.6),
+                    "d_g"    =  transparentColor('tomato', opacity=0.6),
+                    "dSim2"  =  transparentColor('#252525', opacity=1),
+                    "d_j2"   =  transparentColor('dodgerblue4', opacity=1),
+                    "d_a2"   =  transparentColor('dodgerblue', opacity=1),
+                    "d_g2"   =  transparentColor('tomato', opacity=1)
+                    )
+#  Create vector of delta values for pop gen predictions.
+    dStar  <-  pars$dStar
+    CLine  <-  seq(0,0.9,length=100)
+    dLine  <-  predDelta(dStar=dStar, b=1/2, a=0.2, C=CLine) 
+
+
+# Set plot layout
+    layout.mat  <- matrix(c(1:2), nrow=2, ncol=1, byrow=TRUE)
+    layout      <- layout(layout.mat,respect=TRUE)
+
+    ## Panel A: Additive SA (hf = hm = 1/2)
+        PGSpace     <-  c()
+        for(i in 1:length(CLine)) {
+            PGSpace[i]     <-  popGen_PolySpace_Delta_Add(C=CLine[i], delta=dLine[i], sMax=pars$sMax)
+        }
+        # Make the plot
+        par(omi=rep(0.5, 4), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s')
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.925), ylim = c(0,0.12), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        lines(PGSpace ~ CLine, lwd=2, col=COLS$PG)
+        head(dat)
+
+        points(PrViaPoly[h == 0.5 && Delta == "d"] ~ C[h == 0.5 && Delta == "d"], pch=21, bg=COLS$dSim, col=COLS$dSim2, data=dat)
+        points(PrViaPoly[h == 0.5 && Delta == "d_j"] ~ C[h == 0.5 && Delta == "d_j"], pch=21, bg=COLS$d_j, col=COLS$d_j2, data=dat)
+        points(PrViaPoly[h == 0.5 && Delta == "d_a"] ~ C[h == 0.5 && Delta == "d_a"], pch=21, bg=COLS$d_a, col=COLS$d_a2, data=dat)
+        points(PrViaPoly[h == 0.5 && Delta == "d_g"] ~ C[h == 0.5 && Delta == "d_g"], pch=21, bg=COLS$d_g, col=COLS$d_g2, data=dat)
+
+        points(d_eigPolyViable   ~ C, pch=21, bg=COLS$dSim, col=COLS$dSim2, data=plt1)
+        points(d_j_eigPolyViable ~ C, pch=21, bg=COLS$d_j, col=COLS$d_j2, data=plt1)
+        points(d_a_eigPolyViable ~ C, pch=21, bg=COLS$d_a, col=COLS$d_a2, data=plt1)
+        points(d_g_eigPolyViable ~ C, pch=21, bg=COLS$d_g, col=COLS$d_g2, data=plt1)
+        # axes        
+        axis(1, las=1, labels=NA)
+        axis(2, las=1)
+        proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.1, expression(paste(italic(h), " = ", 1/2)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.35, -0.15, expression(paste("Proportion of parameter space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+      #Legend
+        legend( x       =  usr[2]*0.95,
+                y       =  usr[4],
+                legend  =  c(
+                             expression(paste("Pop. Gen. ", italic(delta))),
+                             expression(paste(delta)),
+                             expression(paste(delta[italic(j)])),
+                             expression(paste(delta[italic(a)])),
+                             expression(paste(delta[gamma]))),
+                 lty     =  c(1,NA,NA,NA,NA),
+                 lwd     =  c(2,NA,NA,NA,NA),
+                 col     =  c(COLS$PG,
+                              COLS$dSim,
+                              COLS$d_j,
+                              COLS$d_a,
+                              COLS$d_g),
+                 pch     =  c(NA,21,21,21,21),
+                 pt.bg   =  c(NA,
+                              COLS$dSim,
+                              COLS$d_j,
+                              COLS$d_a,
+                              COLS$d_g),
+                 cex     =  0.75,
+                 pt.cex  =  0.75,
+                 xjust   =  1,
+                 yjust   =  1,
+                 bty     =  'n',
+                 border  =  NA)
+    ## Panel B: Dominance Reversal SA (hf = hm = 1/4)
+        CLine2  <-  CLine[-1]
+        dLine2  <-  dLine[-1]
+        PGSpace     <-  c()
+        for(i in 1:length(CLine2)) {
+            PGSpace[i]     <-  popGen_PolySpace_Delta_DomRev(C=CLine2[i], delta=dLine2[i], sMax=pars2$sMax)
+        }
+        # Make the plot
+        plot(NA, axes=FALSE, type='n', main='', xlim = c(0,0.925), ylim = c(0,0.8), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        lines(PGSpace ~ CLine2, lwd=2, col=COLS$PG)
+        points(d_eigPolyViable ~ C, pch=21, bg=COLS$dSim, col=COLS$dSim2, data=plt2)
+        points(d_j_eigPolyViable ~ C, pch=21, bg=COLS$d_j, col=COLS$d_j2, data=plt2)
+        points(d_a_eigPolyViable ~ C, pch=21, bg=COLS$d_a, col=COLS$d_a2, data=plt2)
+        points(d_g_eigPolyViable ~ C, pch=21, bg=COLS$d_g, col=COLS$d_g2, data=plt2)
+        # axes        
+        axis(1, las=1)
+        axis(2, las=1)
+        proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.1, expression(paste(italic(h), " = ", 1/4)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.5, -0.35, expression(paste("Selfing Rate (", italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+}
+
+
 ##############################################################
 ##############################################################
 ##  Figures for Supplementary Material
@@ -707,6 +848,205 @@ suppPolySpaceThresholdFigs  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.00
     }
  
 }
+
+
+
+suppDeltaPolySpaceThresholdFigs  <-  function(df = "dataDeltaPolySpaceFig_sMax0.15_res0.003_dStar0.8_f6.5") {
+
+    # Make filenames for import from df names
+    fName  <-  paste('./output/simData/', df, '.csv', sep="")
+
+    # import data
+    data  <-  read.csv(file=fName, header=TRUE)
+
+    # Clean up aberrant smExt value
+    data  <-  cleanDeltaPolySpaceData(data = data)
+    data$smExt[6530:6544]  <-  0
+    data$sfExt[6578:6579]  <-  0
+
+    # Extract plotting parameter values from df names
+    d1   <-  strsplit(df, '_')[[1]][c(2:5)]
+    pars  <-  list(
+                    "sMax"  =  as.numeric(strsplit(d1[1],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(d1[2],'s')[[1]][2]),
+                    "dStar" =  as.numeric(strsplit(d1[3],'r')[[1]][2]),
+                    "f"     =  as.numeric(strsplit(d1[4],'f')[[1]][2])
+                    )
+
+    hLev  <-  unique(data$h)
+    dLev  <-  unique(data$Delta)
+    CLev  <-  unique(data$C)
+    nHs   <-  length(hLev)
+    nDs   <-  length(dLev)
+    nCs   <-  length(CLev)
+
+    # Color scheme
+    COLS  <-  list("line"     =  transparentColor('#252525', opacity=1),
+                   "extinct"  =  transparentColor('red', opacity=0.15))
+
+    # Set plot layout
+    layout.mat  <- rbind(
+                         matrix(c(1:(4*nCs)), nrow=4, ncol=nCs, byrow=TRUE),
+                         rep((4*nCs+1), times=nCs),
+                         matrix(c(((4*nCs+1)+(1:(4*nCs)))), nrow=4, ncol=nCs, byrow=TRUE)
+                        )
+
+    layout      <- layout(layout.mat,respect=TRUE)
+
+
+        # Subset data by dominance coefficient
+        i = 1
+        d  <-  data[data$h == hLev[i],]            
+
+        for(j in 1:nDs) {
+            # Subset data by d_i
+            dd  <-  d[d$Delta == dLev[j],]            
+
+            # Subset data by Selfing Rate/d_i value
+            for(k in 1:length(unique(dd$C))) {
+                ddd  <-  dd[dd$C == CLev[k],]            
+
+                # Initate plotting environment on first plot
+                if(i == 1 && j == 1 && k == 1){
+                    par(omi=rep(0.5, 4), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s',xpd=TRUE)
+                }
+
+                # Make dominance label 
+                if(i == 1  & j == 1 & k == 13) {
+                    proportionalLabel(0.5, 2, substitute(paste(italic(h), " = ", hh), list(hh = hLev[1])), cex=2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+                }
+
+                # Make plots
+                plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.15), ylim = c(0,0.15), ylab='', xlab='', cex.lab=1.2)
+                usr  <-  par('usr')
+                rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+                plotGrid(lineCol='grey80')
+                box()
+                # Extinction Thresholds
+                lines(sf ~ smExt, lty=1, lwd=0.75, col=COLS$line, data=ddd)
+                lines(sfExt ~ sm, lty=1, lwd=0.75, col=COLS$line, data=ddd)
+                # Invasion Boundaries
+                if(j == 1) {
+                    lines(aInv[aInv < pars$sMax] ~ smInv[aInv < pars$sMax], lty=1, lwd=2, col=COLS$line, data=ddd)
+                    lines(AInv ~ smInv, lty=1, lwd=2, col=COLS$line, data=ddd)
+                }
+                if(j > 1) {
+                    lines(aInv[aInv <= pars$sMax] ~ smInv[aInv <= pars$sMax], lty=1, lwd=2, col=COLS$line, data=ddd)
+                    lines(AInv ~ smInv, lty=1, lwd=2, col=COLS$line, data=ddd)
+                }
+                # axes
+                axis(1, las=1, labels=NA)
+                axis(2, las=1, labels=NA)
+                # labels & annotations
+                if(k == 1) {
+                    axis(2, las=1)
+                }
+                if(j == 4) {
+                    axis(1, las=1)
+                }
+                if(j == 1 && k == 1){
+                    proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+                    proportionalLabel(-0.7, 0.5, expression(paste(italic(delta))), cex=2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+                }
+                if(j==2 & k==1) {
+                    proportionalLabel(-0.7, 0.5, expression(paste(italic(delta[J]))), cex=2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+                }
+                if(j==3 & k==1) {
+                    proportionalLabel(-0.7, 0.5, expression(paste(italic(delta[A]))), cex=2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+                }
+                if(j==4 & k==1) {
+                    proportionalLabel(-0.7, 0.5, expression(paste(italic(delta[gamma]))), cex=2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+                }
+
+                if(i == 1 && j == 1) {
+                    proportionalLabel(0.5, 1.15, substitute(paste(italic(C), " = ", CC), list(CC = CLev[k])), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+                }
+                if(i == 2 && j == 4) {
+                    axis(1, las=1)
+                    proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+                }
+            }
+        }
+    
+        # Make empty plot for Dominance Label
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.15), ylim = c(0,0.15), ylab='', xlab='', cex.lab=1.2)
+        proportionalLabel(0.5, 0.5, substitute(paste(italic(h), " = ", hh), list(hh = hLev[2])), cex=2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+        # Subset data by dominance coefficient
+        i = 2
+        d  <-  data[data$h == hLev[i],]            
+
+        for(j in 1:nDs) {
+            # Subset data by d_i
+            dd  <-  d[d$Delta == dLev[j],]            
+
+            # Subset data by Selfing Rate/d_i value
+            for(k in 1:length(unique(dd$C))) {
+                ddd  <-  dd[dd$C == CLev[k],]            
+
+                # Initate plotting environment on first plot
+                if(i == 1 && j == 1 && k == 1){
+                    par(omi=rep(0.5, 4), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s',xpd=TRUE)
+                }
+
+                # Make dominance label 
+                if(i == 1  & j == 1 & k == 12) {
+                    proportionalLabel(0.5, 0.5, substitute(paste(italic(h), " = ", hh), list(hh = hLev[1])), cex=2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+                }
+
+                # Make plots
+                plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.15), ylim = c(0,0.15), ylab='', xlab='', cex.lab=1.2)
+                usr  <-  par('usr')
+                rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+                plotGrid(lineCol='grey80')
+                box()
+                # Extinction Thresholds
+                lines(sf ~ smExt, lty=1, lwd=0.75, col=COLS$line, data=ddd)
+                lines(sfExt ~ sm, lty=1, lwd=0.75, col=COLS$line, data=ddd)
+                # Invasion Boundaries
+                if(j == 1) {
+                    lines(aInv[aInv < pars$sMax] ~ smInv[aInv < pars$sMax], lty=1, lwd=2, col=COLS$line, data=ddd)
+                    lines(AInv ~ smInv, lty=1, lwd=2, col=COLS$line, data=ddd)
+                }
+                if(j > 1) {
+                    lines(aInv[aInv <= pars$sMax] ~ smInv[aInv <= pars$sMax], lty=1, lwd=2, col=COLS$line, data=ddd)
+                    lines(AInv ~ smInv, lty=1, lwd=2, col=COLS$line, data=ddd)
+                }
+                # axes
+                axis(1, las=1, labels=NA)
+                axis(2, las=1, labels=NA)
+                # labels & annotations
+                if(k == 1) {
+                    axis(2, las=1)
+                }
+                if(j == 4) {
+                    axis(1, las=1)
+                }
+                if(j == 1 && k == 1){
+                    proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+                    proportionalLabel(-0.7, 0.5, expression(paste(italic(delta))), cex=2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+                }
+                if(j==2 & k==1) {
+                    proportionalLabel(-0.7, 0.5, expression(paste(italic(delta[J]))), cex=2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+                }
+                if(j==3 & k==1) {
+                    proportionalLabel(-0.7, 0.5, expression(paste(italic(delta[A]))), cex=2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+                }
+                if(j==4 & k==1) {
+                    proportionalLabel(-0.7, 0.5, expression(paste(italic(delta[gamma]))), cex=2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+                }
+
+                if(i == 1 && j == 1) {
+                    proportionalLabel(0.5, 1.15, substitute(paste(italic(C), " = ", CC), list(CC = CLev[k])), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+                }
+                if(i == 2 && j == 4) {
+                    axis(1, las=1)
+                    proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+                }
+            }
+        }
+}
+
 
 
 
