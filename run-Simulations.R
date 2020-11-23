@@ -254,9 +254,9 @@ makeDataPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 
 
 ##########################################################
-# Fig. 3 - Effects of inbreeding depression (no I.D.)
+# Fig. 3 - Dem. viable polymorphic param. space (w/ I.D.)
 
-makeDataDeltaPolyParamSpace(sMax=0.15, res=0.0015, precision = 1e-4,
+makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
 							hVals= c(1/2, 1/4), dStar = 0.8, 
 							tlimit = 10^5, eqThreshold = 1e-8)

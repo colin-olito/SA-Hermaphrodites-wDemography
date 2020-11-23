@@ -260,11 +260,11 @@ A key finding from our analysis is that when the intrinsic population growth rat
 \section*{The Model}
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-Here, we briefly derive a matrix model incorporating multiple life-cycle stages and a single bi-allelic locus under SA selection on male and female sex functions for a population of partially selfing simultaneous hermaphrodites. The derivation and some of the key results follow closely those presented in \citet{deVriesCaswell2019a} and \citet{deVriesCaswell2019b}; and in fact, the model presented here reduces to the two-sex stage-structured model of \citet{deVriesCaswell2019b} under obligate outcrossing. A full derivation of the model and analyses is presented in \hl{Appendix A}, and all simulation code necessary to reproduce the results are available at \url{https://github.com/colin-olito/SA-Hermaphrodites-wDemography}.
+Here, we briefly derive a matrix model incorporating multiple life-cycle stages and a single diallelic locus under SA selection on male and female sex functions for a population of partially selfing simultaneous hermaphrodites. The derivation and some of the key results follow closely those presented in \citet{deVriesCaswell2019a} and \citet{deVriesCaswell2019b}; and in fact, the model presented here reduces to the two-sex stage-structured model of \citet{deVriesCaswell2019b} under obligate outcrossing. A full derivation of the model and analyses is presented in \hl{Appendix A}, and all simulation code necessary to reproduce the results are available at \url{https://github.com/colin-olito/SA-Hermaphrodites-wDemography}.
 
 In the model, individuals are classified jointly by life-cycle stage ($1, \ldots, \omega$), genotype ($1, \ldots, g$), and whether they were produced by self- or outcross fertilization (denoted by $S$ and $X$ superscripts). Each genotype is characterized by a matrix of transition probabilities (including survival) and a matrix of reproductive output through male and female function. These matrices can include time variation or nonlinearities reflecting the environment or density dependence, but these will not be modelled here. Each stage contributes offspring to genotypes at the next time step according to transition matrices that are determined by the mating system and stage-structure of the population.
 
-The population state at time $t$ is described by a stage $\times$ genotype distribution matrix, which can be transformed into a population state vector, $\tilde{\mbf{n}}(t)$, which is ordered by genotype, then stage, then by how individuals were produced (self vs.~outcrossing). For a single locus with two alleles ($A$ and $a$), we have genotypes $g \in \{AA,\, Aa,\, aa\}$, giving the population state vector:
+The population state at time $t$ is described by a stage $\times$ genotype distribution matrix, which can be transformed into a population state vector, $\tilde{\mbf{n}}(t)$, which is ordered by genotype, then stage, then by how individuals were produced (self vs.~outcrossing). For a single diallelic locus with alleles $A$ and $a$, we have three genotypes ($AA,\, Aa,\, aa$; $g = 3$), giving the population state vector:
 \begin{linenomath*}
 \begin{equation}
 	\tilde{\mbf{n}}(t) =  \left[
@@ -279,7 +279,7 @@ The population state at time $t$ is described by a stage $\times$ genotype distr
 \end{equation}
 \end{linenomath*}
 
-\noindent where $\mbf{n}^{S}_{i}$ and $\mbf{n}^{X}_{i}$ (where $i \in \{AA,Aa,aa\}$) are the stage $\times$ genotype distribution vectors of individuals produced by self-fertilization and outcrossing, respectively. The proportional population vector is given by
+\noindent where $\mbf{n}^{S}_{i}$ and $\mbf{n}^{X}_{i}$ ($i \in \{AA,Aa,aa\}$) are the stage $\times$ genotype distribution vectors of individuals produced by self-fertilization and outcrossing, respectively. The proportional population vector is given by
 \begin{linenomath*}
 \begin{equation} \label{eq:propPopVec}
 	\tilde{\mbf{p}}(t) = \frac{\tilde{\mbf{n}}(t)}{ \| \tilde{\mbf{n}}(t) \|} = \mbf{p}(t),
@@ -474,7 +474,7 @@ We now construct and analyze a genotype $\times$stage-classified model for a hyp
 
 \noindent where $\sigma_J$ and $\sigma_A$ are the juvenile and adult stage survival rates, and $\gamma$ is the maturation rate from juvenile to adult stages. The corresponding terms $\delta_S$, $\delta_A$, and $\delta_{\gamma}$ denote the proportional decreases in stage-specific survival and transition rates due to inbreeding depression (i.e., deleterious effects of inbreeding at later life-history stages; e.g., \citealt{HarderRoutely2006}). Any or all of these parameters may differ among genotypes, so that selection can operate on stage-specific viability, development, and/or fertility. For simplicity, we assume these are constant among genotypes. 
 
-The fertility matrices through male and female function are
+The fertility matrices through female and male function are
 \begin{linenomath*}
 \begin{equation}\label{eq:FS}
 	\mbf{F}_{i} = \left(
@@ -509,8 +509,8 @@ The fertility matrices through male and female function are
 					&  \multicolumn{3}{c}{{\textit{Genotype}}} \\ 
 \cline{2-4}
 					& $AA$			& $Aa$ 					& $aa$ 		\\ \hline
-Female function:	& $f_{AA}$		& $f_{Aa} - h_f s_f$	& $f_{aa} - s_f$ \\	
-Male function:		& $f^{\prime}_{AA} - s_m$& $f^{\prime}_{Aa} - h_m s_m$	& $f^{\prime}_{aa}$ 		\\	
+Female function:	& $f_{AA}$		& $f_{Aa}(1 - h_f s_f)$	& $f_{aa}(1 - s_f)$ \\	
+Male function:		& $f^{\prime}_{AA}(1 - s_m)$& $f^{\prime}_{Aa}(1 - h_m s_m)$	& $f^{\prime}_{aa}$ 		\\	
 \hline
 \end{tabular}
 \end{table}
