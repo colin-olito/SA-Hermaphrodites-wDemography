@@ -1882,7 +1882,7 @@ findInvBoundZeta  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), thet
 				(1 - C)*c(c(100-(om-1), rep(1,times=(om-1))), rep(0,times = 2*om)))
 	n0aa  <-  c(      C*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))), 
 				(1 - C)*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))))
-
+browser()
 	# Simulate to demographic equilibrium for each boundary
 	AAEq  <-  fwdDyn2Eq(nzero=n0AA, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold)
 	aaEq  <-  fwdDyn2Eq(nzero=n0aa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold)
@@ -2600,13 +2600,16 @@ quantDeltaPolySpace  <-  function(data, pars) {
 
 				# Subset data by Dominance
 				d  <-  data[data$h == hLev[i],]
-				# Subset data by Fertility Value
+				# Subset data by Inbreeding Depression Parameter
 				d  <-  d[d$Delta == dLev[j],]
 				# Subset data by Selfing Rate
 				d  <-  d[d$C == CLev[k],]
 
 				# Calculate approx. total polymorphic space
 				polySpace  <-  sum((d$aInv - d$AInv)*res)
+				if(polySpace > totSpace) {
+					polySpace  <-  totSpace
+				}
 				PrPoly     <-  polySpace/totSpace
 
 				# Calculate approx. total extinction space
@@ -2615,25 +2618,33 @@ quantDeltaPolySpace  <-  function(data, pars) {
 					PrExt      <-  0
 					viaPoly    <-  polySpace
 					PrViaPoly  <-  PrPoly
-				} else {
-						extSm     <-  sum((sMax - d$smExt[!is.na(d$smExt)])*res)
-						bottSm    <-  d$sf[!is.na(d$smExt)][1]
-						extSf     <-  sum((bottSm - d$sfExt[!is.na(d$sfExt)])*res)
-						extSpace  <-  extSm + extSf
-						PrExt     <-  extSpace/totSpace
+					results    <-  rbind(results, c(hLev[i], dLev[j], CLev[k], polySpace, PrPoly, extSpace, PrExt, viaPoly, PrViaPoly))
+					next
+				} 
+				if(all(d$smExt[!is.na(d$smExt)]  ==  0)) {
+					extSpace   <-  1
+					PrExt      <-  1
+					viaPoly    <-  0
+					PrViaPoly  <-  0
+					results    <-  rbind(results, c(hLev[i], dLev[j], CLev[k], polySpace, PrPoly, extSpace, PrExt, viaPoly, PrViaPoly))
+					next
+				}
+				extSm     <-  sum((sMax - d$smExt[!is.na(d$smExt)])*res)
+				bottSm    <-  d$sf[!is.na(d$smExt)][1]
+				extSf     <-  sum((bottSm - d$sfExt[!is.na(d$sfExt)])*res)
+				extSpace  <-  extSm + extSf
+				PrExt     <-  extSpace/totSpace
 
-						# Calculate demographically viable polymorphic parameter space
-						aFixExt    <-  (d$AInv - bottSm)*res
-						aFixExt    <-  aFixExt[aFixExt > 0]
-						aFixExt    <-  sum(aFixExt[!is.na(aFixExt)]) + extSf
-						extPoly    <-  extSpace - aFixExt
-						viaPoly    <-  polySpace - extPoly
-						PrViaPoly  <-  viaPoly/totSpace
-					}
+				# Calculate demographically viable polymorphic parameter space
+				aFixExt    <-  (d$AInv - bottSm)*res
+				aFixExt    <-  aFixExt[aFixExt > 0]
+				aFixExt    <-  sum(aFixExt[!is.na(aFixExt)]) + extSf
+				extPoly    <-  extSpace - aFixExt
+				viaPoly    <-  polySpace - extPoly
+				PrViaPoly  <-  viaPoly/totSpace
 
 				# append results
 				results  <-  rbind(results, c(hLev[i], dLev[j], CLev[k], polySpace, PrPoly, extSpace, PrExt, viaPoly, PrViaPoly))
-
 			}
 		}
 	}

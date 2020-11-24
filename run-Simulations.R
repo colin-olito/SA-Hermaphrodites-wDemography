@@ -40,11 +40,11 @@ source('R/loadData-Compadre.R')
 					"dg"     =  0
 					)
 
-#titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
-#					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
-#					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
-#					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
-#					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
 
 extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 

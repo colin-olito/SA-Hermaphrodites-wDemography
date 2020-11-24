@@ -34,6 +34,12 @@ toPdf(polySpaceFigTitrate(),
 			figPath(name='polymorphicSpaceTitrate.pdf'), width=5, height=7)
 embed_fonts(figPath(name='polymorphicSpaceTitrate.pdf'))
 
+# Fig. 3 - Quantification of demographically viable parameter space, 
+#			showing effects of inbreeding depression
+toPdf(deltaSelfingLoadPolySpaceFigTitrate(), 
+			figPath(name='deltaPolymorphicSpaceTitrate.pdf'), width=10, height=7)
+embed_fonts(figPath(name='deltaPolymorphicSpaceTitrate.pdf'))
+
 
 #################
 # Supp. Figs
