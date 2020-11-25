@@ -266,7 +266,7 @@ In the model, individuals are classified jointly by life-cycle stage ($1, \ldots
 
 The population state at time $t$ is described by a stage $\times$ genotype distribution matrix, which can be transformed into a population state vector, $\tilde{\mbf{n}}(t)$, which is ordered by genotype, then stage, then by how individuals were produced (self vs.~outcrossing). For a single diallelic locus with alleles $A$ and $a$, we have three genotypes ($AA,\, Aa,\, aa$; $g = 3$), giving the population state vector:
 \begin{linenomath*}
-\begin{equation}
+\begin{equation} \label{eq:PopStateVec}
 	\tilde{\mbf{n}}(t) =  \left[
 								\begin{array}{c}
 									\mbf{n}^{S}_{AA}(t) \\
@@ -394,7 +394,7 @@ Using the component matrices described in the previous section, the matrix $\til
 
 We construct $\tilde{\mbf{A}}[\tilde{\mbf{n}}]$ using the vec-permutation approach of \citet{CaswellEtAl2018}. Briefly, we construct a set of block-diagonal matrices: e.g.,
 \begin{linenomath*}
-\begin{equation} \label{eq:US}
+\begin{equation} \label{eq:BlkUS}
 	\mbb{U}^S = 
 		\left(
 			\begin{array}{ccc}
@@ -416,7 +416,7 @@ Similarly, we also construct block-diagonal matrices
 
 \noindent where $j \in \{S,X\}$. The corresponding fertility matrices for self-fertilization and outcrossing are defined as
 \begin{linenomath*}
-\begin{equation} \label{eq:FS}
+\begin{equation} \label{eq:BlkFS}
 	\mcal{F}^S = \mbf{K}^{\intercal} \mbb{H}^S(\tilde{\mbf{p}}) \mbf{K} \mbb{F}^S = 
 			\left(
 			\begin{array}{ccc}
@@ -428,7 +428,7 @@ Similarly, we also construct block-diagonal matrices
 \end{linenomath*}
 \noindent and 
 \begin{linenomath*}
-\begin{equation} \label{eq:FX}
+\begin{equation} \label{eq:BlkFX}
 	\mcal{F}^X = \mbf{K}^{\intercal} \mbb{H}^X(\tilde{\mbf{p}}) \mbf{K} \mbb{F}^X = 
 			\left(
 			\begin{array}{ccc}
@@ -472,7 +472,7 @@ We now construct and analyze a genotype $\times$stage-classified model for a hyp
 \end{equation}
 \end{linenomath*}
 
-\noindent where $\sigma_J$ and $\sigma_A$ are the juvenile and adult stage survival rates, and $\gamma$ is the maturation rate from juvenile to adult stages. The corresponding terms $\delta_S$, $\delta_A$, and $\delta_{\gamma}$ denote the proportional decreases in stage-specific survival and transition rates due to inbreeding depression (i.e., deleterious effects of inbreeding at later life-history stages; e.g., \citealt{HarderRoutely2006}). Any or all of these parameters may differ among genotypes, so that selection can operate on stage-specific viability, development, and/or fertility. For simplicity, we assume these are constant among genotypes. 
+\noindent where $\sigma_J$ and $\sigma_A$ are the juvenile and adult stage survival rates, $\gamma$ is the maturation rate from juvenile to adult stages, and the corresponding $\delta_S$, $\delta_A$, and $\delta_{\gamma}$ terms denote the proportional decreases in stage-specific survival and transition rates due to inbreeding depression (i.e., deleterious effects of inbreeding at later life-history stages; e.g., \citealt{HarderRoutely2006}). Any or all of these parameters may differ among genotypes, so that selection can operate on stage-specific viability, development, and/or fertility. For simplicity, we assume these are constant among genotypes. 
 
 The fertility matrices through female and male function are
 \begin{linenomath*}
@@ -514,16 +514,24 @@ Male function ($w^{\prime}_{i}$):		& $1 - s_m$& $1 - h_m s_m$	& $1$ 		\\
 \end{tabular}
 \end{table}
 
-Iterating the projection matrix, Eq(\ref{eq:Atilde}) with the above demographic matrices provides numerical simulation of the eco-evolutionary dynamics for selection operating on any of the sex-function, or stage-specific demographic parameters. As we outline below, we use both numerical simulations together with mathematical analyses to study the conditions for the maintenance of SA polymorphisms, and the demographic fate of the populations (i.e., positive growth, or extinction).
+Iterating the projection matrix, Eq(\ref{eq:Atilde}) with the above demographic matrices, given an initial population state vector, Eq(\ref{eq:PopStateVec}), allows numerical simulation of the eco-evolutionary dynamics for selection operating on any of the sex-function, or stage-specific demographic parameters. As we outline below, we use numerical techniques together with mathematical analyses to study the conditions for the maintenance of SA polymorphisms, and the demographic fate of the populations (i.e., positive growth, or extinction).
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Analyses} \label{sec:analyses}
 
-A variety of eco-evolutionary outcomes are possible in the stage-structured mendelian matrix model, including fixation of one or the other allele, balanced polymorphism, population growth or extinction, and even evolutionary rescue and evolutionary suicide (e.g., see \citealt{CaswellEtAl2018,deVriesCaswell2019a,deVriesCaswell2019b}. We focus on identifying the necessary conditions for protected SA polymorphism with a positive intrinsic population growth rate, which we refer to as demographically viable SA polymorphisms. ....
+Diverse eco-evolutionary outcomes are possible in the above model, including fixation of either allele, balanced polymorphism, population growth or extinction, and even evolutionary rescue and suicide (e.g., see \citealt{CaswellEtAl2018,deVriesCaswell2019a,deVriesCaswell2019b}). We focus on identifying parameter conditions where two criteria are satisfied: ({\itshape i}) SA polymorphism is maintained under balancing selection and ({\itshape ii}) the intrinsic population growth rate at demographic and genotypic equilibrium is positive; situations that we refer to as 'demographically viable SA polymorphism'.
 
+We identify conditions where SA polymorphism is 'protected' by evaluating the stability of populations initially fixed for either SA allele to invasion by the other (i.e., stability was assessed at the boundary equilibrium allele frequencies of $\hat{\mbf{p}}_{AA} = 1$ and $\hat{\mbf{p}}_{aa} = 1$; \citealt{Levene1953, Prout1968, deVriesCaswell2019b}). The formal conditions for a protected polymorphism are determined by linearizing the model in the vacinity of the boundary equilibria ($\hat{\mbf{p}}$), and evaluating the magnitude of the largest eigenvalue of the Jacobian matrix of the linearization, which we denote $\tilde{\zeta}_{AA}$ and $\tilde{\zeta}_{aa}$. For our model, $\mbf{M}$ is upper block triangular, and we can therefore express the stability of $\hat{\mbf{p}}$ in terms of the leading eigenvalue of the diagonal block corresponding to changes in heterozygote frequency ($\mbf{M}_{22}$; e.g., see \citealt{OttoDay2007}). For a polymorphism to be 'protected', both boundaries must be unstable (i.e., $\tilde{\zeta}_{AA} > 1$ and $\tilde{\zeta}_{aa} > 1$), which requires that
+\begin{linenomath*}
+\begin{equation}\label{eq:PolyCond}
+	1 < \frac{\rho(\mbf{M}_{i})}{\lambda_{i}}
+\end{equation}
+\end{linenomath*}
 
-\paragraph*{Fourth-order heading}
-\ldots
+\noindent is satisfied, where $\rho(\cdot)$ represents the spectral radius, and $\lambda_i$ is the intrinsic growth rate for the homozygous genotype being invaded at each boundary ($i \in (AA,aa)$). Full details for the invasion analysis are given in \hl{Appendix A.x}.
+
+To determine whether a protected SA polymorphism was also demographically viable, we used numerical simulation techniques. Specifically, for each boundary equilibrium we introduced the rare allele at low initial frequency, and iterated Eq(\ref{eq:Atilde}) until the population had reached demographic and genotypic equilibrium. In our model, the population state vector will grow or shrink exponentially after converging to stable population structure and genotypic frequencies (see \citealt{Caswell2001}), and the intrinsic population growth rate, $\lambda$, is easily calculated as $\tilde{\mbf{n}}(t)/\tilde{\mbf{n}}(t-1)$, where $t$ is the final generation of the simulation. We note, however, that if the ecological component of the model is non-linear, more exotic dynamics are possible.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -536,7 +544,7 @@ A variety of eco-evolutionary outcomes are possible in the stage-structured mend
  \begin{figure}[htbp]
  \centering
  \includegraphics[width=\linewidth]{../output/figs/extinctionThresholdsFig.pdf}
- \caption{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the mendelian stage-structured matrix model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). We are particularly interested in identifying and quantifying "demographically viable polymorphic parameter space", which corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two dominance scenarios (additivity with $h = 1/2$, and dominance reversal with $h = 1/4$); extinction thresholds are illustrated for three different values of female fecundity ($f$ values annotated on each panel). }
+ \caption{\footnotesize{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the mendelian stage-structured matrix model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). We are particularly interested in identifying and quantifying "demographically viable polymorphic parameter space", which corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two dominance scenarios (additivity with $h = 1/2$, and dominance reversal with $h = 1/4$); extinction thresholds are illustrated for three different values of female fecundity ($f$ values annotated on each panel).}}
  \label{fig:extThresholds}
  \end{figure}
 
@@ -545,10 +553,20 @@ A variety of eco-evolutionary outcomes are possible in the stage-structured mend
  \begin{figure}[htbp]
  \centering
  \includegraphics[scale=0.75]{../output/figs/polymorphicSpaceTitrate.pdf}
- \caption{Proportion of demographically viable parameter space in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$) predicted by the matrix model, plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under additive (panel A, $h = 1/2$), and partially recessive (panel B, $h = 1/4$) SA fitness effects. Each point was calculated by approximate numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see \hyperref[sec:analyses]{Analyses} section), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines). } 
+ \caption{\footnotesize{Proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$) in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$), plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under additive (panel A, $h = 1/2$), and partially recessive (panel B, $h = 1/4$) SA fitness effects. Each point was calculated by numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see \hyperref[sec:analyses]{Analyses} section), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
  \label{fig:polySpace}
  \end{figure}
 
+
+ \begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.75]{../output/figs/deltaPolymorphicSpaceTitrate.pdf}
+ \caption{\footnotesize{Effects of early- and late-acting inbreeding depression on the proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$), plotted as a function of the population selfing rate. In all plots, the strength of inbreeding depression decreases as the selfing rate goes up following a simple model of purging recessive deleterious mutations (see \hl{Appendix X.x} for details). Only single, $\delta_i$ terms indicated in the legend ($i \in \{j,a,\gamma\}$) are allowed to vary at once (all others are set to $0$). Effects of early-acting inbreeding depression are shown on the left (panels A, C; $\delta$) and for late-acting inbreeding depression on the right (panels B, D; $\delta_i$) for additive ($h = 1/2$) and partially recessive ($h = 1/4$) SA fitness effects, respectively. All results used the same 'high female fertility' value of $f = 6.5$ (see Fig.\ref{fig:polySpace}). Each point was calculated by numerically integrating the corresponding SA invasion conditions and extinction threshold predicted by the model (see \hyperref[sec:analyses]{Analyses} section), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines). The population genetic model predictions for varying $delta$ are plotted on both left- and right-hand panels for comparison, and to highlight the different y-axes scales.}} 
+ \label{fig:deltaPolySpace}
+ \end{figure}
+
+
+inbreeding depression that follows d p d*(1 2 C=2) (see “Models”). Plots illustrate the increase in equilibrium frequencies
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{The height of the jump}
 

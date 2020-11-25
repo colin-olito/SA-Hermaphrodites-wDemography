@@ -1882,7 +1882,7 @@ findInvBoundZeta  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), thet
 				(1 - C)*c(c(100-(om-1), rep(1,times=(om-1))), rep(0,times = 2*om)))
 	n0aa  <-  c(      C*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))), 
 				(1 - C)*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))))
-browser()
+#browser()
 	# Simulate to demographic equilibrium for each boundary
 	AAEq  <-  fwdDyn2Eq(nzero=n0AA, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold)
 	aaEq  <-  fwdDyn2Eq(nzero=n0aa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold)

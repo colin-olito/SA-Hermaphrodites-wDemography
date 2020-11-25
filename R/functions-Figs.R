@@ -527,7 +527,7 @@ polySpaceFigTitrate  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.003_delta
         proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 #        proportionalLabel(0.5, 1.1, substitute(paste(italic(h), " = ", hh), list(hh = pars2$hf)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel(0.5, 1.1, expression(paste(italic(h), " = ", 1/2)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        proportionalLabel(-0.3, 0.5, expression(paste("Proportion of parameter space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.3, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
         #Legend
         legend( x       =  usr[2],
@@ -579,7 +579,7 @@ polySpaceFigTitrate  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.003_delta
 #        proportionalLabel(0.5, 1.1, substitute(paste(italic(h), " = ", hh), list(hh = pars5$hf)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel(0.5, 1.1, expression(paste(italic(h), " = ", 1/4)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel(0.5, -0.3, expression(paste("Selfing rate (",italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        proportionalLabel(-0.3, 0.5, expression(paste("Proportion of parameter space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.3, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
         #Legend
         legend( x       =  usr[2],
@@ -685,7 +685,7 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
         proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, 1.2, expression(paste("Early-acting Inbreeding Depression")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel(-0.5, 0.5, expression(paste(italic(h), " = ", 1/2)), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(-0.3, 0.5, expression(paste("Proportion via. polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.3, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
       #Legend
         legend( x       =  usr[2]*0.95,
@@ -774,7 +774,7 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
         axis(2, las=1)
         proportionalLabel(0.03, 1.075, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.5, 0.5, expression(paste(italic(h), " = ", 1/4)), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(-0.3, 0.5, expression(paste("Proportion via. polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.3, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
         proportionalLabel(0.5, -0.3, expression(paste("Selfing Rate (", italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
     ## Panel D: Dominance Reversal SA (hf = hm = 1/4)
