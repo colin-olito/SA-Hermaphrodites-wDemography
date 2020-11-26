@@ -3,7 +3,7 @@
 ###############
 library(extrafont)
 library(fontcm)
-loadfonts()
+loadfonts(quiet=TRUE)
 library(plyr)
 library(lattice)
 library(latticeExtra)

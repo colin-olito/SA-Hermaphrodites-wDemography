@@ -248,12 +248,13 @@ The evolutionary dynamics of SA alleles in hermaphrodites differ from those in d
 			\item "In practice, these genotypic fitnesses emerge from myriad process acting throughout the life-history of individuals"
 			\item these processes contribute to key demographic rates such as the intrinsic population growth rate, 
 		\end{enumerate}
+		\item A major strength of the model is that we can use empirically estimated demographic rates to parameterize the model, enabling us to make predictions about the scope for demographically viable SA polymorphisms that are grounded in the biology of real populations.
 \end{enumerate}
 \bigskip
 
-In this article, we build upon the models of \citet{deVriesCaswell2019a} and \citet{deVriesCaswell2019b} to develop a stage-structured mendelian matrix model that accommodates selection through male and female function in simultaneous hermaphrodites with mixed mating systems. Using the model, we jointly analyze the evolutionary and demographic consequences of SA selection in obligately outcrossing (equivalent to dioecious) and partially selfing hermaphrodite populations. Although a variety of interesting eco-evolutionary dynamics are possible in the model (e.g., \citealt{deVriesCaswell2019a, deVriesCaswell2019b,CaswellEtAl2018}), we focus our analyses on identifying the parameter conditions under which SA polymorphisms are maintained by balancing selection {\itshape and} the population is also demographically viable (i.e., has a positive intrinsic growth rate). The model also allows for the effects of inbreeding depression to manifest in different life-history stages, enabling us to explore the fitness consequences of early- vs.~late-acting inbreeding depression on the model predictions.
+In this article, we build upon the models of \citet{deVriesCaswell2019a} and \citet{deVriesCaswell2019b} to develop a stage-structured mendelian matrix model that accommodates selection through male and female function in simultaneous hermaphrodites with mixed mating systems. Using the model, we jointly analyze the evolutionary and demographic consequences of SA selection in obligately outcrossing (equivalent to dioecious) and partially selfing hermaphrodite populations. Although a variety of interesting eco-evolutionary dynamics are possible in the model (e.g., \citealt{deVriesCaswell2019a, deVriesCaswell2019b,CaswellEtAl2018}), we focus our analyses on identifying the parameter conditions under which SA polymorphisms are maintained by balancing selection {\itshape and} the population is also demographically viable (i.e., has a positive intrinsic growth rate). The model also allows for the effects of inbreeding depression to manifest in different life-history stages, enabling us to explore the fitness consequences of early- vs.~late-acting inbreeding depression on the model predictions. Finally, we give an illustrative example of the potential for SA polymorphism in real populations by parameterizing our model with empirically estimated demographic rates for the hermaphroditic flowering plant {\itshape Mimulus guttatus} (now {\itshape Erythranthe guttata}).
 
-A key finding from our analysis is that when the intrinsic population growth rate is close to $1$, the deleterious effects of segregating male-beneficial SA alleles on female fecundity can result in extinction over much of the parameter space for SA polymorphism. Furthermore, this demographically viable polymorphic parameter space is often biased towards 'female-beneficial/male-deleterious' SA alleles (i.e., those with weaker selection on the female- than male sex function). Under some conditions, self-fertilization can alleviate the demographic costs of balanced SA polymorphisms, but the concommitant effects of inbreeding depression greatly exacerbate them. Overall, our findings provide a more nuanced picture of the nature of SA genetic variation that we should expect to find in natural populations, where the fate of SA alleles and the populations harboring them is determined jointly by evolutionary and demographic processes.
+A key finding from our analysis is that when the intrinsic population growth rate is close to $1$, the deleterious effects of segregating male-beneficial SA alleles on female fecundity can result in extinction over much of the parameter space for SA polymorphism. Furthermore, this demographically viable polymorphic parameter space is often biased towards 'female-beneficial/male-deleterious' SA alleles (i.e., those with weaker selection on the female- than male sex function). Under some conditions, self-fertilization can alleviate the demographic costs of balanced SA polymorphisms, but the concommitant effects of inbreeding depression greatly exacerbate them. Interestingly, our illustrative example using {\itshape M.~guttatus} appears to show that demographic rates observed in real populations can sustain large regions of viable SA polymorphic space. Overall, our findings provide a more nuanced picture of the nature of SA genetic variation that we should expect to find in natural populations, where the fate of SA alleles and the populations harboring them is determined jointly by evolutionary and demographic processes.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -519,19 +520,20 @@ Iterating the projection matrix, Eq(\ref{eq:Atilde}) with the above demographic 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Analyses} \label{sec:analyses}
 
-Diverse eco-evolutionary outcomes are possible in the above model, including fixation of either allele, balanced polymorphism, population growth or extinction, and even evolutionary rescue and suicide (e.g., see \citealt{CaswellEtAl2018,deVriesCaswell2019a,deVriesCaswell2019b}). We focus on identifying parameter conditions where two criteria are satisfied: ({\itshape i}) SA polymorphism is maintained under balancing selection and ({\itshape ii}) the intrinsic population growth rate at demographic and genotypic equilibrium is positive; situations that we refer to as 'demographically viable SA polymorphism'.
+Diverse eco-evolutionary outcomes are possible in the model, including fixation of either allele, balanced polymorphism, population growth or extinction, and even evolutionary rescue and suicide (e.g., see \citealt{CaswellEtAl2018,deVriesCaswell2019a,deVriesCaswell2019b}). We focus on identifying parameter conditions where two criteria are satisfied: ({\itshape i}) SA polymorphism is maintained under balancing selection and ({\itshape ii}) the intrinsic population growth rate at equilibrium is positive; a situation that we refer to as a 'demographically viable SA polymorphism'.
 
-We identify conditions where SA polymorphism is 'protected' by evaluating the stability of populations initially fixed for either SA allele to invasion by the other (i.e., stability was assessed at the boundary equilibrium allele frequencies of $\hat{\mbf{p}}_{AA} = 1$ and $\hat{\mbf{p}}_{aa} = 1$; \citealt{Levene1953, Prout1968, deVriesCaswell2019b}). The formal conditions for a protected polymorphism are determined by linearizing the model in the vacinity of the boundary equilibria ($\hat{\mbf{p}}$), and evaluating the magnitude of the largest eigenvalue of the Jacobian matrix of the linearization, which we denote $\tilde{\zeta}_{AA}$ and $\tilde{\zeta}_{aa}$. For our model, $\mbf{M}$ is upper block triangular, and we can therefore express the stability of $\hat{\mbf{p}}$ in terms of the leading eigenvalue of the diagonal block corresponding to changes in heterozygote frequency ($\mbf{M}_{22}$; e.g., see \citealt{OttoDay2007}). For a polymorphism to be 'protected', both boundaries must be unstable (i.e., $\tilde{\zeta}_{AA} > 1$ and $\tilde{\zeta}_{aa} > 1$), which requires that
+We identify conditions where SA polymorphism is 'protected' by evaluating the stability of populations initially fixed for either SA allele to invasion by the other (i.e., stability was assessed at the boundary equilibrium allele frequencies of $\hat{\mbf{p}}_{AA} = 1$ and $\hat{\mbf{p}}_{aa} = 1$; \citealt{Levene1953, Prout1968, deVriesCaswell2019b}). The formal conditions for a protected polymorphism are determined by linearizing the model in the vacinity of the boundary equilibria ($\hat{\mbf{p}}$), and evaluating the magnitude of the largest eigenvalue of the Jacobian matrix of the linearization, which we denote $\tilde{\zeta}_{AA}$ and $\tilde{\zeta}_{aa}$. For our model, $\mbf{M}$ has an upper block triangular form, and we can therefore express the stability of $\hat{\mbf{p}}$ in terms of the leading eigenvalue of the diagonal block corresponding to changes in heterozygote frequency ($\mbf{M}_{22}$; e.g., see \citealt{OttoDay2007,deVriesCaswell2019b}). For a polymorphism to be 'protected', both boundary equilibria must be unstable (i.e., $\tilde{\zeta}_{AA} > 1$ and $\tilde{\zeta}_{aa} > 1$), which requires that
 \begin{linenomath*}
 \begin{equation}\label{eq:PolyCond}
-	1 < \frac{\rho(\mbf{M}_{i})}{\lambda_{i}}
+	1 < \frac{\rho(\mbf{M}_{22})}{\lambda_{i}}
 \end{equation}
 \end{linenomath*}
 
-\noindent is satisfied, where $\rho(\cdot)$ represents the spectral radius, and $\lambda_i$ is the intrinsic growth rate for the homozygous genotype being invaded at each boundary ($i \in (AA,aa)$). Full details for the invasion analysis are given in \hl{Appendix A.x}.
+\noindent is satisfied, where $\rho(\cdot)$ represents the spectral radius, and $\lambda_i$ is the intrinsic growth rate for the homozygous genotype being invaded at each boundary ($i \in (AA,aa)$; see Box.~1). A full derivation of the Jacobian and details of the invasion analysis are provided in \hl{Online Appendix X.x}.
 
-To determine whether a protected SA polymorphism was also demographically viable, we used numerical simulation techniques. Specifically, for each boundary equilibrium we introduced the rare allele at low initial frequency, and iterated Eq(\ref{eq:Atilde}) until the population had reached demographic and genotypic equilibrium. In our model, the population state vector will grow or shrink exponentially after converging to stable population structure and genotypic frequencies (see \citealt{Caswell2001}), and the intrinsic population growth rate, $\lambda$, is easily calculated as $\tilde{\mbf{n}}(t)/\tilde{\mbf{n}}(t-1)$, where $t$ is the final generation of the simulation. We note, however, that if the ecological component of the model is non-linear, more exotic dynamics are possible.
+We used numerical simulation to determine whether a protected SA polymorphism was also demographically viable. Specifically, for each boundary equilibrium we introduced the rare allele at low initial frequency, and iterated Eq(\ref{eq:Atilde}) until the population had reached demographic and genotypic equilibrium. In our model, the population state vector will grow or shrink exponentially after converging to stable population structure and genotypic frequencies (see \citealt{Caswell2001}), and the intrinsic population growth rate, $\lambda$, can be calculated as $\tilde{\mbf{n}}(t)/\tilde{\mbf{n}}(t-1)$, where $t$ is the final generation of the simulation. We note, however, that if the ecological component of the model is non-linear, more exotic dynamics are possible.
 
+Unfortunately, closed-form solutions for the invasion conditions for each allele and the equilibrium frequencies under different selection scenarios are analytically intractable except for very restricted conditions (see \hl{Online Appendix X}). We therefore used numerical techniques to identify invasion and extinction thresholds, which could then be used to define regions of demographically viable polymorphism across $s_f \times s_m$ parameter space. Because single-locus selection coefficients are generally weak, we limit our analyses to coefficients with within the open interval $\left(0,0.15\right)$, unless stated otherwise. For a given parameter set, we numerically evaluated Eq(\ref{eq:PolyCond}) and $\lambda$, starting at the outer boundaries of selection parameter space, and titrated inward to identify thresholds where $\tilde{\zeta}_i \approx 1$ and $\lambda \approx 1$ (with precision of $10^{-5}$). The proportions of total $s_f \times s_m$ parameter space where SA polymorphism and/or extinction occurred were calculated by numerically integrating the appropriate regions defined by the invasion and extinction thresholds
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -540,6 +542,8 @@ To determine whether a protected SA polymorphism was also demographically viable
 \ldots
 
 
+%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Polymorphism and Extinction} \label{sec:Res:PolyExt}
 
  \begin{figure}[htbp]
  \centering
@@ -550,13 +554,21 @@ To determine whether a protected SA polymorphism was also demographically viable
 
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Polymorphism in the absence of inbreeding depression} \label{sec:Res:PolyNoID}
+
  \begin{figure}[htbp]
  \centering
  \includegraphics[scale=0.75]{../output/figs/polymorphicSpaceTitrate.pdf}
- \caption{\footnotesize{Proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$) in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$), plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under additive (panel A, $h = 1/2$), and partially recessive (panel B, $h = 1/4$) SA fitness effects. Each point was calculated by numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see \hyperref[sec:analyses]{Analyses} section), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
+ \caption{\footnotesize{Proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$) in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$), plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under additive (panel A; $h = 1/2$), and partially recessive (panel B; $h = 1/4$) SA fitness effects. Each point was calculated by numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see \hyperref[sec:analyses]{Analyses} section), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
  \label{fig:polySpace}
  \end{figure}
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Demographic effects of inbreeding depression} \label{sec:Res:InbreedEffects}
 
  \begin{figure}[htbp]
  \centering
@@ -566,16 +578,6 @@ To determine whether a protected SA polymorphism was also demographically viable
  \end{figure}
 
 
-inbreeding depression that follows d p d*(1 2 C=2) (see “Models”). Plots illustrate the increase in equilibrium frequencies
-%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{The height of the jump}
-
-\ldots
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{The laziness of the dog}
-
-\ldots
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Discussion}
@@ -595,7 +597,7 @@ inbreeding depression that follows d p d*(1 2 C=2) (see “Models”). Plots ill
 
 %\section*{Acknowledgments}
 
-% ... We are particularly grateful to the European Society for Evolutionary Biology (ESEB) for funding the Special Topics Network workshops “Linking local adaptation with the evolution of sex differences”, and to the participants, all of whom made this study possible. This study was also supported by a Wenner-Gren Foundation postdoctoral stipen to C.O., and [Lotte's funding].
+% ... We are particularly grateful to the European Society for Evolutionary Biology (ESEB) for funding the Special Topics Network workshops “Linking local adaptation with the evolution of sex differences”, and to the participants, all of whom made this study possible. We would also like to thank .... This work was supported by a Wenner-Gren Foundation postdoctoral stipend to C.O., and [Lotte's funding] to C.dV..
 
 \newpage{}
 

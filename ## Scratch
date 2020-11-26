@@ -811,10 +811,17 @@ layout     <- layout(layout.mat,respect=TRUE)
 					)
 
 test  <-  titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
-					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
 					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=FALSE)
+
+testExt  <-  extinctThreshTitrate(sMax=0.15, res=0.015, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, Ainvade=FALSE, eqThreshold = 1e-8, 
+					 makePlots=TRUE, verbose=TRUE, writeFile=FALSE)
 head(test)
 plot(test$aInvBound ~ test$sms)
 points(test$AInvBound ~ test$sms)
