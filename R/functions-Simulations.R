@@ -178,23 +178,32 @@ calcZeta  <-  function(om, FSi, FXi, FXi_pr, USi, UXi, pHat_AA, pHat_aa, C, delt
 
 	pn_AA   <-  ones(c(om)) %*% FXi_pr[,,1] %*% (pHat_AA[1:om] + pHat_AA[om+1:om])
 	pn_aa   <-  ones(c(om)) %*% FXi_pr[,,3] %*% (pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)])
-	M22_AA  <-  rbind(
-					cbind(USi[,,2] + FSi[,,2]/2, FSi[,,2]/2, zeros(c(om,om))),
-					cbind(           (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,2])),
-						  UXi[,,2] + (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,2])), 
-						                   FXi[,,3] + kronecker(c((1/(  pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,3]))),
-					cbind((1/4)*FSi[,,2], (1/4)*FSi[,,2], USi[,,3] + FSi[,,3])
-					)
-	M22_aa  <-  rbind(
-					cbind(USi[,,2] + FSi[,,2]/2, FSi[,,2]/2, zeros(c(om,om))),
-					cbind(           (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,2])),
-						  UXi[,,2] + (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,2])),
-						                   FXi[,,1] + kronecker(c((1/(  pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,1]))),
-					cbind((1/4)*FSi[,,2], (1/4)*FSi[,,2], USi[,,1] + FSi[,,1])
-					)
-	zeta_i  <-  c(max(Re(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values)),
-				  max(Re(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values)))
-	zeta_i  <-  zeta_i/lambda_i[c(1,3)]
+	if(C == 0){
+		M22_AA  <-  UXi[,,2] + (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,2]))
+		M22_aa  <-  UXi[,,2] + (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,2]))
+		zeta_i  <-  c(max(Re(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values)),
+						 max(Re(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values)))
+		zeta_i  <-  zeta_i/lambda_i[c(1,3)]
+	}
+	if(C > 0){
+		M22_AA  <-  rbind(
+						cbind(USi[,,2] + FSi[,,2]/2, FSi[,,2]/2, zeros(c(om,om))),
+						cbind(           (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,2])),
+							  UXi[,,2] + (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,2])), 
+							                   FXi[,,3] + kronecker(c((1/(  pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,3]))),
+						cbind((1/4)*FSi[,,2], (1/4)*FSi[,,2], USi[,,3] + FSi[,,3])
+						)
+		M22_aa  <-  rbind(
+						cbind(USi[,,2] + FSi[,,2]/2, FSi[,,2]/2, zeros(c(om,om))),
+						cbind(           (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,2])),
+							  UXi[,,2] + (1/2)*FXi[,,2] + kronecker(c((1/(2*pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,2])),
+							                   FXi[,,1] + kronecker(c((1/(  pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,1]))),
+						cbind((1/4)*FSi[,,2], (1/4)*FSi[,,2], USi[,,1] + FSi[,,1])
+						)
+		zeta_i  <-  c(max(Re(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values)),
+					  max(Re(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values)))
+		zeta_i  <-  zeta_i/lambda_i[c(1,3)]
+	}
 	return(zeta_i)
 }
 
@@ -458,7 +467,7 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 								c(0,0))	
 		
 		# Calculate gentoype-specific pop. growth rates
-		lambda_i[i]  <-  max(Re(eigen(FSi[,,i] + USi[,,i] + FXi[,,i], symmetric=FALSE, only.values = TRUE)$values))
+		lambda_i[i]  <-  max(Re(eigen(C*(1 - delta)*(USi[,,i]) + FSi[,,i] + (1 - C)*UXi[,,i] + FXi[,,i], symmetric=FALSE, only.values = TRUE)$values))
 	}
 
 	# CREATE BLOCK DIAGONAL MATRICES
@@ -1847,9 +1856,9 @@ findInvBoundZeta  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), thet
 							    c(0,0))
 		FXi_pr[,,i]    <- rbind(c(0,f_prime[i]),
 								c(0,0))	
-		
+
 		# Calculate gentoype-specific pop. growth rates
-		lambda_i[i]  <-  max(Re(eigen(FSi[,,i] + USi[,,i] + FXi[,,i], symmetric=FALSE, only.values = TRUE)$values))
+		lambda_i[i]  <-  max(Re(eigen(C*(1 - delta)*(USi[,,i]) + FSi[,,i] + (1 - C)*UXi[,,i] + FXi[,,i], symmetric=FALSE, only.values = TRUE)$values))
 	}
 
 	# CREATE BLOCK DIAGONAL MATRICES
@@ -2797,7 +2806,7 @@ fwdSimMimulusDat  <-  function(datMat, theta.list, delta.list, useCompadre = TRU
 		FXi_pr[,,i][FXi_pr[,,i] != 0]  <-  (FXi_pr[,,i][FXi_pr[,,i] != 0])*fii_prime[i]
 
 		# Calculate gentoype-specific pop. growth rates
-		lambda_i[i]  <-  max(Re(eigen(FSi[,,i] + USi[,,i] + FXi[,,i], symmetric=FALSE, only.values = TRUE)$values))
+		lambda_i[i]  <-  max(Re(eigen(C*(1 - delta)*(USi[,,i]) + FSi[,,i] + (1 - C)*UXi[,,i] + FXi[,,i], symmetric=FALSE, only.values = TRUE)$values))
 	}
 
 	# CREATE BLOCK DIAGONAL MATRICES
