@@ -2336,10 +2336,10 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 
 
 	# Storage for data
-	dataSet  <-  rep(NA, times=11)
+	dataSet  <-  matrix(NA, ncol=11)
+	colnames(dataSet)  <-  c("Delta", "h", "deltaVal", "C", "smInv", "aInv", "AInv", "sf", "smExt", "sm", "sfExt")
 
 	print('Making Data For Fig.3')
-
 	# Loop over dominance values
 	for(i in 1:length(hVals)) {
 
@@ -2364,21 +2364,23 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 											  delta = deltaSeq[j], delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
 
-				# Find Extinction Threshold
+			# Find Extinction Threshold
 			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
 											  delta = deltaSeq[j], delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, 
 											  makePlots=FALSE, verbose = FALSE, writeFile=FALSE)
-
 			# Append new data to dataSet
-			dataSet  <-  rbind(dataSet, cbind(rep("delta", times=nrow(invData)),
+			dDat  <-  cbind(rep("d", times=nrow(invData)),
 											  rep(hVals[i], times=nrow(invData)),
 											  rep(deltaSeq[j], times=nrow(invData)),
 											  rep(Cs[j], times=nrow(invData)),
 											  invData, 
-											  extData))
+											  extData)
+			colnames(dDat)  <-  colnames(dataSet)
+			dataSet         <-  rbind(dataSet,dDat)
+
 			# Update Progress Bar
 			setTxtProgressBar(pb, j)
 		}
@@ -2405,12 +2407,15 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
-			dataSet  <-  rbind(dataSet, cbind(rep("d_j", times=nrow(invData)),
+			djDat  <-  cbind(rep("d_j", times=nrow(invData)),
 											  rep(hVals[i], times=nrow(invData)),
 											  rep(deltaSeq[j], times=nrow(invData)),
 											  rep(Cs[j], times=nrow(invData)),
 											  invData, 
-											  extData))
+											  extData)
+			colnames(djDat)  <-  colnames(dataSet)
+			dataSet          <-  rbind(dataSet,djDat)
+			
 			# Update Progress Bar
 			setTxtProgressBar(pb, j)
 		}
@@ -2437,12 +2442,16 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
-			dataSet  <-  rbind(dataSet, cbind(rep("d_a", times=nrow(invData)),
+			# Append new data to dataSet
+			daDat  <-  cbind(rep("d_a", times=nrow(invData)),
 											  rep(hVals[i], times=nrow(invData)),
 											  rep(deltaSeq[j], times=nrow(invData)),
 											  rep(Cs[j], times=nrow(invData)),
 											  invData, 
-											  extData))
+											  extData)
+			colnames(daDat)  <-  colnames(dataSet)
+			dataSet         <-  rbind(dataSet,daDat)
+
 			# Update Progress Bar
 			setTxtProgressBar(pb, j)
 		}
@@ -2469,12 +2478,15 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
-			dataSet  <-  rbind(dataSet, cbind(rep("d_g", times=nrow(invData)),
+			dgDat  <-  cbind(rep("d_g", times=nrow(invData)),
 											  rep(hVals[i], times=nrow(invData)),
 											  rep(deltaSeq[j], times=nrow(invData)),
 											  rep(Cs[j], times=nrow(invData)),
 											  invData, 
-											  extData))
+											  extData)
+			colnames(dgDat)  <-  colnames(dataSet)
+			dataSet         <-  rbind(dataSet,dgDat)
+
 			# Update Progress Bar
 			setTxtProgressBar(pb, j)
 		}
@@ -2483,7 +2495,7 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 
 	# trim first row of dataSet before saving file & assign column names
 	dataSet  <-  dataSet[-1,]
-	colnames(dataSet)  <-  c("Delta", "h", "deltaVal", "C", "smInv", "aInv", "AInv", "sf", "smExt", "sm", "sfExt")
+
 
 	# Export data as .csv to ./output/data
 	filename <-  paste("./output/simData/dataDeltaPolySpaceFig2", "_sMax", sMax, "_res", res, "_dStar", dStar, "_f", theta[4], ".csv", sep="")
