@@ -47,7 +47,7 @@
 \newcommand{\bo}[1]{{\bf #1}}
 \newcommand{\tr}{{\mbox{\tiny \sf T}}}
 \newcommand{\bm}[1]{\mbox{\boldmath $#1$}}
-
+\DeclareRobustCommand{\firstsecond}[2]{#2}
  \def\linenumberfont{\normalfont\scriptsize}
 %===========================================
 % Basic info from Journal
@@ -537,10 +537,14 @@ We used numerical simulation to determine whether a protected SA polymorphism wa
 
 Unfortunately, closed-form solutions for the invasion conditions for each allele and the equilibrium frequencies under different selection scenarios are analytically intractable except for very restricted conditions (see \hl{Online Appendix X}). We therefore used numerical techniques to identify invasion and extinction thresholds, which could then be used to define regions of demographically viable polymorphism across $s_f \times s_m$ parameter space. Because single-locus selection coefficients are generally weak (i.e., $s < 0.1$; e.g., \citealt{Eyre-WalkerKeightly2007}) and strongly skewed, we limit our analyses to coefficients within $0 < s_f,s_m \leq 0.15$, unless stated otherwise. For a given parameter set, we numerically evaluated Eq(\ref{eq:PolyCond}) and $\lambda$, starting at the outer boundaries of selection parameter space, and titrated inward to identify thresholds where $\tilde{\zeta}_i \approx 1$ and $\lambda \approx 1$ (with precision of $10^{-5}$). The proportions of total $s_f \times s_m$ parameter space where SA polymorphism and/or extinction occurred were calculated by numerically integrating the appropriate regions defined by the invasion and extinction thresholds
 
-%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Demographic rate estimates for {\itshape M. guttatus}} \label{sec:MguttMethods}
 
-To illustrate the use of our model with empirical data, and see whether demographic rates observed in natural populations are likely to support balanced SA polymorphisms, we used publicly available demographic and fitness data for natural populations of the hermaphroditic flowering plant {\itshape Mimulus guttatus} ({\itshape Erythranthe guttata}). {\itshape M.~guttatus}
+%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Demographic and fitness data for {\itshape M. guttatus}} \label{sec:MguttMethods}
+
+As an illustrative example of whether demographic rates observed in natural populations appear likely to support balanced SA polymorphisms, we parameterized our model using empirically estimated demographic rates and fitness data for natural populations of the partially-selfing hermaphroditic flowering plant {\itshape Mimulus guttatus} (Scrophulariaceae; now known as {\itshape Erythranthe guttata}). {\itshape M.~guttatus} is a well established study system for ecological and genomic studies because it shows high genetic diversity and significant variation in numerous ecologically relevant traits \citep{WuWillis2008}. In particular, there is well-documented variation in population selfing rates, and the severity of inbreeding depression has been estimated at multiple life-history stages for this species \citep[e.g.,][]{RitlandGanders1987, Ritland1990, Willis1993, Willis1999a, Willis1999b}. Moreover, detailed demographic studies have been conducted on multiple populations of {\itshape M.~guttatus}, with demographic matrix data made publicly available on the demographic database COMPADRE \citep{CompadreDB2020}. Below, we briefly outline how we parameterized our model using the available data; full details are provided in \hl{Appendix B.x}.
+
+
+
 
 
 

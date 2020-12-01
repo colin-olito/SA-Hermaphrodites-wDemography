@@ -2498,7 +2498,7 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 
 
 	# Export data as .csv to ./output/data
-	filename <-  paste("./output/simData/dataDeltaPolySpaceFig2", "_sMax", sMax, "_res", res, "_dStar", dStar, "_f", theta[4], ".csv", sep="")
+	filename <-  paste("./output/simData/dataDeltaPolySpaceFig", "_sMax", sMax, "_res", res, "_dStar", dStar, "_f", theta[4], ".csv", sep="")
 	write.csv(dataSet, file=filename, row.names = FALSE)
 
 }

@@ -659,7 +659,7 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
 
 
 # Set plot layout
-    layout.mat  <- matrix(c(1:4), nrow=2, ncol=2, byrow=TRUE)
+    layout.mat  <- matrix(c(1:2), nrow=2, ncol=1, byrow=TRUE)
     layout      <- layout(layout.mat,respect=TRUE)
 
     ## Panel A: Additive SA (hf = hm = 1/2)
@@ -678,68 +678,36 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
         box()
         # Simulation Results
         lines(PGSpace ~ CLine, lwd=2, col=COLS$PG)
-        points(PrViaPoly[Delta == "d"][c(1:9,21:23)] ~ C[Delta == "d"][c(1:9,21:23)], pch=21, bg=COLS$dSim, col=COLS$dSim2, data=d)
-        # axes        
-        axis(1, las=1, labels=NA)
-        axis(2, las=1)
-        proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.2, expression(paste("Early-acting Inbreeding Depression")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        proportionalLabel(-0.5, 0.5, expression(paste(italic(h), " = ", 1/2)), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(-0.3, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
-
-      #Legend
-        legend( x       =  usr[2]*0.95,
-                y       =  usr[4],
-                legend  =  c(
-                             expression(paste(italic(delta), " (Pop. Gen.)")),
-                             expression(paste(delta))),
-                 lty     =  c(1,NA),
-                 lwd     =  c(2,NA),
-                 col     =  c(COLS$PG,
-                              COLS$dSim),
-                 pch     =  c(NA,21),
-                 pt.bg   =  c(NA,
-                              COLS$dSim),
-                 cex     =  0.75,
-                 pt.cex  =  0.75,
-                 xjust   =  1,
-                 yjust   =  1,
-                 bty     =  'n',
-                 border  =  NA)
-    
-    ## Panel B: Additive SA (hf = hm = 1/2)
-    ##          Late-acting delta
-        plot(NA, axes=FALSE, type='n', main='', xlim = c(0,0.925), ylim = c(0,1), ylab='', xlab='', cex.lab=1.2)
-        usr  <-  par('usr')
-        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
-        plotGrid(lineCol='grey80')
-        box()
-        # Simulation Results
-        lines(PGSpace ~ CLine, lwd=2, col=COLS$PG)
+        points(PrViaPoly[Delta == "d"][c(1:7,9,21:23)] ~ C[Delta == "d"][c(1:7,9,21:23)], pch=21, bg=COLS$dSim, col=COLS$dSim2, data=d)
         points(PrViaPoly[Delta == "d_j"][c(1:8,21:23)] ~ C[Delta == "d_j"][c(1:8,21:23)], pch=21, bg=COLS$d_j, col=COLS$d_j2, data=d)
         points(PrViaPoly[Delta == "d_a"][c(1:12,21:23)] ~ C[Delta == "d_a"][c(1:12,21:23)], pch=21, bg=COLS$d_a, col=COLS$d_a2, data=d)
         points(PrViaPoly[Delta == "d_g"][c(1:10,21:23)] ~ C[Delta == "d_g"][c(1:10,21:23)], pch=21, bg=COLS$d_g, col=COLS$d_g2, data=d)
         # axes        
         axis(1, las=1, labels=NA)
         axis(2, las=1)
-        proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.2, expression(paste("Late-acting Inbreeding Depression")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        #Legend
-        legend( x       =  usr[2]*0.95,
+        # Labels/annotations
+        proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.075, expression(paste("Early-acting I.D.")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.6, 0.5, expression(paste(italic(h), " = ", 1/2)), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.35, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        legend( x       =  usr[2]*0.975,
                 y       =  usr[4],
                 legend  =  c(
                              expression(paste(italic(delta), " (Pop. Gen.)")),
+                             expression(paste(delta)),
                              expression(paste(delta[italic(j)])),
                              expression(paste(delta[italic(a)])),
                              expression(paste(delta[gamma]))),
-                 lty     =  c(1,NA,NA,NA),
-                 lwd     =  c(2,NA,NA,NA),
+                 lty     =  c(1,NA,NA,NA,NA),
+                 lwd     =  c(2,NA,NA,NA,NA),
                  col     =  c(COLS$PG,
+                              COLS$dSim,
                               COLS$d_j,
                               COLS$d_a,
                               COLS$d_g),
-                 pch     =  c(NA,21,21,21),
+                 pch     =  c(NA,21,21,21,21),
                  pt.bg   =  c(NA,
+                              COLS$dSim,
                               COLS$d_j,
                               COLS$d_a,
                               COLS$d_g),
@@ -751,7 +719,7 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
                  border  =  NA)
 
 
-    ## Panel C: Dominance Reversal SA (hf = hm = 1/4)
+    ## Panel B: Dominance Reversal SA (hf = hm = 1/4)
     ##          early-acting delta
         CLine2  <-  CLine[-1]
         dLine2  <-  dLine[-1]
@@ -760,6 +728,7 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
             PGSpace[i]     <-  popGen_PolySpace_Delta_DomRev(C=CLine2[i], delta=dLine2[i], sMax=pars$sMax)
         }
         d  <-  dat[dat$h == 0.25,]
+        d$PrViaPoly[30]  <-  "0"
         # Make the plot
         plot(NA, axes=FALSE, type='n', main='', xlim = c(0,0.925), ylim = c(0,0.8), ylab='', xlab='', cex.lab=1.2)
         usr  <-  par('usr')
@@ -768,32 +737,19 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
         box()
         # Simulation Results
         lines(PGSpace ~ CLine2, lwd=2, col=COLS$PG)
-        points(PrViaPoly[Delta == "d"][c(1:9,21:23)] ~ C[Delta == "d"][c(1:9,21:23)], pch=21, bg=COLS$dSim, col=COLS$dSim2, data=d)
-        # axes        
-        axis(1, las=1)
-        axis(2, las=1)
-        proportionalLabel(0.03, 1.075, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(-0.5, 0.5, expression(paste(italic(h), " = ", 1/4)), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(-0.3, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(0.5, -0.3, expression(paste("Selfing Rate (", italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-
-    ## Panel D: Dominance Reversal SA (hf = hm = 1/4)
-    ##          Late-acting delta
-        plot(NA, axes=FALSE, type='n', main='', xlim = c(0,0.925), ylim = c(0,1), ylab='', xlab='', cex.lab=1.2)
-        usr  <-  par('usr')
-        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
-        plotGrid(lineCol='grey80')
-        box()
-        # Simulation Results
-        lines(PGSpace ~ CLine2, lwd=2, col=COLS$PG)
-        points(PrViaPoly[Delta == "d_j"][c(1:8,21:23)] ~ C[Delta == "d_j"][c(1:8,21:23)], pch=21, bg=COLS$d_j, col=COLS$d_j2, data=d)
+        points(PrViaPoly[Delta == "d"][c(1:10,21:23)] ~ C[Delta == "d"][c(1:10,21:23)], pch=21, bg=COLS$dSim, col=COLS$dSim2, data=d)
+        points(PrViaPoly[Delta == "d_j"][c(1:7,21:23)] ~ C[Delta == "d_j"][c(1:7,21:23)], pch=21, bg=COLS$d_j, col=COLS$d_j2, data=d)
         points(PrViaPoly[Delta == "d_a"][c(1:12,21:23)] ~ C[Delta == "d_a"][c(1:12,21:23)], pch=21, bg=COLS$d_a, col=COLS$d_a2, data=d)
         points(PrViaPoly[Delta == "d_g"][c(1:10,21:23)] ~ C[Delta == "d_g"][c(1:10,21:23)], pch=21, bg=COLS$d_g, col=COLS$d_g2, data=d)
         # axes        
         axis(1, las=1)
         axis(2, las=1)
-        proportionalLabel(0.03, 1.075, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, -0.3, expression(paste("Selfing Rate (", italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        # Labels/annotations
+        proportionalLabel(0.5, 1.075, expression(paste("Late-acting I.D.")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.6, 0.5, expression(paste(italic(h), " = ", 1/4)), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.35, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(0.5, -0.35, expression(paste("Selfing Rate (", italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
 }
 
