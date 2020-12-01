@@ -18,7 +18,7 @@ rm(list=ls())
 ################
 ## Dependencies
 source('R/functions-Figs.R')
-
+source('./R/loadData-Compadre.R')
 
 #################
 # Figs for Paper

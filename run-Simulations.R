@@ -262,6 +262,12 @@ makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							tlimit = 10^5, eqThreshold = 1e-8)
 
 
+makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,7), theta_prime = 7, 
+							hVals= c(1/2, 1/4), dStar = 0.8, 
+							tlimit = 10^5, eqThreshold = 1e-8)
+
+
 ######################
 # Preliminary figures
 ######################
