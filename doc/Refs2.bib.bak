@@ -2078,26 +2078,4 @@ causes and its variation within and among gynodioecious species},
   publisher = {The Royal Society},
 }
 
-@Article{metcalf2007evolutionary,
-  author    = {Metcalf, C Jessica E and Pavard, Samuel},
-  title     = {Why evolutionary biologists should be demographers},
-  journal   = {Trends in Ecology \& Evolution},
-  year      = {2007},
-  volume    = {22},
-  number    = {4},
-  pages     = {205--212},
-  publisher = {Elsevier},
-}
-
-@Article{coulson2006putting,
-  author    = {Coulson, T and Benton, TG and Lundberg, Per and Dall, SRX and Kendall, BE},
-  title     = {Putting evolutionary biology back in the ecological theatre: a demographic framework mapping genes to communities},
-  journal   = {Evolutionary Ecology Research},
-  year      = {2006},
-  volume    = {8},
-  number    = {7},
-  pages     = {1155--1171},
-  publisher = {Evolutionary Ecology, Ltd.},
-}
-
 @Comment{jabref-meta: databaseType:bibtex;}

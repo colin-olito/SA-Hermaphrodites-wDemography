@@ -47,8 +47,10 @@
 \newcommand{\bo}[1]{{\bf #1}}
 \newcommand{\tr}{{\mbox{\tiny \sf T}}}
 \newcommand{\bm}[1]{\mbox{\boldmath $#1$}}
+\newcommand{\om}{\omega}
 \DeclareRobustCommand{\firstsecond}[2]{#2}
  \def\linenumberfont{\normalfont\scriptsize}
+ \newcommand{\kron}{\otimes}
 %===========================================
 % Basic info from Journal
 
@@ -228,29 +230,41 @@ Charlotte de Vries$^{2}$}
 \section*{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-Whether a population persists or goes extinct depends in large part on its ability to adapt to the environment. Yet, the process of adaptation can be impeded by a variety of genetic and environmental factors, including deleterious mutations \citep{Haldane1957}, environmental shifts causing a population to chase a new phenotypic optimum \citep{Maynard-Smith1976, LandeShannon1996,OrrUnckless2008}, maladaptive gene-flow \citep{KirkpatrickBarton1997, BolnickNosil2007}, as well as genetic constraints arising from intrinsic features of the inheritance system \citep{ConnallonHall2018}. 
 
-Conflicting selection and gene-flow between different classes of individuals, or genetic trade-offs between fitness components, can impose constraints on adaptation with particularly interesting evolutionary consequences \citep{CharlesworthHughes2000, ConnallonHall2018}. On the one hand, such constraints hinder adaptation by preventing individuals (or classes of individuals) from reaching their phenotypic optimum in one or more fitness components, which can increase the population's overall extinction risk. On the other hand, they provide an effective mechanism for the maintenance of genetic variation, which influences the population's capactiy for future adaptation \citep{Fisher1930, CharlesworthHughes2000, ConnallonHall2018, MatthewsConnallon2019}. Hence, for traits under conflicting selection, the nature and extent of genetic variation observed in natural populations should reflect a balance between the contribution of genetic constraints to the maintainance of genetic polymorphisms, and the demographic consequences of the resulting maladaptation.
+ Whether a population persists or goes extinct depends in large part on its ability to adapt to the environment. Yet, the process of adaptation can be impeded by a variety of genetic and environmental factors, such as deleterious mutations \citep{Haldane1957}, environmental shifts \citep{Maynard-Smith1976, LandeShannon1996,OrrUnckless2008}, maladaptive gene-flow \citep{KirkpatrickBarton1997, BolnickNosil2007}, or genetic constraints \citep{ConnallonHall2018}. 
+
+ % Whether a population persists or goes extinct depends in large part on its ability to adapt to the environment. Yet, the process of adaptation can be impeded by a variety of genetic and environmental factors, including deleterious mutations \citep{Haldane1957}, environmental shifts causing a population to chase a new phenotypic optimum \citep{Maynard-Smith1976, LandeShannon1996,OrrUnckless2008}, maladaptive gene-flow \citep{KirkpatrickBarton1997, BolnickNosil2007}, as well as genetic constraints arising from intrinsic features of the inheritance system \citep{ConnallonHall2018}. 
+
+
+%Conflicting selection and gene-flow between different classes of individuals, or genetic trade-offs between fitness components, can impose constraints on adaptation with particularly interesting evolutionary consequences \citep{CharlesworthHughes2000, ConnallonHall2018}. 
+Genetic constraints can arise as a consequence of conflicting selection and gene-flow between different classes of individuals. That is, genetic trade-offs between fitness components can constrain adaptation \citep{CharlesworthHughes2000, ConnallonHall2018}. On the one hand, such constraints prevent individuals (or classes of individuals) from reaching their phenotypic optimum in one or more fitness components, which can increase the population's overall extinction risk \citep{holman2013consequences,harts2014demography}. On the other hand, they provide an effective mechanism for the maintenance of genetic variation, which influences the population's capactiy for future adaptation \citep{Fisher1930, CharlesworthHughes2000, ConnallonHall2018, MatthewsConnallon2019}. Hence, for traits under conflicting selection, the nature and extent of genetic variation observed in natural populations should reflect a balance between the contribution of genetic constraints to the maintainance of genetic polymorphisms, and the population dynamical consequences of the resulting maladaptation.
+
+Classical population genetic models consider relative fitnesses of genotypes, and therefore do not consider the population dynamical consequences of evolutionary change. To study the population dynamical consequences of evolutionary change, a model is required that links changes in genotype distributions to population dynamics.  The demographic processes of birth and death drive both changes in genotype distributions and population dynamics, and therefore provide a fundamental link between evolution and ecology \citep{metcalf2007evolutionary}.  
+
+In this paper, we use such an evolutionary demographic approach (model?) to study whether the parameter space predicted to be polymorphic by population genetics models is, indeed, demographically viable. We apply the model to study the maintenance of polymorphisms through sexually antagonistic selection in both dioecious and hermaproditic species. A major strength of the model is that we can use empirically estimated demographic rates to parameterize the model, enabling us to make predictions about the scope for demographically viable SA polymorphisms that are grounded in the biology of real populations. We demonstrate this with a case study of {\itshape Mimulus guttatus} (now {\itshape Erythranthe guttata})
+
+
+%Such an eco-evolutionary model requires a map from genotype to phenotype, from phenotype to individual demographic rates (birth and death rates), and finally from demographic rates to population level characteristics \citep{coulson2006putting}.    
 %Genetic trade-offs between fitness components due to pleiotropy represent a form of genetic constraint with particularly interesting evolutionary consequences because they act as a double-edged sword
 %The nature and extent of genetic variation observed in natural populations should therefore reflect the balance between the contribution of those constraints to the maintainance of genetic polymorphism and the demographic consequences of the resulting maladaptation.
 
-Genetic trade-offs between male and female fitness are a common feature of sexually reproducing populations, and are thought to contribute not only to the maintenance of genetic variation, but also the evolution of sexual dimorphism and gender-related traits \citep{Lande1980, Rice1992, Charlesworth1999, RiceChippindale2001, BondurianskyChenoweth2009,Olito2019}. When such genetic trade-offs occur, "sexually antagonistic" selection (abbreviated SA hereafter) can arise when beneficial alleles for one sex are deleterious when expressed in the other \citep{Kidwell1977, Rice1992, ConnallonClark2012}. This, alleles with opposing fitness effects through male and female sex functions create analogous genetic constraints on fitness in hermaphrodite populations, where both maternal and paternal reproductive success contribute jointly to each individuals' overall fitness \citep{LloydWebb1986, WebbLloyd1986, Abbott2011, JordanConnallon2014}. 
+Sexually antagonstic selection, due to genetic trade-offs between male and female fitness, are a common feature of sexually reproducing populations, and are thought to contribute not only to the maintenance of genetic variation, but also the evolution of sexual dimorphism and gender-related traits \citep{Lande1980, Rice1992, Charlesworth1999, RiceChippindale2001, BondurianskyChenoweth2009,Olito2019}. When such genetic trade-offs occur, "sexually antagonistic" selection (abbreviated SA hereafter) can arise whereby beneficial alleles for one sex are deleterious when expressed in the other \citep{Kidwell1977, Rice1992, ConnallonClark2012}. Such alleles with opposing fitness effects through male and female sex functions create analogous genetic constraints on fitness in hermaphrodite populations, where both maternal and paternal reproductive success contribute jointly to each individuals' overall fitness \citep{LloydWebb1986, WebbLloyd1986, Abbott2011, JordanConnallon2014}. 
 
 The evolutionary dynamics of SA alleles in hermaphrodites differ from those in dioecious populations because individuals may reproduce through a combination of self- and outcross fertilization \citep{Goodwillie2005, Igic2006, JarneAuld2006}. Such mixed-mating systems have important theoretical consequences for the maintenance of SA polymorphisms in hermaphrodite populations. Self-fertilization is predicted to reduce the total parameter space where balanced SA polymorphisms can be maintained, while simultaneously creating a bias in selection through the female sex function (\citealt{JordanConnallon2014}; but see \citealt{Tazzyman2015}. Yet, other processes, such as genetic linkage to other SA loci or a sex-determining region \citep{Otto2011, JordanCharlesworth2012, Olito2017, Olito2019}, or spatial heterogeneity and the complexity of the life-cycle \citep{Olito-etal-2018,ConnallonSharmaOlito2019} can expand the parameter space for SA polymorphism. Overall, both theoretical predictions and current empirical data suggest there is ample scope for SA trade-offs and the maintenance of SA polymorphisms in both dioecious and hermaphrodite populations \citep{Abbott2011, WangBarrett2020}, although identifying specific SA loci from genome sequence data remains challenging \citep{RuzickaESEB2020}.
-\bigskip
+% \bigskip
 
-\begin{enumerate}
-	\item Introduce Evolutionary Demography, pivot to focus on the consequences of taking demography into account explicitly for the maintenance of SA polymorphism. [Lotte]
-	\item Introduce key difference between existing population genetic models of SA polymorphism and our models: possibility of diverse population and evolutionary dynamics. [Lotte then Colin]
-	\item Explain and highlight "demographically viable" parameter space, indicate that we are interested in whether parameter space predicted to be polymorphic by Pop.~gen.~models is, indeed, "demographically viable" [Lotte then Colin]
-		\begin{enumerate}
-			\item Pop. Gen. models tacitly assume large and/or stable population size, parameterize genotypic fitnesses relative to the 'best performing' genotype. Non-overlapping generations. Casually define fitness as lifetime reproductive fitness of a given genotype.
-			\item "In practice, these genotypic fitnesses emerge from myriad process acting throughout the life-history of individuals"
-			\item these processes contribute to key demographic rates such as the intrinsic population growth rate, 
-		\end{enumerate}
-		\item A major strength of the model is that we can use empirically estimated demographic rates to parameterize the model, enabling us to make predictions about the scope for demographically viable SA polymorphisms that are grounded in the biology of real populations.
-\end{enumerate}
-\bigskip
+% \begin{enumerate}
+% 	\item Introduce Evolutionary Demography, pivot to focus on the consequences of taking demography into account explicitly for the maintenance of SA polymorphism. [Lotte]
+% 	\item Introduce key difference between existing population genetic models of SA polymorphism and our models: possibility of diverse population and evolutionary dynamics. [Lotte then Colin]
+% 	\item Explain and highlight "demographically viable" parameter space, indicate that we are interested in whether parameter space predicted to be polymorphic by Pop.~gen.~models is, indeed, "demographically viable" [Lotte then Colin]
+% 		\begin{enumerate}
+% 			\item Pop. Gen. models tacitly assume large and/or stable population size, parameterize genotypic fitnesses relative to the 'best performing' genotype. Non-overlapping generations. Casually define fitness as lifetime reproductive fitness of a given genotype.
+% 			\item "In practice, these genotypic fitnesses emerge from myriad process acting throughout the life-history of individuals"
+% 			\item these processes contribute to key demographic rates such as the intrinsic population growth rate, 
+% 		\end{enumerate}
+% 		\item A major strength of the model is that we can use empirically estimated demographic rates to parameterize the model, enabling us to make predictions about the scope for demographically viable SA polymorphisms that are grounded in the biology of real populations.
+% \end{enumerate}
+% \bigskip
 
 In this article, we develop a stage-structured mendelian matrix model that accommodates selection through male and female sex-functions in populations of simultaneous hermaphrodites with mixed mating systems. Under obligate outcrossing, the model becomes mathematically identical to the two-sex model of \citet{deVriesCaswell2019b}. Using the model, we jointly analyze the evolutionary and demographic consequences of SA selection in obligately outcrossing (equivalent to dioecious) and partially selfing hermaphrodite populations. We focus our analyses on identifying the parameter conditions under which SA polymorphisms are maintained by balancing selection {\itshape and} the population is also demographically viable (i.e., has a positive intrinsic growth rate). The model also allows for the effects of inbreeding depression to manifest in different life-history stages, enabling us to explore the fitness consequences of early- vs.~late-acting inbreeding depression on the model predictions. Finally, we give an illustrative example of the potential for SA polymorphism in real populations by parameterizing our model with empirically estimated demographic rates for the hermaphroditic flowering plant {\itshape Mimulus guttatus} (now {\itshape Erythranthe guttata}).
 
@@ -263,9 +277,13 @@ A key finding of our study is that when the intrinsic population growth rate is 
 
 Here, we briefly describe a matrix model incorporating multiple life-cycle stages and a single diallelic locus under SA selection on male and female fertility for populations of simultaneous hermaphrodites with outcrossing or mixed-mating systems. The derivation and some of the key results follow closely those presented in \citet{deVriesCaswell2019a} and \citet{deVriesCaswell2019b}; and in fact, the model presented here reduces to the two-sex stage-structured model of \citet{deVriesCaswell2019b} under obligate outcrossing. A full derivation of the model and analyses is presented in \hl{Appendix A}, and all simulation code necessary to reproduce the results are available at \url{https://github.com/colin-olito/SA-Hermaphrodites-wDemography}.
 
-In the model, individuals are classified jointly by life-cycle stage ($1, \ldots, \omega$), genotype ($1, \ldots, g$), and whether they were produced by self- or outcross fertilization (denoted by $S$ and $X$ superscripts). Each genotype is characterized by a matrix of transition probabilities (including survival) and a matrix of reproductive output through male and female function. These matrices can include time variation or nonlinearities reflecting the environment or density dependence, but these will not be modelled here. Each stage contributes offspring to genotypes at the next time step according to transition matrices that are determined by the mating system and stage-structure of the population.
+Simultaneous hermaphrodites express both male and female sex functions (i.e., can be both a mother and father), and have the potential to reproduce by a combination of self- and outcross-fertilizations. Maternal outcrossing involves receiving male gametes from another individual in the population, while paternal outcrossing involves exporting male gametes to another individual and fertilizing their ovules. Self-fertilization is achieved when an individual's male gametes fertilize their own ovules. In the following any parameters, matrices or vectors relating to male sex function are denoted with a prime. 
 
-The population state at time $t$ is described by a stage $\times$ genotype distribution matrix, which can be transformed into a population state vector, $\tilde{\mbf{n}}(t)$, which is ordered by genotype, then stage, then by how individuals were produced (self vs.~outcrossing). For a single diallelic locus with alleles $A$ and $a$, we have three genotypes ($AA,\, Aa,\, aa$; $g = 3$), giving the population state vector:
+In the model, individuals are classified jointly by life-cycle stage ($1, \ldots, \omega$), genotype ($1, \ldots, g$), and whether they were produced by self- or outcross fertilization (denoted by $S$ and $X$ superscripts, respectively). Whether individuals were produced through selfing or outcrossing is included in the individual state description because individuals produced through selfing might experience reduced survival, growth, or maturation rates as a consequence of inbreeding depression. To model inbreeding depression, we therefore keep track of how individuals were produced. 
+
+Each genotype is characterized by a matrix of transition probabilities (including survival) and a matrix of reproductive output through male and female function. These matrices can include time variation or nonlinearities reflecting the environment or density dependence, but these will not be modelled here. Each stage contributes offspring to genotypes at the next time step according to transition matrices that are determined by the mating system and stage-structure of the population.
+
+The population state at time $t$ is described by a population state vector, $\tilde{\mbf{n}}(t)$, which is ordered by how individuals were produced (selfing vs.~outcrossing), then by genotype, and finally by stage. For a single diallelic locus with alleles $A$ and $a$, we have three genotypes ($AA,\, Aa,\, aa$; $g = 3$), giving the population state vector:
 \begin{linenomath*}
 \begin{equation} \label{eq:PopStateVec}
 	\tilde{\mbf{n}}(t) =  \left[
@@ -283,7 +301,7 @@ The population state at time $t$ is described by a stage $\times$ genotype distr
 \noindent where $\mbf{n}^{S}_{i}$ and $\mbf{n}^{X}_{i}$ ($i \in \{AA,Aa,aa\}$) are the stage $\times$ genotype distribution vectors of individuals produced by self-fertilization and outcrossing, respectively. The proportional population vector is given by
 \begin{linenomath*}
 \begin{equation} \label{eq:propPopVec}
-	\tilde{\mbf{p}}(t) = \frac{\tilde{\mbf{n}}(t)}{ \| \tilde{\mbf{n}}(t) \|} = \mbf{p}(t),
+	\tilde{\mbf{p}}(t) = \frac{\tilde{\mbf{n}}(t)}{ \| \tilde{\mbf{n}}(t) \|},
 \end{equation}
 \end{linenomath*}
 
@@ -294,19 +312,23 @@ The population state at time $t$ is described by a stage $\times$ genotype distr
 \end{equation}
 \end{linenomath*}
 
-The population projection matrix $\tilde{\mbf{A}}$ is constructed from four sets of matrices representing the demographic and genetic processes: The matrices $\mbf{U}^{S}_{i}$ and $\mbf{U}^{X}_{i}$ contains transition and survival probabilities for each genotype, produced by selfing and outcrossing respectively. The matrices $\mbf{F}_{i}$ and $\mbf{F}^{\prime}_{i}$ contain the genotype $\times$ stage specific contribution via female and male sex-functions of genotype $i$ to the female and male gamete pools, respectively, and therefore to zygotes in the next generation. In principle, the model can admit any kind of pleiotropy among demographic traits because the transition and fertility matrices can differ among genotypes in any way. For simplicity, we assume linear, time-invariant demography.
+The population projection matrix $\tilde{\mbf{A}}$ is constructed from four sets of matrices representing the demographic and genetic processes: The matrices $\mbf{U}^{S}_{i}$ and $\mbf{U}^{X}_{i}$ contain transition and survival probabilities for each genotype, produced by selfing and outcrossing respectively. The matrices $\mbf{F}_{i}$ and $\mbf{F}^{\prime}_{i}$ contain the genotype $\times$ stage specific contribution via female and male sex-functions of genotype $i$ to the female and male gamete pools, respectively, and therefore to zygotes in the next generation. We assume that whether individuals were produced through selfing or outcrossing does not affect their fecundity or mating success, that is, we assume  $\mbf{F}^X_{i}=\mbf{F}^S_{i}=\mbf{F}_{i}$ and $\mbf{F}^{\prime S}_{i}=\mbf{F}^{\prime X}_{i}=\mbf{F}^{\prime}_{i}$. Deviations from this assumption are straightforward to incorporate but beyond the scope of the current paper. In principle, the model can admit any kind of pleiotropy among demographic traits because the transition and fertility matrices can differ among genotypes in any way. For simplicity, we assume linear, time-invariant demography.
 
-Similar to the two-sex model of \citet{deVriesCaswell2019b}, we define the matrices $\mbf{H}^S_{j}(\tilde{\mbf{n}})$ and $\mbf{H}^X_{j}(\tilde{\mbf{n}})$, which map the genotypes of the parent in stage $j$ to the genotypes of their offspring produced by selfing and outcrossing, respectively. The $(k, l)$ entry of $\mbf{H}^{X}_{j}$ and $\mbf{H}^{S}_{i}$ is the probability that an offspring of a genotype $l$ mother, of stage $i$, has genotype $k$. For the purpose of this article, we assume that mating is random with respect to stage and hence that the parent-offspring map is the same for all stages (i.e., $\mbf{H}^S_{j}(\tilde{\mbf{n}}) = \mbf{H}^S(\tilde{\mbf{n}})$, and $\mbf{H}^X_{j}(\tilde{\mbf{n}}) = \mbf{H}^X(\tilde{\mbf{n}})$). The matrices $\mbf{H}^S(\tilde{\mbf{n}})$ and $\mbf{H}^X(\tilde{\mbf{n}})$ contain the population genetic processes and are presented in the next section.
+Notational note: The superscript on a matrix in age$\times$stage models conventionally indicates the stage or age of the subsection of the population vector that the matrix is acting on \citep{CaswellEtAl2018}. For example, $\mbf{U}^{S}_{i}$, acts on the vector of individuals of genotype $i$ that were produced through selfing. In the following, we deviate from this convention by also using $S$ and $X$ as superscripts to indicate reproduction of offspring through current selfing or reproduction. That is,  we define the matrices $\mbf{H}^S_{j}(\tilde{\mbf{n}})$ and $\mbf{H}^X_{j}(\tilde{\mbf{n}})$, as the map of the genotypes of the parent in stage $j$ to the genotypes of their offspring produced by selfing and outcrossing, respectively. The $(k, l)$ entry of $\mbf{H}^{X}_{j}$ and $\mbf{H}^{S}_{j}$ is the probability that an offspring of a genotype $l$ mother, of stage $j$, has genotype $k$. Since we assume that how-you-were-produced does not affect how you reproduce, these matrices will act on both $\mbf{n}^{S}$ and $\mbf{n}^{X}$. Likewise, we will write production $\mcal{F}^S$ and $\mcal{F}^X$ to denote offspring production by self-fertilization and outcrossing. 
+
+For the purpose of this article, we assume that mating is random with respect to stage and hence that the parent-offspring map is the same for all stages (i.e., $\mbf{H}^S_{j}(\tilde{\mbf{n}}) = \mbf{H}^S(\tilde{\mbf{n}})$, and $\mbf{H}^X_{j}(\tilde{\mbf{n}}) = \mbf{H}^X(\tilde{\mbf{n}})$). The matrices $\mbf{H}^S(\tilde{\mbf{n}})$ and $\mbf{H}^X(\tilde{\mbf{n}})$ contain the population genetic processes and are presented in the next section.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{Mating and offspring production under partial selfing}
+The inclusion of simultaneous hermaphrodites that can reproduce both through selfing and through outcrossing complicate mating in our model relative to the two-sex stage-structured model of \citet{deVriesCaswell2019b}. Since we assume that how individuals were produced does not affect the relative success of their male gametes, the frequency distribution in the male gametes is obtained simply by summing the vectors of individuals produced through selfing and individuals produced through outcrossing, that is, 
+\begin{equation}
+ 	\mbf{p}^{\prime}=\frac{(\mbf{n}^X + \mbf{n}^S)}{\| (\mbf{n}^X + \mbf{n}^S)\|}.
+ \end{equation} 
 
-Simultaneous hermaphrodites express both male and female sex functions (i.e., can be both a mother and father), and have the potential to reproduce by a combination of self- and outcross-fertilizations. Maternal outcrossing involves receiving male gametes from another individual in the population, while paternal outcrossing involves exporting male gametes to another individual and fertilizing their ovules. Self-fertilization is acheived when an individual's male gametes fertilize their own ovules. These modes of reproduction complicate mating in our model relative to the two-sex stage-structured model of \citet{deVriesCaswell2019b}.
-
-Let $C$ denote the proportion of each individual's ovules that are self-fertilized (the remaining $1 - C$ are outcrossed), and let $\delta$ represent the proportion of self-fertilized zygotes that fail to develop due to inbreeding depression during early development \citep{Charlesworth1987}. In \hl{Appendix A.x}, we present a more general model of genotype-specific self-fertilization rates (after \citealt{JordanConnallon2014}). Outcrossing proceeds similarly to a two-sex model of reproduction \citep{deVriesCaswell2019b} except that each individual's genotype determines both the number of ovules produced and also paternal "mating success", broadly defined. For hermaphroditic flowering plants, for example, paternal mating success could reflect pollen production, export efficiency, pollen-tube germination and growth rates, among other things \citep{LloydWebb1986, WangBarrett2020, Harder2016}. Depending on their stage and genotype at the SA locus, individuals contribute male gametes to the overall population gamete pool according to the male stage $\times$ genotype vector:
+Let $C$ denote the proportion of each individual's ovules that are self-fertilized (the remaining $1 - C$ are outcrossed), and let $\delta$ represent the proportion of self-fertilized zygotes that fail to develop due to inbreeding depression during early development \citep{Charlesworth1987}. In \hl{Appendix A.x}, we present a more general model of genotype-specific self-fertilization rates (after \citealt{JordanConnallon2014}). Outcrossing proceeds similarly to a two-sex model of reproduction \citep{deVriesCaswell2019b}. That is, each individual's genotype determines both the number of ovules produced and the paternal "mating success", broadly defined. For hermaphroditic flowering plants, for example, paternal mating success could reflect pollen production, export efficiency, pollen-tube germination and growth rates, among other things \citep{LloydWebb1986, WangBarrett2020, Harder2016}. Depending on their stage and genotype at the SA locus, individuals contribute male gametes to the overall population gamete pool according to the stage $\times$ genotype vector:
 \begin{linenomath*}
 \begin{equation}
-		\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p} = 
+		\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p}^{\prime}= 
 		\left(
 			\begin{array}{ccc}
 				\mbf{1}^{\intercal}_{\omega} & \frac{1}{2} \mbf{1}^{\intercal}_{\omega} & 0 \\
@@ -320,14 +342,14 @@ Let $C$ denote the proportion of each individual's ovules that are self-fertiliz
 			\end{array} \right)
 		\left(
 			\begin{array}{c}
-				\mbf{p}_{AA} \\
-				\mbf{p}_{Aa} \\
-				\mbf{p}_{aa} \\
+				\mbf{p}^{\prime}_{AA} \\
+				\mbf{p}^{\prime}_{Aa} \\
+				\mbf{p}^{\prime}_{aa} \\
 			\end{array} \right).
 \end{equation}
 \end{linenomath*}
 
-\noindent The vector $\mbf{p}$ gives the genotype frequencies at mating, and is the sum of $\mbf{n}^{S}$ and $\mbf{n}^{X}$, since in partially selfing popualtions, whether an individual was produced by selfing or outcrossing does not affect whether they can reproduce by outcrossing themselves. The matrix $\mbb{F}^{\prime}$ is composed of genotype-specific fertility matrices, and operates on the the vector of genotype frequencies to give their relative contribution of each genotype to the gamete pool. The matrix $\mbf{W}^{\prime}$ converts these contributions to allele numbers. Normalizing the resulting vector gives the allele frequencies in the male gamete pool:
+\noindent The matrix $\mbb{F}^{\prime}$ is composed of genotype-specific fertility matrices, and operates on the the vector of genotype frequencies to give their relative contribution of each genotype to the gamete pool. The matrix $\mbf{W}^{\prime}$ converts these contributions to allele numbers. Normalizing the resulting vector gives the allele frequencies in the male gamete pool:
 \begin{linenomath*}
 \begin{equation} \label{eq:maleGametePool}
 	\left(
@@ -335,7 +357,7 @@ Let $C$ denote the proportion of each individual's ovules that are self-fertiliz
 			q^{\prime}_{A} \\
 			q^{\prime}_{a} \\
 		\end{array} \right) = 
-			\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p}}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p} \|} = 
+			\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p}^{\prime}}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p}^{\prime} \|} = 
 				\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} (\mbf{n}^X + \mbf{n}^S)}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} (\mbf{n}^X + \mbf{n}^S)\|}
 \end{equation}
 \end{linenomath*}
@@ -410,12 +432,12 @@ We construct $\tilde{\mbf{A}}[\tilde{\mbf{n}}]$ using the vec-permutation approa
 
 Similarly, we also construct block-diagonal matrices
 \begin{linenomath*}
-\begin{equation}
-	\mbb{H}^j = \mbf{I}_{\omega} \otimes \mbf{H}^j(\tilde{\mbf{p}}),
-\end{equation}
+\begin{eqnarray}
+	\mathbb{H}^X(\tilde{\bo p}) = \bo I_\om \kron \bo H^X(\tilde{\bo p}),\\
+	\mathbb{H}^S(\tilde{\bo p}) = \bo I_\om \kron \bo H^S(\tilde{\bo p}).
+\end{eqnarray}
 \end{linenomath*}
-
-\noindent where $j \in \{S,X\}$. The corresponding fertility matrices for self-fertilization and outcrossing are defined as
+The corresponding fertility matrices for self-fertilization and outcrossing are defined as
 \begin{linenomath*}
 \begin{equation} \label{eq:BlkFS}
 	\mcal{F}^S = \mbf{K}^{\intercal} \mbb{H}^S(\tilde{\mbf{p}}) \mbf{K} \mbb{F}^S = 
@@ -442,7 +464,7 @@ Similarly, we also construct block-diagonal matrices
 
 \noindent where $q^{\prime}_A$ and $q^{\prime}_a$ are given by Eq(\ref{eq:maleGametePool}), and $\mbf{K}$ is the vec-permutation matrix \citep{HendersonSearle1981}. Further details of the derivations of $\mcal{F}^S$ and $\mcal{F}^X$ are provided in \hl{Appendix A.x}. 
 
-The blocks of $\mcal{F}^X(\tilde{\mbf{p}})$ can be constructed and interpreted as follows: The first row block of the first column produces $AA$ offspring by outcrossing from $AA$ maternal parents. This happens when the $AA$ maternal parent receives a random gamete from the male gamete pool, which happens with probability $q^{\prime}_{A}$. The other blocks can be interpreted similarly.
+The blocks of $\mcal{F}^X(\tilde{\mbf{p}})$ can be constructed and interpreted as follows: The first row block of the first column produces $AA$ offspring by outcrossing from $AA$ maternal parents. This happens when the $AA$ maternal parent receives an $A$ gamete from the male gamete pool, which happens with probability $q^{\prime}_{A}$. The other blocks can be interpreted similarly.
 
 Combining all the component matrices yields the overall eco-evolutionary projection matrix shown in \hl{Reference a Box here?  or possibly Appendix A.x?}
 
@@ -450,7 +472,9 @@ Combining all the component matrices yields the overall eco-evolutionary project
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Sexually antagonistic selection \& inbreeding depression} \label{sec:SAsel}
 
-We now construct and analyze a genotype $\times$ stage-classified model for a hypothetical species with intralocus sexual conflict via the two sex functions. To keep the model analytically tractable, we assume our hypothetical species has two life stages: juveniles and adults (i.e., $\omega = 2$), and that only adults are reproductively active. Suppose that there is a genetic trade-off between the sex-functions at a single bi-allelic locus such that allele $A$ is beneficial for female fertility but detrimental for male reproductive success (e.g., pollen production), and that allele $a$ has the reverse effect. Following convention, we parameterize the relative fitnesses of each genotype through each sex function ($w_{i}$ and $w^{\prime}_{i}$) to be bounded by $(0,1)$, with dominance and selection coefficients $h_f, s_f$ and $h_m, s_m$ determining the decrease in fertility through each sex function relative to the most fit genotype ($AA$ has highest female fertility, $aa$ the highest male fertility; see Table \ref{tab:Fitness}). The SA locus does not affect survival and transition rates. However, the survival matrices can be used to model the fitness effects of inbreeding depression at later stages of development by allowing different stage-specific survival and transition rates for individuals produced by self-fertilization vs.~outcrossing. By contrast, the parameter $\sigma$ only affects inbreeding depression through viability of selfed ovlues. With this in mind, we define survival matrices for individuals produced by selfing and outcrossing as follows:
+We now construct and analyze a genotype $\times$ stage-classified model for a hypothetical species with intralocus sexual conflict via the two sex functions. To keep the model analytically tractable, we assume our hypothetical species has two life stages: juveniles and adults (i.e., $\omega = 2$), and that only adults are reproductively active. Suppose that there is a genetic trade-off between the sex-functions at a single bi-allelic locus such that allele $A$ is beneficial for female fertility but detrimental for male reproductive success (e.g., pollen production), and that allele $a$ has the reverse effect. 
+
+Following convention, we parameterize the relative fitnesses of each genotype through each sex function ($w_{i}$ and $w^{\prime}_{i}$) to be bounded by $(0,1)$, with dominance and selection coefficients $h_f, s_f$ and $h_m, s_m$ determining the decrease in fertility through each sex function relative to the most fit genotype ($AA$ has highest female fertility, $aa$ the highest male fertility; see Table \ref{tab:Fitness}). The SA locus does not affect survival and transition rates. However, the survival matrices can be used to model the fitness effects of inbreeding depression at later stages of development by allowing different stage-specific survival and transition rates for individuals produced by self-fertilization vs.~outcrossing. By contrast, the parameter $\sigma$ only affects inbreeding depression through viability of selfed ovules. With this in mind, we define survival matrices for individuals produced by selfing and outcrossing as follows:
 \begin{linenomath*}
 \begin{equation} \label{eq:US}
 	\mbf{U}^S = \left(
@@ -473,7 +497,7 @@ We now construct and analyze a genotype $\times$ stage-classified model for a hy
 \end{equation}
 \end{linenomath*}
 
-\noindent where $\sigma_j$ and $\sigma_a$ are the juvenile and adult stage survival rates, $\gamma$ is the maturation rate from juvenile to adult stages, and the corresponding $\delta_j$, $\delta_a$, and $\delta_{\gamma}$ terms denote the proportional decreases in stage-specific survival and transition rates due to inbreeding depression (i.e., deleterious effects of inbreeding at later life-history stages; e.g., \citealt{HarderRoutely2006}). Any or all of these parameters may differ among genotypes, so that selection can operate on stage-specific viability, development, and/or fertility. For simplicity, we assume these are constant among genotypes. 
+\noindent where $\sigma_j$ and $\sigma_a$ are the juvenile and adult stage survival rates, $\gamma$ is the maturation rate from juvenile to adult stages, and the corresponding $\delta_j$, $\delta_a$, and $\delta_{\gamma}$ terms denote the proportional decreases in stage-specific survival and transition rates due to inbreeding depression (i.e., deleterious effects of inbreeding at later life-history stages; e.g., \citealt{HarderRoutely2006}). For simplicity, we assume survival and transition rates are constant among genotypes. 
 
 The fertility matrices through female and male function are
 \begin{linenomath*}
@@ -517,7 +541,7 @@ Male function ($w^{\prime}_{i}$):		& $1 - s_m$& $1 - h_m s_m$	& $1$ 		\\
 
 Iterating the projection matrix, Eq(\ref{eq:Atilde}) with the above demographic matrices, given an initial population state vector, Eq(\ref{eq:PopStateVec}), allows numerical simulation of the eco-evolutionary dynamics for selection operating on any of the sex-function, or stage-specific demographic parameters. As we outline below, we use numerical techniques together with mathematical analyses to study the conditions for the maintenance of SA polymorphisms, and the demographic fate of the populations (i.e., positive growth, or extinction).
 
-Unless stated otherwise, we use the following parameter values for the demogrphic rates in the model: $\sigma_j = \sigma_A = 0.6$ and $\gamma = 0.05$, which are similar to those used in \citet{deVriesCaswell2019b}. Our parameters of interest include $f$, $\delta$, $\delta_j$, $\delta_a$, $\delta_{\gamma}$, and the selection parameters $h_f$, $s_f$, $h_m$, and $s_m$, which are given different values for each analyses as described in the figure captions.
+Unless stated otherwise, we use the following parameter values for the demographic rates in the model: $\sigma_j = \sigma_A = 0.6$ and $\gamma = 0.05$, which are similar to those used in \citet{deVriesCaswell2019b}. Our parameters of interest include fertility, $f$, the inbreeding depression parameters, $\delta$, $\delta_j$, $\delta_a$, $\delta_{\gamma}$, and the selection parameters $h_f$, $s_f$, $h_m$, and $s_m$, which are given different values for each analyses as described in the figure captions.
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Analyses} \label{sec:analyses}
@@ -576,7 +600,7 @@ Interestingly, a polymorphic chromosomal inversion (Inv6) with apparently SA fit
 
  \begin{figure}[htbp]
  \centering
- \includegraphics[scale=0.75]{../output/figs/polymorphicSpaceTitrate.pdf}
+ \includegraphics[scale=0.75]{../output/figs/polymorphicSpaceNew.pdf}
  \caption{\footnotesize{Proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$) in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$), plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under additive (panel A; $h = 1/2$), and partially recessive (panel B; $h = 1/4$) SA fitness effects. Each point was calculated by numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see \hyperref[sec:analyses]{Analyses} section), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
  \label{fig:polySpace}
  \end{figure}
