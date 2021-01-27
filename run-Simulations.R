@@ -267,6 +267,16 @@ makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							hVals= c(1/2, 1/4), dStar = 0.8, 
 							tlimit = 10^5, eqThreshold = 1e-8)
 
+makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,7.5), theta_prime = 7.5, 
+							hVals= c(1/2, 1/4), dStar = 0.8, 
+							tlimit = 10^5, eqThreshold = 1e-8)
+
+makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,8.5), theta_prime = 8.5, 
+							hVals= c(1/2, 1/4), dStar = 0.8, 
+							tlimit = 10^5, eqThreshold = 1e-8)
+
 
 ######################
 # Preliminary figures
@@ -805,6 +815,7 @@ deltaSelfingPolySpaceMakeData(sMax = 0.15, nSamples=1e+3,
 #################################################
 #' Find extinction threshold for Mimulus example
 
+# Eagle Meadows population  (Peterson et al. 2016)
 datMat  <-  matList_Mg_EM
 theta.list  <-  list(D = 0.534, 
 					 G = 0.469,
@@ -812,7 +823,8 @@ theta.list  <-  list(D = 0.534,
 					 O = 614,
 					 A = 6.7e-4,
 					 S = 0.179,
-					 R = 8.71)
+					 R = 8.71,
+					 pop = "EM")
 delta.list  <-  list(delta_D = 0,
 					 delta_G = 0,
 					 delta_F = 0,
@@ -820,28 +832,222 @@ delta.list  <-  list(delta_D = 0,
 					 delta_S = 0
 					 )
 
+
+## Obligate oucrossing
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm=0.35, C=0, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
 extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
 					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
 					 hf = 1/2, hm = 0.35, C = 0, 
 					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
-					 writeFile=TRUE, verbose=TRUE) 
+					 makePlots=TRUE, writeFile=TRUE, verbose=TRUE) 
 
+## Empirical selfing rate estimates
+## No Inbreeding Depression
+	# Low-end of Empirical selfing rates
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm=0.35, C=0.29, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
 extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
 					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
-					 hf = 1/2, hm = 0.35, C = 0.24, 
+					 hf = 1/2, hm = 0.35, C = 0.29, 
 					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
-					 writeFile=TRUE, verbose=TRUE) 
+					 makePlots=TRUE, writeFile=TRUE, verbose=TRUE) 
 
-# delta values calculated from Willis (1993)
+	# High-end of Empirical selfing rates
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm=0.35, C=0.75, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 0.35, C = 0.75, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 makePlots=TRUE, writeFile=TRUE, verbose=TRUE) 
+## Empirical selfing rate estimates
+## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
 delta.list  <-  list(delta_D = 0,
 					 delta_G = 0.085,
 					 delta_F = 0.2,
 					 delta_O = 0,
 					 delta_S = 0.38
 					 )
-
+	# Low-end of Empirical selfing rates
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm=0.35, C=0.29, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
 extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
 					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
-					 hf = 1/2, hm = 0.35, C = 0.24, 
+					 hf = 1/2, hm = 0.35, C = 0.29, 
 					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
 					 writeFile=TRUE, verbose=TRUE) 
+	# High-end of Empirical selfing rates
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm=0.35, C=0.75, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 0.35, C = 0.75, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 writeFile=TRUE, verbose=TRUE) 
+
+test  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+				 hf = hf, hm = hm, sf = 0.308, sm = 0.88, C = 0.24,
+				 tlimit = 10^5, eqThreshold=1e-9, Ainvade = FALSE, intInit = TRUE)
+
+##########################
+# Low-elevation perenials (Peterson et al. 2016; Correction Table 1)
+theta.list  <-  list(D = 0.534, 
+					 G = 0.652,
+					 F = 4.09,
+					 O = 494,
+					 A = 6.7e-4,
+					 S = 0,
+					 R = 0,
+					 pop = "LEP")
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0,
+					 delta_F = 0,
+					 delta_O = 0,
+					 delta_S = 0
+					 )
+
+
+## Obligate oucrossing
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm=0.35, C=0, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 0.35, C = 0, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 makePlots=TRUE, writeFile=TRUE, verbose=TRUE) 
+
+## Empirical selfing rate estimates
+## No Inbreeding Depression
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm=0.35, C=0.29, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 0.35, C = 0.29, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 makePlots=TRUE, writeFile=TRUE, verbose=TRUE) 
+
+
+## Empirical selfing rate estimates
+## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0.085,
+					 delta_F = 0.2,
+					 delta_O = 0,
+					 delta_S = 0.38
+					 )
+	# Empirical selfing rates
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm=0.35, C=0.29, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 0.35, C = 0.29, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 writeFile=TRUE, verbose=TRUE) 
+	
+
+
+test  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+				 hf = 1/2, hm = 0.35, sf = 0.308, sm = 0, C = 0,
+				 tlimit = 10^5, eqThreshold=1e-9, Ainvade = FALSE, intInit = TRUE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##########################
+# Iron Mountain (Willis 1993; Table 2)
+theta.list  <-  list(D = 0.534, 
+					 G = 0.906,
+					 F = 0.89,
+					 O = 28.628,
+					 A = 6.7e-4,
+					 S = 0.435,
+					 R = 0,
+					 pop = "IM")
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0,
+					 delta_F = 0,
+					 delta_O = 0,
+					 delta_S = 0
+					 )
+
+
+## Obligate oucrossing
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm=0.35, C=0, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 0.35, C = 0, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 makePlots=TRUE, writeFile=TRUE, verbose=TRUE) 
+
+## Empirical selfing rate estimates
+## No Inbreeding Depression
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm=0.35, C=0.29, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 0.35, C = 0.29, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 makePlots=TRUE, writeFile=TRUE, verbose=TRUE) 
+
+
+## Empirical selfing rate estimates
+## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0.085,
+					 delta_F = 0.2,
+					 delta_O = 0,
+					 delta_S = 0.38
+					 )
+	# Empirical selfing rates
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm=0.35, C=0.29, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 0.35, C = 0.29, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 writeFile=TRUE, verbose=TRUE) 
+
+
+
+test  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+				 hf = 1/2, hm = 0.35, sf = 0.308, sm = 0, C = 0.24,
+				 tlimit = 10^5, eqThreshold=1e-9, Ainvade = FALSE, intInit = TRUE)
+

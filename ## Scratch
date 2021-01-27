@@ -823,3 +823,29 @@ lines(popGen_a_invade(hf=pars$hf, hm=pars$hm, sm=test$sms, C=pars$C) ~ test$sms,
 
 lines(popGen_A_invade_Delta_Add(sm=test$sms, C=pars$C, delta=pars$delta) ~ test$sms, lwd=2, col=2)
 lines(popGen_a_invade_Delta_Add(sm=test$sms, C=pars$C, delta=pars$delta) ~ test$sms, lwd=2, col=2)
+
+
+
+
+for(i in 1:11){
+	Mg_test            <-  cdb_Mg[i]
+	Mg_test_classInfo  <-  classInfo[[i]]
+	
+	# Look at matrices
+	Mg_test$mat
+	matList_Mg_test  <-  list(
+							"A"  =  matA(Mg_test)[[1]],
+							"U"  =  matU(Mg_test)[[1]],
+							"F"  =  matF(Mg_test)[[1]],
+							"C"  =  matC(Mg_test)[[1]]
+							)
+	for(i in 1:4) {
+		rownames(matList_Mg_test[[i]])  <-  classInfo[[i]][,2]
+		colnames(matList_Mg_test[[i]])  <-  classInfo[[i]][,2]
+	}
+	print(i)
+	print(matList_Mg_test)
+	# Take a look at lambda for this population
+	print(popdemo::eigs(matList_Mg_test$A, what="lambda"))
+
+}

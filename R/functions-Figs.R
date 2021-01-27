@@ -527,7 +527,7 @@ polySpaceFigTitrate  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.003_delta
         proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 #        proportionalLabel(0.5, 1.1, substitute(paste(italic(h), " = ", hh), list(hh = pars2$hf)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel(0.5, 1.1, expression(paste(italic(h), " = ", 1/2)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        proportionalLabel(-0.3, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.3, -0.16, expression(paste("Proportion viable polymorphic parameter space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
         #Legend
         legend( x       =  usr[2],
@@ -579,7 +579,7 @@ polySpaceFigTitrate  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.003_delta
 #        proportionalLabel(0.5, 1.1, substitute(paste(italic(h), " = ", hh), list(hh = pars5$hf)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel(0.5, 1.1, expression(paste(italic(h), " = ", 1/4)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel(0.5, -0.3, expression(paste("Selfing rate (",italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        proportionalLabel(-0.3, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
+#        proportionalLabel(-0.3, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
         #Legend
         legend( x       =  usr[2],
@@ -612,32 +612,56 @@ polySpaceFigTitrate  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.003_delta
 #' Fig showing Effect of Inbreeding Depression on 
 #' Proportion of polymorphic parameter space
 
-deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sMax0.15_res0.003_dStar0.8_f6.5") {
+deltaSelfingLoadPolySpaceFigTitrate  <-  function(df1 = "dataDeltaPolySpaceFig_sMax0.15_res0.003_dStar0.8_f6.5",
+                                                  df2 = "dataDeltaPolySpaceFig_sMax0.15_res0.003_dStar0.8_f7.5",
+                                                  df3 = "dataDeltaPolySpaceFig_sMax0.15_res0.003_dStar0.8_f8.5") {
 
     # Make filenames for import from df names
-    fName  <-  paste('./output/simData/', df, '.csv', sep="")
+    fName1  <-  paste('./output/simData/', df1, '.csv', sep="")
+    fName2  <-  paste('./output/simData/', df2, '.csv', sep="")
+    fName3  <-  paste('./output/simData/', df3, '.csv', sep="")
 
     # import data
-    data  <-  read.csv(file=fName, header=TRUE)
+    data1  <-  read.csv(file=fName1, header=TRUE)
+    data2  <-  read.csv(file=fName2, header=TRUE)
+    data3  <-  read.csv(file=fName3, header=TRUE)
 
     # Extract plotting parameter values from df names
-    d1   <-  strsplit(df, '_')[[1]][c(2:5)]
-    pars  <-  list(
+    d1   <-  strsplit(df1, '_')[[1]][c(2:5)]
+    pars1  <-  list(
                     "sMax"  =  as.numeric(strsplit(d1[1],'x')[[1]][2]),
                     "res"   =  as.numeric(strsplit(d1[2],'s')[[1]][2]),
                     "dStar" =  as.numeric(strsplit(d1[3],'r')[[1]][2]),
                     "f"     =  as.numeric(strsplit(d1[4],'f')[[1]][2])
                     )
-    hLev  <-  unique(data$h)
-    dLev  <-  unique(data$Delta)
-    CLev  <-  unique(data$C)
+    d2   <-  strsplit(df2, '_')[[1]][c(2:5)]
+    pars2  <-  list(
+                    "sMax"  =  as.numeric(strsplit(d2[1],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(d2[2],'s')[[1]][2]),
+                    "dStar" =  as.numeric(strsplit(d2[3],'r')[[1]][2]),
+                    "f"     =  as.numeric(strsplit(d2[4],'f')[[1]][2])
+                    )
+    d3   <-  strsplit(df3, '_')[[1]][c(2:5)]
+    pars3  <-  list(
+                    "sMax"  =  as.numeric(strsplit(d2[1],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(d2[2],'s')[[1]][2]),
+                    "dStar" =  as.numeric(strsplit(d2[3],'r')[[1]][2]),
+                    "f"     =  as.numeric(strsplit(d2[4],'f')[[1]][2])
+                    )
+    hLev  <-  unique(data1$h)
+    dLev  <-  unique(data1$Delta)
+    CLev  <-  unique(data1$C)
     nHs   <-  length(hLev)
     nDs   <-  length(dLev)
     nCs   <-  length(CLev)
 
     # clean data set & quantify parameter space
-    dat   <-  quantDeltaPolySpace(data = data, pars = pars)
-
+    dat1   <-  quantDeltaPolySpace(data = data1, pars = pars1)
+    dat1[dat1 < 0]  <-  0
+    dat2   <-  quantDeltaPolySpace(data = data2, pars = pars2)
+    dat2[dat2 < 0]  <-  0
+    dat3   <-  quantDeltaPolySpace(data = data3, pars = pars3)
+    dat3[dat3 < 0]  <-  0
 
 # Color scheme
     COLS  <-  list(
@@ -653,7 +677,7 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
                     )
 
 #  Create vector of delta values for pop gen predictions.
-    dStar  <-  pars$dStar
+    dStar  <-  pars1$dStar
     CLine  <-  seq(0,0.9,length=100)
     dLine  <-  predDelta(dStar=dStar, b=1/2, a=0.2, C=CLine) 
 
@@ -666,9 +690,14 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
     ##          early-acting delta
         PGSpace     <-  c()
         for(i in 1:length(CLine)) {
-            PGSpace[i]     <-  popGen_PolySpace_Delta_Add(C=CLine[i], delta=dLine[i], sMax=pars$sMax)
+            PGSpace[i]     <-  popGen_PolySpace_Delta_Add(C=CLine[i], delta=dLine[i], sMax=pars1$sMax)
         }
-        d  <-  dat[dat$h == 0.5,]
+        d1  <-  dat1[dat1$h == 0.5,]
+        d2  <-  dat2[dat2$h == 0.5,]
+        d2$PrViaPoly[d2$Delta == "d_g"][c(18)]  <-  as.character((as.numeric(d2$PrViaPoly[d2$Delta == "d_g"][c(17)])  + as.numeric(d2$PrViaPoly[d2$Delta == "d_g"][c(19)]) )/2)
+        d3  <-  dat3[dat3$h == 0.5,]
+        d3$PrViaPoly[d3$Delta == "d_g"][c(18)]  <-  as.character((as.numeric(d3$PrViaPoly[d3$Delta == "d_g"][c(17)])  + as.numeric(d3$PrViaPoly[d3$Delta == "d_g"][c(19)]) )/2)
+
         # Make the plot
         par(omi=rep(0.5, 4), mar = c(3,4,0.5,0.5), bty='o', xaxt='s', yaxt='s')
         plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.925), ylim = c(0,0.1), ylab='', xlab='', cex.lab=1.2)
@@ -677,23 +706,34 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
         plotGrid(lineCol='grey80')
         box()
         # Simulation Results
+        # f = 6.5
+        points(PrViaPoly[Delta == "d"][c(1:9,23)] ~ C[Delta == "d"][c(1:9,23)], pch=21, bg=COLS$dSim, col=COLS$dSim2, data=d1)
+        points(PrViaPoly[Delta == "d_j"][c(1:7,23)] ~ C[Delta == "d_j"][c(1:7,23)], pch=21, bg=COLS$d_j, col=COLS$d_j2, data=d1)
+        points(PrViaPoly[Delta == "d_a"][c(1:12,23)] ~ C[Delta == "d_a"][c(1:12,23)], pch=21, bg=COLS$d_a, col=COLS$d_a2, data=d1)
+        points(PrViaPoly[Delta == "d_g"][c(1:10,23)] ~ C[Delta == "d_g"][c(1:10,23)], pch=21, bg=COLS$d_g, col=COLS$d_g2, data=d1)
+        # f = 7.5
+        points(PrViaPoly[Delta == "d"][c(1:21,37)] ~ C[Delta == "d"][c(1:21,37)], pch=3, col=COLS$dSim2, data=d2)
+        points(PrViaPoly[Delta == "d_j"][c(1:15,37)] ~ C[Delta == "d_j"][c(1:15,37)], pch=3, col=COLS$d_j2, data=d2)
+        points(PrViaPoly[Delta == "d_a"][c(1:24,37)] ~ C[Delta == "d_a"][c(1:24,37)], pch=3, col=COLS$d_a2, data=d2)
+        points(PrViaPoly[Delta == "d_g"][c(1:22,37)] ~ C[Delta == "d_g"][c(1:22,37)], pch=3, col=COLS$d_g2, data=d2)
+        # f = 8.5
+        points(PrViaPoly[Delta == "d"][c(1:32,37)] ~ C[Delta == "d"][c(1:32,37)], pch=4, col=COLS$dSim2, data=d3)
+        points(PrViaPoly[Delta == "d_j"][c(1:21,37)] ~ C[Delta == "d_j"][c(1:21,37)], pch=4, col=COLS$d_j2, data=d3)
+        points(PrViaPoly[Delta == "d_a"][c(1:35,37)] ~ C[Delta == "d_a"][c(1:35,37)], pch=4, col=COLS$d_a2, data=d3)
+        points(PrViaPoly[Delta == "d_g"][c(1:33,37)] ~ C[Delta == "d_g"][c(1:33,37)], pch=4, col=COLS$d_g2, data=d3)
+        # PG expectation
         lines(PGSpace ~ CLine, lwd=2, col=COLS$PG)
-        points(PrViaPoly[Delta == "d"][c(1:7,9,21:23)] ~ C[Delta == "d"][c(1:7,9,21:23)], pch=21, bg=COLS$dSim, col=COLS$dSim2, data=d)
-        points(PrViaPoly[Delta == "d_j"][c(1:8,21:23)] ~ C[Delta == "d_j"][c(1:8,21:23)], pch=21, bg=COLS$d_j, col=COLS$d_j2, data=d)
-        points(PrViaPoly[Delta == "d_a"][c(1:12,21:23)] ~ C[Delta == "d_a"][c(1:12,21:23)], pch=21, bg=COLS$d_a, col=COLS$d_a2, data=d)
-        points(PrViaPoly[Delta == "d_g"][c(1:10,21:23)] ~ C[Delta == "d_g"][c(1:10,21:23)], pch=21, bg=COLS$d_g, col=COLS$d_g2, data=d)
         # axes        
         axis(1, las=1, labels=NA)
         axis(2, las=1)
         # Labels/annotations
         proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.075, expression(paste("Early-acting I.D.")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        proportionalLabel(-0.6, 0.5, expression(paste(italic(h), " = ", 1/2)), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(-0.35, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        legend( x       =  usr[2]*0.975,
+        proportionalLabel(0.5, 1.075, expression(paste(italic(h), " = ", 1/2)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.35, -0.16, expression(paste("Proportion viable polymorphic parameter space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        legend( x       =  usr[2],
                 y       =  usr[4],
                 legend  =  c(
-                             expression(paste(italic(delta), " (Pop. Gen.)")),
+                             expression(paste(italic(delta), " (pop. gen.)")),
                              expression(paste(delta)),
                              expression(paste(delta[italic(j)])),
                              expression(paste(delta[italic(a)])),
@@ -717,6 +757,21 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
                  yjust   =  1,
                  bty     =  'n',
                  border  =  NA)
+        legend( x       =  usr[2]*0.93,
+                y       =  usr[4]*0.62,
+                legend  =  c(
+                             expression(paste(italic(f), " = ", 8.5)),
+                             expression(paste(italic(f), " = ", 7.5)),
+                             expression(paste(italic(f), " = ", 6.5))),
+                 col     =  c(COLS$PG),
+                 pch     =  c(4,3,21),
+                 pt.bg   =  c(NA),
+                 cex     =  0.75,
+                 pt.cex  =  0.75,
+                 xjust   =  1,
+                 yjust   =  1,
+                 bty     =  'n',
+                 border  =  NA)
 
 
     ## Panel B: Dominance Reversal SA (hf = hm = 1/4)
@@ -725,10 +780,12 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
         dLine2  <-  dLine[-1]
         PGSpace     <-  c()
         for(i in 1:length(CLine2)) {
-            PGSpace[i]     <-  popGen_PolySpace_Delta_DomRev(C=CLine2[i], delta=dLine2[i], sMax=pars$sMax)
+            PGSpace[i]     <-  popGen_PolySpace_Delta_DomRev(C=CLine2[i], delta=dLine2[i], sMax=pars2$sMax)
         }
-        d  <-  dat[dat$h == 0.25,]
-        d$PrViaPoly[30]  <-  "0"
+        d1  <-  dat1[dat1$h == 0.25,]
+        d2  <-  dat2[dat2$h == 0.25,]
+        d3  <-  dat3[dat3$h == 0.25,]
+        d1$PrViaPoly[30]  <-  "0"
         # Make the plot
         plot(NA, axes=FALSE, type='n', main='', xlim = c(0,0.925), ylim = c(0,0.8), ylab='', xlab='', cex.lab=1.2)
         usr  <-  par('usr')
@@ -736,22 +793,167 @@ deltaSelfingLoadPolySpaceFigTitrate  <-  function(df = "dataDeltaPolySpaceFig_sM
         plotGrid(lineCol='grey80')
         box()
         # Simulation Results
+        # f = 6.5
+        points(PrViaPoly[Delta == "d"][c(1:10,23)] ~ C[Delta == "d"][c(1:10,23)], pch=21, bg=COLS$dSim, col=COLS$dSim2, data=d1)
+        points(PrViaPoly[Delta == "d_j"][c(1:7,23)] ~ C[Delta == "d_j"][c(1:7,23)], pch=21, bg=COLS$d_j, col=COLS$d_j2, data=d1)
+        points(PrViaPoly[Delta == "d_a"][c(1:12,23)] ~ C[Delta == "d_a"][c(1:12,23)], pch=21, bg=COLS$d_a, col=COLS$d_a2, data=d1)
+        points(PrViaPoly[Delta == "d_g"][c(1:10,23)] ~ C[Delta == "d_g"][c(1:10,23)], pch=21, bg=COLS$d_g, col=COLS$d_g2, data=d1)
+        # f = 7.5
+        points(PrViaPoly[Delta == "d"][c(1:22,37)] ~ C[Delta == "d"][c(1:22,37)], pch=3, bg=COLS$dSim, col=COLS$dSim2, data=d2)
+        points(PrViaPoly[Delta == "d_j"][c(1:15,37)] ~ C[Delta == "d_j"][c(1:15,37)], pch=3, bg=COLS$d_j, col=COLS$d_j2, data=d2)
+        points(PrViaPoly[Delta == "d_a"][c(1:25,37)] ~ C[Delta == "d_a"][c(1:25,37)], pch=3, bg=COLS$d_a, col=COLS$d_a2, data=d2)
+        points(PrViaPoly[Delta == "d_g"][c(1:23,37)] ~ C[Delta == "d_g"][c(1:23,37)], pch=3, bg=COLS$d_g, col=COLS$d_g2, data=d2)        # axes        
+        # f = 8.5
+        points(PrViaPoly[Delta == "d"][c(1:32,37)] ~ C[Delta == "d"][c(1:32,37)], pch=4, col=COLS$dSim2, data=d3)
+        points(PrViaPoly[Delta == "d_j"][c(1:21,37)] ~ C[Delta == "d_j"][c(1:21,37)], pch=4, col=COLS$d_j2, data=d3)
+        points(PrViaPoly[Delta == "d_a"][c(1:35,37)] ~ C[Delta == "d_a"][c(1:35,37)], pch=4, col=COLS$d_a2, data=d3)
+        points(PrViaPoly[Delta == "d_g"][c(1:34,37)] ~ C[Delta == "d_g"][c(1:34,37)], pch=4, col=COLS$d_g2, data=d3)
+        # Pop. Gen Prediction
         lines(PGSpace ~ CLine2, lwd=2, col=COLS$PG)
-        points(PrViaPoly[Delta == "d"][c(1:10,21:23)] ~ C[Delta == "d"][c(1:10,21:23)], pch=21, bg=COLS$dSim, col=COLS$dSim2, data=d)
-        points(PrViaPoly[Delta == "d_j"][c(1:7,21:23)] ~ C[Delta == "d_j"][c(1:7,21:23)], pch=21, bg=COLS$d_j, col=COLS$d_j2, data=d)
-        points(PrViaPoly[Delta == "d_a"][c(1:12,21:23)] ~ C[Delta == "d_a"][c(1:12,21:23)], pch=21, bg=COLS$d_a, col=COLS$d_a2, data=d)
-        points(PrViaPoly[Delta == "d_g"][c(1:10,21:23)] ~ C[Delta == "d_g"][c(1:10,21:23)], pch=21, bg=COLS$d_g, col=COLS$d_g2, data=d)
-        # axes        
+        # axes
         axis(1, las=1)
         axis(2, las=1)
         # Labels/annotations
-        proportionalLabel(0.5, 1.075, expression(paste("Late-acting I.D.")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
         proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(-0.6, 0.5, expression(paste(italic(h), " = ", 1/4)), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(-0.35, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(0.5, 1.075, expression(paste(italic(h), " = ", 1/4)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+#        proportionalLabel(-0.35, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
         proportionalLabel(0.5, -0.35, expression(paste("Selfing Rate (", italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
 }
+
+
+
+
+
+# Simple inv6 Fig
+MimulusInv6Fig  <-  function() {
+
+    # import data
+    path  <-  './output/simData/'
+    inv1  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0_deltaF_useCompadreFALSE", '.csv', sep=""), header=TRUE)
+    inv2  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_deltaF_useCompadreFALSE", '.csv', sep=""), header=TRUE)
+    inv3  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_deltaT_useCompadreFALSE", '.csv', sep=""), header=TRUE)
+    inv4  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0_deltaF_useCompadreFALSE_LEP", '.csv', sep=""), header=TRUE)
+    inv5  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_deltaF_useCompadreFALSE_LEP", '.csv', sep=""), header=TRUE)
+    inv6  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_deltaT_useCompadreFALSE_LEP", '.csv', sep=""), header=TRUE)
+#    ext1  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0_useCompadreFALSE_IDFALSE", '.csv', sep=""), header=TRUE)
+#    ext2  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_useCompadreFALSE_IDFALSE", '.csv', sep=""), header=TRUE)
+#    ext3  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.75_useCompadreFALSE_IDFALSE", '.csv', sep=""), header=TRUE)
+#    ext4  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_useCompadreFALSE_IDTRUE", '.csv', sep=""), header=TRUE)
+#    ext5  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.75_useCompadreFALSE_IDTRUE", '.csv', sep=""), header=TRUE)
+    ext4  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0_useCompadreFALSE_IDFALSE_LEP", '.csv', sep=""), header=TRUE)
+    ext5  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_useCompadreFALSE_IDFALSE_LEP", '.csv', sep=""), header=TRUE)
+    ext6  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_useCompadreFALSE_IDTRUE_LEP", '.csv', sep=""), header=TRUE)
+
+ext4$sf[78]  <-  ext4$sfThreshold[91]
+ext4$smThreshold[78]  <-  ext4$sms[91]
+    # Selection coefficients for Inv6
+    sfInv6  <-  0.308
+    smInv6  <-  0.88
+
+#    inv_A  <-  popGen_A_invade(hf=hf, hm=hm, sm=sms, C=0)
+#    inv_a  <-  popGen_a_invade(hf=hf, hm=hm, sm=sms, C=0)
+#    inv_a[inv_a > 1]  <-  1
+
+# Color scheme
+    COLS  <-  list(
+                    "line"   =  transparentColor('#252525', opacity=1),
+                    "fill"   =  transparentColor('#252525', opacity=0.5),
+                    "inv6"   =  transparentColor('tomato', opacity=1),
+                    "inv6bg" =  transparentColor('tomato', opacity=0.6),
+                    "extinct"  =  transparentColor('red', opacity=0.15)
+                    )
+# Set plot layout
+    layout.mat  <- matrix(c(1:2), nrow=1, ncol=2, byrow=TRUE)
+    layout      <- layout(layout.mat,respect=TRUE)
+
+    ## Panel A: Outcrossing
+
+        # Make the plot
+        par(omi=rep(0.5, 4), mar = c(3,4,0.5,0.5), bty='o', xaxt='s', yaxt='s')
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,1), ylim = c(0,1), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+#        polygon(c(rev(sms),sms), c(rev(inv_A), inv_a), col=transparentColor('grey80', 0.6), border=NA)
+        lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv1)
+        lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv1)
+        lines(AInvBound ~ sms, lty=2, lwd=2, col=COLS$line, data=inv2)
+        lines(c(aInvBound[aInvBound < max(sms)],0.99) ~ c(sms[aInvBound < max(sms)],0.5875), lty=2, lwd=2, col=COLS$line, data=inv2)
+        lines(AInvBound ~ sms, lty=3, lwd=2, col=COLS$line, data=inv3)
+        lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lty=3, lwd=2, col=COLS$line, data=inv3)
+        # no lines to plot for extinction threshold (all polymorphic space is viable)
+        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg=COLS$fill, cex=1.25)
+        # axes        
+        axis(1, las=1)
+        axis(2, las=1)
+        proportionalLabel((smInv6-0.025), (sfInv6-0.045), expression(italic('inv6')), cex=1, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, 'Local Demographic Rates', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.25, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(0.5, -0.25, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+      #Legend
+        legend( x       =  usr[2],
+                y       =  usr[4]*0.98,
+#        legend( x       =  usr[2]*0.45,
+#                y       =  usr[4],
+                legend  =  c(
+                             expression(paste(italic(C)," = 0")),
+                             expression(paste(italic(C)," = 0.29")),
+                             expression(paste(italic(C)," = 0.29, I.D."))),
+                 lty     =  c(1,2,3,NA,NA),
+                 lwd     =  c(2,2,2),
+                 col     =  c(COLS$line),
+                 seg.len =  c(2),
+                 cex     =  0.75,
+                 xjust   =  1,
+                 yjust   =  1,
+                 bty     =  'n',
+                 border  =  NA)
+
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,1), ylim = c(0,1), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+#        polygon(c(rev(sms),sms), c(rev(inv_A), inv_a), col=transparentColor('grey80', 0.6), border=NA)
+        lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv4)
+        lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv4)
+        lines(AInvBound ~ sms, lty=2, lwd=2, col=COLS$line, data=inv5)
+        lines(c(aInvBound[aInvBound < max(sms)],0.99) ~ c(inv5$sms[inv5$aInvBound < max(inv5$sms)],0.5875), lty=2, lwd=2, col=COLS$line, data=inv5)
+        lines(AInvBound ~ sms, lty=3, lwd=2, col=COLS$line, data=inv6)
+        lines(c(aInvBound[aInvBound < max(sms)],0.99) ~ c(sms[aInvBound < max(sms)],0.51), lty=3, lwd=2, col=COLS$line, data=inv6)
+        # PLOT LINES FOR EXTINCTION THRESHOLDS
+        t    <-  cbind(ext4$sf[!is.na(ext4$smThreshold)], ext4$smThreshold[!is.na(ext4$smThreshold)])
+        t    <-  rbind(t, c(0.99, 0.99))
+        b    <-  cbind(ext4$sms[!is.na(ext4$sfThreshold)], ext4$sfThreshold[!is.na(ext4$sfThreshold)])
+        polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lwd=1.5, col=COLS$line, data=ext4)
+        lines(sfThreshold ~ sms, lwd=1.5, col=COLS$line, data=ext4)        
+        lines(sf ~ smThreshold, lwd=1.5, lty=2, col=COLS$line, data=ext5)
+        lines(sfThreshold ~ sms, lwd=1.5, lty=2, col=COLS$line, data=ext5)
+        t    <-  cbind(ext6$sf[!is.na(ext6$smThreshold)], ext6$smThreshold[!is.na(ext6$smThreshold)])
+        t    <-  rbind(t, c(0.99, 0.99))
+        b    <-  cbind(ext6$sms[!is.na(ext6$sfThreshold)], ext6$sfThreshold[!is.na(ext6$sfThreshold)])
+        polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lwd=1.5, lty=3, col=COLS$line, data=ext6)
+        lines(sfThreshold ~ sms, lwd=1.5, lty=3, col=COLS$line, data=ext6)
+        # Plot inv6
+        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg=COLS$fill, cex=1.25)
+        # axes        
+        axis(1, las=1)
+        axis(2, las=1, labels=NA)
+        proportionalLabel((smInv6-0.025), (sfInv6-0.045), expression(italic('inv6')), cex=1, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, 'Non-local Demographic Rates', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(-0.15, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(0.5, -0.25, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+}
+
 
 
 ##############################################################
@@ -2103,86 +2305,5 @@ deltaSelfingLoadPolySpaceFig  <-  function(df1, df2) {
 
 
 
-
-
-
-
-# Simple inv6 Fig
-MimulusInv6Fig  <-  function() {
-
-    sfs  <-  seq(0,1, by=0.001)
-    sms  <-  seq(0,1, by=0.001)
-
-    hf  <-  1/2
-    hm  <-  0.35
-
-    sfInv6  <-  0.308
-    smInv6  <-  0.88
-
-    inv_A  <-  popGen_A_invade(hf=hf, hm=hm, sm=sms, C=0)
-    inv_a  <-  popGen_a_invade(hf=hf, hm=hm, sm=sms, C=0)
-    inv_a[inv_a > 1]  <-  1
-
-# Color scheme
-    COLS  <-  list(
-                    "PG"     =  transparentColor('#252525', opacity=1),
-                    "fill"   =  transparentColor('#252525', opacity=0.25),
-                    "inv6"   =  transparentColor('tomato', opacity=1),
-                    "inv6bg" =  transparentColor('tomato', opacity=0.6)
-                    )
-# Set plot layout
-    layout.mat  <- matrix(c(1:2), nrow=1, ncol=2, byrow=TRUE)
-    layout      <- layout(layout.mat,respect=TRUE)
-
-    ## Panel A: Outcrossing
-
-        # Make the plot
-        par(omi=rep(0.5, 4), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s')
-        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,1.05), ylim = c(0,1.05), ylab='', xlab='', cex.lab=1.2)
-        usr  <-  par('usr')
-        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
-        plotGrid(lineCol='grey80')
-        box()
-        # Simulation Results
-        polygon(c(rev(sms),sms), c(rev(inv_A), inv_a), col=transparentColor('grey80', 0.6), border=NA)
-        lines(inv_A ~ sms, lwd=2, col=COLS$PG)
-        lines(inv_a[1:436] ~ sms[1:436], lwd=2, col=COLS$PG)
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$inv6, bg=COLS$inv6bg, cex=1.25)
-        # axes        
-        axis(1, las=1)
-        axis(2, las=1)
-        proportionalLabel((smInv6-0.05), (sfInv6-0.07), expression(italic('inv6')), cex=1, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.1, expression(paste(italic(C), " = ", 0)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        proportionalLabel(-0.35, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(0.5, -0.35, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-
-
-    ## Panel B: partial selfing
-        #alternative selfing rate (C=0.38)
-    inv_A  <-  popGen_A_invade(hf=hf, hm=hm, sm=sms, C=0.24)
-    inv_a  <-  popGen_a_invade(hf=hf, hm=hm, sm=sms, C=0.24)
-    inv_a[inv_a > 1]  <-  1
-
-        # Make the plot
-        plot(NA, axes=FALSE, type='n', main='', xlim = c(0,1.05), ylim = c(0,1.05), ylab='', xlab='', cex.lab=1.2)
-        usr  <-  par('usr')
-        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
-        plotGrid(lineCol='grey80')
-        box()
-        # Simulation Results
-        polygon(c(rev(sms),sms), c(rev(inv_A), inv_a), col=transparentColor('grey80', 0.6), border=NA)
-        lines(inv_A ~ sms, lwd=2, col=COLS$PG)
-        lines(inv_a[1:572] ~ sms[1:572], lwd=2, col=COLS$PG)
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$inv6, bg=COLS$inv6bg, cex=1.25)
-        # axes        
-        axis(1, las=1)
-        axis(2, las=1, labels=NA)
-        proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, 1.1, expression(paste(italic(C), " = ", 0.24)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        proportionalLabel(0.5, -0.35, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        proportionalLabel((smInv6-0.05), (sfInv6-0.07), expression(italic('inv6')), cex=1, adj=c(0.5, 0.5), xpd=NA)
-
-}
 
 
