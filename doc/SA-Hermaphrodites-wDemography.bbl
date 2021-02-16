@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{64}
+\begin{thebibliography}{68}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -102,6 +102,13 @@ de~Vries, C., and H.~Caswell. 2019a.
   demography, and polymorphism.
 \newblock Theor. Population Biology 130:160--169.
 
+\bibitem[{de~Vries et~al.(2020)de~Vries, Desharnais, and
+  Caswell}]{de2020matrix}
+de~Vries, C., R.~A. Desharnais, and H.~Caswell. 2020.
+\newblock A matrix model for density-dependent selection in stage-classified
+  populations, with application to pesticide resistance in tribolium.
+\newblock Ecological Modelling 416:108875.
+
 \bibitem[{Eyre-Walker and Keightly(2007)}]{Eyre-WalkerKeightly2007}
 Eyre-Walker, A., and P.~D. Keightly. 2007.
 \newblock The distribution of fitness effects of new mutations.
@@ -155,13 +162,6 @@ Henderson, H.~V., and S.~R. Searle. 1981.
   a review.
 \newblock Linear Multilinear Algebra 9:271--288.
 
-\bibitem[{Holman and Kokko(2013)}]{holman2013consequences}
-Holman, L., and H.~Kokko. 2013.
-\newblock The consequences of polyandry for population viability, extinction
-  risk and conservation.
-\newblock Philosophical Transactions of the Royal Society B: Biological
-  Sciences 368:20120053.
-
 \bibitem[{Husband and Schemske(1996)}]{HusbandSchemske1996}
 Husband, B.~C., and D.~W. Schemske. 1996.
 \newblock Evolution of the magnitude and timing of inbreeding depression in
@@ -180,6 +180,15 @@ Jarne, P., and J.~R. Auld. 2006.
   hermaphroditic animals.
 \newblock Evolution 60:1816--1824.
 
+\bibitem[{Jones et~al.(2014)Jones, Scheuerlein, Salguero-G{\'o}mez, Camarda,
+  Schaible, Casper, Dahlgren, Ehrl{\'e}n, Garc{\'\i}a, Menges
+  et~al.}]{jones2014diversity}
+Jones, O.~R., A.~Scheuerlein, R.~Salguero-G{\'o}mez, C.~G. Camarda,
+  R.~Schaible, B.~B. Casper, J.~P. Dahlgren, J.~Ehrl{\'e}n, M.~B. Garc{\'\i}a,
+  E.~S. Menges, et~al. 2014.
+\newblock Diversity of ageing across the tree of life.
+\newblock Nature 505:169--173.
+
 \bibitem[{Jordan and Charlesworth(2012)}]{JordanCharlesworth2012}
 Jordan, C.~Y., and D.~Charlesworth. 2012.
 \newblock The potential for sexually antagonistic polymorphism in different
@@ -191,6 +200,17 @@ Jordan, C.~Y., and T.~Connallon. 2014.
 \newblock Sexually antagonistic polymorphism in simultaneous hermaphrodites.
 \newblock Evolution 68:3555--3569.
 
+\bibitem[{Kelly(1999)}]{kelly1999response}
+Kelly, J.~K. 1999.
+\newblock Response to selection in partially self-fertilizing populations. i.
+  selection on a single trait.
+\newblock Evolution 53:336--349.
+
+\bibitem[{Kelly(2007)}]{kelly2007mutation}
+---{}---{}---. 2007.
+\newblock Mutation--selection balance in mixed mating populations.
+\newblock Journal of theoretical biology 246:355--365.
+
 \bibitem[{Kidwell et~al.(1977)Kidwell, Clegg, Stewart, and Prout}]{Kidwell1977}
 Kidwell, J.~F., M.~T. Clegg, F.~M. Stewart, and T.~Prout. 1977.
 \newblock Regions of stable equilibria for models of selection in the two sexes
@@ -201,6 +221,12 @@ Kidwell, J.~F., M.~T. Clegg, F.~M. Stewart, and T.~Prout. 1977.
 Kirkpatrick, M., and N.~Barton. 1997.
 \newblock Evolution of a species' range.
 \newblock American Naturalist 150:1--23.
+
+\bibitem[{Kokko and Brooks(2003)}]{kokko2003sexy}
+Kokko, H., and R.~Brooks. 2003.
+\newblock Sexy to die for? sexual selection and the risk of extinction.
+\newblock Pages 207--219 \emph{in} Annales Zoologici Fennici.
+\newblock JSTOR.
 
 \bibitem[{Lande(1980)}]{Lande1980}
 Lande, R. 1980.
@@ -231,16 +257,17 @@ Lloyd, D.~G., and C.~J. Webb. 1986.
   stigmas in angiosperms i. dichogamy.
 \newblock NZ J.~Botany 24:135--162.
 
+\bibitem[{Mart{\'\i}nez-Ruiz and Knell(2017)}]{martinez2017sexual}
+Mart{\'\i}nez-Ruiz, C., and R.~J. Knell. 2017.
+\newblock Sexual selection can both increase and decrease extinction
+  probability: reconciling demographic and evolutionary factors.
+\newblock Journal of Animal Ecology 86:117--127.
+
 \bibitem[{Matthews et~al.(2019)Matthews, Hangartner, Chapple, and
   Connallon}]{MatthewsConnallon2019}
 Matthews, G., S.~Hangartner, D.~G. Chapple, and T.~Connallon. 2019.
 \newblock Quantifying maladaptation during the evolution of sexual dimorphism.
 \newblock Proc.~Roy.~Soc.~B 286:20191372.
-
-\bibitem[{Metcalf and Pavard(2007)}]{metcalf2007evolutionary}
-Metcalf, C. J.~E., and S.~Pavard. 2007.
-\newblock Why evolutionary biologists should be demographers.
-\newblock Trends in Ecology \& Evolution 22:205--212.
 
 \bibitem[{Olito(2017)}]{Olito2017}
 Olito, C. 2017.
@@ -264,12 +291,6 @@ Olito, C., and T.~Connallon. 2019.
 Orr, H.~A., and R.~L. Unckless. 2008.
 \newblock Population extinction and the genetics of adaptation.
 \newblock American Naturalist 172:160--169.
-
-\bibitem[{Otto and Day(2007)}]{OttoDay2007}
-Otto, S., and T.~Day. 2007.
-\newblock A biologist's guide to mathematical modeling in ecology and
-  evolution.
-\newblock Princeton University Press, New Jersey, USA.
 
 \bibitem[{Otto et~al.(2011)Otto, Pannell, Peichel, Ashman, Charlesworth,
   Chippindale, Delph, Guerrero, Scarpino, and McAllister}]{Otto2011}
@@ -338,6 +359,12 @@ Servedio, M.~R., Y.~Brandvain, S.~Dhole, C.~L. Fitzpatrick, E.~E. Goldberg,
 Smith, J.~M. 1976.
 \newblock What determines the rate of adaptation?
 \newblock American Naturalist 110:331--338.
+
+\bibitem[{Tanaka(1996)}]{tanaka1996sexual}
+Tanaka, Y. 1996.
+\newblock Sexual selection enhances population extinction in a changing
+  environment.
+\newblock Journal of theoretical biology 180:197--206.
 
 \bibitem[{Tazzyman and Abbott(2015)}]{Tazzyman2015}
 Tazzyman, S.~J., and J.~K. Abbott. 2015.
