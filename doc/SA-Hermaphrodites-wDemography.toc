@@ -11,7 +11,7 @@
 \contentsline {subsection}{\numberline {5.2}Polymorphism in M.\nobreakspace {}guttatus}{21}{subsection.5.2}
 \contentsline {section}{\numberline {6}Discussion}{22}{section.6}
 \contentsline {section}{\numberline {7}Appendix A: Construction of the population projection matrix}{25}{section.7}
-\contentsline {section}{\numberline {8}Appendix B: Additional Methods}{26}{section.8}
-\contentsline {section}{\numberline {9}Tables}{32}{section.9}
-\contentsline {section}{\numberline {10}Figure legends}{34}{section.10}
-\contentsline {subsection}{\numberline {10.1}Online figure legends}{34}{subsection.10.1}
+\contentsline {section}{\numberline {8}Appendix B: Additional Methods}{27}{section.8}
+\contentsline {section}{\numberline {9}Tables}{33}{section.9}
+\contentsline {section}{\numberline {10}Figure legends}{35}{section.10}
+\contentsline {subsection}{\numberline {10.1}Online figure legends}{35}{subsection.10.1}

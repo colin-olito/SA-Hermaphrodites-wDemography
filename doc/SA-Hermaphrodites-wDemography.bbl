@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{68}
+\begin{thebibliography}{73}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -7,6 +7,14 @@ Abbott, J.~K. 2011.
 \newblock Intra-locus sexual conflict and sexually antagonistic genetic
   variation in hermaphroditic animals.
 \newblock Proc.~Roy.~Soc.~Lond.~B 278:161--169.
+
+\bibitem[{Berger et~al.(2016)Berger, Martinossi-Allibert, Grieshop, Lind,
+  Maklakov, and Arnqvist}]{berger2016intralocus}
+Berger, D., I.~Martinossi-Allibert, K.~Grieshop, M.~I. Lind, A.~A. Maklakov,
+  and G.~Arnqvist. 2016.
+\newblock Intralocus sexual conflict and the tragedy of the commons in seed
+  beetles.
+\newblock The American Naturalist 188:E98--E112.
 
 \bibitem[{Bolnick and Nosil(2007)}]{BolnickNosil2007}
 Bolnick, D.~I., and P.~Nosil. 2007.
@@ -23,6 +31,12 @@ Caswell, H. 2001.
 \newblock Matrix Models: construction, analysis, and interpretation, chap.
   4.5.2.1, pages 84--87.
 \newblock Sinauer Assoc., Sunderland, MA, USA.
+
+\bibitem[{Caswell(2012)}]{caswell2012matrix}
+---{}---{}---. 2012.
+\newblock Matrix models and sensitivity analysis of populations classified by
+  age and stage: a vec-permutation matrix approach.
+\newblock Theoretical Ecology 5:403--417.
 
 \bibitem[{Caswell et~al.(2018)Caswell, de~Vries, Hartemink, Roth, and van
   Daalen}]{CaswellEtAl2018}
@@ -126,6 +140,13 @@ Goodwillie, C., S.~Kalisz, and C.~G. Eckert. 2005.
   occurrence, theoretical explanations, and empirical evidence.
 \newblock Ann.~Rev.~Ecol.~Evol.~Syst. 36:47--79.
 
+\bibitem[{Grieshop et~al.(2017)Grieshop, Berger, and
+  Arnqvist}]{grieshop2017male}
+Grieshop, K., D.~Berger, and G.~Arnqvist. 2017.
+\newblock Male-benefit sexually antagonistic genotypes show elevated
+  vulnerability to inbreeding.
+\newblock BMC evolutionary biology 17:1--10.
+
 \bibitem[{Haldane(1957)}]{Haldane1957}
 Haldane, J.~B.~S. 1957.
 \newblock The cost of natural selection.
@@ -161,6 +182,12 @@ Henderson, H.~V., and S.~R. Searle. 1981.
 \newblock The vec-permutation matrix, the vec operator and kronecker products:
   a review.
 \newblock Linear Multilinear Algebra 9:271--288.
+
+\bibitem[{Hunter and Caswell(2005)}]{hunter2005use}
+Hunter, C.~M., and H.~Caswell. 2005.
+\newblock The use of the vec-permutation matrix in spatial matrix population
+  models.
+\newblock Ecological modelling 188:15--21.
 
 \bibitem[{Husband and Schemske(1996)}]{HusbandSchemske1996}
 Husband, B.~C., and D.~W. Schemske. 1996.
@@ -256,6 +283,11 @@ Lloyd, D.~G., and C.~J. Webb. 1986.
 \newblock The avoidance of interference between the presentation of pollen and
   stigmas in angiosperms i. dichogamy.
 \newblock NZ J.~Botany 24:135--162.
+
+\bibitem[{Magnus and Neudecker(1979)}]{magnus1979commutation}
+Magnus, J.~R., and H.~Neudecker. 1979.
+\newblock The commutation matrix: some properties and applications.
+\newblock The Annals of Statistics pages 381--394.
 
 \bibitem[{Mart{\'\i}nez-Ruiz and Knell(2017)}]{martinez2017sexual}
 Mart{\'\i}nez-Ruiz, C., and R.~J. Knell. 2017.

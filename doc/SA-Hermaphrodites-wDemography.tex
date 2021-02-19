@@ -370,7 +370,7 @@ Depending on their stage and genotype at the SA locus, individuals contribute ma
 \end{linenomath*}
 
 \textcolor{red}{
-I'm doubting whether to move the next paragraph to the appendices as well.  Equation \ref{eq:maleGametePool} is all we strictly need. If we keep the parent-offspring maps, we can explain in the next section how the matrices 
+I'm doubting whether to move the next paragraph to the appendices as well.  Equation (\ref{eq:maleGametePool}) is all we strictly need. If we keep the parent-offspring maps, we can explain in the next section how the matrices 
 $\mcal{F}^S$ and $\mcal{F}^X$ have the same structure. Would that be helpful? Or would it be easier to just explain in the next section what the structure of $\mcal{F}^S$ and $\mcal{F}^X$ is? }
 
 The parent-offspring map for outcrossing is a function of the allele frequencies in the male gamete pool, and is given by 
@@ -424,21 +424,21 @@ where $C$ denotes the proportion of each individual's ovules that are self-ferti
 
 The blocks of the component matrices in Eq(\ref{eq:Atilde}) correspond to production of offspring by self-fertilization and outcrossing ($\mcal{F}^S$ and $\mcal{F}^X$ in $\tilde{\mbf{F}}$), and survival of selfed and outcrossed offspring ($\mcal{U}^S$ and $\mcal{U}^X$ in $\tilde{\mbf{U}}$). The survival matrix for individuals produced through selfing and outcrossing are,
 \begin{linenomath*}
-\begin{eqnarray} \label{eq:BlkUS}
+\begin{eqnarray} 
 	\mcal{U}^S  = 
 		\left(
 			\begin{array}{ccc}
 				\mbf{U}^{S}_{AA} & \mbf{0} & \mbf{0} \\
 				\mbf{0} & \mbf{U}^{S}_{Aa} & \mbf{0} \\
 				\mbf{0} & \mbf{0} & \mbf{U}^{S}_{aa} \\
-			\end{array} \right),\\
+			\end{array} \right),\label{eq:BlkUS}\\
 				\mcal{U}^X  = 
 		\left(
 			\begin{array}{ccc}
 				\mbf{U}^{X}_{AA} & \mbf{0} & \mbf{0} \\
 				\mbf{0} & \mbf{U}^{X}_{Aa} & \mbf{0} \\
 				\mbf{0} & \mbf{0} & \mbf{U}^{X}_{aa} \\
-			\end{array} \right).
+			\end{array} \right).\label{eq:BlkUX}
 \end{eqnarray}
 \end{linenomath*}
 Since individuals cannot change their genotype once they are born, the survival matrices are block diagonal.  Similarly, we construct fertility matrices for individuals produced through selfing and outcrossing, 
@@ -680,16 +680,20 @@ In this paper we developed a stage-structured mendelian matrix model that accomm
 
 A key finding of our study is that when the intrinsic population growth rate is close to $1$, the deleterious effects of segregating male-beneficial SA alleles on female fecundity can result in extinction over much of the parameter space for SA polymorphism. Furthermore, this demographically viable polymorphic parameter space is often biased towards alleles with stronger selection through the female- than male sex function. Self-fertilization can alleviate the demographic costs of balanced SA polymorphisms under some conditions, however, the concommitant effects of inbreeding depression generally exacerbate them in populations with mixed-mating systems. Despite these demographic pitfalls, our example using {\itshape M.~guttatus} appears to show that demographic rates observed in some real populations are capable of sustaining large regions of viable SA polymorphic space. Overall, our findings provide a more nuanced picture of the nature of SA genetic variation that we should expect to find in natural populations, where the fate of SA alleles and the populations harboring them is determined jointly by evolutionary and demographic processes.
 
-\textit{Extensions} \newline
-By combining the tools of demography and those of population genetics, new questions can be answered with the framework we presented here. For example. many interesting extensions of our paper towards more complicated life histories are possible. For the sake of simplicity, we used a basic life cycle with just two stages for most of this paper, adults and juveniles (the \textit{Mimulus} example has 3 stages). By including more age classes, we can ask whether the scope for SA to maintain polymorphisms is affected by whether a species exhibits positive, or negative senescence \citep{jones2014diversity}? That is, does the shape of the survival curve affect the area of demographically viable polymorphic parameter space, and how does this interact with the age at which the sexually antagonistic allele is expressed? What if the allele not only affects male and female sex functions but also affects survival of individuals? And last but not least, how would the scope for SA to maintain polymorphisms be affected by density-dependence acting on different life history stages? 
+\textit{Extensions: demography} \newline
+By combining the tools of demography and those of population genetics, the framework we presented here enables the exploration of interactions between life cycle complexity, mating system, and sexual antagonism. For the sake of simplicity, we used a basic life cycle with just two stages for most of this paper, adults and juveniles (the \textit{Mimulus} example has 3 stages). By including more age classes, we can ask if the scope for SA to maintain polymorphisms is affected by whether a species exhibits positive, or negative senescence \citep{jones2014diversity}? That is, does the shape of the survival curve affect the area of demographically viable polymorphic parameter space, and how does this interact with the age at which a sexually antagonistic allele is expressed? What if the allele not only affects male and female sex functions but also affects survival of individuals? And last but not least, how would the scope for SA to maintain polymorphisms be affected by density-dependence acting on different life history stages? 
 
+\textit{Extensions: genetics} \newline
 We made the simplifying assumption that only how individuals themselves were produced affects the level of inbreeding depression they experience. In reality, the history of inbreeding in the entire lineage will influence the level of inbreeding depression experienced by an individual. This could be included in our framework by expanding the individual state space from produced via outcrossing or selfing towards produced via produced via outcrossing or first generation selfing, second generation selfing, etc, as in \cite{kelly1999response} and \cite{kelly2007mutation}. 
 
+\cite{grieshop2017male} found that genotypes with sexually antagonstic alleles that are male beneficial experience higher levels of inbreeding depression than genotypes with female beneficial SA alleles. This effect can easily be included in our model by making the inbreeding depression parameters, $\delta$ and $\delta_j$, a function of the genotype of the individual. Such an effect would even further reduce the demographically viable polymorphic parameter space.
+
+Other interesting extensions worth mentioning? 
 
 \textit{Conclusion} \newline
-Despite the recent interest in eco-evolutionary dynamics, the demographic consequences of intralocus sexual antagonism have rarely been considered (but see \cite{harts2014demography}). In contrast, models of the population dynamical consequences of interlocus sexual conflict are more common, see for example \cite{tanaka1996sexual} and \cite{martinez2017sexual}. \hl{There's probably other relevant papers here, check!} In this paper we showed that including basic demography can have a significant impact on traditional population genetic results. For example,  Figure \ref{fig:extThresholds} shows that large fractions of polymorphic parameter space could lead to population extinction. This inviable fraction of parameter space is especially large for populations with growth rates already close to one (ignoring any potential compensatory density-dependent effects). 
+Despite a surge of interest in eco-evolutionary dynamics, the demographic consequences of intralocus sexual antagonism have rarely been modeled (but see \cite{harts2014demography} and \cite{kokko2003sexy}). In contrast, models of the population dynamical consequences of interlocus sexual conflict are more common (e.g., \cite{tanaka1996sexual} and \cite{martinez2017sexual}). We found that including basic demography can have a significant impact on traditional population genetic results, as has been suggested previously both by theoretical work \citep{kokko2003sexy} and empirical work \citep{berger2016intralocus,grieshop2017male}. Although the potential negative consequences of sexual conflict for population viability have been known for some time, this aspect of sexual antagonism has rarely been considered in models investigating the scope for intralocus sexual antagonism to maintain polymorphisms, and hence genetic diversity. 
 
-Demographic models connect individual level traits to population level consequences. Through their focus on individuals, demographic models are ideal for linking to experimental or field data, such as capture-mark-recapture data. Doing so allows the field of population genetics to move from fitness as an abstract scalar metric towards the fitness of an entire life cycle obtained by combining observed rates of age- or stage-specific survival and fecundity rates.  
+Demographic models connect individual level traits to population level consequences. As a consequence of their focus on individuals, demographic models are ideal for linking to experimental or field data, as demonstrated with our \textit{Mimulus} case study. Doing so allows the field of population genetics to move from fitness as an abstract scalar metric towards the fitness of an entire life cycle as calculated from observed rates of age- or stage-specific survival and fecundity rates.  
 
 
 
@@ -717,8 +721,7 @@ Demographic models connect individual level traits to population level consequen
 \section{Appendix A: Construction of the population projection matrix}
 
 \subsubsection*{Population projection}
-
-Using the component matrices described above, the matrix $\tilde{\mbf{A}}[\tilde{\mbf{n}}]$ that projects the eco-evolutionary dynamics is:
+In this appendix, we will derive the expressions for the survival and fertility matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ as given by equations (\ref{eq:BlkUS})-(\ref{eq:BlkFX}) in the main text. The matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ are the ingredients of the population projection matrix, $\tilde{\mbf{A}}$, as given in equation (\ref{eq:Atilde}), repeated here for convenience, 
 \begin{linenomath*}
 \begin{equation} \label{eq:Atilde_appendix}
 	\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
@@ -729,47 +732,118 @@ Using the component matrices described above, the matrix $\tilde{\mbf{A}}[\tilde
 			\end{array} \right)}_{\tilde{\mbf{U}}} + 
 			\underbrace{\left(
 			\begin{array}{c|c}
-				\mcal{F}^S(\tilde{\mbf{p}}) C(1 - \delta) & \mcal{F}^S(\tilde{\mbf{p}}) C(1 - \delta) \\ \hline
+				\mcal{F}^S C(1 - \delta) & \mcal{F}^S(\tilde{\mbf{p}}) C(1 - \delta) \\ \hline
 				\mcal{F}^X(\tilde{\mbf{p}}) (1 - C) & \mcal{F}^X(\tilde{\mbf{p}}) (1 - C)\\
 			\end{array} \right)}_{\tilde{\mbf{F}}}.
 \end{equation}
 \end{linenomath*}
 
-\noindent The blocks of the component matrices in Eq(\ref{eq:Atilde}) correspond to production of offspring by self-fertilization and outcrossing ($\mcal{F}^S$ and $\mcal{F}^X$ in $\tilde{\mbf{F}}$), and survival of selfed and outcrossed offspring ($\mcal{U}^S$ and $\mcal{U}^X$ in $\tilde{\mbf{U}}$). 
-
-We construct $\tilde{\mbf{A}}[\tilde{\mbf{n}}]$ using the vec-permutation approach of \citet{CaswellEtAl2018}, see \hl{Appendix A.1} for the step by step construction of the model. Briefly, we construct a set of block-diagonal matrices: e.g.,
+Our derivation follows closely the derivations in \cite{deVriesCaswell2019a} and \cite{deVriesCaswell2019b}, but extended to model mixed mating systems. To construct $\tilde{\mbf{A}}[\tilde{\mbf{n}}]$ using the vec-permutation approach \citep{CaswellEtAl2018}, we create a set of block-diagonal matrices $\mathbb{U}^S$, $\mathbb{U}^X$, $\mathbb{F}^X$, $\mathbb{F}^S$, and $\mathbb{H}^S$, $\mathbb{H}^X$, by putting the corresponding matrices on the diagonal. These block diagonal matrices can be written as
 \begin{linenomath*}
-\begin{equation} \label{eq:BlkUS_appendix}
-	\mbb{U}^S = 
+\begin{eqnarray}
+ \mathbb{U}^S&=&\sum_{i=1}^g \mathbf{E}_{ii} \otimes \mathbf{U}^S_{i}, \label{eq:US_app}\\
+ \mathbb{F}^S&=&\sum_{i=1}^g \mathbf{E}_{ii} \otimes \mathbf{F}^S_{i}, \label{eq:FS_app}\\
+  \mathbb{H}^S &=& \bo I_\om \kron \bo H^S , \label{eq:HS_app} \\
+      \mathbb{D} &=& \bo I_\om \kron \bo I_g, \label{eq:D_app} 
+\end{eqnarray}
+\end{linenomath*}
+where $\mathbf{E}_{ii}$ is of dimensions $g \times g$. Analogous equations can be written down for $ \mathbb{U}^X$, $ \mathbb{F}^X$, and $ \mathbb{H}^X$.  
+% \begin{linenomath*}
+% \begin{eqnarray} 
+% 	\mbb{U}^S &= &
+% 		\left(
+% 			\begin{array}{ccc}
+% 				\mbf{U}^{S}_{AA} & \mbf{0} & \mbf{0} \\
+% 				\mbf{0} & \mbf{U}^{S}_{Aa} & \mbf{0} \\
+% 				\mbf{0} & \mbf{0} & \mbf{U}^{S}_{aa} \\
+% 			\end{array} \right), \label{eq:BlkUS_appendix}\\
+%   \mbb{F}^S &= &
+% 		\left(
+% 			\begin{array}{ccc}
+% 				\mbf{F}^{S}_{AA} & \mbf{0} & \mbf{0} \\
+% 				\mbf{0} & \mbf{F}^{S}_{Aa} & \mbf{0} \\
+% 				\mbf{0} & \mbf{0} & \mbf{F}^{S}_{aa} \\
+% 			\end{array} \right), \label{eq:BlkFS_appendix}\\
+% \end{eqnarray}
+% \end{linenomath*}
+% Similarly construct block diagonal matrices from the parent-offspring genotype maps,
+% \begin{linenomath*}
+% \begin{eqnarray}
+% 	\mathbb{H}^X(\tilde{\bo p}) = \bo I_\om \kron \bo H^X(\tilde{\bo p}),\\
+% 	\mathbb{H}^S(\tilde{\bo p}) = \bo I_\om \kron \bo H^S(\tilde{\bo p}).
+% \end{eqnarray}
+% \end{linenomath*}
+
+As in other multistate models, the survival and fertility matrices are then constructed from the following four block matrices, 
+\begin{linenomath*}
+\begin{eqnarray}
+\mcal{U}^S &=&\bo K^\tr \mathbb{D} \bo K \mathbb{U}^S, \label{eq:KDKU_app}\\
+\mcal{F}^S &=&\bo K^\tr \mbb{H}^S\bo K \mathbb{F}^S, \label{eq:KHKF_app}
+\end{eqnarray}
+\end{linenomath*}
+where $\mathbf{K}=\mathbf{K}_{\omega,g}$ is the vec-permutation matrix \citep{HendersonSearle1981}. The vec-permutation matrix rearrangers the population vectors $\mathbf{n}^S$ and $\mathbf{n}^X$ so that $\mathbf{n}^S$ is ordered by genotype first, and then by stage, but $\mathbf{K} \mathbf{n}^S$ is organized by stage first, and then by genotype (see \cite{hunter2005use} or \cite{caswell2012matrix} for more on the vec-permutation method). 
+
+The matrix $\mathbb{U}^S$ in equation (\ref{eq:KDKU_app}) generates transitions and survival of extant individuals within genotypes,  and acts on the the population vector of individuals produced through selfing, $\mathbf{n}^S$.. The matrix $\bo K$ then permutes the resulting vector so that it is now organised by stages first, and then by genotypes within stages. The block diagonal matrix $ \mathbb{D} $ then accounts for changes in genotype within stage classes of extant individuals. Since extant individuals generally do not change their genotype $\mathbb{D}$ will be an identity matrix in our model. Finally, the matrix $\bo K^\tr $ permutes the population vector once again so that it returns to the original organisation by genotype first and then by stage classes.  
+
+Equation (\ref{eq:KHKF_app}) describes reproduction and genotype assignment of newborn individuals. The block matrix $\mathbb{F}^S$ contains fecundity rates for individuals of each genotype and stage combination and acts on the the population vector of individuals produced through selfing, $\mathbf{n}^S$. Initially, these offspring are associated with the genotype of their parent. The vec-permutation matrix $\bo K$ then rearranges the resulting vector so that it is organised by stage first and then by genotype. The block-diagonal matrix $\mbb{H}^S$ then allocates the offspring to their genotypes, according to equation (\ref{eq:HS}). Finally, $\bo K^\tr $  returns the vector to its initial orientation. 
+
+Substituting equations (\ref{eq:US_app}) and (\ref{eq:D_app}) into equation (\ref{eq:KDKU_app}) yields
+\begin{linenomath*}
+\begin{eqnarray}
+\mcal{U}^S &=& \sum_{i=1}^g \bo K^\tr \bo I_{\omega g}	 \bo K \mathbf{E}_{ii} \otimes \mathbf{U}^S_{i}, \\
+ &=& \sum_{i=1}^g \mathbf{E}_{ii} \otimes \mathbf{U}^S_{i},
+\end{eqnarray}
+\end{linenomath*}
+since $\bo K^\tr \bo I_{\omega g}	 \bo K=\bo I_{\omega g}$, or in block matrix form this yields equation (\ref{eq:BlkUS}), here repeated for convenience, 
+\begin{linenomath*}
+\begin{eqnarray}
+\mcal{U}^S  = 
 		\left(
 			\begin{array}{ccc}
 				\mbf{U}^{S}_{AA} & \mbf{0} & \mbf{0} \\
 				\mbf{0} & \mbf{U}^{S}_{Aa} & \mbf{0} \\
 				\mbf{0} & \mbf{0} & \mbf{U}^{S}_{aa} \\
-			\end{array} \right),
-\end{equation}
-\end{linenomath*}
-
-\noindent and corresponding matrices $\mbb{U}^X$, $\mbb{F}^S$, $\mbb{F}^X$. Since individuals cannot change their genotype once they are born, the survival matrices are block diagonal, and $\mcal{U}^S = \mbb{U}^S$ and $\mcal{U}^X = \mbb{U}^X$. 
-
-Similarly, we also construct block-diagonal matrices
-\begin{linenomath*}
-\begin{eqnarray}
-	\mathbb{H}^X(\tilde{\bo p}) = \bo I_\om \kron \bo H^X(\tilde{\bo p}),\\
-	\mathbb{H}^S(\tilde{\bo p}) = \bo I_\om \kron \bo H^S(\tilde{\bo p}).
+			\end{array} \right).\label{eq:BlkUS}\\
 \end{eqnarray}
 \end{linenomath*}
-The corresponding fertility matrices for self-fertilization and outcrossing are defined as
+
+Similarly, substituting equations (\ref{eq:FS_app}) and (\ref{eq:HS_app}) into equation (\ref{eq:KHKF_app}) yields,
 \begin{linenomath*}
-\begin{equation} \label{eq:BlkFS_appendix}
-	\mcal{F}^S = \mbf{K}^{\intercal} \mbb{H}^S(\tilde{\mbf{p}}) \mbf{K} \mbb{F}^S = 
+\begin{eqnarray}
+\mcal{F}^S &=&\bo K^\tr \mbb{H}^S\bo K \mathbb{F}^S, \label{eq:KHKF_app}\\
+ &=& \sum_{i=1}^g \bo K^\tr \left( \bo I_\om \kron \bo H^S \right)  \bo K \left( \mathbf{E}_{ii} \otimes \mathbf{F}^S_{i} \right).
+\end{eqnarray}
+\end{linenomath*}
+Using $\bo K^\tr \left(\bo A \otimes \bo B  \right) \; \bo K=\bo B \otimes \bo A$ \citep{magnus1979commutation}, we obtain
+\begin{linenomath*}
+\begin{eqnarray}
+\mcal{F}^S  &=& \sum_{i=1}^g  \left(  \bo H^S  \kron \bo I_\om\right) \left( \mathbf{E}_{ii} \otimes \mathbf{F}^S_{i} \right).
+\end{eqnarray}
+\end{linenomath*}
+Finally note that $(\mathbf{A} \otimes \mathbf{B}) (\mathbf{C} \otimes \mathbf{D}) = \mathbf{A} \mathbf{C}\otimes \mathbf{B} \mathbf{D}$  to write
+\begin{linenomath*}
+\begin{eqnarray}
+\mcal{F}^S  &=& \sum_{i=1}^g  \left(  \bo H^S \mathbf{E}_{ii} \right) \kron  \mathbf{F}^S_{i} .
+\end{eqnarray}
+\end{linenomath*}
+Using the exact same sequence of equations, we can derive
+\begin{linenomath*}
+\begin{eqnarray}
+\mcal{F}^X  &=& \sum_{i=1}^g  \left(  \bo H^X(\tilde{\mbf{p}}) \mathbf{E}_{ii} \right) \kron  \mathbf{F}^X_{i} .
+\end{eqnarray}
+\end{linenomath*}
+
+Finally, substitute the expressions derived for the parent-offpspring genotype maps, $\bo H^X(\tilde{\mbf{p}}) $, and $\bo H^S$, in the main text (equations (\ref{eq:HS}) and (\ref{eq:HX})) into the above equations to obtain 
+\begin{linenomath*}
+\begin{eqnarray}
+	\mcal{F}^S = \mbf{K}^{\intercal} \mbb{H}^S\mbf{K} \mbb{F}^S = 
 			\left(
 			\begin{array}{ccc}
 				\mbf{F}_{AA} & \frac{1}{4} \mbf{F}_{Aa} & 0 \\
 				0 & \frac{1}{2} \mbf{F}_{Aa} & 0 \\
 				0 & \frac{1}{4} \mbf{F}_{Aa} & \mbf{F}_{aa}\\
-			\end{array} \right), 
-\end{equation}
+			\end{array} \right),  \label{eq:BlkFS_appendix}
+\end{eqnarray}
 \end{linenomath*}
 \noindent and 
 \begin{linenomath*}
@@ -783,13 +857,6 @@ The corresponding fertility matrices for self-fertilization and outcrossing are 
 			\end{array} \right),
 \end{equation}
 \end{linenomath*}
-
-\noindent where $q^{\prime}_A$ and $q^{\prime}_a$ are given by Eq(\ref{eq:maleGametePool}), and $\mbf{K}$ is the vec-permutation matrix \citep{HendersonSearle1981}. Further details of the derivations of $\mcal{F}^S$ and $\mcal{F}^X$ are provided in \hl{Appendix A.x}. 
-
-The blocks of $\mcal{F}^X(\tilde{\mbf{p}})$ can be constructed and interpreted as follows: The first row block of the first column produces $AA$ offspring by outcrossing from $AA$ maternal parents. This happens when the $AA$ maternal parent receives an $A$ gamete from the male gamete pool, which happens with probability $q^{\prime}_{A}$. The other blocks can be interpreted similarly.
-
-Combining all the component matrices yields the overall eco-evolutionary projection matrix shown in \hl{Reference a Box here?  or possibly Appendix A.x?}
-
 
 % In many cases, The American Naturalist allows authors to typeset 
 % their own supplementary material in an author-supplied PDF. For author-

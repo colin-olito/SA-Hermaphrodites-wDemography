@@ -2168,4 +2168,57 @@ causes and its variation within and among gynodioecious species},
   publisher = {Nature Publishing Group},
 }
 
+@Article{hunter2005use,
+  author    = {Hunter, Christine M and Caswell, Hal},
+  title     = {The use of the vec-permutation matrix in spatial matrix population models},
+  journal   = {Ecological modelling},
+  year      = {2005},
+  volume    = {188},
+  number    = {1},
+  pages     = {15--21},
+  publisher = {Elsevier},
+}
+
+@Article{caswell2012matrix,
+  author    = {Caswell, Hal},
+  title     = {Matrix models and sensitivity analysis of populations classified by age and stage: a vec-permutation matrix approach},
+  journal   = {Theoretical Ecology},
+  year      = {2012},
+  volume    = {5},
+  number    = {3},
+  pages     = {403--417},
+  publisher = {Springer},
+}
+
+@Article{magnus1979commutation,
+  author    = {Magnus, Jan R and Neudecker, Heinz},
+  title     = {The commutation matrix: some properties and applications},
+  journal   = {The Annals of Statistics},
+  year      = {1979},
+  pages     = {381--394},
+  publisher = {JSTOR},
+}
+
+@Article{grieshop2017male,
+  author    = {Grieshop, Karl and Berger, David and Arnqvist, G{\"o}ran},
+  title     = {Male-benefit sexually antagonistic genotypes show elevated vulnerability to inbreeding},
+  journal   = {BMC evolutionary biology},
+  year      = {2017},
+  volume    = {17},
+  number    = {1},
+  pages     = {1--10},
+  publisher = {BioMed Central},
+}
+
+@Article{berger2016intralocus,
+  author    = {Berger, David and Martinossi-Allibert, Ivain and Grieshop, Karl and Lind, Martin I and Maklakov, Alexei A and Arnqvist, G{\"o}ran},
+  title     = {Intralocus sexual conflict and the tragedy of the commons in seed beetles},
+  journal   = {The American Naturalist},
+  year      = {2016},
+  volume    = {188},
+  number    = {4},
+  pages     = {E98--E112},
+  publisher = {University of Chicago Press Chicago, IL},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
