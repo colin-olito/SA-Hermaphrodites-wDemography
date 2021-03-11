@@ -220,42 +220,41 @@ Charlotte de Vries$^{2}$}
 
 
 
-\tableofcontents
+%\tableofcontents
 %%%%%%%%%%%%%%%%%%%%
 \newpage{}
-\section{Abstract}
+\section*{Abstract -- currently 215/200 word max.}
 %%%%%%%%%%%%%%%%%%%%
-\ldots 
+Genetic trade-offs between male and female fitness impose fascinating genetic constraints on adaptation. On one hand they can maintain genetic variation for a variety of life-history and gender-related traits, while on the other hand they cause unavoidable maladaptation as individuals are prevented from reaching their sex-specific fitness optima. In this paper we develop a stage-structured mendelian matrix model and jointly analyze the evolutionary and demographic consequences of sexually antagonistic (SA) selection in obligately outcrossing (equivalent to dioecious) and partially selfing hermaphrodite populations. We focus on identifying the parameter conditions under which SA polymorphisms are maintained by balancing selection {\itshape and} the population intrinsic growth rate remains positive. We also analyze the effects of inbreeding depression manifesting in different life-history stages. Finally, we gave an illustrative example of the potential for SA polymorphism in real populations using empirically estimated demographic rates for the hermaphroditic flowering plant {\itshape Mimulus guttatus}. Our results indicate that when population growth rates are near one, large swathes of polymorphic parameter space become demographically inviable, and that inbreeding depression poses a significant challenge to the maintenance of SA polymorphism in partially selfing populations. Despite these demographic challenges, our example with {\itshape M.~guttatus} appears to show that demographic rates observed in some real populations are capable of sustaining large regions of viable SA polymorphic space.
+
+
+\newpage{}
+\section*{ALTERNATIVE Abstract -- currently 200/200 word max.}
+% Alternative opening sentence to the abstract:sentence
+Now classic population genetics theory has been fundamental to understanding the evolution of sex-differences and the maintenance of sexually antagonistic (SA) genetic variation, but these models have rarely considered the demographic consequences of intralocus sexual antagonism. In this paper we develop a stage-structured mendelian matrix model and jointly analyze the evolutionary and demographic consequences of SA selection in obligately outcrossing (equivalent to dioecious) and partially selfing hermaphrodite populations. We focus on identifying the parameter conditions under which SA polymorphisms are maintained by balancing selection and the population intrinsic growth rate remains positive. We also analyze the effects of inbreeding depression manifesting in different life-history stages, and give an illustrative example of the potential for SA polymorphism in real populations using empirically estimated demographic rates for the hermaphroditic flowering plant Mimulus guttatus. Our results indicate that when population growth rates are near one, large swathes of polymorphic parameter space become demographically inviable, and that inbreeding depression poses a significant challenge to the maintenance of SA polymorphism in partially selfing populations. Despite these demographic challenges, our example with M. guttatus appears to show that demographic rates observed in some real populations are capable of sustaining large regions of viable SA polymorphic space.
+
+% GOOD STUFF HERE... KEEPING THIS IN CASE WE WANT TO WORK MORE OF THIS INTO THE ABSTRACT...In this paper we developed a stage-structured mendelian matrix model that accommodates selection through male and female sex-functions in populations of simultaneous hermaphrodites with mixed mating systems. Using the model, we jointly analyzed the evolutionary and demographic consequences of SA selection in obligately outcrossing (equivalent to dioecious) and partially selfing hermaphrodite populations. We focused our analyses on identifying the parameter conditions under which SA polymorphisms are maintained by balancing selection {\itshape and} the population is also demographically viable (i.e., has a positive intrinsic growth rate). We also looked at the effects of inbreeding depression manifesting in different life-history stages, exploring the fitness consequences of early- vs.~late-acting inbreeding depression on the model predictions. Finally, we gave an illustrative example of the potential for SA polymorphism in real populations by parameterizing our model with empirically estimated demographic rates for the hermaphroditic flowering plant {\itshape Mimulus guttatus} (now {\itshape Erythranthe guttata}).
+
 
 \newpage{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
-\section{Introduction}
+\section*{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 
-Population persistence or extinction depends heavily on the ability of a species to adapt to the environment. Yet, the process of adaptation can be impeded by a variety of genetic and environmental factors, such as deleterious mutations \citep{Haldane1957}, environmental shifts \citep{Maynard-Smith1976, LandeShannon1996,OrrUnckless2008}, maladaptive gene-flow \citep{KirkpatrickBarton1997, BolnickNosil2007}, or genetic constraints \citep{ConnallonHall2018}. Genetic constraints on adaptation can arise as a consequence of conflicting selection and gene-flow between different classes of individuals, or more generally, when there are genetic trade-offs between fitness components \citep{CharlesworthHughes2000, ConnallonHall2018}. 
+In order to persist in the long term, a population must be able to adapt to its environment. Yet, the process of adaptation can be impeded by a variety of genetic and environmental factors, such as deleterious mutations \citep{Haldane1957}, changing environmental conditions \citep{Maynard-Smith1976, LandeShannon1996,OrrUnckless2008}, maladaptive gene-flow \citep{KirkpatrickBarton1997, BolnickNosil2007}, and genetic constraints \citep{ConnallonHall2018, MatthewsConnallon2019}. Genetic constraints on adaptation can arise as a consequence of conflicting selection and gene-flow between different classes of individuals, or more generally, when there are genetic trade-offs between fitness components \citep{CharlesworthHughes2000, ConnallonHall2018}. 
 
- % Whether a population persists or goes extinct depends in large part on its ability to adapt to the environment. Yet, the process of adaptation can be impeded by a variety of genetic and environmental factors, including deleterious mutations \citep{Haldane1957}, environmental shifts causing a population to chase a new phenotypic optimum \citep{Maynard-Smith1976, LandeShannon1996,OrrUnckless2008}, maladaptive gene-flow \citep{KirkpatrickBarton1997, BolnickNosil2007}, as well as genetic constraints arising from intrinsic features of the inheritance system \citep{ConnallonHall2018}. 
+Fitness trade-offs that impose genetic constraints on adaptation have particularly interesting evolutionary consequences. On the one hand, they prevent individuals (or classes of individuals) from reaching their phenotypic optimum in one or more fitness components, which can increase a population's overall extinction risk \citep{kokko2003sexy,harts2014demography}. On the other hand, they provide an effective mechanism for the maintenance of genetic variation, which influences a population's capactiy for future adaptation \citep{Fisher1930, CharlesworthHughes2000, ConnallonHall2018, MatthewsConnallon2019}. Hence, for traits under conflicting selection, the nature and extent of genetic variation observed in natural populations should reflect a balance between the maintainance of genetic polymorphisms, and the population dynamical consequences of the resulting maladaptation.
 
+Sexually antagonistic selection (abbreviated SA hereafter) arising from genetic trade-offs between male and female fitness, is a common feature of sexually reproducing populations, and is thought to contribute to the maintenance of genetic variation and also the evolution of sexual dimorphism and gender-related traits \citep{Lande1980, Rice1992, Charlesworth1999, RiceChippindale2001, BondurianskyChenoweth2009,Olito2019}. When such genetic trade-offs occur, SA selection can arise when beneficial alleles for one sex are deleterious when expressed in the other \citep{Kidwell1977, Rice1992, ConnallonClark2012}. Alleles with opposing fitness effects through male and female sex functions can cause analogous genetic constraints on fitness in hermaphrodite populations, where both maternal and paternal reproductive success contribute jointly to each individuals' overall fitness \citep{LloydWebb1986, WebbLloyd1986, Abbott2011, JordanConnallon2014}. 	
 
-%Conflicting selection and gene-flow between different classes of individuals, or genetic trade-offs between fitness components, can impose constraints on adaptation with particularly interesting evolutionary consequences \citep{CharlesworthHughes2000, ConnallonHall2018}. 
-Fitness trade-offs constraining adaptation have particularly interesting evolutionary consequences. On the one hand, they prevent individuals (or classes of individuals) from reaching their phenotypic optimum in one or more fitness components, which can increase the population's overall extinction risk \citep{kokko2003sexy,harts2014demography}. On the other hand, they provide an effective mechanism for the maintenance of genetic variation, which influences the population's capactiy for future adaptation \citep{Fisher1930, CharlesworthHughes2000, ConnallonHall2018, MatthewsConnallon2019}. Hence, for traits under conflicting selection, the nature and extent of genetic variation observed in natural populations should reflect a balance between the contribution of genetic constraints to the maintainance of genetic polymorphisms, and the population dynamical consequences of the resulting maladaptation.
+The evolutionary dynamics of sexually antagonistic alleles in hermaphrodites differ from those in dioecious populations because individuals may reproduce through a combination of self- and outcross fertilization \citep{Goodwillie2005, Igic2006, JarneAuld2006}. For example, self-fertilization is predicted to reduce the total parameter space where balanced SA polymorphisms can be maintained, while simultaneously creating a bias in selection through the female sex function (\citealt{JordanConnallon2014}; but see \citealt{Tazzyman2015}). Yet, other factors, such as genetic linkage to other SA loci or a sex-determining region \citep{Otto2011, JordanCharlesworth2012, Olito2017, Olito2019}, or spatial heterogeneity and complexity of the life-cycle can expand the parameter space for SA polymorphism \citep{Olito-etal-2018,ConnallonSharmaOlito2019}. Overall, both theoretical predictions and current empirical data suggest there is ample scope for SA trade-offs and the maintenance of SA polymorphisms in both dioecious and hermaphrodite populations \citep{Abbott2011, WangBarrett2020}, although identifying specific SA loci from genome sequence data remains challenging \citep{RuzickaESEB2020}.
 
-Sexually antagonistic selection, due to genetic trade-offs between male and female fitness, is a common feature of sexually reproducing populations, and is thought to contribute not only to the maintenance of genetic variation, but also to the evolution of sexual dimorphism and gender-related traits \citep{Lande1980, Rice1992, Charlesworth1999, RiceChippindale2001, BondurianskyChenoweth2009,Olito2019}. When such genetic trade-offs occur, "sexually antagonistic" selection (abbreviated SA hereafter) can arise whereby beneficial alleles for one sex are deleterious when expressed in the other \citep{Kidwell1977, Rice1992, ConnallonClark2012}. Alleles with opposing fitness effects through male and female sex functions can cause analogous genetic constraints on fitness in hermaphrodite populations, where both maternal and paternal reproductive success contribute jointly to each individuals' overall fitness \citep{LloydWebb1986, WebbLloyd1986, Abbott2011, JordanConnallon2014}. 
+Most population genetic models, including models of the maintenance of SA polymorphisms, keep track of the relative fitnesses of genotypes in populations of constant size, and therefore do not consider the population dynamical consequences of evolutionary change. In fact, these genotypic fitnesses emerge from myriad processes acting throughout the life-history of individuals. To take the population dynamical consequences of polymorphism into account, a model is required that links changes in genotype distributions to population dynamics. For example, \cite{harts2014demography} developed an individual-based modelling approach that tracks population dynamics and the spread of both SA genes and dispersal genes in a species with non-overlapping generations. \cite{deVriesCaswell2019b} introduced a mendelian matrix model with overlapping generations, intralocus sexual antagonism, and population dynamics but did not perform analysis of the consequences of demographic viability for the scope of sexual antagonism to maintain polymorphism. 
 
+In this paper, we extend the model of \cite{deVriesCaswell2019b} to include both dioecious and hermaphroditic species in order to study the parameter conditions under which balanced SA polymorphisms are also demographically viable. A major strength of our approach is that the model can be parameterized using empirically estimated demographic rates, enabling us to make predictions about the scope for demographically viable SA polymorphisms that are grounded in the biology of real populations. We demonstrate this with a case study of {\itshape Mimulus guttatus} (now {\itshape Erythranthe guttata})
 
-The evolutionary dynamics of sexually antagonistic alleles in hermaphrodites differ from those in dioecious populations because individuals may reproduce through a combination of self- and outcross fertilization \citep{Goodwillie2005, Igic2006, JarneAuld2006}. For example, self-fertilization is predicted to reduce the total parameter space where balanced SA polymorphisms can be maintained, while simultaneously creating a bias in selection through the female sex function (\citealt{JordanConnallon2014}; but see \citealt{Tazzyman2015}). Yet, other processes, such as genetic linkage to other SA loci or a sex-determining region \citep{Otto2011, JordanCharlesworth2012, Olito2017, Olito2019}, or spatial heterogeneity and the complexity of the life-cycle can expand the parameter space for SA polymorphism \citep{Olito-etal-2018,ConnallonSharmaOlito2019}. Overall, both theoretical predictions and current empirical data suggest there is ample scope for SA trade-offs and the maintenance of SA polymorphisms in both dioecious and hermaphrodite populations \citep{Abbott2011, WangBarrett2020}, although identifying specific SA loci from genome sequence data remains challenging \citep{RuzickaESEB2020}.
-
-
-Most population genetic models, including models of the maintenance of SA polymorphisms, keep track of the relative fitnesses of genotypes, and therefore do not consider the population dynamical consequences of evolutionary change. To take the population dynamical consequences into account, a model is required that links changes in genotype distributions to population dynamics.  \cite{harts2014demography} build such a model using an individual based approach. Their model tracks both the population dynamics and the spread of sexually antagonistic genes as well as dispersal genes in a species with non-overlapping generations. \cite{deVriesCaswell2019b} introduced a model with overlapping generations, intralocus sexual antagonism, and population dynamics but did not perform analysis of the consequences of demographic viability for the scope of sexual antagonism to maintain polymorphism. 
-
-In this paper, we extend the model by \cite{deVriesCaswell2019b} to include both dioecious and hermaphroditic species, and we use this model to study when the parameter conditions predicted to be polymorphic by population genetics models are also demographically viable. A major strength of the model is that we can use empirically estimated demographic rates to parameterize the model, enabling us to make predictions about the scope for demographically viable SA polymorphisms that are grounded in the biology of real populations. We demonstrate this with a case study of {\itshape Mimulus guttatus} (now {\itshape Erythranthe guttata})
-
-
-
-%Such an eco-evolutionary model requires a map from genotype to phenotype, from phenotype to individual demographic rates (birth and death rates), and finally from demographic rates to population level characteristics \citep{coulson2006putting}.    
-%Genetic trade-offs between fitness components due to pleiotropy represent a form of genetic constraint with particularly interesting evolutionary consequences because they act as a double-edged sword
 
 
 
@@ -278,16 +277,14 @@ In this paper, we extend the model by \cite{deVriesCaswell2019b} to include both
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
-\section{The Model}
+\section*{The Model}
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-Here, we briefly describe a matrix model incorporating multiple life-cycle stages and a single diallelic locus under SA selection on male and female fertility for populations of simultaneous hermaphrodites with outcrossing or mixed-mating systems. The derivation and some of the key results follow closely those presented in \citet{deVriesCaswell2019a} and \citet{deVriesCaswell2019b}; and in fact, the model presented here reduces to the two-sex stage-structured model of \citet{deVriesCaswell2019b} under obligate outcrossing. A full derivation of the model and analyses is presented in \hl{Appendix A}, and all simulation code necessary to reproduce the results are available at \url{https://github.com/colin-olito/SA-Hermaphrodites-wDemography}.
+Here, we briefly describe a matrix model incorporating multiple life-cycle stages and a single diallelic locus under SA selection on male and female fertility for populations of simultaneous hermaphrodites with outcrossing or mixed-mating systems. The derivation and some of the key results follow closely those presented in \citet{deVriesCaswell2019a} and \citet{deVriesCaswell2019b}. In fact, the present model reduces to the two-sex stage-structured model of \citet{deVriesCaswell2019b} under obligate outcrossing. A full derivation of the model and analyses is presented in \hl{Appendix A}, and all computer code necessary to reproduce the results are available at \url{https://github.com/colin-olito/SA-Hermaphrodites-wDemography}.
 
-Simultaneous hermaphrodites express both male and female sex functions (i.e., can be both a mother and father), and have the potential to reproduce by a combination of self- and outcross-fertilizations. Maternal outcrossing involves receiving male gametes from another individual in the population, while paternal outcrossing involves exporting male gametes to another individual and fertilizing their ovules. Self-fertilization is achieved when an individual's male gametes fertilize their own ovules. To distinguish between parameters relating to male and female function, we denote matrices or vectors relating to male sex function with a prime. 
+Simultaneous hermaphrodites express both male and female sex functions (i.e., can transmit genes to the next generation via both sperm and ovules), and have the potential to reproduce by a combination of self- and outcross-fertilizations. Maternal outcrossing involves receiving male gametes from another individual in the population, while paternal outcrossing involves exporting male gametes to another individual and fertilizing their ovules. Self-fertilization is achieved when an individual's male gametes fertilize their own ovules. To distinguish between parameters relating to male and female function, we denote matrices or vectors relating to male sex function with a prime. 
 
-Individuals in the model are jointly classified by life-cycle stage ($1, \ldots, \omega$), genotype ($1, \ldots, g$), and whether they were produced by self- or outcross fertilization (denoted by $S$ and $X$ superscripts, respectively). Whether individuals were produced through selfing or outcrossing is included in the individual state description because individuals produced through selfing might experience reduced survival, growth, or maturation rates as a consequence of inbreeding depression. To model inbreeding depression, we therefore keep track of how individuals were produced. Of course the level of inbreeding depression will not only be a function of whether the current individual is produced through inbreeding but also of how many generations of inbreeding have occurred (see for example, \cite{kelly1999response} and \cite{kelly2007mutation}) but keeping track of the history of inbreeding is beyond the scope of this paper. Therefore we use the commonly made assumption that individuals produced through selfing suffer a fixed level of inbreeding depression (\textbf{which reference(s) would work best here?}).
-
-% Each genotype is characterized by a matrix of transition probabilities (including survival), and a matrix of reproductive output through male and female function. These matrices can include time variation or nonlinearities reflecting the environment or density dependence (see for example, \cite{de2020matrix}), but these will not be modelled here. Each stage contributes offspring to genotypes at the next time step according to transition matrices that are determined by the mating system and stage-structure of the population.
+Individuals in the model are jointly classified by life-cycle stage ($1, \ldots, \omega$), genotype ($1, \ldots, g$), and whether they were produced by self- or outcross fertilization (denoted by $S$ and $X$ superscripts, respectively). Whether individuals were produced through selfing or outcrossing is included in the individual state description because individuals produced through selfing might experience reduced survival, growth, or maturation rates as a consequence of inbreeding depression. In reality, the severity of inbreeding depression will not only be a function of whether an individual is produced by selfing but also of how many consecutive generations of inbreeding have occurred in their lineage (e.g., \citealt{kelly1999response, kelly2007mutation}). However, tracking lineage-specific inbreeding histories is beyond the scope of this paper, and we therefore make the common assumption that the severity of inbreeding depression is the same for all individuals (e.g., \citealt{Charlesworth1987, Charlesworth2009, Charlesworth2010,JordanConnallon2014}).
 
 The population state at time $t$ is described by a population state vector, $\tilde{\mbf{n}}(t)$, which is ordered by how individuals were produced (selfing vs.~outcrossing), then by genotype, and finally by stage. For a single diallelic locus with alleles $A$ and $a$, we have three genotypes ($AA,\, Aa,\, aa$; $g = 3$), giving the population state vector:
 \begin{linenomath*}
@@ -311,14 +308,14 @@ The population state at time $t$ is described by a population state vector, $\ti
 \end{equation}
 \end{linenomath*}
 
-\noindent where $\| \cdot \|$ is the one-norm. The population vector $\tilde{\mbf{n}}(t)$ is projected forward from time $t$ to $t + 1$ by the $projection$ matrix $\tilde{\mbf{A}}(\tilde{\mbf{n}})$ such that 
+\noindent where $\| \cdot \|$ is the one-norm. The population vector $\tilde{\mbf{n}}(t)$ is projected forward from time $t$ to $t + 1$ by the projection matrix $\tilde{\mbf{A}}(\tilde{\mbf{n}})$ such that 
 \begin{linenomath*}
 \begin{equation}
 	\tilde{\mbf{n}}(t + 1) = \tilde{\mbf{A}}[\tilde{\mbf{n}}(t)] \, \tilde{\mbf{n}}(t)
 \end{equation}
 \end{linenomath*}
 
-The population projection matrix $\tilde{\mbf{A}}$ is constructed from four sets of matrices representing the demographic and genetic processes: The matrices $\mbf{U}^{S}_{i}$ and $\mbf{U}^{X}_{i}$ contain transition and survival probabilities for each genotype, produced by selfing and outcrossing respectively. The matrices $\mbf{F}_{i}$ and $\mbf{F}^{\prime}_{i}$ contain the genotype $\times$ stage specific contribution via female and male sex-functions of genotype $i$ to the female and male gamete pools, respectively, and therefore to zygotes in the next generation. We assume that whether individuals were produced through selfing or outcrossing does not affect their fecundity or mating success, that is, we assume  $\mbf{F}^X_{i}=\mbf{F}^S_{i}=\mbf{F}_{i}$ and $\mbf{F}^{\prime X}_{i}=\mbf{F}^{\prime S}_{i}=\mbf{F}^{\prime}_{i}$. Deviations from this assumption are straightforward to incorporate but beyond the scope of the current paper. 
+The population projection matrix $\tilde{\mbf{A}}$ is constructed from four sets of matrices representing the demographic and genetic processes: The matrices $\mbf{U}^{S}_{i}$ and $\mbf{U}^{X}_{i}$ contain transition and survival probabilities for each genotype, produced by selfing and outcrossing respectively. The matrices $\mbf{F}_{i}$ and $\mbf{F}^{\prime}_{i}$ contain the genotype $\times$ stage specific contribution via female and male sex-functions of genotype $i$ to the female and male gamete pools, respectively, and therefore to zygotes in the next generation. We assume that whether individuals were produced through selfing or outcrossing does not affect their fecundity or mating success, that is, we assume  $\mbf{F}^X_{i}=\mbf{F}^S_{i}=\mbf{F}_{i}$ and $\mbf{F}^{\prime X}_{i}=\mbf{F}^{\prime S}_{i}=\mbf{F}^{\prime}_{i}$. Deviations from this assumption are straightforward to incorporate but beyond the scope of this paper. 
 
 % Notational note: The superscript on a matrix in age$\times$stage models conventionally indicates the stage or age of the subsection of the population vector that the matrix is acting on (see for example \cite{CaswellEtAl2018}). For example, $\mbf{U}^{S}_{i}$, acts on the vector of individuals of genotype $i$ that were produced through selfing. In the following, we deviate from this convention by also using $S$ and $X$ as superscripts to indicate production of offspring through current selfing or reproduction. That is,  we will write production $\mcal{F}^S$ and $\mcal{F}^X$ to denote offspring production by self-fertilization and outcrossing. Likewise, we define the matrices $\mbf{H}^S_{j}(\tilde{\mbf{n}})$ and $\mbf{H}^X_{j}(\tilde{\mbf{n}})$ as the map of the genotypes of the parent in stage $j$ to the genotypes of their offspring produced by selfing and outcrossing, respectively. The $(k, l)$ entry of $\mbf{H}^{X}_{j}$ and $\mbf{H}^{S}_{j}$ is the probability that an offspring of a genotype $l$ mother, of stage $j$, has genotype $k$. Since we assume that how-you-were-produced does not affect how you reproduce, these matrices will act on both $\mbf{n}^{S}$ and $\mbf{n}^{X}$. 
 
@@ -328,10 +325,12 @@ For the purpose of this article, we assume that mating is random with respect to
 \subsubsection*{Mating and offspring production under partial selfing}
  Outcrossing in our model proceeds similarly to a two-sex model of reproduction \citep{deVriesCaswell2019b}. That is, each individual's genotype determines both the number of ovules produced and the paternal "mating success", broadly defined. For hermaphroditic flowering plants, for example, paternal mating success could reflect pollen production, export efficiency, pollen-tube germination and growth rates, among other things \citep{LloydWebb1986, WangBarrett2020, Harder2016}. 
 
-Since we assume that how individuals were produced does not affect their relative mating success, the frequency in the male mating population is obtained simply by summing the vectors of individuals produced through selfing and through outcrossing, that is, 
+Because we assume that how individuals were produced (either by selfing or outcrossing) does not affect their relative mating success, the frequency in the male mating population is obtained by simply summing the vectors of individuals produced through selfing and outcrossing:
+\begin{linenomath*}
 \begin{equation}
  	\mbf{p}^{\prime}=\frac{(\mbf{n}^X + \mbf{n}^S)}{\| (\mbf{n}^X + \mbf{n}^S)\|}.
- \end{equation} 
+ \end{equation}
+\end{linenomath*}
 Depending on their stage and genotype at the SA locus, individuals contribute male gametes to the overall population gamete pool according to the following equation
 \begin{linenomath*}
 \begin{equation}
@@ -368,10 +367,9 @@ Depending on their stage and genotype at the SA locus, individuals contribute ma
 				\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} (\mbf{n}^X + \mbf{n}^S)}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} (\mbf{n}^X + \mbf{n}^S)\|}
 \end{equation}
 \end{linenomath*}
-
-\textcolor{red}{
-I'm doubting whether to move the next paragraph to the appendices as well.  Equation (\ref{eq:maleGametePool}) is all we strictly need. If we keep the parent-offspring maps, we can explain in the next section how the matrices 
-$\mcal{F}^S$ and $\mcal{F}^X$ have the same structure. Would that be helpful? Or would it be easier to just explain in the next section what the structure of $\mcal{F}^S$ and $\mcal{F}^X$ is? }
+The key difference between selfing and outcrossing reproduction can be seen in the parent-offspring maps, which reflect the joint effects of meiosis and mating on the distribution of offspring genotypes.
+% \textcolor{red}{
+% I'm doubting whether to move the next paragraph to the appendices as well.  Equation (\ref{eq:maleGametePool}) is all we strictly need. If we keep the parent-offspring maps, we can explain in the next section how the matrices $\mcal{F}^S$ and $\mcal{F}^X$ have the same structure. Would that be helpful? Or would it be easier to just explain in the next section what the structure of $\mcal{F}^S$ and $\mcal{F}^X$ is? }
 
 The parent-offspring map for outcrossing is a function of the allele frequencies in the male gamete pool, and is given by 
 \begin{linenomath*}
@@ -399,7 +397,7 @@ Reproduction via self-fertilization differs from outcrossing. As in previous mod
 			\end{array} \right).
 \end{equation}
 \end{linenomath*}
-\noindent The columns of $\mbf{H}^S(\tilde{\mbf{n}})$ again give the selfed offspring genotype distributions for parental genotypes of $AA$, $Aa$, and $aa$, respectively.
+\noindent The columns of $\mbf{H}^S(\tilde{\mbf{n}})$ again give the selfed offspring genotype distributions for parental genotypes of $AA$, $Aa$, and $aa$, respectively. As described in the next section, these parent-offspring maps influence the projection matrix by altering the fertilitiy matrices for individuals produced by selfing and outcrossing (see Eq(\ref{eq:BlkFS}) and Eq(\ref{eq:BlkFX}) below).
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -473,9 +471,9 @@ Combining all the component matrices yields the overall eco-evolutionary project
 
 
 %%%%%%%%%%%%%%%%%%%%%%
-\subsection{Sexually antagonistic selection \& inbreeding depression} \label{sec:SAsel}
+\subsection*{Sexually antagonistic selection \& inbreeding depression} \label{sec:SAsel}
 
-We now construct and analyze a genotype $\times$ stage-classified model for a hypothetical species with intralocus sexual conflict via the two sex functions. To keep the model analytically tractable, we assume our hypothetical species has two life stages: juveniles and adults (i.e., $\omega = 2$), and that only adults are reproductively active. Suppose that there is a genetic trade-off between the sex-functions at a single bi-allelic locus such that allele $A$ is beneficial for female fertility but detrimental for male reproductive success (e.g., pollen production), and that allele $a$ has the reverse effect. 
+We now construct and analyze a genotype $\times$ stage-classified model for a hypothetical species with intralocus sexual conflict via the two sex functions. To keep the model analytically tractable, we assume our hypothetical species has two life stages: juveniles and adults (i.e., $\omega = 2$), and that only adults are reproductively active. Suppose that there is a genetic trade-off between the sex-functions at a single diallelic locus such that allele $A$ is beneficial for female fertility but detrimental for male reproductive success (e.g., pollen production), and that allele $a$ has the reverse effect. 
 
 Following convention, we parameterize the fertility component of fitness of each genotype through each sex function, $w_{i}$ and $w^{\prime}_{i}$, to be bounded by $[0,1]$, with dominance and selection coefficients $h_f, s_f$ and $h_m, s_m$ determining the decrease in fertility through each sex function relative to the most fit genotype ($AA$ has highest female fertility, $aa$ the highest male fertility; see Table \ref{tab:Fitness}). The SA locus does not affect survival and transition rates. However, the survival matrices can be used to model the fitness effects of inbreeding depression at later stages of development by allowing different stage-specific survival and transition rates for individuals produced by self-fertilization vs.~outcrossing. By contrast, the parameter $\sigma$ only affects inbreeding depression through viability of selfed ovules. With this in mind, we define survival matrices for individuals produced by selfing and outcrossing as follows:
 \begin{linenomath*}
@@ -549,11 +547,11 @@ Iterating the projection matrix, Eq(\ref{eq:Atilde}) with the above demographic 
 Unless stated otherwise, we use the following parameter values for the demographic rates in the model: $\sigma_j = \sigma_a = 0.6$ and $\gamma = 0.05$, which are similar to those used in \citet{deVriesCaswell2019b}. Our parameters of interest include fertility, $f$, the inbreeding depression parameters, $\delta$, $\delta_j$, $\delta_a$, $\delta_{\gamma}$, and the selection parameters $h_f$, $s_f$, $h_m$, and $s_m$, which are given different values for each analyses as described in the figure captions.
 
 %%%%%%%%%%%%%%%%%%%%%%
-\subsection{Analyses} \label{subsec:analyses}
+\subsection*{Analyses} \label{subsec:analyses}
 
 Diverse eco-evolutionary outcomes are possible in the model, including fixation of either allele, balanced polymorphism, population growth or extinction, and even evolutionary rescue and suicide (e.g., see \citealt{CaswellEtAl2018,deVriesCaswell2019a,deVriesCaswell2019b}). We focus on identifying parameter conditions where two criteria are satisfied: ({\itshape i}) SA polymorphism is maintained under balancing selection and ({\itshape ii}) the intrinsic population growth rate at equilibrium is positive; a situation that we refer to as a 'demographically viable SA polymorphism'.
 
-We identify conditions where SA polymorphism is 'protected' by evaluating the stability of populations initially fixed for either SA allele to invasion by the other (i.e., stability was assessed at the boundary equilibrium genotype frequencies of $\hat{\mbf{p}}_{AA} = 1$ and $\hat{\mbf{p}}_{aa} = 1$; \citealt{Levene1953, Prout1968, deVriesCaswell2019b}). The formal conditions for a protected polymorphism are determined by linearizing the model in the vicinity of the boundary equilibria ($\hat{\mbf{p}}$), and evaluating the magnitude of the largest eigenvalue of the Jacobian matrix of the linearization. A full derivation of the Jacobian and details of the invasion analysis are provided in \hl{Online Appendix X.x}.
+We identify conditions where SA polymorphism is 'protected' by evaluating the stability of populations initially fixed for either SA allele to invasion by the other (i.e., we assessed stability at the boundary equilibrium genotype frequencies of $\hat{\mbf{p}}_{AA} = 1$ and $\hat{\mbf{p}}_{aa} = 1$; \citealt{Levene1953, Prout1968, deVriesCaswell2019b}). The formal conditions for a protected polymorphism are determined by linearizing the model in the vicinity of the boundary equilibria ($\hat{\mbf{p}}$), and evaluating the magnitude of the largest eigenvalue of the Jacobian matrix of the linearization. A full derivation of the Jacobian and details of the invasion analysis are provided in \hl{Online Appendix X.x}.
 
 %denoted by $\tilde{\zeta}_{AA}$ and $\tilde{\zeta}_{aa}$ for the eigenvalue of the Jacobian evaluated at the $AA$ and $aa$ boundary, respectively. For our model, the Jacobian, $\mbf{M}$, has an upper block triangular form, and we can therefore express the stability of $\hat{\mbf{p}}$ in terms of the leading eigenvalue of the diagonal block corresponding to changes in heterozygote frequency ($\mbf{M}_{22}$; e.g., see \citealt{OttoDay2007,deVriesCaswell2019b}). For a polymorphism to be 'protected', both boundary equilibria must be unstable (i.e., $\tilde{\zeta}_{AA} > 1$ and $\tilde{\zeta}_{aa} > 1$), which requires that
 % \begin{linenomath*}
@@ -568,9 +566,9 @@ We identify conditions where SA polymorphism is 'protected' by evaluating the st
 We used numerical simulation to determine whether a protected SA polymorphism was also demographically viable. Specifically, for each boundary equilibrium we introduced the rare allele at low initial frequency, and iterated Eq(\ref{eq:Atilde}) until the population had reached demographic and genotypic equilibrium. In our model, the population state vector will grow or shrink exponentially after converging to stable population structure and genotypic frequencies (see \citealt{Caswell2001}), and the intrinsic population growth rate after convergence, $\lambda$, can be calculated as $\tilde{\mbf{n}}(t)/\tilde{\mbf{n}}(t-1)$. We note, however, that if the ecological component of the model is non-linear, more exotic dynamics are possible \citep{de2020matrix}.
 
 % Unfortunately, closed-form solutions for the invasion conditions for each allele and the equilibrium frequencies under different selection scenarios are analytically intractable except for restricted conditions (see \hl{Online Appendix X}). We therefore used numerical techniques to identify invasion and extinction thresholds, which could then be used to define regions of demographically viable polymorphism across $s_f \times s_m$ parameter space. 
-Because single-locus selection coefficients are generally weak (i.e., $s < 0.1$; e.g., \citealt{Eyre-WalkerKeightly2007}) and strongly skewed, we limit our analyses to coefficients within $0 < s_f,s_m \leq 0.15$, unless stated otherwise. For a given parameter set, we numerically evaluated the largest eigenvalue of the Jacobian evaluated at both boundaries, and the population growth rate of the equilibrium obtained after perturbation of the boundary, $\lambda$. To determine the viability threshold (where the population growth rate equals one) and the boundary stability thresholds (where the largest eigenvalue of the Jacobian crosses one), we start at the outer boundaries of selection parameter space, and titrated inward. The proportions of total $s_f \times s_m$ parameter space where SA polymorphism and/or extinction occurred were calculated by numerically integrating the appropriate regions defined by the invasion and extinction thresholds
+Because single-locus selection coefficients are generally weak (i.e., $s < 0.1$; e.g., \citealt{Eyre-WalkerKeightly2007}) and strongly skewed, we limit our analyses to coefficients within $0 < s_f,s_m \leq 0.15$, unless stated otherwise. For simplicity, we also assume equal dominance in all analyses (i.e., $h_f = h_m = h$). For a given parameter set, we numerically evaluated the largest eigenvalue of the Jacobian evaluated at both boundaries, and the population growth rate of the equilibrium obtained after perturbation of the boundary, $\lambda$. To determine the viability threshold (where the population growth rate equals one) and the boundary stability thresholds (where the largest eigenvalue of the Jacobian crosses one), we start at the outer boundaries of selection parameter space, and titrated inward. The proportions of total $s_f \times s_m$ parameter space where SA polymorphism and/or extinction occurred were calculated by numerically integrating the appropriate regions defined by the invasion and extinction thresholds
 
-For analyses of the demographic effects of inbreeding depression, we made two main simplifying assumptions: First, we acknowledge that if inbreeding depression is caused primarily by recessive deleterious mutations (as suggested by empirical data), it should covary negatively with the population selfing rate due to purging (\citealt{Charlesworth2009}; though we note that other processes could give rise to this pattern, e.g., \citealt{CrnokrakBarrett2002, Charlesworth2009,HedrickGarcia-Dorado2016}). Following \citet{Olito2019}, we incorporate such negative covariance by constraining the inbreeding depression terms in the model ($\delta$ and $\delta_i$, where $i \in \{J,A,\gamma\}$) to follow a simple declining function of the selfing rate: $\delta = \delta^{\ast} (1 - b (1 - L))$, where $\delta^{\ast}$ is the hypothetical severity of inbreeding depression for a completely outcrossing population, $b$ is a shape parameter determining how far $\delta$ will decline under complete selfing (when $C = 1$), and $L$ is describes the expected deleterious mutation load as a function of the selfing rate $C$, due to recessive deleterious mutations. The function $L$ includes an additional shape parameter, $a$, which determines the curvature of the overall function for $\delta$ (see Appendix E in \citealt{Olito2019} for additional details). We set $\delta^{\ast} = 0.8$, $b = 0.5$, and $a = 0.2$ for all analyses, values chosen to be consistent with empirical estimates of inbreeding depression (e.g., fig.~2 in \citealt{HusbandSchemske1996}). Second, we explore the effects of individual inbreeding depression terms in isolation. That is, we assume that only one of the terms $\delta$ and $\delta_i$ (where $i \in \{J,A,\gamma\}$) can be non-zero at a time. 
+For analyses of the demographic effects of inbreeding depression, we made two main simplifying assumptions: First, we assume that if inbreeding depression is caused primarily by recessive deleterious mutations (as suggested by empirical data), it should covary negatively with the population selfing rate due to purging (\citealt{Charlesworth2009}; though we note that other processes could give rise to this pattern, e.g., \citealt{CrnokrakBarrett2002, Charlesworth2009,HedrickGarcia-Dorado2016}). Following \citet{Olito2019}, we incorporate such negative covariance by constraining the inbreeding depression terms in the model ($\delta$ and $\delta_i$, where $i \in \{j,a,\gamma\}$) to follow a simple declining function of the selfing rate: $\delta = \delta^{\ast} (1 - b (1 - L))$, where $\delta^{\ast}$ is the hypothetical severity of inbreeding depression for a completely outcrossing population, $b$ is a shape parameter determining how far $\delta$ will decline under complete selfing (when $C = 1$), and $L$ describes the expected deleterious mutation load as a function of the selfing rate $C$. The function $L$ includes an additional shape parameter, $a$, which determines the curvature of the overall function for $\delta$ (see Appendix E in \citealt{Olito2019} for additional details). We set $\delta^{\ast} = 0.8$, $b = 0.5$, and $a = 0.2$ for all analyses, values chosen to be consistent with empirical estimates of inbreeding depression (e.g., fig.~2 in \citealt{HusbandSchemske1996}). Second, to keep our analyses tractable we explore the effects of individual inbreeding depression terms in isolation. That is, we assume that only one of the $\delta$ and $\delta_i$ terms (where $i \in \{j,a,\gamma\}$) can be non-zero at a time.
 
 
 
@@ -578,11 +576,11 @@ For analyses of the demographic effects of inbreeding depression, we made two ma
 %%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results}\label{sec:Results}
+\section*{Results}\label{sec:Results}
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%
-\subsection{Polymorphism and Extinction}\label{subsec:PolyExt}
+\subsection*{Polymorphism and Extinction}\label{subsec:PolyExt}
 
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -590,24 +588,23 @@ For analyses of the demographic effects of inbreeding depression, we made two ma
  \begin{figure}[htbp]
  \centering
  \includegraphics[width=\linewidth]{../output/figs/extinctionThresholdsFig.pdf}
- \caption{\footnotesize{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the mendelian stage-structured matrix model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). "Demographically viable polymorphic parameter space" corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two dominance scenarios (additivity, where $h = 1/2$, and dominance reversal, where $h = 1/4$); extinction thresholds are illustrated for three different values of female fecundity ($f$ values annotated on each panel).}}
+ \caption{\footnotesize{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). "Demographically viable polymorphic parameter space" corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two dominance scenarios (additivity, where $h = 1/2$, and dominance reversal, where $h = 1/4$); extinction thresholds are illustrated for three different values of female fecundity ($f$ values annotated on each panel).}}
  \label{fig:extThresholds}
  \end{figure}
 %%%%%%%%%%%%%%%%%%%%%
 
-We begin with a simple illustration of demographically viable polymorphic parameter space in the absence of inbreeding depression (i.e., $\delta_i = 0$). Invasion conditions for SA alleles in the evolutionary demographic model closely match the predictions from population genetic models (see \hl{Online Appendix X} \citealt{Kidwell1977, JordanConnallon2014, Olito2017}). In particular, the demographic model recovers the classic "funnel-shaped" region of polymorphic $s_f \times s_m$ parameter space. The effects of the population selfing rate ($C$) and dominance ($h$) on SA polymorphism are also similar: self-fertilization ({\itshape i}) skews the SA polymorphic space towards regions with weaker selection through female-function and reduces the total area of polymorphic parameter space; and ({\itshape ii}) dominance reversals (where deleterious SA fitness effects are partially recessive in each sex; $h = 1/4$) are much more permissive of SA polymorphism \citep{JordanConnallon2014, Olito2017}. 
+We begin with a simple illustration of demographically viable polymorphic parameter space in the absence of inbreeding depression (i.e., $\delta = \delta_i = 0$). Invasion conditions for SA alleles in the evolutionary demographic model closely match the predictions from population genetic models (see \hl{Online Appendix X}; \citealt{Kidwell1977, JordanConnallon2014, Olito2017}). In particular, the demographic model recovers the classic "funnel-shaped" region of polymorphic $s_f \times s_m$ parameter space. The effects of the population selfing rate ($C$) and dominance ($h$) on SA polymorphism are also similar: self-fertilization ({\itshape i}) skews the SA polymorphic space towards regions with weaker selection through female-function and reduces the total area of polymorphic parameter space; and ({\itshape ii}) dominance reversals (where deleterious SA fitness effects are partially recessive in each sex; $h = 1/4$) are much more permissive of SA polymorphism \citep{JordanConnallon2014, Olito2017}. 
 
-However, a key prediction from the evolutionary demographic model is that large fractions of SA polymorphic parameter space can be demographically inviable (Fig.~\ref{fig:extThresholds}). The location of the extinction threshold, where the population intrinsic growth rate $\lambda = 1$, is primarily determined by the fertility parameter ($f$) but is also influenced by the population selfing rate ($C$) and dominance of the SA alleles ($h$). When $f$ is large, the population can sustain higher mortality caused by stronger selection through both male and female fitness components before extinction occurs (the extinction threshold shifts to higher values of $s_f$ and $s_m$). 
+However, a key prediction from the evolutionary demographic model is that large fractions of SA polymorphic parameter space can be demographically inviable (fig.~\ref{fig:extThresholds}). The location of the extinction threshold, where the population intrinsic growth rate $\lambda = 1$, is primarily determined by the fertility parameter ($f$) but is also influenced by the population selfing rate ($C$) and dominance of the SA alleles ($h$). When $f$ is large, the population can sustain higher mortality caused by stronger selection through both male and female fitness components before extinction occurs (the extinction threshold shifts to higher values of $s_f$ and $s_m$). 
 
 The demographic effects of SA polymorphism are driven by the fitness effects of segregating male-beneficial/female-deleterious alleles because they directly influence individuals' fecundity. For the fertility parameter values we explored, all extinctions occured in regions where either the female-deleterious allele segregates at intermediate frequency (i.e., where SA polymorphism is maintained), or goes to fixation (fig.~\ref{fig:extThresholds}). The SA polymorphisms that remained viable at lower fertilitiy values corresponded to regions where the female-deleterious allele is predicted to segregate at low frequencies, or in regions with weak selection through both sex functions. 
 
-
-In populations with high fertility (larger $f$), the proportion of demographically viable polymorphic parameter space converges on the predictions for total SA polymorphic space in population genetic models (fig.~\ref{fig:polySpace}). In obligately outcrossing populations (including dioecious/gonochoristic populations; where $C = 0$), lower fertility can result in a significant reduction of demographically viable polymorphic parameter space. However, the effect is weaker in populations with intermediate selfing rates ($C > 0$) because self-fertilization protects a fraction ($C$) of the ovules of individuals homozygous for the female beneficial allele from exposure to the allele that is deleterious for females. In other words, self-fertilization leads to less selective death. This allows partially selfing populations to remain viable under selection intensities that would cause extinction in an outcrossing population. Interestingly, when fertility is low enough that some polymorphic parameter space is demographically inviable, populations with intermediate selfing rates have the greatest proportion of demographically viable parameter space (fig.~\ref{fig:polySpace}, med.~and low.~fertility values). This effect emerges from the combination of protection from selective death and reduced total polymorphic parameter space caused by selfing. 
+In populations with high fertility (larger $f$), the proportion of demographically viable polymorphic parameter space converges on the predictions for total SA polymorphic space in population genetic models (fig.~\ref{fig:polySpace}). In obligately outcrossing populations (including dioecious/gonochoristic populations; where $C = 0$), lower fertility can result in a significant reduction of demographically viable polymorphic parameter space. However, the effect is weaker in populations with intermediate selfing rates ($C > 0$) because self-fertilization protects a fraction, $C$, of the ovules of individuals homozygous for the female beneficial allele from exposure to the allele that is deleterious for females. In other words, self-fertilization leads to less selective death. This allows partially selfing populations to remain viable under selection intensities that would cause extinction in an outcrossing population. Interestingly, when fertility is low enough that some polymorphic parameter space is demographically inviable, populations with intermediate selfing rates have the greatest proportion of demographically viable parameter space (fig.~\ref{fig:polySpace}, med.~and low.~fertility values). This effect emerges from the combination of protection from selective death and reduced total polymorphic parameter space caused by selfing. 
 
 % Figure 2
  \begin{figure}[htbp]
  \centering
- %\includegraphics[scale=0.75]{../output/figs/polymorphicSpaceTitrate.pdf}
+ \includegraphics[scale=0.75]{../output/figs/polymorphicSpaceTitrate.pdf}
  \caption{\footnotesize{Proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$) in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$), plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under additive ($h = 1/2$; panel A), and partially recessive ($h = 1/4$; panel B) SA fitness effects. Each point was calculated by numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see \hyperref[subsec:analyses]{Analyses} section), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
  \label{fig:polySpace}
  \end{figure}
@@ -615,83 +612,91 @@ In populations with high fertility (larger $f$), the proportion of demographical
 
 
 %%%%%%%%%%%%%%%%%%%%%%
-\subsection{Demographic effects of inbreeding depression} \label{subsec:InbreedEffects}
+\subsection*{Demographic effects of inbreeding depression} \label{subsec:InbreedEffects}
 
-Unlike previous population genetic models which assumed constant population sizes \citep{JordanConnallon2014,Olito2017}, mortality caused by inbreeding depression can strongly influence population persistence in our evolutionary demographic model. Populations with high fertility rates can sustain positive population growth rates despite this higher mortality. This leads to a greater proportion of SA polymorphic parameter space to be demographically viable, with the demographic model predictions converging on those from population genetic models in high-fertility populations (fig.~\ref{fig:deltaPolySpace}). For populations with lower fertility rates, the proportion of demographically viable polymorphic parameter space matches the population genetic model predictions with the selfing rate is low; however, as the selfing rate increases, demographic viability eventually crashes when the population can no longer sustain the concomitant increase in mortality due to inbreeding depression (fig.~\ref{fig:deltaPolySpace}). 
+Unlike previous population genetic models, which assume constant population sizes \citep{JordanConnallon2014,Olito2017}, mortality caused by inbreeding depression can strongly influence population persistence in our evolutionary demographic model. Populations with high fertility rates can sustain positive population growth rates despite this higher mortality. This causes a greater proportion of SA polymorphic parameter space to be demographically viable, with the demographic model predictions converging on those from population genetic models in high-fertility populations (fig.~\ref{fig:deltaPolySpace}). For populations with lower fertility rates, the proportion of demographically viable polymorphic parameter space matches the population genetic model predictions under complete outcrossing; however, as the selfing rate increases, demographic viability eventually crashes when the population can no longer sustain the concomitant increase in mortality due to inbreeding depression (fig.~\ref{fig:deltaPolySpace}). 
 
-Mortality from inbreeding depression reduces the effect of protection from selective death that individuals gain through self fertilization. In contrast to our earlier results (see \hyperref[subsec:PolyExt]{Polymorphism and Extinction}), predominantly outcrossing populations are predicted to have the highest proportion of demographically viable polymorphic space, when inbreeding depression is taken into acount (compare fig.~\ref{fig:polySpace} with fig.~\ref{fig:deltaPolySpace}). Regardless of the life-history stage at which inbreeding depression affects survival, populations with intermediate to high selfing rates are unlikely to harbour SA polymorphism unless they can "afford" the resulting loss of self-fertilized ovules/offspring. \textcolor{red}{How about the flipside: Populations with intermediate to high selfing rates and growth rates around one are vulnerable to extinction if a sexually antagonistic allele invades the population.  }
+Mortality from inbreeding depression reduces the effect of protection from selective death that individuals gain through self fertilization. In contrast to our earlier results (see \hyperref[subsec:PolyExt]{Polymorphism and Extinction}), predominantly outcrossing populations are predicted to have the highest proportion of demographically viable polymorphic space, when inbreeding depression is taken into acount (compare fig.~\ref{fig:polySpace} with fig.~\ref{fig:deltaPolySpace}). Regardless of the life-history stage at which inbreeding depression affects survival, populations with intermediate to high selfing rates are unlikely to harbour SA polymorphism unless they can afford the resulting loss of self-fertilized ovules/offspring. An alterntaive view of these predictions is that populations with intermediate to high selfing rates and growth rates near one are vulnerable to extinction if a sexually antagonistic allele invades the population (e.g., \citealt{harts2014demography}). \textcolor{red}{CITE ostracod examples? one issue: sexual dimorphism and sexual conflict doesn't imply SA selection, it depends on the inheritance system.}.
 
 
 % Figure 3
  \begin{figure}[htbp]
  \centering
- %\includegraphics[scale=0.75]{../output/figs/deltaPolymorphicSpaceTitrate.pdf}
+ \includegraphics[scale=0.75]{../output/figs/deltaPolymorphicSpaceTitrate.pdf}
  \caption{\footnotesize{Effects of early- and late-acting inbreeding depression on the proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$), plotted as a function of the population selfing rate. In all plots, the strength of inbreeding depression decreases as the selfing rate goes up following a simple model of purging recessive deleterious mutations (see \hl{Appendix X.x} for details). Only single inbreeding depression terms ($\delta$ and $\delta_i$, where $i \in \{j,a,\gamma\}$, indicated in the legend) are allowed to vary at one time (all others are set to $0$). Results are shown for three fertility values ($f = \{6.5,\,7.5,\,8.5\}$) under additive ($h = 1/2$; panel A) and partially recessive ($h = 1/4$; panel B) SA fitness effects. Each point was calculated by numerically integrating the corresponding SA invasion conditions and extinction threshold predicted by the model (see \hyperref[subsec:analyses]{Analyses} section), while solid lines were produced by numerically integrating the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
  \label{fig:deltaPolySpace}
  \end{figure}
 
 
-However, when during the life-cycle inbreeding depression manifests does influence the threshold selfing rate at which demographically viable polymorphic parameter space crashes. Our results indicate that population viability was most sensitive to inbreeding depression affecting juvenile survival rates ($\delta_j$; fig.~\ref{fig:deltaPolySpace}, dark blue points), while early-acting inbreeding depression ($\delta$, ovule abortion shortly after fertilization) had a similar effect on population viability as late-acting inbreeding depression affecting adult survial ($\delta_a$) and juvenile-to-adult transition rates ($\delta_{\gamma}$). Inbreeding effects on juvenile survival had the strongest effect on population viability because on average individuals will spend multiple time steps in the juvenile stage before they mature. At each time step in the juvenile stage, individuals have a probability $\gamma$ to mature and a probability $\sigma_j(1-\delta_j)$ to survive. Inbreeding depression at the juvenile stage therefore makes it harder to survive long enough to mature. Although early-acting inbreeding depression ($\delta$) actually manifests earlier in the life-cycle than juvenile survival, it acts only once by influencing the total number of self-fertilized zygotes that become juveniles.
+When during the life-cycle inbreeding depression manifests influences the threshold selfing rate at which demographically viable polymorphic parameter space crashes. Our results indicate that population viability was most sensitive to inbreeding depression affecting juvenile survival rates ($\delta_j$; fig.~\ref{fig:deltaPolySpace}, dark blue points), while early-acting inbreeding depression ($\delta$, ovule abortion shortly after fertilization) had a similar effect on population viability as late-acting inbreeding depression affecting adult survial ($\delta_a$) and juvenile-to-adult transition rates ($\delta_{\gamma}$). Inbreeding effects on juvenile survival had the strongest effect on population viability because on average individuals will spend multiple time steps in the juvenile stage before they mature. At each time step in the juvenile stage, individuals have a probability $\gamma$ to mature and a probability $\sigma_j(1-\delta_j)$ to survive. Inbreeding depression at the juvenile stage therefore makes it harder to survive long enough to mature. Although early-acting inbreeding depression ($\delta$) actually manifests earlier in the life-cycle than juvenile survival, it acts only once by influencing the total number of self-fertilized zygotes that become juveniles.
 
 
-\section{Case study: {\itshape M. guttatus}}
+\section*{Case study: {\itshape M. guttatus}}
 
-%\subsection{Demographic and fitness data for {\itshape M. guttatus}} \label{subsec:MguttMethods}
+%\subsection*{Demographic and fitness data for {\itshape M. guttatus}} \label{subsec:MguttMethods}
 
-As an illustrative example of how our model can be used to explore whether demographic rates observed in natural populations appear likely to support balanced SA polymorphisms, we parameterized our model using empirically estimated demographic rates and fitness data for natural populations of the hermaphroditic flowering plant {\itshape Mimulus guttatus} (Scrophulariaceae; now known as {\itshape Erythranthe guttata}). {\itshape M.~guttatus} is an herbaceous, self-compatible wildflower native to western North America that exhibits remarkable among-population variation in numerous life-history and reproductive traits including selfing rates, inbreeding depression, floral morphology, and annual-to-perennial life-history \citep[e.g.,][]{RitlandGanders1987, Ritland1990, Willis1993, Willis1999a, Willis1999b, WuWillis2008}. Moreover, detailed demographic studies have been conducted on multiple populations of {\itshape M.~guttatus}, with demographic matrix data available on the public demographic database COMPADRE \citep{CompadreDB2020}. Below, we briefly outline how we parameterized our model using the available data; full details are provided in \hl{Appendix B.x}.
+As an illustrative example of how our model can be used to explore whether demographic rates observed in natural populations appear likely to support balanced SA polymorphisms, we parameterized the model using empirically estimated demographic rates and fitness data for natural populations of the hermaphroditic flowering plant {\itshape Mimulus guttatus} (Scrophulariaceae; now known as {\itshape Erythranthe guttata}). {\itshape M.~guttatus} is an herbaceous, self-compatible wildflower native to western North America that exhibits remarkable among-population variation in numerous life-history and reproductive traits including selfing rates, inbreeding depression, floral morphology, and annual-to-perennial life-history \citep[e.g.,][]{RitlandGanders1987, Ritland1990, Willis1993, Willis1999a, Willis1999b, WuWillis2008}. Moreover, detailed demographic studies have been conducted on multiple populations of {\itshape M.~guttatus}, with demographic matrix data available on the public demographic database COMPADRE \citep{CompadreDB2020}. Below, we briefly outline how we parameterized our model using the available data; full details are provided in \hl{Appendix B.x}.
 
-\subsection{Demographic and fitness data for {\itshape M. guttatus}} \label{subsec:MguttMethods}
-We used extensive demographic data reported in a large-scale study of local adaptation using experimental populations of {\itshape M.~guttatus} in Stanislaus National Forest (California, USA) in 2012 and 2013 \citep{PetersonEtAl2016}. We leverage their common-garden experimental design to focus on a comparison of demographically viable polymorphic parameter space for two experimental populations with contrasting demographic rates. The first was a locally adapted 'Eagle Meadows' population (data from 2012), while the second group was an experimental population composed of multiple non-locally adapted 'low-elevation perennials' (data from 2013). The vital rate estimates for the Eagle Meadows population are as follows: seed bank survival ($D = 0.534$), seed germination rate ($G = 0.469$), flower production ($F = 0.64$), ovules per flower ($O = 614$), seedling recruits proportional to clonal rosette recruits ($A = 6.7 \times 10^{-4}$), overwinter survival ($S = 0.179$), rosette production ($R = 8.71$). The corresponding estimates for the low-elevation perrenials are: $D = 0.534$, $G = 0.652$, \textcolor{red}{$F = 0.4.09$ Should this be 0.409 or 4.09? }, $O = 494$, $A = 6.7e-4$), $S = 0$, and $R = 0$ (see corrected Tables.~1 and S2 in \citealt{PetersonEtAl2017}). The same estimates for $D$ and $A$ were used for all populations. The resulting transition matrices for this population involved three life-history stages ($\omega = 3$; seed, seedling, and rosette), and individual elements of the transition matrix ($\tilde{\mbf{A}}$) were calculated as products of the above rates (see Matrix $1$ in \citealt{PetersonEtAl2016}).
+\subsection*{Demographic and fitness data for {\itshape M. guttatus}} \label{subsec:MguttMethods}
+We used extensive demographic data reported in a large-scale study of local adaptation using experimental populations of {\itshape M.~guttatus} in Stanislaus National Forest (California, USA) in 2012 and 2013 \citep{PetersonEtAl2016}. We leverage their common-garden experimental design to focus on a comparison of demographically viable polymorphic parameter space for two experimental populations with contrasting demographic rates. The first was a locally adapted 'Eagle Meadows' population (data from 2012), while the second group was an experimental population composed of multiple non-locally adapted 'low-elevation perennials' (data from 2013). The vital rate estimates for the Eagle Meadows population are as follows: seed bank survival ($D = 0.534$), seed germination rate ($G = 0.469$), flower production ($F = 0.64$), ovules per flower ($O = 614$), seedling recruits proportional to clonal rosette recruits ($A = 6.7 \times 10^{-4}$), overwinter survival ($S = 0.179$), rosette production ($R = 8.71$). The corresponding estimates for the low-elevation perrenials are: $D = 0.534$, $G = 0.652$, $F = 4.09$, $O = 494$, $A = 6.7e-4$), $S = 0$, and $R = 0$ (see corrected Tables.~1 and S2 in \citealt{PetersonEtAl2017}). The same estimates for $D$ and $A$ were used for all populations. The resulting transition matrices for this population involved three life-history stages ($\omega = 3$; seed, seedling, and rosette), and individual elements of the transition matrix ($\tilde{\mbf{A}}$) were calculated as products of the above rates (see Matrix $1$ in \citealt{PetersonEtAl2016}).
 
 Estimates of selfing rates and inbreeding depression were not available for the same experimental populations, but are available for a variety of other western USA {\itshape M.~guttatus} populations. Selfing rate estimates vary in magnitude from near complete outcrossing to predominant selfing ($C \approx 0$ to $0.75$; \citealt{RitlandGanders1987, Ritland1990, Willis1999b}). Estimates of inbreeding depression at several of the life-history stages/fitness components that were included in the data of \citet{PetersonEtAl2016} are available for two intensively studied populations in the Cascade Mountains of Oregon (Iron Mountain and Cone Peak) \citet{Willis1993, Willis1999a, Willis1999b}. Using the data provided in \citet{Willis1993}, we estimated the proportional decrease due to inbreeding depression in seed germination rate ($\delta_{G} = 0.085$), flower number ($\delta_{F} = 0.2$), and overwinter survival ($\delta_{S} = 0.38$). The largest field-estimated selfing rate for this same Iron Mountain population was $C = 0.29$ \citep{Willis1993}.
 
-Using these combined demographic rates, selfing rate, and inbreeding depression estimates, we constructed a corresponding stage $\times$ genotype mendelian matrix model with a single SA locus affecting female and male fertility (as described above). Using this empirically parameterized model, we are able to make predictions about the scope for demographically viable SA polymorphism at a single locus in hypothetical populations with the same demographic rates as observed in \citet{PetersonEtAl2016}, for a range of selfing and inbreeding depression rates observed in other natural populations. We stress, however, that these illustrative predictions are not explicit predictions of the likelihood of SA polymorphism in any specific population.
+Using these combined demographic rates, selfing rates, and inbreeding depression estimates, we constructed a corresponding stage $\times$ genotype mendelian matrix model with a single SA locus affecting female and male fertility (as described above). Using this empirically parameterized model, we are able to make predictions about the scope for demographically viable SA polymorphism at a single locus in hypothetical populations with the same demographic rates as observed in \citet{PetersonEtAl2016}, for a range of selfing and inbreeding depression rates observed in other natural populations. We stress, however, that these illustrative predictions are not explicit predictions of the likelihood of SA polymorphism in any specific population.
 
-Interestingly, a polymorphic chromosomal inversion (inv6) with apparently SA fitness effects has been identified in the Iron Mountain population of {\itshape M.~guttatus} \citep{LeeKelly2015}. inv6 segregates at moderate frequency (about $8\%$), and carriers suffer $\approx 30 \%$ loss in pollen viability, but also increased flower production which varies among years. The genetic basis of the fitness effects caused by inv6 are not yet known, but the net result is a "supergene" with strong fitness effects that segregates as a single diallelic locus. We estimated dominance and selection coefficients for the effect of inv6 on pollen viability and flower production from the data reported in \citet{LeeKelly2015}. Across four mapping populations, the effect of inv6 on pollen viability was partially recessive on average ($h_m \approx 0.35$). Given this average dominance, the selection coefficient in the field is approximately $s_m = 0.88$. It was not possible to estimate the average dominance of the effect of inv6 on flower production (inv6 homozygotes were too rare in the field), so we conservatively assume that it was additive ($h_f = 0.5$). Based on this assumption, the selection coefficient inv6 on flower production in the field was $s_f = 0.384$ in 2012, and $s_f = 0.232$ in 2013. As a final proof-of-concept test of our empirically parameterized model \citep[e.g.,][]{Servedio2014}, we asked whether, given the above biologically grounded fitness effect estimates, inv6 appears to fall in demographically viable SA polymorphic parameter space, as might be expected given its observed frequency in the Iron Mountain population.
+Interestingly, a polymorphic chromosomal inversion (inv6) with apparently SA fitness effects has been identified in the Iron Mountain population of {\itshape M.~guttatus} \citep{LeeKelly2015}. inv6 segregates at moderate frequency (about $8\%$), and carriers suffer $\approx 30 \%$ loss in pollen viability, but also increased flower production which varies among years. The genetic basis of the fitness effects caused by inv6 are not yet known, but the net result is a "supergene" with strong fitness effects on both female and male fertility that segregates as a single diallelic locus. We estimated dominance and selection coefficients for the effect of inv6 on pollen viability and flower production from the data reported in \citet{LeeKelly2015}. Across four mapping populations, the effect of inv6 on pollen viability was partially recessive on average ($h_m \approx 0.35$). Given this average dominance, the selection coefficient in the field is approximately $s_m = 0.88$. It was not possible to estimate the average dominance of the effect of inv6 on flower production (inv6 homozygotes were too rare in the field), so we conservatively assume that it was additive ($h_f = 0.5$). Based on this assumption, the selection coefficient inv6 on flower production in the field was $s_f = 0.384$ in 2012, and $s_f = 0.232$ in 2013. As a final proof-of-concept test of our empirically parameterized model \citep[e.g.,][]{Servedio2014}, we asked whether, given the above biologically grounded fitness effect estimates, inv6 appears to fall in demographically viable SA polymorphic parameter space, as might be expected given its observed frequency in the Iron Mountain population.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
-\subsection{Polymorphism in M.~guttatus} \label{sec:Mgutt}
+\subsection*{Polymorphism in M.~guttatus} \label{sec:Mgutt}
 
-The Eagle Meadows and Low-Elevation Perennial populations of \citet{PetersonEtAl2016} had contrasting demographic rates that strongly affected the scope for demographically viable SA polymorphism. The Eagle Meadows population was locally adapted with a very high intrinsic growth rate ($\lambda \approx 1.7$). This growth rate was high enough that all $s_f \times s_m$ selection parameter space (where $s_f, s_m \in (0,1]$) remained demographically viable, regardless of the selfing rate ($C = 0,0.29$), or the presence of inbreeding depression (fig.~\ref{fig:mimulusFig}A). In contrast, the Low-Elevation Perennial population had a much lower intrinsic growth rate, although it was still positive ($\lambda \approx 1.08$). Due to the slower growth rate, not all of the $s_f \times s_m$ selection parameter space was demographically viable. Extinction thresholds appeared under complete outcrossing ($C = 0$) and partial selfing with inbreeding depression ($C = 0.29$), but not when inbreeding depression was omitted (fig.~\ref{fig:mimulusFig}B). The different demographic rates from these two populations also resulted in slightly different invasion conditions when inbreeding depression was taken into account (compare dotted lines in fig/~\ref{fig:mimulusFig}A and B).
+The Eagle Meadows and Low-Elevation Perennial populations of \citet{PetersonEtAl2016} had contrasting demographic rates that strongly affected the scope for demographically viable SA polymorphism. The Eagle Meadows population was locally adapted with a very high intrinsic growth rate ($\lambda \approx 1.7$). This growth rate was high enough that all $s_f \times s_m$ selection parameter space (where $s_f, s_m \in (0,1]$) remained demographically viable, regardless of the selfing rate ($C = 0$ or $0.29$), or the presence of inbreeding depression (fig.~\ref{fig:mimulusFig}A). In contrast, the Low-Elevation Perennial population had a much lower, but still positive, intrinsic growth rate ($\lambda \approx 1.08$). Due to the slower growth rate, not all of the $s_f \times s_m$ selection parameter space was demographically viable. Extinction thresholds appeared under complete outcrossing ($C = 0$) and partial selfing with inbreeding depression ($C = 0.29$), but not when inbreeding depression was omitted (fig.~\ref{fig:mimulusFig}B). The different demographic rates from these two populations also resulted in slightly different invasion conditions when inbreeding depression was taken into account (compare dotted lines in fig.~\ref{fig:mimulusFig}A and B).
 
-Interestingly, the polymorphic inversion inv6 falls very near the lower edge of polymorphic parameter space for these hypothetical populations, but is not always predicted to be demographically viable. When using demographic rates for either the Eagle Meadows or Low-Elevation Perennial populations, inv6 falls within polymorphic space when the selfing rate is at the higher end of empirical estimates for the Iron Mountain population in which inv6 has been documented ($C = 0.29$), but only when inbreeding depression is not taken into account (fig.~\ref{fig:mimulusFig} dashed lines). When including empirical estimates of inbreeding depression, the population effective selfing rate is reduced, the polymorphic parameter space shifts upwards, and inv6 no longer falls within the polymorphic space. When using vital rates for the locally adapted Eagle Meadows population, the model predicts that an allele (or supergene) with the same fitness effects as inv6 will go extinct. In contrast, when using the demographic rates for Low-Elevation Perennials, an allele/supergene with these fitness effects falls within demographically inviable parameter space. That is, the model predicts that SA alleles with selection coefficients of similar magnitude to inv6 will inflict too high of a demographic cost, and are unlikely to be observed in populations with lower intrinsic growth rates like those observed in the Low-Elevation Perennial population.
+The polymorphic inversion inv6 falls very near the lower edge of polymorphic parameter space for these hypothetical populations, but is not always predicted to be demographically viable. When using demographic rates for either the Eagle Meadows or Low-Elevation Perennial populations, inv6 falls within polymorphic space when the selfing rate is at the higher end of empirical estimates for the Iron Mountain population in which inv6 has been documented ($C = 0.29$), but only when inbreeding depression is not taken into account (fig.~\ref{fig:mimulusFig} dashed lines). When including empirical estimates of inbreeding depression, the population effective selfing rate is reduced, the polymorphic parameter space shifts upwards, and inv6 no longer falls within the polymorphic space. When using vital rates for the locally adapted Eagle Meadows population, the model predicts that an allele (or supergene) with the same fitness effects as inv6 will go extinct. In contrast, when using the demographic rates for Low-Elevation Perennials, an allele/supergene with these fitness effects falls within demographically inviable parameter space. That is, populations with lower intrinsic growth rates like those observed in the Low-Elevation Perennials will be unable to support the demographic costs associated with segregating SA alleles with selection coefficients of similar magnitude to inv6. 
+
 
 
 % Figure 4
 \begin{figure}[htbp]
  \centering
- %\includegraphics[scale=0.75]{../output/figs/mimulusinv6Fig.pdf}
+ \includegraphics[scale=0.75]{../output/figs/mimulusinv6Fig.pdf}
  \caption{\footnotesize{Illustration of model predictions using empirically estimated demographic rates for {\itshape M.~guttatus}. Results are shown for two hypothetical populations using demographic rates for locally adapted (Eagle Meadows; panel A), and non-local (Low-Elevation Perennial; panel B) populations reported by \citet{PetersonEtAl2016}. Invasion conditions and extinction thresholds were calculated using the dominance coefficients estimated for inv6 ($h_f = 0.5, h_m = 0.35$; from data in \citealt{LeeKelly2015}) for three parameter conditions: obligate outcrossing (solid black lines), partial selfing using the highest field-estimate for the Iron Mountain population of \citet{Willis1993} (dashed lines), and partial selfing with inbreeding depression (dotted lines; using $\delta_i$ estimates for Iron Mountain by \citealt{Willis1993}). The location of inv6 is also shown on both plots, using estimated selection coefficients. Note that in panel A the predictions for partial selfing with inbreeding depression (dotted lines) fall extremely close to the predictions for obligate outcrossing (solid lines).}} 
  \label{fig:mimulusFig}
  \end{figure}
 
 
-\hl{[SPECULATION!!!]} Finally, the location of inv6 in selection parameter space is interesting itself because in this region an SA allele with net female-beneficial fitness effects similar to inv6 are predicted to either go extinct, or segregate at relatively low frequency, depending on the population selfing-rate and severity of inbreeding depression. Although we cannot make specific predictions for inv6 in the Iron Mountain population in which it was observed, it is interesting that the estimated fitness effects place inv6 roughly in parameter space where segregation at low to moderate frequencies is not surprising. This rough concordance between theory and data is clearly speculative, but to our knowledge. 
-
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discussion}
+\section*{Discussion}
 %%%%%%%%%%%%%%%%%%%%%%%%
-\textit{Summary} \newline
-In this paper we developed a stage-structured mendelian matrix model that accommodates selection through male and female sex-functions in populations of simultaneous hermaphrodites with mixed mating systems. Using the model, we jointly analyzed the evolutionary and demographic consequences of SA selection in obligately outcrossing (equivalent to dioecious) and partially selfing hermaphrodite populations. We focused our analyses on identifying the parameter conditions under which SA polymorphisms are maintained by balancing selection {\itshape and} the population is also demographically viable (i.e., has a positive intrinsic growth rate). We also looked at the effects of inbreeding depression manifesting in different life-history stages, exploring the fitness consequences of early- vs.~late-acting inbreeding depression on the model predictions. Finally, we gave an illustrative example of the potential for SA polymorphism in real populations by parameterizing our model with empirically estimated demographic rates for the hermaphroditic flowering plant {\itshape Mimulus guttatus} (now {\itshape Erythranthe guttata}).
 
-A key finding of our study is that when the intrinsic population growth rate is close to $1$, the deleterious effects of segregating male-beneficial SA alleles on female fecundity can result in extinction over much of the parameter space for SA polymorphism. Furthermore, this demographically viable polymorphic parameter space is often biased towards alleles with stronger selection through the female- than male sex function. Self-fertilization can alleviate the demographic costs of balanced SA polymorphisms under some conditions, however, the concommitant effects of inbreeding depression generally exacerbate them in populations with mixed-mating systems. Despite these demographic pitfalls, our example using {\itshape M.~guttatus} appears to show that demographic rates observed in some real populations are capable of sustaining large regions of viable SA polymorphic space. Overall, our findings provide a more nuanced picture of the nature of SA genetic variation that we should expect to find in natural populations, where the fate of SA alleles and the populations harboring them is determined jointly by evolutionary and demographic processes.
+Classic population genetics theory predicts that SA selection is unlikely to maintain genetic variation except under narrow conditions, with polymorphism requiring either finely balanced or unusually strong selection, or partially recessive fitness effects through each sex \citep{Kidwell1977,Pamilo1979,Prout2000, ConnallonClark2014}. Extensions of the theory have identified numerous ways in which the conditions for polymorphism become more permissive in both dioecious and hermaphroditic organisms, including genetic linkage of SA loci, population subdivision, and life-cycle complexity \citep[e.g.,][]{Patten2010,JordanConnallon2014,JordanCharlesworth2012, ConnallonSharmaOlito2019, Olito-etal-2018}. However, by ignoring the demographic consequences of SA genetic variation, these population genetic models have missed the possibility that SA polymorphisms may be inviable under realistic parameter conditions, and therefore unlikely to be observed in natural populations. By linking the individual-level fitness consequences of SA selection to population level demographic rates, our theoretical framework provides several key insights into the processes shaping SA genetic variation in natural populations.
 
-\textit{Extensions: demography} \newline
-By combining the tools of demography and those of population genetics, the framework we presented here enables the exploration of interactions between life cycle complexity, mating system, and sexual antagonism. For the sake of simplicity, we used a basic life cycle with just two stages for most of this paper, adults and juveniles (the \textit{Mimulus} example has 3 stages). By including more age classes, we can ask if the scope for SA to maintain polymorphisms is affected by whether a species exhibits positive, or negative senescence \citep{jones2014diversity}? That is, does the shape of the survival curve affect the area of demographically viable polymorphic parameter space, and how does this interact with the age at which a sexually antagonistic allele is expressed? What if the allele not only affects male and female sex functions but also affects survival of individuals? And last but not least, how would the scope for SA to maintain polymorphisms be affected by density-dependence acting on different life history stages? 
+The first and central finding of our study is that when intrinsic population growth rates are close to one, the deleterious effects of segregating male-beneficial SA alleles on female fecundity can result in extinction over much of the parameter space where SA polymorphism is maintained. \textcolor{red}{Importantly, evolutionary demography theory predicts that many populations' intrinsic growth rates will lie near $\lambda \approx 1$ (Lotte, do you have citation suggestions?), suggesting that our model predictions may be highly relevant for SA polymorphism in many real-world populations}. Moreover, these findings compliment recent theoretical and empirical studies indicating that SA selection is likely to be both condition dependent, and stronger in locally-adapted populations near the center of a species' range \citep{BergerEtAl2014, Connallon2015}.
 
-\textit{Extensions: genetics} \newline
-We made the simplifying assumption that only how individuals themselves were produced affects the level of inbreeding depression they experience. In reality, the history of inbreeding in the entire lineage will influence the level of inbreeding depression experienced by an individual. This could be included in our framework by expanding the individual state space from produced via outcrossing or selfing towards produced via produced via outcrossing or first generation selfing, second generation selfing, etc, as in \cite{kelly1999response} and \cite{kelly2007mutation}. 
+We also find that demographically viable polymorphic parameter space is often biased towards alleles with stronger selection through the female- than male sex function; conditions where female-deleterious alleles are predicted to segregate at lower frequencies, lessening the demographic cost of polymorphism. Given natural variation in population growth rates, our model suggests that, on average, SA polymorphisms involving low-frequency female-deleterious SA alleles are more likely to be demographically viable, and therefore observable in real populations. Once again, this prediction is supports experimental results indicating that male-beneficial SA genotypes are more susceptible to extinction under environmental stress or inbreeding \citep{BergerEtAl2014, berger2016intralocus, grieshop2017male}. Furthermore, our prediction that demographically viable SA variation should often favour female-beneficial genotypes is broadly consistent with the well established pattern of increased allocation to female reproduction in mixed-mating and selfing species (i.e., "selfing syndromes"; reviewed in \citealt{HarderBarrett2006, Sicard2011}). 
 
-\cite{grieshop2017male} found that genotypes with sexually antagonstic alleles that are male beneficial experience higher levels of inbreeding depression than genotypes with female beneficial SA alleles. This effect can easily be included in our model by making the inbreeding depression parameters, $\delta$ and $\delta_j$, a function of the genotype of the individual. Such an effect would even further reduce the demographically viable polymorphic parameter space.
+In hermaphroditic populations, self-fertilization can alleviate the demographic costs of balanced SA polymorphisms under some conditions, however, the concommitant effects of inbreeding depression generally exacerbate them in populations with mixed-mating systems. This prediction is in stark contrast to previous population genetics models of SA selection in hermaphrodites, where the sole effect of inbreeding depression is to reduce the population effective selfing rate through the loss of selfed-zygotes, thereby expanding polymorphic parameter space \citep{JordanConnallon2014, Olito2017}. In our model, this reduction in effective selfing is accompanied by significant mortality due to inbreeding depression (whether early- or late-acting), which can quickly tip partially-selfing populations over the brink to extinction. Beyond the maintenance of SA polymorphisms, this finding underscores a simple but important point that is often overlooked in studies of the evolution of self-fertilization and selfing-syndromes, which tend to emphasize the coevolution of the deleterious mutation load and mating system \citep[e.g.,][]{Charlesworth1987, LandeSchemske1985, Goodwillie2005}: populations with high fertility rates are better able to sustain positive growth rates in the face of severe demographic costs of inbreeding. This suggests that traits related to female fecundity, such as ovule and flower production, in ancestral populations likely play an important role in determining the distribution of transitions to self-fertilization among hermaphroditic taxa as well as a variety of ecological correlates of selfing and mixed-mating \citep{Goodwillie2005,Igic2006,Grossenbacher2015}.
 
-Other interesting extensions worth mentioning? 
+Despite the demographic pitfalls associated with SA alleles, our example using {\itshape M.~guttatus} appears to show that demographic rates observed in some real populations are capable of sustaining large regions of viable SA polymorphic space. The example also appears to provide some empirical support for the conjecure that locally-adapted populations are more likely to harbor SA polymorphisms than marginal or non-locally adapted ones; inviable polymorphic parameter space only occured when using the demographic data for non-local high-elevation perennial populations. The location of inv6 in selection parameter space is also interesting because it corresponds to a region where an SA allele with net female-beneficial fitness effects similar to inv6 are predicted to either go extinct, or segregate at relatively low frequency, depending on the population selfing-rate and severity of inbreeding depression. Although we cannot make specific predictions for inv6 in the Iron Mountain population in which it was observed, it is interesting that the estimated fitness effects place inv6 roughly in parameter space where the empirically observed frequencies at Iron Mountain are not surprising. 
 
-\textit{Conclusion} \newline
-Despite a surge of interest in eco-evolutionary dynamics, the demographic consequences of intralocus sexual antagonism have rarely been modeled (but see \cite{harts2014demography} and \cite{kokko2003sexy}). In contrast, models of the population dynamical consequences of interlocus sexual conflict are more common (e.g., \cite{tanaka1996sexual} and \cite{martinez2017sexual}). We found that including basic demography can have a significant impact on traditional population genetic results, as has been suggested previously both by theoretical work \citep{kokko2003sexy} and empirical work \citep{berger2016intralocus,grieshop2017male}. Although the potential negative consequences of sexual conflict for population viability have been known for some time, this aspect of sexual antagonism has rarely been considered in models investigating the scope for intralocus sexual antagonism to maintain polymorphisms, and hence genetic diversity. 
+Overall, our findings provide a more nuanced picture of the nature of SA genetic variation that we should expect to find in natural populations, where the fate of SA alleles and the populations harboring them is determined jointly by evolutionary and demographic processes.
+
+
+\subsubsection*{Extensions and future directions}
+
+By combining the tools of demography and those of population genetics, the framework we presented here enables the exploration of interactions between life cycle complexity, mating system, and sexual antagonism. For the sake of simplicity, we used a basic life cycle with just two stages for most of this paper, adults and juveniles (the \textit{Mimulus} example has $3$ stages). However, it is possible to include additional age classes, allowing us to explore whether the scope for SA selection to maintain polymorphisms is affected by whether a species exhibits positive, or negative senescence \citep{jones2014diversity}? That is, does the shape of the survival curve affect the area of demographically viable polymorphic parameter space, and how does this interact with the age at which a sexually antagonistic allele is expressed? What if the allele not only affects male and female sex functions but also affects survival of individuals? And last but not least, how would the scope for SA selection to maintain polymorphisms be affected by density-dependence acting on different life history stages? 
+
+One major simplifying assumption in our model was that how individuals themselves were produced (i.e., by selfing or outcrossing) affects the level of inbreeding depression they suffer. In reality, the history of consecutive generations of inbreeding in each individual's lineage will influence the severity of inbreeding depression they experience, particularly when inbreeding depression is caused primarily by recessive deleterious mutations. This more precise approach to modelling inbreeding could be included in our framework by expanding the individual state space to include selfing cohorts (i.e., first generation selfing, second generation selfing, etc.), as in the models of \citet{kelly1999response,kelly2007mutation}. 
+
+\textcolor{red}{This needs some polishing, but I though you may want to embellish.}. \cite{grieshop2017male} found that genotypes with sexually antagonstic alleles that are male beneficial experience higher levels of inbreeding depression than genotypes with female beneficial SA alleles. This effect can easily be included in our model by making the inbreeding depression parameters, $\delta$ and $\delta_i$, a function of the genotype of the individual. Such an effect would further reduce the demographically viable polymorphic parameter space, and increase the bias in viable SA polymorphisms towards alleles with weaker selection in females.
+
+
+\subsubsection*{Conclusion} 
+
+Despite a surge of interest in eco-evolutionary dynamics, the demographic consequences of intralocus sexual antagonism have rarely been modeled (but see \citealt{harts2014demography,kokko2003sexy, MatthewsConnallon2019}). In contrast, models of the population dynamical consequences of interlocus sexual conflict are more common \citep[e.g.,][]{tanaka1996sexual, martinez2017sexual}. We found that including basic demography can have a significant impact on traditional population genetic results, as has been suggested previously both by theoretical and empirical work \citep{kokko2003sexy, berger2016intralocus, grieshop2017male}. Although the potential negative consequences of sexual conflict for population viability have been known for some time, this aspect of sexual antagonism has rarely been considered in models investigating the scope for intralocus sexual antagonism to maintain genetic variation. 
 
 Demographic models connect individual level traits to population level consequences. As a consequence of their focus on individuals, demographic models are ideal for linking to experimental or field data, as demonstrated with our \textit{Mimulus} case study. Doing so allows the field of population genetics to move from fitness as an abstract scalar metric towards the fitness of an entire life cycle as calculated from observed rates of age- or stage-specific survival and fecundity rates.  
 
@@ -703,7 +708,7 @@ Demographic models connect individual level traits to population level consequen
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
-%\section{Conclusion}
+%\section*{Conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -717,6 +722,13 @@ Demographic models connect individual level traits to population level consequen
 % ... We are particularly grateful to the European Society for Evolutionary Biology (ESEB) for funding the Special Topics Network workshops “Linking local adaptation with the evolution of sex differences”, and to the participants, all of whom made this study possible. We would also like to thank .... This work was supported by a Wenner-Gren Foundation postdoctoral stipend to C.O., and [Lotte's funding] to C.dV..
 
 \newpage{}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix A 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\theequation}{A\arabic{equation}}
+\setcounter{equation}{0}  % reset counter 
 
 \section{Appendix A: Construction of the population projection matrix}
 
@@ -794,7 +806,7 @@ Substituting equations (\ref{eq:US_app}) and (\ref{eq:D_app}) into equation (\re
  &=& \sum_{i=1}^g \mathbf{E}_{ii} \otimes \mathbf{U}^S_{i},
 \end{eqnarray}
 \end{linenomath*}
-since $\bo K^\tr \bo I_{\omega g}	 \bo K=\bo I_{\omega g}$, or in block matrix form this yields equation (\ref{eq:BlkUS}), here repeated for convenience, 
+since $\bo K^\tr \bo I_{\omega g}	 \bo K=\bo I_{\omega g}$, or in block matrix form this yields equation (\ref{eq:BlkUS_app}), here repeated for convenience, 
 \begin{linenomath*}
 \begin{eqnarray}
 \mcal{U}^S  = 
@@ -803,14 +815,14 @@ since $\bo K^\tr \bo I_{\omega g}	 \bo K=\bo I_{\omega g}$, or in block matrix f
 				\mbf{U}^{S}_{AA} & \mbf{0} & \mbf{0} \\
 				\mbf{0} & \mbf{U}^{S}_{Aa} & \mbf{0} \\
 				\mbf{0} & \mbf{0} & \mbf{U}^{S}_{aa} \\
-			\end{array} \right).\label{eq:BlkUS}\\
+			\end{array} \right).\label{eq:BlkUS_app}\\
 \end{eqnarray}
 \end{linenomath*}
 
 Similarly, substituting equations (\ref{eq:FS_app}) and (\ref{eq:HS_app}) into equation (\ref{eq:KHKF_app}) yields,
 \begin{linenomath*}
 \begin{eqnarray}
-\mcal{F}^S &=&\bo K^\tr \mbb{H}^S\bo K \mathbb{F}^S, \label{eq:KHKF_app}\\
+\mcal{F}^S &=&\bo K^\tr \mbb{H}^S\bo K \mathbb{F}^S, \label{eq:KHKF_app2}\\
  &=& \sum_{i=1}^g \bo K^\tr \left( \bo I_\om \kron \bo H^S \right)  \bo K \left( \mathbf{E}_{ii} \otimes \mathbf{F}^S_{i} \right).
 \end{eqnarray}
 \end{linenomath*}
@@ -886,11 +898,11 @@ Finally, substitute the expressions derived for the parent-offpspring genotype m
 
 \renewcommand{\theequation}{A\arabic{equation}}
 \renewcommand{\thetable}{A\arabic{table}}
-\setcounter{equation}{0}  % reset counter 
 \setcounter{figure}{0}
 \setcounter{table}{0}
 
-\section{Appendix B: Additional Methods}
+
+%\section{Appendix B: Additional Methods}
 
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -906,9 +918,9 @@ Finally, substitute the expressions derived for the parent-offpspring genotype m
 %
 % The list below includes sample journal articles, book chapters, and
 % Dryad references.
+\newpage{}
 \bibliography{Refs2.bib}
 
-\newpage{}
 
 
 
@@ -925,57 +937,53 @@ Finally, substitute the expressions derived for the parent-offpspring genotype m
 \centering
 \caption{\bf Definition of terms.}
 \label{tab:Terms}
-\begin{tabular}{ l l r }
+\begin{tabular}{ l p{0.7\linewidth} r }
  \toprule
 Symbol & Definition & Dimension \\
 \hline
-$g$      & number of genotypes ($3$; $AA$, $Aa$, and $aa$) & \\
-$\omega$ & number of stages ($2$; juvenile and adult) & \\
+$g$      & Number of genotypes ($3$; $AA$, $Aa$, and $aa$) & \\
+$\omega$ & Number of stages ($2$; juvenile and adult) & \\
 $\tilde{\mbf{n}}$ & Joint stage $\times$ genotype vector & $2 \omega g \times 1$ \\
 $\tilde{\mbf{p}}$ & Joint stage $\times$ genotype frequency vector & $2 \omega g \times 1$ \\
-
-$\mbf{U}^{S}_{i}$, $\mbf{U}^{X}_{i}$ & Genotype-specific transition and survival matrices & $\omega \times \omega$ \\
-$\mbf{F}_{i}$, $\mbf{F}^{\prime}_{i}$ & Genotype-specific fertility matrices & $\omega \times \omega$ \\
-$\mbf{H}^{S}_{i}$, $\mbf{H}^{X}_{i}$ & Parent-offspring genotype maps & $g \times g$ \\
+$\mbf{U}^{S}_{i}$,\, $\mbf{U}^{X}_{i}$ & Genotype-specific transition and survival matrices & $\omega \times \omega$ \\
+$\mcal{U}^{S},\, \mcal{U}^{X}$ & Block diagonal selfed/outcrossed survival matrices & $\omega g \times \omega$ \\
+$\mbf{F}_{i}$,\, $\mbf{F}^{\prime}_{i}$ & Genotype-specific fertility matrices & $\omega \times \omega$ \\
+$\mbb{F}^{\prime}$ & Block diagonal fertility matrix & $\omega g \times \omega$ \\
+$\mcal{F}^{S},\, \mcal{F}^{X}$ & Block diagonal selfed/outcrossed fertility matrix & $\omega g \times \omega$ \\
+$\mbf{H}^{S}_{i}$,\, $\mbf{H}^{X}_{i}$ & Parent-offspring genotype maps & $g \times g$ \\
 $\mbf{W}$   & Allele segregation matrix & $\omega \times g$ \\
-$\mbf{K}$   & Vec-permutation matrix & $g \times g$ \\
-$\mbf{I}$   & Identity matrix & given in subscript \\
+% $\mbf{K}$   & Vec-permutation matrix & $g \times g$ \\
+% $\mbf{I}$   & Identity matrix & given in subscript \\
+$q^{\prime}_{A}$,\, $q^{\prime}_{a}$ & Allele frequencies in male gamete pool & $1$ \\
+$\tilde{\mbf{A}}(\tilde{\mbf{p}})$ & Population projection matrix & $2 \omega g \times g$ \\
+
+$s_f,\,s_m$ & Selection coefficients through female and male reproductive function & \\
+$h_f,\,h_m$ & Dominance coefficients through female and male reproductive function & \\
+$\sigma_j,\, \sigma_a$ & Survival rates for juvenile and adult stages & \\
+$\gamma$ & Transition rate from juvenile to adult stages \\
+$C$ & The population rate of self-fertilization & \\
+$\delta,\, \delta_j,\,\delta_a,\,\delta_{\gamma}$ & Inbreeding depression terms for ovule viability, survival, and transition rates respectively & \\
+$f_i,\,f^{\prime}_i$ & Adult fertilities through male and female sex functions & \\
+
 \hline
 \end{tabular}
 \end{table}
 \newpage{}
 
-
-
-
-\begin{table}[h]
-\caption{Founders of \textit{The~American Naturalist}}
-\label{Table:Founders}
-\centering
-\begin{tabular}{lll}\hline
-Early editor            & Years with the journal \\ \hline
-Alpheus S. Packard Jr.  & 1867--1886 \\
-Frederick W. Putnam     & 1867--1874 \\ 
-Edward S. Morse         & 1867--1871 \\ 
-Alpheus Hyatt           & 1867--1871 \\
-Edward Drinker Cope$^a$ & 1878--1897 \\
-J.~S. Kingsley          & 1887--1896 \\ \hline 
-\end{tabular}
-\bigskip{}
-\\
-{\footnotesize Note: Table titles should be short. Further details should go in a `notes' area after the tabular environment, like this. $^a$ Published the first description of \textit{Dimetrodon}.}
-\end{table}
-
-\newpage{}
 
 \section{Figure legends}
 
 \begin{figure}[h!]
 %\includegraphics{horn-of-okapi}
 \caption{Figure legends can be longer than the titles of tables. However, they should not be excessively long.}
-\label{Fig:OkapiHorn}
+%\label{Fig:OkapiHorn}
 \end{figure}
 
+\begin{figure}[h!]
+%\includegraphics{elegance}
+\caption{In this way, figure legends can be listed at the end of the document, with references that work, even though the graphic itself should be included for final files after acceptance. Instead, upload the relevant figure files separately to Editorial Manager; Editorial Manager should insert them at the end of the PDF automatically.}
+%\label{Fig:AnotherFigure}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%
 % Videos
@@ -986,48 +994,45 @@ J.~S. Kingsley          & 1887--1896 \\ \hline
 
 %%%%% Include the text below if you have videos
 
-\renewcommand{\figurename}{Video} 
-\setcounter{figure}{0}
+%\renewcommand{\figurename}{Video} 
+%\setcounter{figure}{0}
 % Thanks to Flo Debarre for the pro tip of putting
 % \renewcommand{\figurename}{Video} before the Video legend and
 % \renewcommand{\figurename}{Figure} after it!
 
-\begin{figure}[h!]
+%\begin{figure}[h!]
 %\includegraphics{VideoScreengrab.jpg}
-\caption{Video legends can follow the same principles as figure legends. Counters should be set and reset so that videos and figures are enumerated separately.}
-\label{VideoExample}
-\end{figure}
-
-\renewcommand{\figurename}{Figure}
-\setcounter{figure}{1}
+%\caption{Video legends can follow the same principles as figure legends. Counters should be set and reset so that videos and figures are enumerated separately.}
+%\label{VideoExample}
+%\end{figure}
 
 %%%%% Include the above if you have videos
 
+%\renewcommand{\figurename}{Figure}
+%\setcounter{figure}{1}
 
-\begin{figure}[h!]
-%\includegraphics{elegance}
-\caption{In this way, figure legends can be listed at the end of the document, with references that work, even though the graphic itself should be included for final files after acceptance. Instead, upload the relevant figure files separately to Editorial Manager; Editorial Manager should insert them at the end of the PDF automatically.}
-\label{Fig:AnotherFigure}
-\end{figure}
 
-\subsection{Online figure legends}
 
-\renewcommand{\thefigure}{A\arabic{figure}}
-\setcounter{figure}{0}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Online figure legends
+%\subsection*{Online figure legends}
 
-\begin{figure}[h!]
+%\renewcommand{\thefigure}{A\arabic{figure}}
+%\setcounter{figure}{0}
+
+%\begin{figure}[h!]
 %\includegraphics{jumps20m}
-\caption{\textit{A}, the quick red fox proceeding to jump 20~m straight into the air over not one, but several lazy dogs. \textit{B}, the quick red fox landing gracefully despite the skepticism of naysayers.}
-\label{Fig:Jumps}
-\end{figure}
+%\caption{\textit{A}, the quick red fox proceeding to jump 20~m straight into the air over not one, but several lazy dogs. \textit{B}, the quick red fox landing gracefully despite the skepticism of naysayers.}
+%\label{Fig:Jumps}
+%\end{figure}
 
-\begin{figure}[h!]
+%\begin{figure}[h!]
 %\includegraphics{jumps20m}
-\caption{The quicker the red fox jumps, the likelier it is to land near an okapi. For further details,.}
-\label{Fig:JumpsOk}
-\end{figure}
+%\caption{The quicker the red fox jumps, the likelier it is to land near an okapi. For further details,.}
+%\label{Fig:JumpsOk}
+%\end{figure}
 
-\renewcommand{\thefigure}{B\arabic{figure}}
-\setcounter{figure}{0}
+%\renewcommand{\thefigure}{B\arabic{figure}}
+%\setcounter{figure}{0}
 
 \end{document}

@@ -46,6 +46,7 @@ toPdf(MimulusInv6Fig(),
 			figPath(name='MimulusInv6Fig.pdf'), width=10, height=5)
 embed_fonts(figPath(name='MimulusInv6Fig.pdf'))
 
+
 #################
 # Supp. Figs
 #################
