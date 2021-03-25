@@ -12,6 +12,16 @@
   doi       = {doi:10.1111/j.1558-5646.2007.00179.x}
 }
 
+@article{BergerEtAl2014,
+  title     = {Intralocus sexual conflict and environmental stress},
+  author    = {Berger, D. and Grieshop, K. and Lind, M.I. and Goenaga, J. and Maklakov, A.A. and Arnqvist, G.},
+  journal   = {Evolution},
+  volume    = {68},
+  pages     = {2184--2196},
+  year      = {2014},
+  doi       = {10.1111/evo.12439}
+}
+
 @article{BolnickNosil2007,
   title     = {Natural selection in  populations subject to a migration load},
   author    = {Bolnick, D.~I. and Nosil, P.},
@@ -56,7 +66,7 @@
   title       = {The maintenance of genetic variation in life history traits},
   editor      = {Singh, R.S. and Krimbas, C.B.},
   booktitle   = {Evolutionary Genetics from Molecules to Morphology},
-  publisher   = {Cambridge Uni- versity Press},
+  publisher   = {Cambridge University Press},
   address     = {Cambridge, U.~K.},
   year        = {2000},
   pages       = {369--391},
@@ -68,6 +78,15 @@
   note      = {Available from \url{https://www.compadre-db.org} [17 Nov.~2020, Version 6.20.11.1].}
   }
 
+@article{Connallon2015,
+  title     = {The geography of sex-specific selection, local adaptation, and sexual dimorphism},
+  author    = {Connallon, Tim},
+  journal   = {Evolution},
+  volume    = {69},
+  pages     = {2333--2344},
+  year      = {2015},
+  doi       = {10.1111/evo.12737}
+}
 
 @article{ConnallonHall2018,
   title     = {Genetic constraints on adaptation: a theoretical primer for the genomics era},
@@ -143,6 +162,15 @@
   year      = {1930}
 }
 
+@article{Grossenbacher2015,
+  title     = {Geographic range size is predicted by plant mating system},
+  author    = {Grossenbacher, D. and Runquist, R.B. and Goldberg, E.E. and Brandvain, Y.},
+  journal   = {Ecology Letters},
+  volume    = {18},
+  pages     = {706--713},
+  year      = {2015}
+}
+
 @article{Goodwillie2005,
   title     = {The evolutionary enigma of mixed mating systems in plants: occurrence, theoretical explanations, and empirical evidence},
   author    = {Goodwillie, C. and Kalisz, S. and Eckert, C.~G.},
@@ -168,6 +196,15 @@
   volume    = {19},
   pages     = {497--509},
   year      = {2016}
+}
+
+@inbook{HarderBarrett2006,
+  author    = {Harder, L.~D. and Barrett, S.C.H.},
+  booktitle = {Ecology and evolution of flowers},
+  editor    = {Harder, L.~D. and Barrett, S.~C.~H.},
+  year      = {2006},
+  publisher = {Oxford Univ. Press},
+  address   = {Oxford, UK}
 }
 
 @incollection{HarderRoutely2006,
@@ -268,6 +305,15 @@
   year      = {1953}
 }
 
+@article{LloydWebb1992,
+  title     = {The avoidance of interference between the presentation of pollen and stigmas in angiosperms I. Dichogamy.},
+  author    = {Lloyd, D.~G. and Webb, C.~J.},
+  journal   = {NZ J.~Botany},
+  volume    = {24},
+  pages     = {135--162},
+  year      = {1986}
+}
+
 @article{LloydWebb1986,
   title     = {The avoidance of interference between the presentation of pollen and stigmas in angiosperms I. Dichogamy.},
   author    = {Lloyd, D.~G. and Webb, C.~J.},
@@ -294,6 +340,15 @@
   volume    = {172},
   pages     = {160--169},
   year      = {2008}
+}
+
+@article{Pamilo1979,
+  title     = {Genic variation at sex-linked loci: quantification of regular selection models},
+  author    = {Pamilo, P.},
+  journal   = {Hereditas},
+  volume    = {91},
+  pages     = {129--133},
+  year      = {1979}
 }
 
 @article{PetersonEtAl2016,
@@ -370,6 +425,34 @@
   pages     = {331--338},
   year      = {1976},
   doi       = {doi:10.1086/ 283071}
+}
+
+@article{Sicard2011,
+  title     = {The selfing syndrome: a model for studying the genetic and evolutionary basis of morphological adaptation in plants},
+  author    = {Sicard, A. and Lenhard, M.},
+  journal   = {Annals of Botany},
+  volume    = {107},
+  pages     = {1433--1443},
+  year      = {2011}
+}
+
+
+@article{SpencerMarks1988,
+  title     = {The maintenance of single-locus polymorphism. I. Numerical studies of a viability selection model},
+  author    = {Spencer, H.G. and Marks, R.W.},
+  journal   = {Genetics},
+  volume    = {120},
+  pages     = {605--613},
+  year      = {1988}
+}
+
+@article{SpencerChiew2015,
+  title     = {The maintenance of single-locus polymorphism by maternal selection},
+  author    = {Spencer, H.G. and Chiew, K.X.},
+  journal   = {G3},
+  volume    = {5},
+  pages     = {963--969},
+  year      = {2015}
 }
 
 @article{Tazzyman2015,
@@ -2208,6 +2291,28 @@ causes and its variation within and among gynodioecious species},
   number    = {1},
   pages     = {1--10},
   publisher = {BioMed Central},
+}
+
+@Article{berger2016intralocus,
+  author    = {Berger, David and Martinossi-Allibert, Ivain and Grieshop, Karl and Lind, Martin I and Maklakov, Alexei A and Arnqvist, G{\"o}ran},
+  title     = {Intralocus sexual conflict and the tragedy of the commons in seed beetles},
+  journal   = {The American Naturalist},
+  year      = {2016},
+  volume    = {188},
+  number    = {4},
+  pages     = {E98--E112},
+  publisher = {University of Chicago Press Chicago, IL},
+}
+
+@Article{merot2020balancing,
+  author    = {M{\'e}rot, Claire and Llaurens, Violaine and Normandeau, Eric and Bernatchez, Louis and Wellenreuther, Maren},
+  title     = {Balancing selection via life-history trade-offs maintains an inversion polymorphism in a seaweed fly},
+  journal   = {Nature communications},
+  year      = {2020},
+  volume    = {11},
+  number    = {1},
+  pages     = {1--11},
+  publisher = {Nature Publishing Group},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}

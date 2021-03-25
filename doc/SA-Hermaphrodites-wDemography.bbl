@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{84}
+\begin{thebibliography}{85}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -235,11 +235,13 @@ Igic, B., and J.~R. Kohn. 2006.
   obligately outcrossing species.
 \newblock Evolution 60:1098--1103.
 
-\bibitem[{Jarne and Auld(2006)}]{JarneAuld2006}
-Jarne, P., and J.~R. Auld. 2006.
-\newblock Animals mix it up too: the distribution of self-fertilization among
-  hermaphroditic animals.
-\newblock Evolution 60:1816--1824.
+\bibitem[{Johnston et~al.(2013)Johnston, Gratten, Berenos, Pilkington,
+  Clutton-Brock, Pemberton, and Slate}]{johnston2013life}
+Johnston, S.~E., J.~Gratten, C.~Berenos, J.~G. Pilkington, T.~H. Clutton-Brock,
+  J.~M. Pemberton, and J.~Slate. 2013.
+\newblock Life history trade-offs at a single locus maintain sexually selected
+  genetic variation.
+\newblock Nature 502:93--95.
 
 \bibitem[{Jones et~al.(2014)Jones, Scheuerlein, Salguero-G{\'o}mez, Camarda,
   Schaible, Casper, Dahlgren, Ehrl{\'e}n, Garc{\'\i}a, Menges
@@ -340,6 +342,14 @@ Mart{\'\i}nez-Ruiz, C., and R.~J. Knell. 2017.
 Matthews, G., S.~Hangartner, D.~G. Chapple, and T.~Connallon. 2019.
 \newblock Quantifying maladaptation during the evolution of sexual dimorphism.
 \newblock Proc.~Roy.~Soc.~B 286:20191372.
+
+\bibitem[{M{\'e}rot et~al.(2020)M{\'e}rot, Llaurens, Normandeau, Bernatchez,
+  and Wellenreuther}]{merot2020balancing}
+M{\'e}rot, C., V.~Llaurens, E.~Normandeau, L.~Bernatchez, and M.~Wellenreuther.
+  2020.
+\newblock Balancing selection via life-history trade-offs maintains an
+  inversion polymorphism in a seaweed fly.
+\newblock Nature communications 11:1--11.
 
 \bibitem[{Olito(2017)}]{Olito2017}
 Olito, C. 2017.
