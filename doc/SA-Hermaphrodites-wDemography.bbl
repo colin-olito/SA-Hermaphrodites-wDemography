@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{85}
+\begin{thebibliography}{87}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -374,6 +374,12 @@ Orr, H.~A., and R.~L. Unckless. 2008.
 \newblock Population extinction and the genetics of adaptation.
 \newblock American Naturalist 172:160--169.
 
+\bibitem[{Otto and Day(2007)}]{OttoDay2007}
+Otto, S., and T.~Day. 2007.
+\newblock A biologist's guide to mathematical modeling in ecology and
+  evolution.
+\newblock Princeton University Press, New Jersey, USA.
+
 \bibitem[{Otto et~al.(2011)Otto, Pannell, Peichel, Ashman, Charlesworth,
   Chippindale, Delph, Guerrero, Scarpino, and McAllister}]{Otto2011}
 Otto, S.~P., J.~R. Pannell, C.~L. Peichel, T.-L. Ashman, D.~Charlesworth, A.~K.
@@ -466,6 +472,12 @@ Sicard, A., and M.~Lenhard. 2011.
 Smith, J.~M. 1976.
 \newblock What determines the rate of adaptation?
 \newblock American Naturalist 110:331--338.
+
+\bibitem[{Spencer and Priest(2016)}]{SpencerPriest2016}
+Spencer, H., and N.~Priest. 2016.
+\newblock The evolution of sex-specific dominance in response to sexually
+  antagonistic selection.
+\newblock American Naturalist 187:658--666.
 
 \bibitem[{Tanaka(1996)}]{tanaka1996sexual}
 Tanaka, Y. 1996.
