@@ -20,6 +20,7 @@
 \usepackage{nameref}
 %\usepackage[title,titletoc,toc]{appendix}
 \usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage{pdflscape}
 
 % Section Header Formats
 \titleformat{\section}[block]{\Large\bfseries\filcenter}{\thesection}{1em}{}
@@ -32,6 +33,8 @@
   \tikz[baseline=(X.base)] 
     \node (X) [draw, shape=circle, inner sep=0] {\strut #1};}
 
+% Equation numbering
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 
 % Graphics package
 \usepackage{graphicx}
@@ -693,17 +696,17 @@ Interestingly, a polymorphic chromosomal inversion (inv6) with apparently SA fit
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Polymorphism in M.~guttatus} \label{sec:Mgutt}
 
-The Eagle Meadows and Low-Elevation Perennial populations of \citet{PetersonEtAl2016} had contrasting demographic rates that strongly affected the scope for demographically viable SA polymorphism. The Eagle Meadows population was locally adapted with a very high intrinsic growth rate ($\lambda \approx 1.7$). This growth rate was high enough that all $s_f \times s_m$ selection parameter space (where $s_f, s_m \in (0,1]$) remained demographically viable, regardless of the selfing rate ($C = 0$ or $0.29$), or the presence of inbreeding depression (fig.~\ref{fig:mimulusFig}A). In contrast, the Low-Elevation Perennial population had a much lower, but still positive, intrinsic growth rate ($\lambda \approx 1.08$). Due to the slower growth rate, not all of the $s_f \times s_m$ selection parameter space was demographically viable. Extinction thresholds appeared under complete outcrossing ($C = 0$) and partial selfing with inbreeding depression ($C = 0.29$), but not when inbreeding depression was omitted (fig.~\ref{fig:mimulusFig}B). The different demographic rates from these two populations also resulted in slightly different invasion conditions when inbreeding depression was taken into account (compare dotted lines in fig.~\ref{fig:mimulusFig}A and B).
+The Eagle Meadows and Low-Elevation Perennial populations of \citet{PetersonEtAl2016} had contrasting demographic rates that strongly affected the scope for demographically viable SA polymorphism. The Eagle Meadows population was locally adapted with a very high intrinsic growth rate ($\lambda \approx 1.7$). This growth rate was sufficiently high enough that all $s_f \times s_m$ selection parameter space (where $s_f, s_m \in (0,1]$) remained demographically viable, regardless of the selfing rate and effects of inbreeding depression ($C = 0$ or $0.29$; fig.~\ref{fig:mimulusFig}A). In contrast, the Low-Elevation Perennial population had a much lower, but still positive, intrinsic growth rate ($\lambda \approx 1.08$). Due to the slower growth rate, not all of the $s_f \times s_m$ selection parameter space was demographically viable: extinction thresholds appear under both complete outcrossing and partial selfing with inbreeding depression (fig.~\ref{fig:mimulusFig}B). The different demographic rates from these two populations also resulted in slightly different invasion conditions when inbreeding depression was taken into account (compare dashed with solid lines in fig.~\ref{fig:mimulusFig}A and B).
 
-The polymorphic inversion inv6 falls very near the lower edge of polymorphic parameter space for these hypothetical populations, but is not always predicted to be demographically viable. When using demographic rates for either the Eagle Meadows or Low-Elevation Perennial populations, inv6 falls within polymorphic space when the selfing rate is at the higher end of empirical estimates for the Iron Mountain population in which inv6 has been documented ($C = 0.29$), but only when inbreeding depression is not taken into account (fig.~\ref{fig:mimulusFig} dashed lines). When including empirical estimates of inbreeding depression, the population effective selfing rate is reduced, the polymorphic parameter space shifts upwards, and inv6 no longer falls within the polymorphic space. Although a population with vital rates like those of the locally adapted Eagle Meadows population can support the demographic costs of inv6, our model predicts that an allele (or supergene) with the same fitness effects as inv6 will not be maintained as a polymorphism. In contrast, when using the demographic rates for Low-Elevation Perennials, an allele/supergene with these fitness effects falls within demographically inviable parameter space. That is, populations with lower intrinsic growth rates like those observed in the Low-Elevation Perennials will be unable to support the demographic costs associated with segregating SA alleles with selection coefficients of similar magnitude to inv6. 
+When using demographic rates for either the Eagle Meadows or Low-Elevation Perennial populations, inv6 falls within demographically viable polymorphic parameter space (fig.~\ref{fig:mimulusFig}; estimated selection coefficients for inv6 were $(s_f,\,s_m) = (0.30,\, 0.31)$). Whether outcrossing or partial selfing ($C=0.29$), inv6 always falls squarely in the middle of SA polymorphic space when using the locally adapted Eagle Meadows demographic rates. In contrast, when the selfing rate is at the higher end of empirical estimates for the Iron Mountain population in which inv6 has been documented ($C = 0.29$), inv6 falls nearer to the upper boundary of SA polymorhic space when using the Low-Elevation Perennial demographic rates. This happens because, when including empirical estimates of selfing rates and inbreeding depression, the polymorphic parameter space shifts downwards. Additionally, inv6 falls much closer to the extinction threshold under partial selfing. Interesting, this suggests that even relatively small perturbations to demgraphic rates or selection coefficients could result in non-locally adapted populations being unable to support the demographic costs associated with segregating SA alleles with selection coefficients of similar magnitude to inv6. 
 
 
 
 % Figure 4
 \begin{figure}[htbp]
  \centering
- \includegraphics[scale=0.75]{../output/figs/mimulusinv6Fig.pdf}
- \caption{\footnotesize{Illustration of model predictions using empirically estimated demographic rates for {\itshape M.~guttatus}. Results are shown for two hypothetical populations using demographic rates for locally adapted (Eagle Meadows; panel A), and non-local (Low-Elevation Perennial; panel B) populations reported by \citet{PetersonEtAl2016}. Invasion conditions and extinction thresholds were calculated using the dominance coefficients estimated for inv6 ($h_f = 0.5, h_m = 0.35$; from data in \citealt{LeeKelly2015}) for three parameter conditions: obligate outcrossing (solid black lines), partial selfing using the highest field-estimate for the Iron Mountain population of \citet{Willis1993} (dashed lines), and partial selfing with inbreeding depression (dotted lines; using $\delta_i$ estimates for Iron Mountain by \citealt{Willis1993}). The location of inv6 is also shown on both plots, using estimated selection coefficients. Note that in panel A the predictions for partial selfing with inbreeding depression (dotted lines) fall extremely close to the predictions for obligate outcrossing (solid lines).}} 
+ \includegraphics[scale=0.75]{../output/figs/mimulusinv6FigNewSel.pdf}
+ \caption{\footnotesize{Illustration of model predictions using empirically estimated demographic rates for {\itshape M.~guttatus}. Results are shown for two hypothetical populations using demographic rates for locally adapted (Eagle Meadows; panel A), and non-local (Low-Elevation Perennial; panel B) populations reported by \citet{PetersonEtAl2016}. Invasion conditions and extinction thresholds were calculated using the conservative assumption of additive fitness effects in both sexes ($h_f = h_m = 0.5$) for two parameter conditions: obligate outcrossing (solid black lines)  and partial selfing with inbreeding depression using the highest field-estimate of selfing, and inbreeding depression parameters ($\delta_i$) calculated for the Iron Mountain population of \citet{Willis1993} (dashed lines). The location of inv6 is also shown on both plots, using selection coefficients calculated from field estimates of male and female fitness components from \citet{LeeKelly2015} under the relatively conservative assumption of additive fitness effects in both sexes, where $(s_f,\,s_m) = (0.30,\, 0.31)$. Note that in panel A the invasion conditions for partial selfing with inbreeding depression (dotted lines) are nearly indistinguishable from those for obligate outcrossing (solid lines).}} 
  \label{fig:mimulusFig}
  \end{figure}
 
@@ -723,7 +726,7 @@ We also find that demographically viable polymorphic parameter space is often bi
 
 In hermaphroditic populations, self-fertilization can alleviate the demographic costs of balanced SA polymorphisms under some conditions, however, the concommitant effects of inbreeding depression generally exacerbate them in populations with mixed-mating systems. This prediction is in stark contrast to previous population genetics models of SA selection in hermaphrodites, where the sole effect of inbreeding depression is to reduce the population effective selfing rate through the loss of selfed-zygotes, thereby expanding polymorphic parameter space \citep{JordanConnallon2014, Olito2017}. In our model, this reduction in effective selfing is accompanied by significant mortality due to inbreeding depression (whether early- or late-acting), which can quickly tip partially-selfing populations over the brink to extinction. Beyond the maintenance of SA polymorphisms, this finding underscores a simple but important point that is often overlooked in studies of the evolution of self-fertilization and selfing-syndromes, which tend to emphasize the coevolution of the deleterious mutation load and mating system \citep[e.g.,][]{Charlesworth1987, LandeSchemske1985, Goodwillie2005}: populations with high fertility rates are better able to sustain positive growth rates in the face of severe demographic costs of inbreeding. This suggests that traits related to female fecundity, such as ovule and flower production, in ancestral populations likely play an important role in determining the distribution of transitions to self-fertilization among hermaphroditic taxa as well as a variety of ecological correlates of selfing and mixed-mating \citep{Goodwillie2005,Igic2006,Grossenbacher2015}.
 
-Despite the demographic pitfalls associated with SA alleles, our example using {\itshape M.~guttatus} appears to show that demographic rates observed in some real populations are capable of sustaining large regions of viable SA polymorphic space. The example also appears to provide some empirical support for the conjecure that locally-adapted populations are more likely to harbor SA polymorphisms than marginal or non-locally adapted ones; inviable polymorphic parameter space only occured when using the demographic data for non-local high-elevation perennial populations. The location of inv6 in selection parameter space is also interesting because it corresponds to a region where an SA allele with net female-beneficial fitness effects similar to inv6 are predicted to either go extinct, or segregate at relatively low frequency, depending on the population selfing-rate and severity of inbreeding depression. Although we cannot make specific predictions for inv6 in the Iron Mountain population in which it was observed, it is interesting that the estimated fitness effects place inv6 roughly in parameter space where the low frequencies observed at Iron Mountain are not surprising. 
+Despite the demographic pitfalls associated with SA alleles, our example using {\itshape M.~guttatus} appears to show that demographic rates observed in some real populations are capable of sustaining large regions of viable SA polymorphic space. The example also appears to provide some empirical support for the conjecure that locally-adapted populations are more likely to harbor SA polymorphisms than marginal or non-locally adapted ones; inviable polymorphic parameter space only occured when using the demographic data for non-local high-elevation perennial populations. Although we cannot make concrete predictions for inv6 in the Iron Mountain population in which it was observed, it is interesting that the estimated SA fitness effects place this polymophic inversion squarely in demographically viable polymorphic parameter space predicted by our model. The available data do not allow for confident estimation of selection coefficients for inv6 (and even require making assumptions about dominance), yet our theoretical predictions are encouragingly consistent with the available data that inv6 is segregating at intermediate frequencies in the large and locally adapted Iron Mountain population. 
 
 Overall, our findings provide a more nuanced picture of the nature of SA genetic variation that we should expect to find in natural populations, where the fate of SA alleles and the populations harboring them is determined jointly by evolutionary and demographic processes.
 
@@ -801,180 +804,215 @@ Demographic models connect individual level traits to population level consequen
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Appendix A 
 %%%%%%%%%%%%%%%%%%%%%%%%
-\section{Appendix A: Population projection matrix}
+\section*{Appendix A: Population projection matrix}
 \renewcommand{\theequation}{A\arabic{equation}}
 \setcounter{equation}{0}  % reset counter 
+\setcounter{table}{0}  % reset counter 
 
-\textcolor{red}{NEED TO CHANGE THIS TO A MINIMAL PRESENTATION OF THE PROJECTION MATRIX... Can move the material provided below to the Online Supplement}
+The complete population projection matrix $\tilde{\mbf{A}}$ consists of $3 \times 3$ blocks, which act on the genotype specific population vectors:
 
-\subsubsection*{Population projection}
-In this appendix, we will derive the expressions for the survival and fertility matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ as given by equations (\ref{eq:BlkUS})-(\ref{eq:BlkFX}) in the main text. The matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ are the ingredients of the population projection matrix, $\tilde{\mbf{A}}$, as given in equation (\ref{eq:Atilde}), repeated here for convenience, 
-\begin{linenomath*}
-\begin{equation} \label{eq:Atilde_appendix}
-	\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
-			\underbrace{\left(
-			\begin{array}{c|c}
-				\mcal{U}^S & \mbf{0} \\ \hline
-				\mbf{0} & \mcal{U}^X \\
-			\end{array} \right)}_{\tilde{\mbf{U}}} + 
-			\underbrace{\left(
-			\begin{array}{c|c}
-				\mcal{F}^S C(1 - \delta) & \mcal{F}^S(\tilde{\mbf{p}}) C(1 - \delta) \\ \hline
-				\mcal{F}^X(\tilde{\mbf{p}}) (1 - C) & \mcal{F}^X(\tilde{\mbf{p}}) (1 - C)\\
-			\end{array} \right)}_{\tilde{\mbf{F}}}.
-\end{equation}
-\end{linenomath*}
+{
+\small
 
-Our derivation follows closely the derivations in \cite{deVriesCaswell2019a} and \cite{deVriesCaswell2019b}, but extended to model mixed mating systems. To construct $\tilde{\mbf{A}}[\tilde{\mbf{n}}]$ using the vec-permutation approach \citep{CaswellEtAl2018}, we create a set of block-diagonal matrices $\mathbb{U}^S$, $\mathbb{U}^X$, $\mathbb{F}^X$, $\mathbb{F}^S$, and $\mathbb{H}^S$, $\mathbb{H}^X$, by putting the corresponding matrices on the diagonal. These block diagonal matrices can be written as
-\begin{linenomath*}
-\begin{eqnarray}
- \mathbb{U}^S&=&\sum_{i=1}^g \mathbf{E}_{ii} \otimes \mathbf{U}^S_{i}, \label{eq:US_app}\\
- \mathbb{F}^S&=&\sum_{i=1}^g \mathbf{E}_{ii} \otimes \mathbf{F}^S_{i}, \label{eq:FS_app}\\
-  \mathbb{H}^S &=& \bo I_\om \kron \bo H^S , \label{eq:HS_app} \\
-      \mathbb{D} &=& \bo I_\om \kron \bo I_g, \label{eq:D_app} 
-\end{eqnarray}
-\end{linenomath*}
-where $\mathbf{E}_{ii}$ is of dimensions $g \times g$. Analogous equations can be written down for $ \mathbb{U}^X$, $ \mathbb{F}^X$, and $ \mathbb{H}^X$.  
-% \begin{linenomath*}
-% \begin{eqnarray} 
-% 	\mbb{U}^S &= &
-% 		\left(
-% 			\begin{array}{ccc}
-% 				\mbf{U}^{S}_{AA} & \mbf{0} & \mbf{0} \\
-% 				\mbf{0} & \mbf{U}^{S}_{Aa} & \mbf{0} \\
-% 				\mbf{0} & \mbf{0} & \mbf{U}^{S}_{aa} \\
-% 			\end{array} \right), \label{eq:BlkUS_appendix}\\
-%   \mbb{F}^S &= &
-% 		\left(
-% 			\begin{array}{ccc}
-% 				\mbf{F}^{S}_{AA} & \mbf{0} & \mbf{0} \\
-% 				\mbf{0} & \mbf{F}^{S}_{Aa} & \mbf{0} \\
-% 				\mbf{0} & \mbf{0} & \mbf{F}^{S}_{aa} \\
-% 			\end{array} \right), \label{eq:BlkFS_appendix}\\
-% \end{eqnarray}
-% \end{linenomath*}
-% Similarly construct block diagonal matrices from the parent-offspring genotype maps,
-% \begin{linenomath*}
-% \begin{eqnarray}
-% 	\mathbb{H}^X(\tilde{\bo p}) = \bo I_\om \kron \bo H^X(\tilde{\bo p}),\\
-% 	\mathbb{H}^S(\tilde{\bo p}) = \bo I_\om \kron \bo H^S(\tilde{\bo p}).
-% \end{eqnarray}
-% \end{linenomath*}
+\begin{align*} \label{eq:AtildeFull}
+	&\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
+		 \underbrace{\left(
+			\begin{array}{ccc|ccc}
+				\mbf{U}^S_{AA} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\ 
+				\mbf{0} & \mbf{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{U}^S_{Aa} & \mbf{0} & \mbf{0} & \mbf{0} \\ \hline
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{U}^X_{AA} & \mbf{0} & \mbf{0} \\
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{U}^X_{aa} & \mbf{0}\\
+				\mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{0} & \mbf{U}^X_{aa}
+			\end{array} \right)}_{\tilde{\mbf{U}}} + \\ 
+	&\underbrace{\left(
+			\begin{array}{ccc|ccc}
+				C (1 - \delta) \mbf{F}_{AA} & \frac{1}{4} C (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & C (1 - \delta) \mbf{F}_{AA} & \frac{1}{4} C (1 - \delta) \mbf{F}_{Aa} & \mbf{0} \\ 
+				\mbf{0} & \frac{1}{2} C (1 - \delta) \mbf{F}_{Aa} & \mbf{0} & \mbf{0} & \frac{1}{2} C (1 - \delta) \mbf{F}_{Aa} & \mbf{0}  \\
+				\mbf{0} & \frac{1}{4} C (1 - \delta) \mbf{F}_{Aa} & C (1 - \delta) \mbf{F}_{aa} & \mbf{0} & \frac{1}{4} C (1 - \delta) \mbf{F}_{Aa} & C (1 - \delta) \mbf{F}_{aa} \\ \hline
+				q^{\prime}_{A} (1 - C)\mbf{F}_{AA} & \frac{1}{2} q^{\prime}_{A} (1 - C)\mbf{F}_{Aa}  & \mbf{0} & q^{\prime}_{A} (1 - C) \mbf{F}_{AA}& \frac{1}{2} q^{\prime}_{A} (1 - C) \mbf{F}_{Aa} & \mbf{0} \\
+				q^{\prime}_{a} (1 - C) \mbf{F}_{AA} & \frac{1}{2} (1 - C)\mbf{F}_{Aa}  & q^{\prime}_{A} (1 - C)\mbf{F}_{aa}  & q^{\prime}_{a} (1 - C) \mbf{F}_{AA} & \frac{1}{2}(1 - C) \mbf{F}_{Aa}  & q^{\prime}_{A} (1 - C)\mbf{F}_{aa}  \\
+				\mbf{0} & \frac{1}{2} q^{\prime}_{a} (1 - C)\mbf{F}_{Aa} & q^{\prime}_{a} (1 - C) \mbf{F}_{aa} & \mbf{0} & \frac{1}{2} q^{\prime}_{a} (1 - C)\mbf{F}_{Aa} & q^{\prime}_{a} (1 - C)\mbf{F}_{aa} 
+			\end{array} \right)}_{\tilde{\mbf{F}}} \numberthis
+\end{align*}
 
-As in other multistate models, the survival and fertility matrices are then constructed from the following four block matrices, 
-\begin{linenomath*}
-\begin{eqnarray}
-\mcal{U}^S &=&\bo K^\tr \mathbb{D} \bo K \mathbb{U}^S, \label{eq:KDKU_app}\\
-\mcal{F}^S &=&\bo K^\tr \mbb{H}^S\bo K \mathbb{F}^S, \label{eq:KHKF_app}
-\end{eqnarray}
-\end{linenomath*}
-where $\mathbf{K}=\mathbf{K}_{\omega,g}$ is the vec-permutation matrix \citep{HendersonSearle1981}. The vec-permutation matrix rearrangers the population vectors $\mathbf{n}^S$ and $\mathbf{n}^X$ so that $\mathbf{n}^S$ is ordered by genotype first, and then by stage, but $\mathbf{K} \mathbf{n}^S$ is organized by stage first, and then by genotype (see \cite{hunter2005use} or \cite{caswell2012matrix} for more on the vec-permutation method). 
+}
 
-The matrix $\mathbb{U}^S$ in equation (\ref{eq:KDKU_app}) generates transitions and survival of extant individuals within genotypes,  and acts on the the population vector of individuals produced through selfing, $\mathbf{n}^S$.. The matrix $\bo K$ then permutes the resulting vector so that it is now organised by stages first, and then by genotypes within stages. The block diagonal matrix $ \mathbb{D} $ then accounts for changes in genotype within stage classes of extant individuals. Since extant individuals generally do not change their genotype $\mathbb{D}$ will be an identity matrix in our model. Finally, the matrix $\bo K^\tr $ permutes the population vector once again so that it returns to the original organisation by genotype first and then by stage classes.  
+\noindent with symbols as defined in the main text. The survival matrices appear on the diagonal because individuals do not change their genotype once they are born. The fertility matrix incorporates the process of Mendelian inheritance and is an extension of the fertility matrix derived by \citet{deVriesCaswell2019a}.
 
-Equation (\ref{eq:KHKF_app}) describes reproduction and genotype assignment of newborn individuals. The block matrix $\mathbb{F}^S$ contains fecundity rates for individuals of each genotype and stage combination and acts on the the population vector of individuals produced through selfing, $\mathbf{n}^S$. Initially, these offspring are associated with the genotype of their parent. The vec-permutation matrix $\bo K$ then rearranges the resulting vector so that it is organised by stage first and then by genotype. The block-diagonal matrix $\mbb{H}^S$ then allocates the offspring to their genotypes, according to equation (\ref{eq:HS}). Finally, $\bo K^\tr $  returns the vector to its initial orientation. 
+The first block column of $\tilde{\mbf{A}}$ describes the production of offspring by an $AA$ female with stage-specific fertility rates $\mbf{F}_{AA}$ by both selfing and outcrossing. The probability of picking an $A$ allele out of the pool of available male gametes. When reproducing by selfing, this is entirely determined by the probability of sampling an $A$ allele after Mendelian segregation. For outcross reproduction the probability, and hence the probability of this $AA$ female producing an $AA$ offspring, is $q^{\prime}_{A}$, as derived above. Conversely, the probability of picking an $a$ allele and producing an $Aa$ offspringis zero for an $AA$ female when selfing, but $q^{\prime}_a$ for outcrossing. Similarly, the middle column of block matrices are offspring produced by $Aa$ females, which can produce offspring of all $3$ genotypes.
 
-Substituting equations (\ref{eq:US_app}) and (\ref{eq:D_app}) into equation (\ref{eq:KDKU_app}) yields
-\begin{linenomath*}
-\begin{eqnarray}
-\mcal{U}^S &=& \sum_{i=1}^g \bo K^\tr \bo I_{\omega g}	 \bo K \mathbf{E}_{ii} \otimes \mathbf{U}^S_{i}, \\
- &=& \sum_{i=1}^g \mathbf{E}_{ii} \otimes \mathbf{U}^S_{i},
-\end{eqnarray}
-\end{linenomath*}
-since $\bo K^\tr \bo I_{\omega g}	 \bo K=\bo I_{\omega g}$, or in block matrix form this yields equation (\ref{eq:BlkUS_app}), here repeated for convenience, 
-\begin{linenomath*}
-\begin{eqnarray}
-\mcal{U}^S  = 
-		\left(
-			\begin{array}{ccc}
-				\mbf{U}^{S}_{AA} & \mbf{0} & \mbf{0} \\
-				\mbf{0} & \mbf{U}^{S}_{Aa} & \mbf{0} \\
-				\mbf{0} & \mbf{0} & \mbf{U}^{S}_{aa} \\
-			\end{array} \right).\label{eq:BlkUS_app}\\
-\end{eqnarray}
-\end{linenomath*}
-
-Similarly, substituting equations (\ref{eq:FS_app}) and (\ref{eq:HS_app}) into equation (\ref{eq:KHKF_app}) yields,
-\begin{linenomath*}
-\begin{eqnarray}
-\mcal{F}^S &=&\bo K^\tr \mbb{H}^S\bo K \mathbb{F}^S, \label{eq:KHKF_app2}\\
- &=& \sum_{i=1}^g \bo K^\tr \left( \bo I_\om \kron \bo H^S \right)  \bo K \left( \mathbf{E}_{ii} \otimes \mathbf{F}^S_{i} \right).
-\end{eqnarray}
-\end{linenomath*}
-Using $\bo K^\tr \left(\bo A \otimes \bo B  \right) \; \bo K=\bo B \otimes \bo A$ \citep{magnus1979commutation}, we obtain
-\begin{linenomath*}
-\begin{eqnarray}
-\mcal{F}^S  &=& \sum_{i=1}^g  \left(  \bo H^S  \kron \bo I_\om\right) \left( \mathbf{E}_{ii} \otimes \mathbf{F}^S_{i} \right).
-\end{eqnarray}
-\end{linenomath*}
-Finally note that $(\mathbf{A} \otimes \mathbf{B}) (\mathbf{C} \otimes \mathbf{D}) = \mathbf{A} \mathbf{C}\otimes \mathbf{B} \mathbf{D}$  to write
-\begin{linenomath*}
-\begin{eqnarray}
-\mcal{F}^S  &=& \sum_{i=1}^g  \left(  \bo H^S \mathbf{E}_{ii} \right) \kron  \mathbf{F}^S_{i} .
-\end{eqnarray}
-\end{linenomath*}
-Using the exact same sequence of equations, we can derive
-\begin{linenomath*}
-\begin{eqnarray}
-\mcal{F}^X  &=& \sum_{i=1}^g  \left(  \bo H^X(\tilde{\mbf{p}}) \mathbf{E}_{ii} \right) \kron  \mathbf{F}^X_{i} .
-\end{eqnarray}
-\end{linenomath*}
-
-Finally, substitute the expressions derived for the parent-offpspring genotype maps, $\bo H^X(\tilde{\mbf{p}}) $, and $\bo H^S$, in the main text (equations (\ref{eq:HS}) and (\ref{eq:HX})) into the above equations to obtain 
-\begin{linenomath*}
-\begin{eqnarray}
-	\mcal{F}^S = \mbf{K}^{\intercal} \mbb{H}^S\mbf{K} \mbb{F}^S = 
-			\left(
-			\begin{array}{ccc}
-				\mbf{F}_{AA} & \frac{1}{4} \mbf{F}_{Aa} & 0 \\
-				0 & \frac{1}{2} \mbf{F}_{Aa} & 0 \\
-				0 & \frac{1}{4} \mbf{F}_{Aa} & \mbf{F}_{aa}\\
-			\end{array} \right),  \label{eq:BlkFS_appendix}
-\end{eqnarray}
-\end{linenomath*}
-\noindent and 
-\begin{linenomath*}
-\begin{equation} \label{eq:BlkFX_appendix}
-	\mcal{F}^X = \mbf{K}^{\intercal} \mbb{H}^X(\tilde{\mbf{p}}) \mbf{K} \mbb{F}^X = 
-			\left(
-			\begin{array}{ccc}
-				q^{\prime}_{A} \mbf{F}_{AA} & \frac{1}{2} q^{\prime}_{A} \mbf{F}_{Aa} & 0 \\ 
-				q^{\prime}_{a} \mbf{F}_{AA} & \frac{1}{2} \mbf{F}_{Aa} & q^{\prime}_{A} \mbf{F}_{aa}  \\ 
-				0 & \frac{1}{2} q^{\prime}_{a} \mbf{F}_{Aa} & q^{\prime}_{a} \mbf{F}_{aa}  \\
-			\end{array} \right),
-\end{equation}
-\end{linenomath*}
-
+A full derivation of the model, including all component matrices, is provided in the Online Supplementary Material. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Appendix B
 %%%%%%%%%%%%%%%%%%%%%%%%
-\section{Appendix B: Eigenvalues for invasion analysis}
+\begin{landscape}
+\section*{Appendix B: Eigenvalues for invasion analysis}
 \renewcommand{\theequation}{B\arabic{equation}}
 \setcounter{equation}{0}  % reset counter 
+\setcounter{table}{0}  % reset counter 
+
+The invasion analysis is made easier if we first reorder the population vector by genotype, then by how individuals were produced (selfing vs.~outcrossing), and finally by stage. Ordering by genotype first facilitates the invasion analysis in two ways. First, the resulting Jacobian matrix is upper block triangular, and the eigenvalues of $\mbf{M}$ are therefore the eigenvalues of the diagonal blocks. Second, the blocks along the diagonal correspond to perturbations in each of the the three genotype 'directions' at the boundary equilibria. As outlined in the Online Supplementary Material, the stability of both boundary equilibria $\hat{\mbf{p}}_{AA} = 1$ and $\hat{\mbf{p}}_{aa} = 1$ are determined by the central block of the Jacobian, $\mbf{M}_{22}$, which corresponds to perturbations in the direction of heterozygote $Aa$ genotypes. A boundary equilibrium is unstable to invasion by the rare allele if the largest absolute value of the eigenvalues of the Jacobian matrix, the leading eigenvalue, evaluated at the equilibrium is greater than $1$. The resulting conditions for a 'protected polymorphism' require that
+
+{\footnotesize
+\begin{linenomath*}
+ \begin{equation} \label{eq:coexist_AA}
+	\lambda_{AA} < 
+			\rho\left(\begin{array}{ccc}
+\mathbf{U}^S_{Aa} +\frac{1}{2} C (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C (1 - \delta) \mbf{F}_{Aa}  & \mbf{0} \\
+ \frac{1}{2} (1 - C) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C)\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C)\mbf{F}_{AA} \big(\hat{\mbf{p}}_{X,AA}+ \hat{\mbf{p}}_{S,AA}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & (1-C)\mbf{F}_{aa} + \Theta\\
+  \frac{1}{4} C (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}^S_{aa} +C (1 - \delta) \mbf{F}_{aa}  \\ 
+			\end{array} \right), \\ 
+\end{equation} 
+\end{linenomath*}
+ 
+\noindent and 
+\begin{linenomath*}
+ \begin{equation} \label{eq:coexist_aa}
+	\lambda_{aa} < 
+			\rho\left(\begin{array}{ccc}
+\mathbf{U}^S_{Aa} +\frac{1}{2} C (1 - \delta) \mbf{F}_{Aa} & \frac{1}{2} C (1 - \delta) \mbf{F}_{Aa}  & \mbf{0} \\
+ \frac{1}{2} (1 - C) \mbf{F}_{Aa}+\frac{1}{2  \mbox{p}_{n}} (1 - C)\mbf{F}_{aa} \big(\hat{\mbf{p}}_{X,aa}+ \hat{\mbf{p}}_{S,aa}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} (1 - C) \mbf{F}_{Aa} +\frac{1}{2  \mbox{p}_{n}} (1 - C)\mbf{F}_{aa} \big(\hat{\mbf{p}}_{X,aa}+ \hat{\mbf{p}}_{S,aa}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime & (1-C)\mbf{F}_{AA} + \Phi\\
+  \frac{1}{4} C (1 - \delta) \mbf{F}_{Aa} & \frac{1}{4} C (1 - \delta) \mbf{F}_{Aa}  &\mathbf{U}^S_{AA} + C (1 - \delta) \mbf{F}_{AA}  \\ 
+			\end{array} \right), \\ 
+\end{equation} 
+\end{linenomath*}
+ }
+
+\noindent is satisfied, where where $\rho(\cdot)$ represents the spectral radius, and $\Phi = \frac{(1 - C)}{p_{n}} \mbf{F}_{aa} \big(\hat{\mbf{p}}_{X,aa}+ \hat{\mbf{p}}_{S,aa}  \big) \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{AA}^\prime$. $\rho(\mbf{M}_{22})$ gives the ergodic growth rate of perturbations of the boundary equilibrium according to the linear approximation, and $\lambda_i$ is the intrinsic growth rate for the homozygous genotype being invaded at each boundary ($i \in (AA,aa)$). 
+
+In our numerical simulations, equations Eq(\ref{eq:coexist_AA}) and Eq(\ref{eq:coexist_aa}) were evaluated to determine the invasion thresholds for the relvant parameter conditions described in each figure.
+\end{landscape}
+
+Under obligate outcrossing (when $C=0$), the leading eigenvalue evaluated at the $\hat{\mbf{p}}_{AA} = 1$ and $\hat{\mbf{p}}_{aa} = 1$ boundaries is equal to
+\begin{align*} \label{eq:eigAAOut}
+	\tilde{\zeta}_{AA} = 
+		\frac{1}{\lambda_{AA}}\rho\left(\begin{array}{cc}
+\mathbf{U}^S_{Aa}  & \mathbf{0} \\
+ \frac{1}{2} \mbf{F}_{Aa}+\frac{1}{2\mbox{p}_{n}}\mbf{F}_{AA} \hat{\mbf{p}}_{X,AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} \mbf{F}_{Aa} +\frac{1}{2\mbox{p}_{n}} \mbf{F}_{AA} \hat{\mbf{p}}_{X,AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
+			\end{array} \right), \numberthis
+\end{align*}
+
+\noindent and
+
+\begin{align*} \label{eq:eigaaOut}
+	\tilde{\zeta}_{aa} = 
+		\frac{1}{\lambda_{aa}}\rho\left(\begin{array}{cc}
+\mathbf{U}^S_{Aa}  & \mathbf{0} \\
+ \frac{1}{2} \mbf{F}_{Aa}+\frac{1}{2\mbox{p}_{n}}\mbf{F}_{aa} \hat{\mbf{p}}_{X,aa} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime &\mathbf{U}^X_{Aa} + \frac{1}{2} \mbf{F}_{Aa} +\frac{1}{2\mbox{p}_{n}} \mbf{F}_{aa} \hat{\mbf{p}}_{X,aa} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
+			\end{array} \right), \numberthis
+\end{align*}
+
+\noindent which reduce to 
+\begin{align*} \label{eq:eigAATwoSex}
+	\tilde{\zeta}_{AA} = 
+		\frac{1}{\lambda_{AA}}\rho\left(\begin{array}{c}
+\mathbf{U}^X_{Aa} + \frac{1}{2} \mbf{F}_{Aa} +\frac{1}{2\mbox{p}_{n}} \mbf{F}_{AA} \hat{\mbf{p}}_{X,AA} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
+			\end{array} \right), \numberthis
+\end{align*}
+
+\noindent and 
+\begin{align*} \label{eq:eigaaTwoSex}
+	\tilde{\zeta}_{aa} = 
+		\frac{1}{\lambda_{aa}}\rho\left(\begin{array}{c}
+\mathbf{U}^X_{Aa} + \frac{1}{2} \mbf{F}_{Aa} +\frac{1}{2\mbox{p}_{n}} \mbf{F}_{aa} \hat{\mbf{p}}_{X,aa} \otimes \mathbf{1}^\tr_{\omega} \mathbf{F}_{Aa}^\prime
+			\end{array} \right), \numberthis
+\end{align*}
+
+\noindent when $\mathbf{U}^S_{Aa}=\mathbf{U}^X_{Aa}$. These eigenvalues are identical to those derived by \citet{deVriesCaswell2019a}, confirming that our model predictions reduce to the two-sex model under obligate outcrossing, as expected.
 
 
-\textcolor{red}{STILL NEED TO FILL THIS OUT WITH EIGENVALUES ETC.}
-
-
-denoted by $\tilde{\zeta}_{AA}$ and $\tilde{\zeta}_{aa}$ for the eigenvalue of the Jacobian evaluated at the $AA$ and $aa$ boundary, respectively. For our model, the Jacobian, $\mbf{M}$, has an upper block triangular form, and we can therefore express the stability of $\hat{\mbf{p}}$ in terms of the leading eigenvalue of the diagonal block corresponding to changes in heterozygote frequency ($\mbf{M}_{22}$; e.g., see \citealt{OttoDay2007,deVriesCaswell2019b}). For a polymorphism to be 'protected', both boundary equilibria must be unstable (i.e., $\tilde{\zeta}_{AA} > 1$ and $\tilde{\zeta}_{aa} > 1$), which requires that
- \begin{linenomath*}
- \begin{equation}\label{eq:PolyCond}
- 	\rho(\mbf{M}_{22}) > \lambda_{i}
- \end{equation}
- \end{linenomath*}
-
- \noindent is satisfied, where $\rho(\cdot)$ represents the spectral radius,  $\rho(\mbf{M}_{22})$ gives the ergodic growth rate of perturbations of the boundary equilibrium according to the linear approximation, and $\lambda_i$ is the intrinsic growth rate for the homozygous genotype being invaded at each boundary ($i \in (AA,aa)$; see Box.~1). 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Appendix C
 %%%%%%%%%%%%%%%%%%%%%%%%
-\section{Appendix C: Demographic and empirical data for {\itshape M.~guttatus} case study}
+\section*{Appendix C: Demographic and empirical data for {\itshape M.~guttatus} case study}
 \renewcommand{\theequation}{C\arabic{equation}}
 \renewcommand{\thetable}{C\arabic{table}}
 \setcounter{equation}{0}  % reset counter 
+\setcounter{table}{0}  % reset counter 
+
+
+\subsection*{Demographic data}
+
+We used demographic data for multiple experimental populations of {\itshape M.~guttatus} from a large-scale common garden experiment conducted in Stanislaus National Forest (California, USA) in 2012 and 2013 \cite{PetersonEtAl2016}. Specifically, we used data from two experimental populations with contrasting demographic rates: the locally adapted 'Eagle Meadows' population (data from 2012), and a non-local 'low-elevation perennials' population (data from 2013). The vital rates used in theirs, and our, calculations are summarized below in Table(\ref{tab:MimDemData}; see corrected Tables.~1 and S2 in \citet{PetersonEtAl2016, PetersonEtAl2017}. Note that the same estimates for $D$ and $A$ were used for all populations in the study. 
+
+The resulting transition matrices for these populations involve three life-history stages ($\omega = 3$; seed, seedling, and rosette; see Matrix 1 \citealt{PetersonEtAl2016}), and can represented as the sum of survival and fertilitiy matrices as follows:
+
+\begin{linenomath*}
+\begin{equation} \label{eq:AtildeMimulus}
+	\mathbf{\tilde{A}}[\tilde{\mbf{n}}] = 
+			\underbrace{\left(
+			\begin{array}{ccc}
+				D(1 - G) & 0 & 0 \\
+				DG & FOAG & FOAG \\
+				0 & SR & SR \\
+			\end{array} \right)}_{\tilde{\mbf{U}}} +
+			\underbrace{\left(
+			\begin{array}{ccc}
+				0 & FOA(1 - G) & FOA(1 - G) \\
+				0 & 0 & 0 \\
+				0 & 0 & 0 \\
+			\end{array} \right)}_{\tilde{\mbf{F}}}.
+\end{equation}
+\end{linenomath*}
+
+Overall transition matrix data for the same populations is also available on the public demographic database COMPADRE \citep{CompadreDB2020}, but are not decomposed into the product of terms described in Eq(\ref{eq:AtildeMimulus}) above.
+
+As described in the main text, we incorporated empirical estimates of the population selfing rate and inbreeding depression for two intensively studied populations in the Cascade Mountains of Oregon into our parameterized model (Iron Mountain and Cone Peak; \citealt{Willis1993,Willis1999a,Willis1999b}). Using the data provided in Table.~2 of \citet{Willis1993}, we calculated the proportional decrease due to inbreeding depression in three fitness components that were also included in vital rate estimates of \citet{PetersonEtAl2016}: seed germination rate ($G$), flower number ($F$), and overwinter survival ($S$). In each case, we calculated the inbreeding depression terms as $\delta_i = 1 - w_{\text{inbred}}/w_{\text{outcross}}$. To incorporate these terms into our evolutionary demographic model, we multiplied each of the three terms $G$, $F$, and $S$ in Eq(\ref{eq:AtildeMimulus}) by a corresponding proportional inbreeding depression term $(1 - \delta_i)$, where $i \{\in G,F,S\}$. The largest field-estimated selfing rate for this same Iron Mountain population was $C = 0.29$ \cite{Willis1993}, which we use in our calculations for fig.~\ref{fig:mimulusFig}.
+
+
+\begin{table}[htbp]
+ \centering
+ \caption{\bf Vital rates estimated for {\itshape M.~gutattus} experimental populations by \citet{PetersonEtAl2016}}
+\label{tab:MimDemData}
+\begin{tabular}{lcc}
+ \toprule
+ Vital rate estimated &  Eagle Meadows (2012) & Low-Elevation Perrenials (2013)\\ \hline
+ Seed bank survival (D) & $0.534$ & $0.534$ \\
+ Seed germination rate (G) & $0.469$ & $0.652$ \\
+ Flower production (F) & $0.64$ & $4.09$ \\
+ Ovules per flower (O) & $614$ & $494$ \\
+ Seedling recruits (A) & $6.7 \times 10^{-4}$ & $6.7 \times 10^{-4}$ \\
+ Overwinter survival (S) & $0.179$ & $0$ \\
+ Rosette production (R) & $8.71$ & $0$ \\
+\hline
+ Population intrinsic growth rate ($\lambda$) & $1.71$ & $1.08$ \\
+ \hline
+\end{tabular}
+\end{table}
+
+
+\subsection*{Selection on inv6}
+
+\citet{LeeKelly2015} describe a polymorphic chromosomal inversion segregating in the Iron Mountain population of {\itshape M.~guttatus}. Importantly, the study reports fitness effects of inv6 on both male and female fitness components. inv6 appears to cause a significant decrease in pollen viability, while simultaneously causing an increase in flower number which varies among years. Unfortunately, it was not possible to estimate the dominance of the fitness effects of inv6 in the field because individuals homozygous for the inversion were quite rare (although they were viable in greenhouse conditions). We therefore made the relatively conservative assumption that the fitness effects of inv6 on pollen viability and flower number were both additive. Under this assumption, it is possible to estimate selection coefficients for proxies of female and male fertilities. 
+
+We used flower number as a proxy for female fertility. To calculate selection on flower number, we first calculated the geometric mean flower number in the field for wild-type and inv6 heterozygotes across the two years for which data was available (2012 and 2013), extrapolated the expected flower number for inv6 homozygotes, and calculated the relative fertility of each genotype given that inv6 homozygotes have the highest flower number ($w_i$, where $i \in \{inv6/inv6,\, inv6/w+,\, w+/w+\}$). Using the relative fertility expressions outlined in Table \ref{tab:inv6Fitness}, we then solved for $s_f$. 
+
+We used pollen production as a proxy for male fertility. We calculated average pollen production as the product of the geometric mean flower number and field estimated pollen viability for wild-type and inv6 heterozygotes, and extrapolated the expected pollen production for inv6 homozygotes. As before, we calculated relative male fertility ($w^{\prime}_i$) for each genotype given that wild-type homozygotes had the highest pollen viability, and used the expressions for $w^{\prime}_{i}$ from Table \ref{tab:inv6Fitness} to solve for $s_m$.
+
+It is worth noting that \citet{LeeKelly2015} also report greenhouse pollen viabilty data for several mapping populations of {\itshape M.~guttatus}, which includes data for inv6 homozygotes, from which relative fertilities can be estimated. We chose to use the field estimated pollen viability and flower number data, despite the lack of inv6 homozygotes, because it probably gives a more accurate reflection of the fitness effects of inv6 in the field. Moreover, both approaches require making assumptions regarding the dominance effects of inv6. Given the obvious pitfalls of estimating selection on inv6 from the available data, it goes without saying that the location of inv6 in demographically viable polymorphic parameter space is a highly speculative, but nevertheless interesting, proof of concept for our model predictions.
+
+\begin{table}[htbp]
+ \centering
+ \caption{\bf Relative fertilities for inv6 genotypes ($w_{i}$)}
+\label{tab:inv6Fitness}
+\begin{tabular}{lccc}
+ \toprule
+					&  \multicolumn{3}{c}{{\textit{Genotype}}} \\ 
+\cline{2-4}
+									& $inv6/inv6$	& $inv6/w+$		& $w+/w+$ 	\\ \hline
+Female function ($w_{i}$):			& $1$			& $1 - s_f/2$	& $1 - s_f$ \\	
+Male function ($w^{\prime}_{i}$):	& $1 - s_m$		& $1 - s_m/2$	& $1$ 		\\	
+\hline
+\end{tabular}
+\end{table}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%
 % Bibliography

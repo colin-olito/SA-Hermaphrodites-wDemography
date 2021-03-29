@@ -830,30 +830,18 @@ MimulusInv6Fig  <-  function() {
 
     # import data
     path  <-  './output/simData/'
-    inv1  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0_deltaF_useCompadreFALSE", '.csv', sep=""), header=TRUE)
-    inv2  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_deltaF_useCompadreFALSE", '.csv', sep=""), header=TRUE)
-    inv3  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_deltaT_useCompadreFALSE", '.csv', sep=""), header=TRUE)
-    inv4  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0_deltaF_useCompadreFALSE_LEP", '.csv', sep=""), header=TRUE)
-    inv5  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_deltaF_useCompadreFALSE_LEP", '.csv', sep=""), header=TRUE)
-    inv6  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_deltaT_useCompadreFALSE_LEP", '.csv', sep=""), header=TRUE)
-#    ext1  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0_useCompadreFALSE_IDFALSE", '.csv', sep=""), header=TRUE)
-#    ext2  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_useCompadreFALSE_IDFALSE", '.csv', sep=""), header=TRUE)
-#    ext3  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.75_useCompadreFALSE_IDFALSE", '.csv', sep=""), header=TRUE)
-#    ext4  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_useCompadreFALSE_IDTRUE", '.csv', sep=""), header=TRUE)
-#    ext5  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.75_useCompadreFALSE_IDTRUE", '.csv', sep=""), header=TRUE)
-    ext4  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0_useCompadreFALSE_IDFALSE_LEP", '.csv', sep=""), header=TRUE)
-    ext5  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_useCompadreFALSE_IDFALSE_LEP", '.csv', sep=""), header=TRUE)
-    ext6  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.35_C0.29_useCompadreFALSE_IDTRUE_LEP", '.csv', sep=""), header=TRUE)
+    inv1  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.5_C0_deltaF_useCompadreFALSE_EM", '.csv', sep=""), header=TRUE)
+    inv2  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.5_C0.29_deltaT_useCompadreFALSE_EM", '.csv', sep=""), header=TRUE)
+    inv3  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.5_C0_deltaF_useCompadreFALSE_LEP", '.csv', sep=""), header=TRUE)
+    inv4  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.5_C0.29_deltaT_useCompadreFALSE_LEP", '.csv', sep=""), header=TRUE)
+    ext3  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.5_C0_useCompadreFALSE_IDFALSE_LEP", '.csv', sep=""), header=TRUE)
+    ext4  <-  read.csv(paste(path, "extThresholdMimulus_SfxSm_sMax0.99_res0.01_hf0.5_hm0.5_C0.29_useCompadreFALSE_IDTRUE_LEP", '.csv', sep=""), header=TRUE)
 
-ext4$sf[78]  <-  ext4$sfThreshold[91]
-ext4$smThreshold[78]  <-  ext4$sms[91]
-    # Selection coefficients for Inv6
-    sfInv6  <-  0.308
-    smInv6  <-  0.88
-
-#    inv_A  <-  popGen_A_invade(hf=hf, hm=hm, sm=sms, C=0)
-#    inv_a  <-  popGen_a_invade(hf=hf, hm=hm, sm=sms, C=0)
-#    inv_a[inv_a > 1]  <-  1
+#    ext4$sf[46]  <-  mean(ext4$sf[45], ext4$sf[47])
+    ext4$smThreshold[46]  <-  mean(c(ext4$smThreshold[45], ext4$smThreshold[47]))
+    # Selection coefficients for Inv6 (including average flower # effect)
+    sfInv6  <-  0.31
+    smInv6  <-  0.30
 
 # Color scheme
     COLS  <-  list(
@@ -881,15 +869,13 @@ ext4$smThreshold[78]  <-  ext4$sms[91]
         lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv1)
         lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv1)
         lines(AInvBound ~ sms, lty=2, lwd=2, col=COLS$line, data=inv2)
-        lines(c(aInvBound[aInvBound < max(sms)],0.99) ~ c(sms[aInvBound < max(sms)],0.5875), lty=2, lwd=2, col=COLS$line, data=inv2)
-        lines(AInvBound ~ sms, lty=3, lwd=2, col=COLS$line, data=inv3)
-        lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lty=3, lwd=2, col=COLS$line, data=inv3)
+        lines(c(inv2$aInvBound[inv2$aInvBound < max(inv2$sms)],max(inv2$sms)) ~ c(inv2$sms[inv2$aInvBound < max(inv2$sms)],0.50), lty=2, lwd=2, col=COLS$line, data=inv2)
         # no lines to plot for extinction threshold (all polymorphic space is viable)
         points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg=COLS$fill, cex=1.25)
         # axes        
         axis(1, las=1)
         axis(2, las=1)
-        proportionalLabel((smInv6-0.025), (sfInv6-0.045), expression(italic('inv6')), cex=1, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, 1.15, 'Local Demographic Rates', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.25, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
@@ -901,10 +887,9 @@ ext4$smThreshold[78]  <-  ext4$sms[91]
 #                y       =  usr[4],
                 legend  =  c(
                              expression(paste(italic(C)," = 0")),
-                             expression(paste(italic(C)," = 0.29")),
                              expression(paste(italic(C)," = 0.29, I.D."))),
-                 lty     =  c(1,2,3,NA,NA),
-                 lwd     =  c(2,2,2),
+                 lty     =  c(1,2),
+                 lwd     =  c(2,2),
                  col     =  c(COLS$line),
                  seg.len =  c(2),
                  cex     =  0.75,
@@ -920,33 +905,30 @@ ext4$smThreshold[78]  <-  ext4$sms[91]
         box()
         # Simulation Results
 #        polygon(c(rev(sms),sms), c(rev(inv_A), inv_a), col=transparentColor('grey80', 0.6), border=NA)
-        lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv4)
-        lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv4)
-        lines(AInvBound ~ sms, lty=2, lwd=2, col=COLS$line, data=inv5)
-        lines(c(aInvBound[aInvBound < max(sms)],0.99) ~ c(inv5$sms[inv5$aInvBound < max(inv5$sms)],0.5875), lty=2, lwd=2, col=COLS$line, data=inv5)
-        lines(AInvBound ~ sms, lty=3, lwd=2, col=COLS$line, data=inv6)
-        lines(c(aInvBound[aInvBound < max(sms)],0.99) ~ c(sms[aInvBound < max(sms)],0.51), lty=3, lwd=2, col=COLS$line, data=inv6)
+        lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv3)
+        lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv3)
+        lines(AInvBound ~ sms, lty=2, lwd=2, col=COLS$line, data=inv4)
+        lines(c(aInvBound[aInvBound < max(sms)],0.99) ~ c(sms[aInvBound < max(sms)],0.562), lty=2, lwd=2, col=COLS$line, data=inv4)
         # PLOT LINES FOR EXTINCTION THRESHOLDS
+        t    <-  cbind(ext3$sf[!is.na(ext3$smThreshold)], ext3$smThreshold[!is.na(ext3$smThreshold)])
+        t    <-  rbind(t, c(0.99, 0.99))
+        b    <-  cbind(ext3$sms[!is.na(ext3$sfThreshold)], ext3$sfThreshold[!is.na(ext3$sfThreshold)])
+        polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
+        lines(sf ~ smThreshold, lwd=1.5, col=COLS$line, data=ext3)
+        lines(sfThreshold ~ sms, lwd=1.5, col=COLS$line, data=ext3)        
+
         t    <-  cbind(ext4$sf[!is.na(ext4$smThreshold)], ext4$smThreshold[!is.na(ext4$smThreshold)])
         t    <-  rbind(t, c(0.99, 0.99))
         b    <-  cbind(ext4$sms[!is.na(ext4$sfThreshold)], ext4$sfThreshold[!is.na(ext4$sfThreshold)])
         polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
-        lines(sf ~ smThreshold, lwd=1.5, col=COLS$line, data=ext4)
-        lines(sfThreshold ~ sms, lwd=1.5, col=COLS$line, data=ext4)        
-        lines(sf ~ smThreshold, lwd=1.5, lty=2, col=COLS$line, data=ext5)
-        lines(sfThreshold ~ sms, lwd=1.5, lty=2, col=COLS$line, data=ext5)
-        t    <-  cbind(ext6$sf[!is.na(ext6$smThreshold)], ext6$smThreshold[!is.na(ext6$smThreshold)])
-        t    <-  rbind(t, c(0.99, 0.99))
-        b    <-  cbind(ext6$sms[!is.na(ext6$sfThreshold)], ext6$sfThreshold[!is.na(ext6$sfThreshold)])
-        polygon(c(t[,2],rev(b[,1])), c(t[,1],rev(b[,2])), col=COLS$extinct, border=NA)
-        lines(sf ~ smThreshold, lwd=1.5, lty=3, col=COLS$line, data=ext6)
-        lines(sfThreshold ~ sms, lwd=1.5, lty=3, col=COLS$line, data=ext6)
+        lines(sf ~ smThreshold, lwd=1.5, lty=2, col=COLS$line, data=ext4)
+        lines(sfThreshold ~ sms, lwd=1.5, lty=2, col=COLS$line, data=ext4)
         # Plot inv6
         points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg=COLS$fill, cex=1.25)
         # axes        
         axis(1, las=1)
         axis(2, las=1, labels=NA)
-        proportionalLabel((smInv6-0.025), (sfInv6-0.045), expression(italic('inv6')), cex=1, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, 1.15, 'Non-local Demographic Rates', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 #        proportionalLabel(-0.15, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)

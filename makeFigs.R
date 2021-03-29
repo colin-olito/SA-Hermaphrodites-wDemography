@@ -43,8 +43,8 @@ embed_fonts(figPath(name='deltaPolymorphicSpaceTitrate.pdf'))
 # Fig. 4 - Illustration of polymorphic parameter space w/ 
 #			Inv6 plotted
 toPdf(MimulusInv6Fig(), 
-			figPath(name='MimulusInv6Fig.pdf'), width=10, height=5)
-embed_fonts(figPath(name='MimulusInv6Fig.pdf'))
+			figPath(name='MimulusInv6FigNewSel.pdf'), width=10, height=5)
+embed_fonts(figPath(name='MimulusInv6FigNewSel.pdf'))
 
 
 #################
