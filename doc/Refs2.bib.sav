@@ -2,6 +2,15 @@
 
 @Preamble{"\DeclareRobustCommand{\firstsecond}[2]{#2}"}
 
+@article{AizenHarder2007,
+  title     = {Expanding the limits of the pollen-limitation concept: effects of pollen quantity and quality},
+  author    = {Aizen, M.A. and Harder, L.D.},
+  journal   = {Ecology},
+  volume    = {88},
+  pages     = {271--281},
+  year      = {2007}
+}
+
 @article{Barrett2002,
   title     = {Sexual interference of the floral kind},
   author    = {Barrett, S.~C.~H.},
@@ -162,13 +171,14 @@
   year      = {1930}
 }
 
-@article{Grossenbacher2015,
-  title     = {Geographic range size is predicted by plant mating system},
-  author    = {Grossenbacher, D. and Runquist, R.B. and Goldberg, E.E. and Brandvain, Y.},
-  journal   = {Ecology Letters},
-  volume    = {18},
-  pages     = {706--713},
-  year      = {2015}
+@article{Glemin2021,
+  title     = {Balancing selection in self-fertilizing populations},
+  author    = {Gl\'{e}min, S.},
+  journal   = {Evolution},
+  volume    = {},
+  pages     = {},
+  year      = {2021},
+  doi       = {10.1111/evo.14194}
 }
 
 @article{Goodwillie2005,
@@ -178,6 +188,15 @@
   volume    = {36},
   pages     = {47--79},
   year      = {2005}
+}
+
+@article{Grossenbacher2015,
+  title     = {Geographic range size is predicted by plant mating system},
+  author    = {Grossenbacher, D. and Runquist, R.B. and Goldberg, E.E. and Brandvain, Y.},
+  journal   = {Ecology Letters},
+  volume    = {18},
+  pages     = {706--713},
+  year      = {2015}
 }
 
 @article{Haldane1957,
@@ -198,7 +217,7 @@
   year      = {2016}
 }
 
-@inbook{HarderBarrett2006,
+@book{HarderBarrett2006,
   author    = {Harder, L.~D. and Barrett, S.C.H.},
   booktitle = {Ecology and evolution of flowers},
   editor    = {Harder, L.~D. and Barrett, S.~C.~H.},
@@ -419,7 +438,7 @@
 
 @article{Maynard-Smith1976,
   title     = {What determines the rate of adaptation?},
-  author    = {Smith, J.~M.},
+  author    = {Maynard Smith, J.},
   journal   = {American Naturalist},
   volume    = {110},
   pages     = {331--338},
@@ -436,6 +455,14 @@
   year      = {2011}
 }
 
+@article{SpencerChiew2015,
+  title     = {The maintenance of single-locus polymorphism by maternal selection},
+  author    = {Spencer, H.G. and Chiew, K.X.},
+  journal   = {G3},
+  volume    = {5},
+  pages     = {963--969},
+  year      = {2015}
+}
 
 @article{SpencerMarks1988,
   title     = {The maintenance of single-locus polymorphism. I. Numerical studies of a viability selection model},
@@ -446,13 +473,14 @@
   year      = {1988}
 }
 
-@article{SpencerChiew2015,
-  title     = {The maintenance of single-locus polymorphism by maternal selection},
-  author    = {Spencer, H.G. and Chiew, K.X.},
-  journal   = {G3},
-  volume    = {5},
-  pages     = {963--969},
-  year      = {2015}
+@article{SpencerPriest2016,
+  title     = {The evolution of sex-specific dominance in response to sexually antagonistic selection},
+  author    = {Spencer, H.G. and Priest, N.K.},
+  journal   = {American Naturalist},
+  volume    = {187},
+  pages     = {658--666},
+  year      = {2016},
+  doi       = {10.1086/685827}
 }
 
 @article{Tazzyman2015,
@@ -519,7 +547,7 @@
   year      = {1999b}
 }
 
- 
+
 @article{WuWillis2008,
   title     = {{\itshape Mimulus} is an emerging model system for the integration of ecological and genomic studies},
   author    = {Wu, C.~A. and Lowry, A.~M. and Cooley, A.~M. and Wright, K.~M. and Lee, Y.~W. and Willis, J.~H.},
@@ -529,6 +557,14 @@
   year      = {2008}
 }
 
+@article{Yund2000,
+  title     = {How severe is sperm limitation in natural populations of marine free-spawners?},
+  author    = {Yund, P.O.},
+  journal   = {Tends Ecol. Evol.},
+  volume    = {15},
+  pages     = {10--13},
+  year      = {2000}
+}
 
 
 
@@ -2324,6 +2360,20 @@ causes and its variation within and among gynodioecious species},
   number    = {7469},
   pages     = {93--95},
   publisher = {Nature Publishing Group},
+}
+
+@Book{pollard1975mathematical,
+  title     = {Mathematical models for the growth of human populations},
+  publisher = {Cambridge University Press Cambridge},
+  year      = {1975},
+  author    = {Pollard, John Hurlstone},
+}
+
+@Book{iannelli2005gender,
+  title     = {Gender-structured population modeling: mathematical methods, numerics, and simulations},
+  publisher = {SIAM},
+  year      = {2005},
+  author    = {Iannelli, Mimmo and Martcheva, Maia and Milner, Fabio Augusto},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}

@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{84}
+\begin{thebibliography}{86}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -222,6 +222,13 @@ Husband, B.~C., and D.~W. Schemske. 1996.
   plants.
 \newblock Evolution 50:54--70.
 
+\bibitem[{Iannelli et~al.(2005)Iannelli, Martcheva, and
+  Milner}]{iannelli2005gender}
+Iannelli, M., M.~Martcheva, and F.~A. Milner. 2005.
+\newblock Gender-structured population modeling: mathematical methods,
+  numerics, and simulations.
+\newblock SIAM.
+
 \bibitem[{Igic and Kohn(2006)}]{Igic2006}
 Igic, B., and J.~R. Kohn. 2006.
 \newblock The distribution of plant mating systems: study bias against
@@ -398,6 +405,11 @@ Peterson, M.~L., K.~M. Kay, and A.~L. Angert. 2016.
 ---{}---{}---. 2017.
 \newblock Corrigendum.
 \newblock New Phytologist 216:956--957.
+
+\bibitem[{Pollard(1975)}]{pollard1975mathematical}
+Pollard, J.~H. 1975.
+\newblock Mathematical models for the growth of human populations.
+\newblock Cambridge University Press Cambridge.
 
 \bibitem[{Prout(1968)}]{Prout1968}
 Prout, T. 1968.
