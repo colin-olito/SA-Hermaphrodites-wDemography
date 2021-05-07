@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{84}
+\begin{thebibliography}{82}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -7,12 +7,6 @@ Abbott, J.~K. 2011.
 \newblock Intra-locus sexual conflict and sexually antagonistic genetic
   variation in hermaphroditic animals.
 \newblock Proc.~Roy.~Soc.~Lond.~B 278:161--169.
-
-\bibitem[{Aizen and Harder(2007)}]{AizenHarder2007}
-Aizen, M., and L.~Harder. 2007.
-\newblock Expanding the limits of the pollen-limitation concept: effects of
-  pollen quantity and quality.
-\newblock Ecology 88:271--281.
 
 \bibitem[{Berger et~al.(2014)Berger, Grieshop, Lind, Goenaga, Maklakov, and
   Arnqvist}]{BergerEtAl2014}
@@ -157,11 +151,6 @@ Fisher, R.~A. 1930.
 \newblock The genetical theory of natural selection.
 \newblock The Clarendon Press, Oxford, UK.
 
-\bibitem[{Gl\'{e}min(2021)}]{Glemin2021}
-Gl\'{e}min, S. 2021.
-\newblock Balancing selection in self-fertilizing populations.
-\newblock Evolution .
-
 \bibitem[{Goodwillie et~al.(2005)Goodwillie, Kalisz, and
   Eckert}]{Goodwillie2005}
 Goodwillie, C., S.~Kalisz, and C.~G. Eckert. 2005.
@@ -182,10 +171,10 @@ Grossenbacher, D., R.~Runquist, E.~Goldberg, and Y.~Brandvain. 2015.
 \newblock Geographic range size is predicted by plant mating system.
 \newblock Ecology Letters 18:706--713.
 
-\bibitem[{Haldane(1937)}]{Haldane1937}
-Haldane, J. 1937.
-\newblock The effect of variation of fitness.
-\newblock American Naturalist 71:337--349.
+\bibitem[{Haldane(1957)}]{Haldane1957}
+Haldane, J.~B.~S. 1957.
+\newblock The cost of natural selection.
+\newblock J.~Genetics 55:511--524.
 
 \bibitem[{Harder et~al.(2016)Harder, Aizen, and Richards}]{Harder2016}
 Harder, L.~D., M.~A. Aizen, and S.~A. Richards. 2016.
@@ -331,11 +320,6 @@ Matthews, G., S.~Hangartner, D.~G. Chapple, and T.~Connallon. 2019.
 \newblock Quantifying maladaptation during the evolution of sexual dimorphism.
 \newblock Proc.~Roy.~Soc.~B 286:20191372.
 
-\bibitem[{Maynard~Smith(1976)}]{Maynard-Smith1976}
-Maynard~Smith, J. 1976.
-\newblock What determines the rate of adaptation?
-\newblock American Naturalist 110:331--338.
-
 \bibitem[{M{\'e}rot et~al.(2020)M{\'e}rot, Llaurens, Normandeau, Bernatchez,
   and Wellenreuther}]{merot2020balancing}
 M{\'e}rot, C., V.~Llaurens, E.~Normandeau, L.~Bernatchez, and M.~Wellenreuther.
@@ -449,6 +433,17 @@ Servedio, M.~R., Y.~Brandvain, S.~Dhole, C.~L. Fitzpatrick, E.~E. Goldberg,
   evolutionary biology.
 \newblock PLoS Biology 12:e1002017.
 
+\bibitem[{Sicard and Lenhard(2011)}]{Sicard2011}
+Sicard, A., and M.~Lenhard. 2011.
+\newblock The selfing syndrome: a model for studying the genetic and
+  evolutionary basis of morphological adaptation in plants.
+\newblock Annals of Botany 107:1433--1443.
+
+\bibitem[{Smith(1976)}]{Maynard-Smith1976}
+Smith, J.~M. 1976.
+\newblock What determines the rate of adaptation?
+\newblock American Naturalist 110:331--338.
+
 \bibitem[{Spencer and Priest(2016)}]{SpencerPriest2016}
 Spencer, H., and N.~Priest. 2016.
 \newblock The evolution of sex-specific dominance in response to sexually
@@ -505,11 +500,5 @@ Wu, C.~A., A.~M. Lowry, A.~M. Cooley, K.~M. Wright, Y.~W. Lee, and J.~H.
 \newblock {\itshape Mimulus} is an emerging model system for the integration of
   ecological and genomic studies.
 \newblock Heredity 100:220--230.
-
-\bibitem[{Yund(2000)}]{Yund2000}
-Yund, P. 2000.
-\newblock How severe is sperm limitation in natural populations of marine
-  free-spawners?
-\newblock Tends Ecol. Evol. 15:10--13.
 
 \end{thebibliography}
