@@ -247,7 +247,7 @@ extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
 
 makeDataPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 						om = 2, g = 3, theta = c(0.6,0.6,0.05,NA), theta_prime = NA, 
-						hVals= c(1/2, 1/4), fVals = c(5.8, 5.9, 6.0, 6.5), 
+						hfVals= c(1/2, 1/4), hmVals= c(1/2, 1/4), fVals = c(5.8, 5.9, 6.0, 6.5), 
 						delta = 0, delta_j = 0, delta_a = 0, delta_gamma = 0,
 						tlimit = 10^5, eqThreshold = 1e-8)
 
@@ -1275,3 +1275,266 @@ test  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delt
 				 hf = 1/2, hm = 0.35, sf = 0.308, sm = 0, C = 0.24,
 				 tlimit = 10^5, eqThreshold=1e-9, Ainvade = FALSE, intInit = TRUE)
 
+
+
+
+
+##################################
+
+##########################################################
+# Supplementary Figures
+
+## Illustrating Effects of sex-specific dominance
+# Assume complementary dominance (hf = 1 - hm)
+# Fig. SX - 
+
+## hf 1/4
+## hm = 3/4 
+
+	# Obligate Outcrossing
+	# C = 0
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  3/4,
+					"C"      =  0,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+
+	# Intermediate Selfing
+	# C = 1/4
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  3/4,
+					"C"      =  1/4,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+	# Intermediate Selfing
+	# C = 1/2
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  3/4,
+					"C"      =  1/2,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+
+## hf 3/4
+## hm = 1/4 
+
+	# Obligate Outcrossing
+	# C = 0
+	pars  <-  list(
+					"hf"     =  3/4,
+					"hm"     =  1/4,
+					"C"      =  0,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+
+	# Intermediate Selfing
+	# C = 1/4
+	pars  <-  list(
+					"hf"     =  3/4,
+					"hm"     =  1/4,
+					"C"      =  1/4,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+	# Intermediate Selfing
+	# C = 1/2
+	pars  <-  list(
+					"hf"     =  3/4,
+					"hm"     =  1/4,
+					"C"      =  1/2,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+titrateInvBoundaries(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^3, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE)
+
+
+
+
+##########################################################
+# Fig. 2 - Dem. viable polymorphic param. space (no I.D.)
+
+makeDataPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
+						om = 2, g = 3, theta = c(0.6,0.6,0.05,NA), theta_prime = NA, 
+						hfVals= c(1/4, 3/4), hmVals= c(3/4, 1/4), fVals = c(5.8, 5.9, 6.0, 6.5), 
+						delta = 0, delta_j = 0, delta_a = 0, delta_gamma = 0,
+						tlimit = 10^5, eqThreshold = 1e-8)
+
+
+
+##########################################################
+# Fig. 3 - Dem. viable polymorphic param. space (w/ I.D.)
+
+makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
+							hVals= c(1/2, 1/4), dStar = 0.8, 
+							tlimit = 10^5, eqThreshold = 1e-8)
+
+
+makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,7), theta_prime = 7, 
+							hVals= c(1/2, 1/4), dStar = 0.8, 
+							tlimit = 10^5, eqThreshold = 1e-8)
+
+makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,7.5), theta_prime = 7.5, 
+							hVals= c(1/2, 1/4), dStar = 0.8, 
+							tlimit = 10^5, eqThreshold = 1e-8)
+
+makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
+							om = 2, g = 3, theta = c(0.6,0.6,0.05,8.5), theta_prime = 8.5, 
+							hVals= c(1/2, 1/4), dStar = 0.8, 
+							tlimit = 10^5, eqThreshold = 1e-8)

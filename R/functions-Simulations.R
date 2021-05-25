@@ -2110,7 +2110,7 @@ titrateInvBoundaries  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
 #' selfing rates, and fertility values.
 makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4,
 									 om = 2, g = 3, theta = c(0.6,0.6,0.05,NA), theta_prime = NA, 
-									 hVals= c(1/2, 1/4), fVals = c(5.8, 5.9, 6.0, 6.5), 
+									 hfVals= c(1/2, 1/4), hmVals= c(1/2, 1/4), fVals = c(5.8, 5.9, 6.0, 6.5), 
 									 delta = 0, delta_j = 0, delta_a = 0, delta_gamma = 0,
 									 tlimit = 10^5, eqThreshold = 1e-8) {
 
@@ -2120,11 +2120,11 @@ makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4,
 
 	# Setup progress bar
 	print('Making Data For Fig.2')
-	pb   <-  txtProgressBar(min=0, max=(length(hVals)*length(fVals)*length(Cs)), style=3)
+	pb   <-  txtProgressBar(min=0, max=(length(hfVals)*length(fVals)*length(Cs)), style=3)
 	setTxtProgressBar(pb, 0)
 
 	# Loop over dominance, fertility, selfing
-	for(i in 1:length(hVals)) {
+	for(i in 1:length(hfVals)) {
 		for(j in 1:length(fVals)) {
 
 			# assign fertility value to theta & theta_prime
@@ -2136,20 +2136,21 @@ makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4,
 				# Find Invasion Boundaries
 				invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
 												  om = om, g = g, theta = theta, theta_prime = theta_prime, 
-												  hf = hVals[i], hm = hVals[i], C = Cs[k], 
+												  hf = hfVals[i], hm = hmVals[i], C = Cs[k], 
 												  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 												  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
 
 				# Find Extinction Threshold
 				extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
 												  om = om, g = g, theta = theta, theta_prime = theta_prime, 
-												  hf = hVals[i], hm = hVals[i], C = Cs[k], 
+												  hf = hfVals[i], hm = hmVals[i], C = Cs[k], 
 												  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 												  tlimit = tlimit, eqThreshold = eqThreshold, 
 												  makePlots=FALSE, verbose=FALSE, writeFile=FALSE)
 
 				# Append new data to dataSet
-				dataSet  <-  rbind(dataSet, cbind(rep(hVals[i], times=nrow(invData)),
+				dataSet  <-  rbind(dataSet, cbind(rep(hfVals[i], times=nrow(invData)),
+												  rep(hmVals[i], times=nrow(invData)),
 												  rep(fVals[j], times=nrow(invData)),
 												  rep(Cs[k], times=nrow(invData)),
 												  invData, 
@@ -2165,10 +2166,10 @@ makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4,
 
 	# trim first row of dataSet before saving file & assign column names
 	dataSet  <-  dataSet[-1,]
-	colnames(dataSet)  <-  c("h", "f", "C", "smInv", "aInv", "AInv", "sf", "smExt", "sm", "sfExt")
+	colnames(dataSet)  <-  c("hf", "hm", "f", "C", "smInv", "aInv", "AInv", "sf", "smExt", "sm", "sfExt")
 
 	# Export data as .csv to ./output/data
-	filename <-  paste("./output/simData/dataPolySpaceFig", "_sMax", sMax, "_res", res, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, ".csv", sep="")
+	filename <-  paste("./output/simData/dataPolySpaceFig", "_hf", hfVals[1], hfVals[2], "_hm", hmVals[1], hmVals[2],, "_sMax", sMax, "_res", res, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, ".csv", sep="")
 	write.csv(dataSet, file=filename, row.names = FALSE)
 
 }
@@ -2332,20 +2333,20 @@ quantPolySpace  <-  function(data, pars) {
 #' selfing rates, and inbreeding depression values.
 makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-4,
 									 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
-									 hVals= c(1/2, 1/4), dStar = 0.8, 
+									 hfVals= c(1/2, 1/4), hmVals= c(1/2, 1/4), dStar = 0.8, 
 									 delta = 0, delta_j = 0, delta_a = 0, delta_gamma = 0,
 									 tlimit = 10^5, eqThreshold = 1e-8) {
 
 
 	# Storage for data
-	dataSet  <-  matrix(NA, ncol=11)
-	colnames(dataSet)  <-  c("Delta", "h", "deltaVal", "C", "smInv", "aInv", "AInv", "sf", "smExt", "sm", "sfExt")
+	dataSet  <-  matrix(NA, ncol=12)
+	colnames(dataSet)  <-  c("Delta", "hf", "hm", "deltaVal", "C", "smInv", "aInv", "AInv", "sf", "smExt", "sm", "sfExt")
 
 	print('Making Data For Fig.3')
 	# Loop over dominance values
-	for(i in 1:length(hVals)) {
+	for(i in 1:length(hfVals)) {
 
-		cat('\r', "hVal = ", hVals[i], '\n')
+		cat('\r', "hfVal = ", hfVals[i], ", hmVal = ", hmVals[i], '\n')
 
 #		Cs  <- c(seq(0, 0.5, by=0.025), 0.75, 0.9)
 		Cs  <- seq(0, 0.9, by=0.025)
@@ -2363,20 +2364,21 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 			# Find Invasion Boundaries
 			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
-											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = deltaSeq[j], delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
 
 			# Find Extinction Threshold
 			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
-											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = deltaSeq[j], delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, 
 											  makePlots=FALSE, verbose = FALSE, writeFile=FALSE)
 			# Append new data to dataSet
 			dDat  <-  cbind(rep("d", times=nrow(invData)),
-											  rep(hVals[i], times=nrow(invData)),
+											  rep(hfVals[i], times=nrow(invData)),
+											  rep(hmVals[i], times=nrow(invData)),
 											  rep(deltaSeq[j], times=nrow(invData)),
 											  rep(Cs[j], times=nrow(invData)),
 											  invData, 
@@ -2398,20 +2400,21 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 			# Find Invasion Boundaries
 			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
-											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = deltaSeq[j], delta_a = delta_a, delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
 
 				# Find Extinction Threshold
 			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
-											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = deltaSeq[j], delta_a = delta_a, delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
 			djDat  <-  cbind(rep("d_j", times=nrow(invData)),
-											  rep(hVals[i], times=nrow(invData)),
+											  rep(hfVals[i], times=nrow(invData)),
+											  rep(hmVals[i], times=nrow(invData)),
 											  rep(deltaSeq[j], times=nrow(invData)),
 											  rep(Cs[j], times=nrow(invData)),
 											  invData, 
@@ -2433,21 +2436,22 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 			# Find Invasion Boundaries
 			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
-											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = delta_j, delta_a = deltaSeq[j], delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
 
 				# Find Extinction Threshold
 			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
-											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = delta_j, delta_a = deltaSeq[j], delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
 			# Append new data to dataSet
 			daDat  <-  cbind(rep("d_a", times=nrow(invData)),
-											  rep(hVals[i], times=nrow(invData)),
+											  rep(hfVals[i], times=nrow(invData)),
+											  rep(hmVals[i], times=nrow(invData)),
 											  rep(deltaSeq[j], times=nrow(invData)),
 											  rep(Cs[j], times=nrow(invData)),
 											  invData, 
@@ -2469,20 +2473,21 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 			# Find Invasion Boundaries
 			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
-											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = deltaSeq[j],
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
 
 				# Find Extinction Threshold
 			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
-											  hf = hVals[i], hm = hVals[i], C = Cs[j], 
+											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = deltaSeq[j],
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose = FALSE, writeFile=FALSE)
 
 			# Append new data to dataSet
 			dgDat  <-  cbind(rep("d_g", times=nrow(invData)),
-											  rep(hVals[i], times=nrow(invData)),
+											  rep(hfVals[i], times=nrow(invData)),
+											  rep(hmVals[i], times=nrow(invData)),
 											  rep(deltaSeq[j], times=nrow(invData)),
 											  rep(Cs[j], times=nrow(invData)),
 											  invData, 
@@ -2501,7 +2506,12 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 
 
 	# Export data as .csv to ./output/data
-	filename <-  paste("./output/simData/dataDeltaPolySpaceFig", "_sMax", sMax, "_res", res, "_dStar", dStar, "_f", theta[4], ".csv", sep="")
+	if(all(hfVals == hmVals)) {
+		filename <-  paste("./output/simData/dataDeltaPolySpaceFig", "_sMax", sMax, "_res", res, "_dStar", dStar, "_f", theta[4], ".csv", sep="")
+	}
+	if(!all(hfVals == hmVals)) {
+		filename <-  paste("./output/simData/dataDeltaPolySpaceFigSexSpecDom", "_sMax", sMax, "_res", res, "_dStar", dStar, "_f", theta[4], ".csv", sep="")
+	}
 	write.csv(dataSet, file=filename, row.names = FALSE)
 
 }

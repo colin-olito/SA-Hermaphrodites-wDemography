@@ -51,6 +51,18 @@ embed_fonts(figPath(name='MimulusInv6FigNewSel.pdf'))
 # Supp. Figs
 #################
 
+# 
+toPdf(demViablePolySpace_SexSpecDominance_Fig(), 
+			figPath(name='extinctionThresholdsSexSpecDomFig.pdf'), width=10, height=5)
+embed_fonts(figPath(name='extinctionThresholdsSexSpecDomFig.pdf'))
+
+
+
+
+
+
+
+
 toPdf(suppPolySpaceThresholdFigs(), 
 			figPath(name='SuppFig-polySpace.pdf'), width=20, height=8)
 embed_fonts(figPath(name='SuppFig-polySpace.pdf'))

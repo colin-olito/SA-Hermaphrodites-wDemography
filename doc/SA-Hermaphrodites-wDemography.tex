@@ -1,4 +1,4 @@
-\documentclass[11pt,draft]{article}
+\documentclass[11pt]{article}
 % Preamble
 \usepackage[sc]{mathpazo} %Like Palatino with extensive math support
 \usepackage{fullpage}
@@ -614,7 +614,7 @@ We identify conditions where SA polymorphism is 'protected' by evaluating the st
 We used numerical simulation to determine whether a protected SA polymorphism was also demographically viable. Specifically, for each boundary equilibrium we introduced the rare allele at low initial frequency, and iterated Eq(\ref{eq:Atilde}) until the population had reached demographic and genotypic equilibrium. Our model implements density independent demographic rates, and so the population state vector will grow or shrink exponentially after converging to stable population structure and genotypic frequencies (see chapter 17 in \citealt{Caswell2001}). The intrinsic population growth rate after convergence, $\lambda$, can be calculated as $\tilde{\mbf{n}}(t)/\tilde{\mbf{n}}(t-1)$. We note, however, that if the ecological component of the model is non-linear, more exotic dynamics are possible \citep{de2020matrix}.
 
 % Unfortunately, closed-form solutions for the invasion conditions for each allele and the equilibrium frequencies under different selection scenarios are analytically intractable except for restricted conditions (see \hl{Online Appendix X}). We therefore used numerical techniques to identify invasion and extinction thresholds, which could then be used to define regions of demographically viable polymorphism across $s_f \times s_m$ parameter space. 
-Because single-locus selection coefficients are generally weak (e.g., \citealt{Eyre-WalkerKeightly2007}) and strongly skewed, we limit our analyses to coefficients within $0 < s_f,s_m \leq 0.15$, unless stated otherwise. For simplicity, we present results for scenarios of equal dominance in the main text (i.e., $h_f = h_m = h$). Specifically, we examine scenarios of additive SA fitness effects ($h = 1/2$) and dominance reversals, where the deleterious fitness effect of each SA allele is partially recessive in each sex ($h = 1/4$). \textcolor{red}{We relax these assumptions to explore the consequences of sex-specific dominance, which may evolve under asymmetric SA selection \citep{SpencerPriest2016}, on our model predictions in \hl{Appendix X}). }
+Because single-locus selection coefficients are generally weak (e.g., \citealt{Eyre-WalkerKeightly2007}) and strongly skewed, we limit our analyses to coefficients within $0 < s_f,s_m \leq 0.15$, unless stated otherwise. For simplicity, we present results for scenarios of equal dominance in the main text (i.e., $h_f = h_m = h$). Specifically, we examine scenarios of ({\itshape i}) additive SA fitness effects ($h = 1/2$); and ({\itshape ii}) dominance reversals, where the deleterious fitness effect of each SA allele is partially recessive in each sex ($h = 1/4$). These scenarios are of particular interest because additive effects are commonly observed for small-effect alleles or quantitative traits \citep{AgrawalWhitlock2011}, while dominance reversals are predicted under fitness landscape models provided the population is not too far from the phenotypic optimum \citep{Manna2011, ConnallonClark2014}. \textcolor{red}{We explore the consequences of sex-specific dominance, which may evolve under asymmetric SA selection \citep{SpencerPriest2016} in \hl{Appendix X}).}
 
 For a given parameter set, we numerically evaluate the largest eigenvalue of the Jacobian evaluated at both boundaries, and the population growth rate of the equilibrium obtained after perturbation of the boundary, $\lambda$. To determine the viability threshold (where the population growth rate equals one) and the boundary stability thresholds (where the largest eigenvalue of the Jacobian crosses one), we start at the outer boundaries of selection parameter space, and titrate inward. The proportions of total $s_f \times s_m$ parameter space where SA polymorphism and/or extinction occurred were calculated by numerically integrating the appropriate regions defined by the invasion and extinction thresholds
 
@@ -996,11 +996,27 @@ As described in the main text, we incorporated empirical estimates of the popula
 
 \citet{LeeKelly2015} describe a polymorphic chromosomal inversion segregating in the Iron Mountain population of {\itshape M.~guttatus}. Importantly, the study reports fitness effects of inv6 on both male and female fitness components. inv6 appears to cause a significant decrease in pollen viability, while simultaneously causing an increase in flower number which varies among years. Unfortunately, it was not possible to estimate the dominance of the fitness effects of inv6 in the field because individuals homozygous for the inversion were quite rare (although they were viable in greenhouse conditions). We therefore made the relatively conservative assumption that the fitness effects of inv6 on pollen viability and flower number were both additive. Under this assumption, it is possible to estimate selection coefficients for proxies of female and male fertilities. 
 
-We used flower number as a proxy for female fertility. To calculate selection on flower number, we first calculated the geometric mean flower number in the field for wild-type and inv6 heterozygotes across the two years for which data was available (2012 and 2013), extrapolated the expected flower number for inv6 homozygotes, and calculated the relative fertility of each genotype given that inv6 homozygotes have the highest flower number ($w_i$, where $i \in \{inv6/inv6,\, inv6/w+,\, w+/w+\}$). Using the relative fertility expressions outlined in Table \ref{tab:inv6Fitness}, we then solved for $s_f$. 
+We used flower number as a proxy for female fertility. To calculate selection on flower number, we first calculated the geometric mean flower number in the field for wild-type and inv6 heterozygotes across the two years for which data was available (2012 and 2013), extrapolated the expected flower number for inv6 homozygotes (table \ref{tab:MimReproEst}), and calculated the relative fertility of each genotype given that inv6 homozygotes have the highest flower number ($w_i$, where $i \in \{inv6/inv6,\, inv6/w+,\, w+/w+\}$). Using the relative fertility expressions outlined in Table \ref{tab:inv6Fitness}, we then solved for $s_f$. 
 
-We used pollen production as a proxy for male fertility. We calculated average pollen production as the product of the geometric mean flower number and field estimated pollen viability for wild-type and inv6 heterozygotes, and extrapolated the expected pollen production for inv6 homozygotes. As before, we calculated relative male fertility ($w^{\prime}_i$) for each genotype given that wild-type homozygotes had the highest pollen viability, and used the expressions for $w^{\prime}_{i}$ from Table \ref{tab:inv6Fitness} to solve for $s_m$.
+\begin{table}[htbp]
+ \centering
+ \caption{\bf Selection coefficient estimates for inv6}
+\label{tab:MimReproEst}
+\begin{tabular}{lccc}
+ \toprule
+ 	&  \multicolumn{3}{c}{{Genotype}} \\ 
+\cline{2-4}
+Geom.~Mean (2012 \& 2013)			& $inv6/inv6$	& $inv6/w+$		& $w+/w+$ \\ \hline
+Flower \#:								& $4.63$	& $3.91$	& $3.19$ \\	
+Flower \# $\times$ Pollen viab.:		& $1.89$	& $2.29$	& $2.70$ \\ \hline
+Rel.~Flower \#:							& $1$		& $0.85$	& $0.69$ \\	
+Rel.~Flower \# $\times$ Pollen viab.:	& $0.70$	& $0.85$	& $1$ \\	
+\hline
+\end{tabular}
+\caption{\footnotesize{Note that Values for $inv6/inv6$ homozygotes are extrapolated based on the assumption of additive effects of the inversion on flower and pollen production.}}
+\end{table}
 
-It is worth noting that \citet{LeeKelly2015} also report greenhouse pollen viabilty data for several mapping populations of {\itshape M.~guttatus}, which includes data for inv6 homozygotes, from which relative fertilities can be estimated. We chose to use the field estimated pollen viability and flower number data, despite the lack of inv6 homozygotes, because it probably gives a more accurate reflection of the fitness effects of inv6 in the field. Moreover, both approaches require making assumptions regarding the dominance effects of inv6. Given the obvious pitfalls of estimating selection on inv6 from the available data, it goes without saying that the location of inv6 in demographically viable polymorphic parameter space is a highly speculative, but nevertheless interesting, proof of concept for our model predictions.
+We used pollen production as a proxy for male fertility. We calculated average pollen production as the product of the geometric mean flower number and field estimated pollen viability for wild-type and inv6 heterozygotes, and extrapolated the expected pollen production for inv6 homozygotes (table \ref{tab:MimReproEst}). As before, we calculated relative male fertility ($w^{\prime}_i$) for each genotype given that wild-type homozygotes had the highest pollen viability, and used the expressions for $w^{\prime}_{i}$ from Table \ref{tab:inv6Fitness} to solve for $s_m$.
 
 \begin{table}[htbp]
  \centering
@@ -1008,7 +1024,7 @@ It is worth noting that \citet{LeeKelly2015} also report greenhouse pollen viabi
 \label{tab:inv6Fitness}
 \begin{tabular}{lccc}
  \toprule
-					&  \multicolumn{3}{c}{{\textit{Genotype}}} \\ 
+					&  \multicolumn{3}{c}{{Genotype}} \\ 
 \cline{2-4}
 									& $inv6/inv6$	& $inv6/w+$		& $w+/w+$ 	\\ \hline
 Female function ($w_{i}$):			& $1$			& $1 - s_f/2$	& $1 - s_f$ \\	
@@ -1016,6 +1032,10 @@ Male function ($w^{\prime}_{i}$):	& $1 - s_m$		& $1 - s_m/2$	& $1$ 		\\
 \hline
 \end{tabular}
 \end{table}
+
+\citet{LeeKelly2015} also report greenhouse pollen viabilty data for several mapping populations of {\itshape M.~guttatus}, which includes data for inv6 homozygotes, from which relative fertilities can be estimated. We chose to use the field estimated pollen viability and flower number data, despite the lack of inv6 homozygotes, because it probably gives a more accurate reflection of the fitness effects of inv6 in the field. Moreover, both approaches require making assumptions regarding the dominance effects of inv6. Given the obvious pitfalls of estimating selection on inv6 from the available data, it goes without saying that the location of inv6 in demographically viable polymorphic parameter space is a highly speculative, but nevertheless interesting, proof of concept for our model predictions.
+
+
 
 
 

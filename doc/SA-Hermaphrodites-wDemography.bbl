@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{86}
+\begin{thebibliography}{88}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -7,6 +7,12 @@ Abbott, J.~K. 2011.
 \newblock Intra-locus sexual conflict and sexually antagonistic genetic
   variation in hermaphroditic animals.
 \newblock Proc.~Roy.~Soc.~Lond.~B 278:161--169.
+
+\bibitem[{Agrawal and Whitlock(2011)}]{AgrawalWhitlock2011}
+Agrawal, A.~F., and M.~C. Whitlock. 2011.
+\newblock Inferences about the distribution of dominance drawn from yeast gene
+  knockout data.
+\newblock Genetics 178:553--566.
 
 \bibitem[{Aizen and Harder(2007)}]{AizenHarder2007}
 Aizen, M., and L.~Harder. 2007.
@@ -325,6 +331,12 @@ Lloyd, D.~G., and C.~J. Webb. 1986.
 \newblock The avoidance of interference between the presentation of pollen and
   stigmas in angiosperms i. dichogamy.
 \newblock NZ J.~Botany 24:135--162.
+
+\bibitem[{Manna et~al.(2011)Manna, Martin, and Lenormand}]{Manna2011}
+Manna, F., G.~Martin, and T.~Lenormand. 2011.
+\newblock Fitness landscapes: an alternative theory for the dominance of
+  mutation.
+\newblock Genetics 189:923--937.
 
 \bibitem[{Mart{\'\i}nez-Ruiz and Knell(2017)}]{martinez2017sexual}
 Mart{\'\i}nez-Ruiz, C., and R.~J. Knell. 2017.
