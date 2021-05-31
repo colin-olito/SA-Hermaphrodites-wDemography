@@ -1089,7 +1089,7 @@ layout     <- layout(layout.mat,respect=TRUE)
         # axes        
         axis(1, las=1, labels=NA)
         axis(2, las=1)
-        proportionalLabel(-0.5, 0.5, expression(paste(italic(h[f]), " = 3/4, ", italic(h[m]), " = 1/4")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.5, 0.5, expression(paste(italic(h[f]), " = 1/4, ", italic(h[m]), " = 3/4")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
         proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
         proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 0')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
@@ -1292,6 +1292,360 @@ layout     <- layout(layout.mat,respect=TRUE)
 
 
 
+#' Fig showing Proportion of polymorphic parameter space
+#' (w/out inbreeding depression)
+polySpaceFigTitrateSexSpec  <-  function(df = "dataPolySpaceFig_hf0.25_0.75_hm0.75_0.25_sMax0.15_res0.003_delta0_dj0_da0_dg0") {
+
+    # Make filenames for import from df names
+    fName  <-  paste('./output/simData/', df, '.csv', sep="")
+
+    # Extract plotting parameter values from df names
+    df1  <-  strsplit(df, '_')[[1]][c(2:11)]
+    pars1  <-  list(
+                    "hf"    =  as.numeric(strsplit(df1[1],'f')[[1]][2]),
+                    "hm"    =  as.numeric(strsplit(df1[3],'m')[[1]][2]),
+                    "sMax"  =  as.numeric(strsplit(df1[5],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(df1[6],'s')[[1]][2]),
+                    "d"     =  as.numeric(strsplit(df1[7],'a')[[1]][2]),
+                    "dj"    =  as.numeric(strsplit(df1[8],'j')[[1]][2]),
+                    "da"    =  as.numeric(strsplit(df1[9],'a')[[1]][2]),
+                    "dg"    =  as.numeric(strsplit(df1[10],'g')[[1]][2])
+                    )
+    df2  <-  strsplit(df, '_')[[1]][c(2:11)]
+    pars2  <-  list(
+                    "hf"    =  as.numeric(df2[2]),
+                    "hm"    =  as.numeric(df2[4]),
+                    "sMax"  =  as.numeric(strsplit(df2[5],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(df2[6],'s')[[1]][2]),
+                    "d"     =  as.numeric(strsplit(df2[7],'a')[[1]][2]),
+                    "dj"    =  as.numeric(strsplit(df2[8],'j')[[1]][2]),
+                    "da"    =  as.numeric(strsplit(df2[9],'a')[[1]][2]),
+                    "dg"    =  as.numeric(strsplit(df2[10],'g')[[1]][2])
+                    )
+
+    # import data
+    data  <-  read.csv(file=fName, header=TRUE)
+
+    # clean data set & quantify parameter space
+    dat1   <-  quantPolySpaceSexSpec(data = data, pars = pars1)
+    dat2   <-  quantPolySpaceSexSpec(data = data, pars = pars2)
+
+    # Color scheme
+    COLS  <-  list(
+                    "PG"    =  transparentColor('#252525', opacity=1),
+                    "low"   =  transparentColor('dodgerblue4', opacity=0.6),
+                    "med"   =  transparentColor('darkolivegreen4', opacity=0.6),
+                    "hi"    =  transparentColor('tomato', opacity=0.6),
+                    "low2"  =  transparentColor('dodgerblue4', opacity=1),
+                    "med2"  =  transparentColor('darkolivegreen4', opacity=1),
+                    "hi2"   =  transparentColor('tomato', opacity=1)
+                   )
+
+#  Create vector of selfing rates for pop gen function.
+    CLine     <-  seq(0,0.9,length=100)
+    FrecMdom  <-  c()
+    FdomMrec  <-  c()
+    for(i in 1:length(CLine)) {
+        FrecMdom[i]  <-  popGen_PolySpace(hf=0.25, hm=0.75, C=CLine[i], sMax=pars1$sMax)
+        FdomMrec[i]  <-  popGen_PolySpace(hf=0.75, hm=0.25, C=CLine[i], sMax=pars1$sMax)
+    }
+
+# Set plot layout
+    layout.mat  <- matrix(c(1,2), nrow=2, ncol=1, byrow=TRUE)
+    layout      <- layout(layout.mat,respect=TRUE)
+
+    ##  Panel A: hf = 1/4; hm = 3/4
+        # subset data
+        d  <-  dat1[dat1$hf == 0.25,]
+        dlow  <-  d[d$f == 5.8,]
+        dmed  <-  d[d$f == 6.0,]
+        dhi   <-  d[d$f == 6.5,]
+        # Make the plot
+        par(omi=rep(0.5, 4), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s')
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,max(d$C)), ylim = c(0,0.105), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        lines(FrecMdom ~ CLine, lwd=2, col=COLS$PG)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$low, col=COLS$low2, data=dlow)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$med, col=COLS$med2, data=dmed)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$hi, col=COLS$hi2, data=dhi)
+        # axes        
+        axis(1, las=1, labels=NA)
+        axis(2, las=1)
+        proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+#        proportionalLabel(0.5, 1.1, substitute(paste(italic(h), " = ", hh), list(hh = pars2$hf)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.5, 1.1, expression(paste(italic(h[f]), " = ", 1/4, "; ", italic(h[m]), " = ", 3/4)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.3, -0.16, expression(paste("Proportion viable polymorphic parameter space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        #Legend
+        legend( x       =  usr[2],
+                y       =  usr[4],
+                legend  =  c(
+                             expression(paste("Pop. Gen.")),
+                             substitute(paste("High fertility (", italic(f), " = ", ff, ")"), list(ff = dhi$f[1])),
+                             substitute(paste("Med. fertility (", italic(f), " = ", ff, ".0)"), list(ff = dmed$f[1])),
+                             substitute(paste("Low  fertility (", italic(f), " = ", ff, ")"), list(ff = dlow$f[1]))),
+                 lty     =  c(1,NA,NA,NA),
+                 lwd     =  c(2,NA,NA,NA),
+                 col     =  c(COLS$PG,
+                              COLS$hi2,
+                              COLS$med2,
+                              COLS$low2),
+                 pch     =  c(NA,21,21,21),
+                 pt.bg   =  c(NA,
+                              COLS$hi,
+                              COLS$med,
+                              COLS$low),
+                 cex     =  0.65,
+                 pt.cex  =  0.75,
+                 xjust   =  1,
+                 yjust   =  1,
+                 bty     =  'n',
+                 border  =  NA)
+
+    ##  Panel B: hf = hm = 1/2
+        # subset data
+        d  <-  dat1[dat1$hf == 0.75,]
+        dlow  <-  d[d$f == 5.8,]
+        dmed  <-  d[d$f == 5.9,]
+        dhi   <-  d[d$f == 6.5,]
+        # Make the plot
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,max(d$C)), ylim = c(0,0.105), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        lines(FdomMrec ~ CLine, lwd=2, col=COLS$PG)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$low, col=COLS$low2, data=dlow)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$med, col=COLS$med2, data=dmed)
+        points(PrViaPoly ~ C, pch=21, bg=COLS$hi, col=COLS$hi2, data=dhi)
+        # axes        
+        axis(1, las=1)
+        axis(2, las=1)
+        proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.1, expression(paste(italic(h[f]), " = ", 3/4, "; ", italic(h[m]), " = ", 1/4)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.5, -0.3, expression(paste("Selfing rate (",italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+#        proportionalLabel(-0.3, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
+}
+
+
+
+
+
+#' Fig showing Effect of Inbreeding Depression on 
+#' Proportion of polymorphic parameter space
+
+deltaSelfingLoadPolySpaceFigTitrate  <-  function(df1 = "dataDeltaPolySpaceFigSexSpecDom_sMax0.15_res0.003_dStar0.8_f6.5",
+                                                  df2 = "dataDeltaPolySpaceFig_sMax0.15_res0.003_dStar0.8_f7.5",
+                                                  df3 = "dataDeltaPolySpaceFig_sMax0.15_res0.003_dStar0.8_f8.5") {
+
+    # Make filenames for import from df names
+    fName1  <-  paste('./output/simData/', df1, '.csv', sep="")
+    fName2  <-  paste('./output/simData/', df2, '.csv', sep="")
+    fName3  <-  paste('./output/simData/', df3, '.csv', sep="")
+
+    # import data
+    data1  <-  read.csv(file=fName1, header=TRUE)
+    data2  <-  read.csv(file=fName2, header=TRUE)
+    data3  <-  read.csv(file=fName3, header=TRUE)
+
+    # Extract plotting parameter values from df names
+    d1   <-  strsplit(df1, '_')[[1]][c(2:5)]
+    pars1  <-  list(
+                    "sMax"  =  as.numeric(strsplit(d1[1],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(d1[2],'s')[[1]][2]),
+                    "dStar" =  as.numeric(strsplit(d1[3],'r')[[1]][2]),
+                    "f"     =  as.numeric(strsplit(d1[4],'f')[[1]][2])
+                    )
+    d2   <-  strsplit(df2, '_')[[1]][c(2:5)]
+    pars2  <-  list(
+                    "sMax"  =  as.numeric(strsplit(d2[1],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(d2[2],'s')[[1]][2]),
+                    "dStar" =  as.numeric(strsplit(d2[3],'r')[[1]][2]),
+                    "f"     =  as.numeric(strsplit(d2[4],'f')[[1]][2])
+                    )
+    d3   <-  strsplit(df3, '_')[[1]][c(2:5)]
+    pars3  <-  list(
+                    "sMax"  =  as.numeric(strsplit(d2[1],'x')[[1]][2]),
+                    "res"   =  as.numeric(strsplit(d2[2],'s')[[1]][2]),
+                    "dStar" =  as.numeric(strsplit(d2[3],'r')[[1]][2]),
+                    "f"     =  as.numeric(strsplit(d2[4],'f')[[1]][2])
+                    )
+    hLev  <-  unique(data1$h)
+    dLev  <-  unique(data1$Delta)
+    CLev  <-  unique(data1$C)
+    nHs   <-  length(hLev)
+    nDs   <-  length(dLev)
+    nCs   <-  length(CLev)
+
+    # clean data set & quantify parameter space
+    dat1   <-  quantDeltaPolySpace(data = data1, pars = pars1)
+    dat1[dat1 < 0]  <-  0
+    dat2   <-  quantDeltaPolySpace(data = data2, pars = pars2)
+    dat2[dat2 < 0]  <-  0
+    dat3   <-  quantDeltaPolySpace(data = data3, pars = pars3)
+    dat3[dat3 < 0]  <-  0
+
+# Color scheme
+    COLS  <-  list(
+                    "PG"     =  transparentColor('#252525', opacity=1),
+                    "dSim"   =  transparentColor('#252525', opacity=0.6),
+                    "d_j"    =  transparentColor('dodgerblue4', opacity=0.6),
+                    "d_a"    =  transparentColor('dodgerblue', opacity=0.6),
+                    "d_g"    =  transparentColor('tomato', opacity=0.6),
+                    "dSim2"  =  transparentColor('#252525', opacity=1),
+                    "d_j2"   =  transparentColor('dodgerblue4', opacity=1),
+                    "d_a2"   =  transparentColor('dodgerblue', opacity=1),
+                    "d_g2"   =  transparentColor('tomato', opacity=1)
+                    )
+
+#  Create vector of delta values for pop gen predictions.
+    dStar  <-  pars1$dStar
+    CLine  <-  seq(0,0.9,length=100)
+    dLine  <-  predDelta(dStar=dStar, b=1/2, a=0.2, C=CLine) 
+
+
+# Set plot layout
+    layout.mat  <- matrix(c(1:2), nrow=2, ncol=1, byrow=TRUE)
+    layout      <- layout(layout.mat,respect=TRUE)
+
+    ## Panel A: Additive SA (hf = hm = 1/2)
+    ##          early-acting delta
+        PGSpace     <-  c()
+        for(i in 1:length(CLine)) {
+            PGSpace[i]     <-  popGen_PolySpace_Delta_Add(C=CLine[i], delta=dLine[i], sMax=pars1$sMax)
+        }
+        d1  <-  dat1[dat1$h == 0.5,]
+        d2  <-  dat2[dat2$h == 0.5,]
+        d2$PrViaPoly[d2$Delta == "d_g"][c(18)]  <-  as.character((as.numeric(d2$PrViaPoly[d2$Delta == "d_g"][c(17)])  + as.numeric(d2$PrViaPoly[d2$Delta == "d_g"][c(19)]) )/2)
+        d3  <-  dat3[dat3$h == 0.5,]
+        d3$PrViaPoly[d3$Delta == "d_g"][c(18)]  <-  as.character((as.numeric(d3$PrViaPoly[d3$Delta == "d_g"][c(17)])  + as.numeric(d3$PrViaPoly[d3$Delta == "d_g"][c(19)]) )/2)
+
+        # Make the plot
+        par(omi=rep(0.5, 4), mar = c(3,4,0.5,0.5), bty='o', xaxt='s', yaxt='s')
+        plot(NA, axes=FALSE, type='n', main='',xlim = c(0,0.925), ylim = c(0,0.1), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        # f = 6.5
+        points(PrViaPoly[Delta == "d"][c(1:9,23)] ~ C[Delta == "d"][c(1:9,23)], pch=21, bg=COLS$dSim, col=COLS$dSim2, data=d1)
+        points(PrViaPoly[Delta == "d_j"][c(1:7,23)] ~ C[Delta == "d_j"][c(1:7,23)], pch=21, bg=COLS$d_j, col=COLS$d_j2, data=d1)
+        points(PrViaPoly[Delta == "d_a"][c(1:12,23)] ~ C[Delta == "d_a"][c(1:12,23)], pch=21, bg=COLS$d_a, col=COLS$d_a2, data=d1)
+        points(PrViaPoly[Delta == "d_g"][c(1:10,23)] ~ C[Delta == "d_g"][c(1:10,23)], pch=21, bg=COLS$d_g, col=COLS$d_g2, data=d1)
+        # f = 7.5
+        points(PrViaPoly[Delta == "d"][c(1:21,37)] ~ C[Delta == "d"][c(1:21,37)], pch=3, col=COLS$dSim2, data=d2)
+        points(PrViaPoly[Delta == "d_j"][c(1:15,37)] ~ C[Delta == "d_j"][c(1:15,37)], pch=3, col=COLS$d_j2, data=d2)
+        points(PrViaPoly[Delta == "d_a"][c(1:24,37)] ~ C[Delta == "d_a"][c(1:24,37)], pch=3, col=COLS$d_a2, data=d2)
+        points(PrViaPoly[Delta == "d_g"][c(1:22,37)] ~ C[Delta == "d_g"][c(1:22,37)], pch=3, col=COLS$d_g2, data=d2)
+        # f = 8.5
+        points(PrViaPoly[Delta == "d"][c(1:32,37)] ~ C[Delta == "d"][c(1:32,37)], pch=4, col=COLS$dSim2, data=d3)
+        points(PrViaPoly[Delta == "d_j"][c(1:21,37)] ~ C[Delta == "d_j"][c(1:21,37)], pch=4, col=COLS$d_j2, data=d3)
+        points(PrViaPoly[Delta == "d_a"][c(1:35,37)] ~ C[Delta == "d_a"][c(1:35,37)], pch=4, col=COLS$d_a2, data=d3)
+        points(PrViaPoly[Delta == "d_g"][c(1:33,37)] ~ C[Delta == "d_g"][c(1:33,37)], pch=4, col=COLS$d_g2, data=d3)
+        # PG expectation
+        lines(PGSpace ~ CLine, lwd=2, col=COLS$PG)
+        # axes        
+        axis(1, las=1, labels=NA)
+        axis(2, las=1)
+        # Labels/annotations
+        proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.075, expression(paste(italic(h), " = ", 1/2)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.35, -0.16, expression(paste("Proportion viable polymorphic parameter space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        legend( x       =  usr[2],
+                y       =  usr[4],
+                legend  =  c(
+                             expression(paste(italic(delta), " (pop. gen.)")),
+                             expression(paste(delta)),
+                             expression(paste(delta[italic(j)])),
+                             expression(paste(delta[italic(a)])),
+                             expression(paste(delta[gamma]))),
+                 lty     =  c(1,NA,NA,NA,NA),
+                 lwd     =  c(2,NA,NA,NA,NA),
+                 col     =  c(COLS$PG,
+                              COLS$dSim,
+                              COLS$d_j,
+                              COLS$d_a,
+                              COLS$d_g),
+                 pch     =  c(NA,21,21,21,21),
+                 pt.bg   =  c(NA,
+                              COLS$dSim,
+                              COLS$d_j,
+                              COLS$d_a,
+                              COLS$d_g),
+                 cex     =  0.75,
+                 pt.cex  =  0.75,
+                 xjust   =  1,
+                 yjust   =  1,
+                 bty     =  'n',
+                 border  =  NA)
+        legend( x       =  usr[2]*0.93,
+                y       =  usr[4]*0.62,
+                legend  =  c(
+                             expression(paste(italic(f), " = ", 8.5)),
+                             expression(paste(italic(f), " = ", 7.5)),
+                             expression(paste(italic(f), " = ", 6.5))),
+                 col     =  c(COLS$PG),
+                 pch     =  c(4,3,21),
+                 pt.bg   =  c(NA),
+                 cex     =  0.75,
+                 pt.cex  =  0.75,
+                 xjust   =  1,
+                 yjust   =  1,
+                 bty     =  'n',
+                 border  =  NA)
+
+
+    ## Panel B: Dominance Reversal SA (hf = hm = 1/4)
+    ##          early-acting delta
+        CLine2  <-  CLine[-1]
+        dLine2  <-  dLine[-1]
+        PGSpace     <-  c()
+        for(i in 1:length(CLine2)) {
+            PGSpace[i]     <-  popGen_PolySpace_Delta_DomRev(C=CLine2[i], delta=dLine2[i], sMax=pars2$sMax)
+        }
+        d1  <-  dat1[dat1$h == 0.25,]
+        d2  <-  dat2[dat2$h == 0.25,]
+        d3  <-  dat3[dat3$h == 0.25,]
+        d1$PrViaPoly[30]  <-  "0"
+        # Make the plot
+        plot(NA, axes=FALSE, type='n', main='', xlim = c(0,0.925), ylim = c(0,0.8), ylab='', xlab='', cex.lab=1.2)
+        usr  <-  par('usr')
+        rect(usr[1], usr[3], usr[2], usr[4], col='white', border=NA)
+        plotGrid(lineCol='grey80')
+        box()
+        # Simulation Results
+        # f = 6.5
+        points(PrViaPoly[Delta == "d"][c(1:10,23)] ~ C[Delta == "d"][c(1:10,23)], pch=21, bg=COLS$dSim, col=COLS$dSim2, data=d1)
+        points(PrViaPoly[Delta == "d_j"][c(1:7,23)] ~ C[Delta == "d_j"][c(1:7,23)], pch=21, bg=COLS$d_j, col=COLS$d_j2, data=d1)
+        points(PrViaPoly[Delta == "d_a"][c(1:12,23)] ~ C[Delta == "d_a"][c(1:12,23)], pch=21, bg=COLS$d_a, col=COLS$d_a2, data=d1)
+        points(PrViaPoly[Delta == "d_g"][c(1:10,23)] ~ C[Delta == "d_g"][c(1:10,23)], pch=21, bg=COLS$d_g, col=COLS$d_g2, data=d1)
+        # f = 7.5
+        points(PrViaPoly[Delta == "d"][c(1:22,37)] ~ C[Delta == "d"][c(1:22,37)], pch=3, bg=COLS$dSim, col=COLS$dSim2, data=d2)
+        points(PrViaPoly[Delta == "d_j"][c(1:15,37)] ~ C[Delta == "d_j"][c(1:15,37)], pch=3, bg=COLS$d_j, col=COLS$d_j2, data=d2)
+        points(PrViaPoly[Delta == "d_a"][c(1:25,37)] ~ C[Delta == "d_a"][c(1:25,37)], pch=3, bg=COLS$d_a, col=COLS$d_a2, data=d2)
+        points(PrViaPoly[Delta == "d_g"][c(1:23,37)] ~ C[Delta == "d_g"][c(1:23,37)], pch=3, bg=COLS$d_g, col=COLS$d_g2, data=d2)        # axes        
+        # f = 8.5
+        points(PrViaPoly[Delta == "d"][c(1:32,37)] ~ C[Delta == "d"][c(1:32,37)], pch=4, col=COLS$dSim2, data=d3)
+        points(PrViaPoly[Delta == "d_j"][c(1:21,37)] ~ C[Delta == "d_j"][c(1:21,37)], pch=4, col=COLS$d_j2, data=d3)
+        points(PrViaPoly[Delta == "d_a"][c(1:35,37)] ~ C[Delta == "d_a"][c(1:35,37)], pch=4, col=COLS$d_a2, data=d3)
+        points(PrViaPoly[Delta == "d_g"][c(1:34,37)] ~ C[Delta == "d_g"][c(1:34,37)], pch=4, col=COLS$d_g2, data=d3)
+        # Pop. Gen Prediction
+        lines(PGSpace ~ CLine2, lwd=2, col=COLS$PG)
+        # axes
+        axis(1, las=1)
+        axis(2, las=1)
+        # Labels/annotations
+        proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.075, expression(paste(italic(h), " = ", 1/4)), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+#        proportionalLabel(-0.35, 0.5, expression(paste("Prop. viable polymorphic space")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(0.5, -0.35, expression(paste("Selfing Rate (", italic(C), ")")), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+}
 
 
 

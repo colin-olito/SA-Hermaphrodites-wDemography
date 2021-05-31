@@ -1505,7 +1505,8 @@ extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
 
 
 ##########################################################
-# Fig. 2 - Dem. viable polymorphic param. space (no I.D.)
+# Fig. SX - Dem. viable polymorphic param. space (no I.D.)
+#			Sex-specific dominance
 
 makeDataPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 						om = 2, g = 3, theta = c(0.6,0.6,0.05,NA), theta_prime = NA, 
@@ -1520,21 +1521,15 @@ makeDataPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 
 makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
-							hVals= c(1/2, 1/4), dStar = 0.8, 
-							tlimit = 10^5, eqThreshold = 1e-8)
-
-
-makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
-							om = 2, g = 3, theta = c(0.6,0.6,0.05,7), theta_prime = 7, 
-							hVals= c(1/2, 1/4), dStar = 0.8, 
+							hfVals= c(1/4, 3/4), hmVals= c(3/4, 1/4), dStar = 0.8, 
 							tlimit = 10^5, eqThreshold = 1e-8)
 
 makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,7.5), theta_prime = 7.5, 
-							hVals= c(1/2, 1/4), dStar = 0.8, 
+							hfVals= c(1/4, 3/4), hmVals= c(3/4, 1/4), dStar = 0.8, 
 							tlimit = 10^5, eqThreshold = 1e-8)
 
 makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,8.5), theta_prime = 8.5, 
-							hVals= c(1/2, 1/4), dStar = 0.8, 
+							hfVals= c(1/4, 3/4), hmVals= c(3/4, 1/4), dStar = 0.8, 
 							tlimit = 10^5, eqThreshold = 1e-8)

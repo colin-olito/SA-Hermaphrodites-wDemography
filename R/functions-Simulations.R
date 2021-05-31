@@ -2169,7 +2169,7 @@ makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4,
 	colnames(dataSet)  <-  c("hf", "hm", "f", "C", "smInv", "aInv", "AInv", "sf", "smExt", "sm", "sfExt")
 
 	# Export data as .csv to ./output/data
-	filename <-  paste("./output/simData/dataPolySpaceFig", "_hf", hfVals[1], hfVals[2], "_hm", hmVals[1], hmVals[2],, "_sMax", sMax, "_res", res, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, ".csv", sep="")
+	filename <-  paste("./output/simData/dataPolySpaceFig", "_hf", hfVals[1], "_", hfVals[2], "_hm", hmVals[1], "_", hmVals[2], "_sMax", sMax, "_res", res, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, ".csv", sep="")
 	write.csv(dataSet, file=filename, row.names = FALSE)
 
 }
@@ -2182,10 +2182,13 @@ makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4,
 #' 
 #' Parameters
 #' df:	polySpace dataframe
-cleanPolySpaceData  <-  function(data) {
+cleanPolySpaceData  <-  function(data, sexSpecDom = FALSE) {
 
     # Get plotting levels from df
-    hLev  <-  unique(data$h)
+	if(sexSpecDom) {
+	    hLev  <-  unique(data$hf)
+	}
+    else{hLev  <-  unique(data$h)}
     fLev  <-  unique(data$f)
     CLev  <-  unique(data$C)
     nHs   <-  length(hLev)
@@ -2198,7 +2201,12 @@ cleanPolySpaceData  <-  function(data) {
         for(j in 1:nFs) {
 			for(k in 1:nCs) {
 				# Subset data by Dominance
-				d  <-  data[data$h == hLev[i],]            
+				if(sexSpecDom) {
+					d  <-  data[data$hf == hLev[i],]
+				}
+				else{
+					d  <-  data[data$h == hLev[i],]
+				}
 				# Subset data by Fertility Value
 				d  <-  d[d$f == fLev[j],]     
 				# Subset data by Selfing Rate
@@ -2324,6 +2332,92 @@ quantPolySpace  <-  function(data, pars) {
 }
 
 
+
+
+##############################
+#' function to summarize polySpaceData to quantify 
+#' demographically viable polymorphic parameter space
+#' (i.e., hacky numerical integration of curves in 
+#' SuppFig-polySpace.pdf file)
+#' 
+#' #' Parameters:
+#' df:	data.frame object form dataPolySpaceFig_*.csv
+quantPolySpaceSexSpec  <-  function(data, pars) {
+
+    # Clean up aberrant smExt value
+    data            <-  cleanPolySpaceData(data = data, sexSpecDom = TRUE)
+#    data$smExt[90]  <-  mean(c(data$smExt[89], data$smExt[91]))
+
+    # Extract plotting parameter values from df pars,
+    # get levels for loops
+    res      <-  pars$res
+    sMax     <-  pars$sMax
+    hfLev     <-  unique(data$hf)
+    fLev     <-  unique(data$f)
+    CLev     <-  unique(data$C)
+    nHs      <-  length(hfLev)
+    nFs      <-  length(fLev)
+    nCs      <-  length(CLev)
+    results  <-  rep(0, times=9)
+
+	# total area of sf x sm parameter space
+	totSpace   <-  sum(rep(sMax*res, times=(sMax/res)))
+
+    # loop through and subset data
+	for(i in 1:nHs) {
+		for(j in 1:nFs) {
+			for(k in 1:nCs) {
+
+				# Subset data by Dominance
+				d  <-  data[data$hf == hfLev[i],]
+				# Subset data by Fertility Value
+				d  <-  d[d$f == fLev[j],]
+				# Subset data by Selfing Rate
+				d  <-  d[d$C == CLev[k],]
+
+				# Calculate approx. total polymorphic space
+				polySpace  <-  sum((d$aInv - d$AInv)*res)
+				PrPoly     <-  polySpace/totSpace
+
+				# Calculate approx. total extinction space
+				if(length(d$smExt[!is.na(d$smExt)]) < 1) {
+					extSpace   <-  0
+					PrExt      <-  0
+					viaPoly    <-  polySpace
+					PrViaPoly  <-  PrPoly
+				} else {
+						extSm     <-  sum((sMax - d$smExt[!is.na(d$smExt)])*res)
+						bottSm    <-  d$sf[!is.na(d$smExt)][1]
+						extSf     <-  sum((bottSm - d$sfExt[!is.na(d$sfExt)])*res)
+						extSpace  <-  extSm + extSf
+						PrExt     <-  extSpace/totSpace
+
+						# Calculate demographically viable polymorphic parameter space
+						aFixExt    <-  (d$AInv - bottSm)*res
+						aFixExt    <-  aFixExt[aFixExt > 0]
+						aFixExt    <-  sum(aFixExt[!is.na(aFixExt)]) + extSf
+						extPoly    <-  extSpace - aFixExt
+						viaPoly    <-  polySpace - extPoly
+						PrViaPoly  <-  viaPoly/totSpace
+					}
+
+				# append results
+				results  <-  rbind(results, c(hfLev[i], fLev[j], CLev[k], polySpace, PrPoly, extSpace, PrExt, viaPoly, PrViaPoly))
+
+			}
+		}
+	}
+
+	results  <-  results[-1,]
+	colnames(results)  <-  c("hf", "f", "C", "polySpace", "PrPoly", "extSpace", "PrExt", "viaPoly", "PrViaPoly")
+	results  <-  as.data.frame(results, row.names=FALSE)
+
+	return(results)
+#	# Export data as .csv to ./output/data
+#	filename <-  paste("./output/simData/dataPolySpaceFigTitrate", "_sMax", sMax, "_res", res, "_delta", pars$d, "_dj", pars$dj, "_da", pars$da, "_dg", pars$dg, ".csv", sep="")
+#	write.csv(results, file=filename, row.names = FALSE)
+
+}
 
 
 
@@ -2593,7 +2687,7 @@ cleanDeltaPolySpaceData  <-  function(data) {
 
 
 
-#   NEED TO FIX !!!!!
+
 ##############################
 #' function to summarize polySpaceData to quantify 
 #' demographically viable polymorphic parameter space
