@@ -2,6 +2,16 @@
 
 @Preamble{"\DeclareRobustCommand{\firstsecond}[2]{#2}"}
 
+@article{AgrawalWhitlock2011,
+  title     = {Inferences about the distribution of dominance drawn from yeast gene knockout data},
+  author    = {Agrawal, A.~F. and Whitlock, M.~C.},
+  journal   = {Genetics},
+  volume    = {178},
+  pages     = {553--566},
+  year      = {2011},
+  publisher = {Gen.~Soc.~America}
+}
+
 @article{AizenHarder2007,
   title     = {Expanding the limits of the pollen-limitation concept: effects of pollen quantity and quality},
   author    = {Aizen, M.A. and Harder, L.D.},
@@ -95,6 +105,16 @@
   pages     = {2333--2344},
   year      = {2015},
   doi       = {10.1111/evo.12737}
+}
+
+@article{ConnallonClark2014,
+  title     = {Balancing selection in species with separate sexes: insights from Fisher's geometric model},
+  author    = {Connallon, Tim and Clark, Andy},
+  journal   = {Genetics},
+  volume    = {197},
+  pages     = {991--1006},
+  year      = {2014},
+  publisher = {Genetics Soc.~Am.}
 }
 
 @article{ConnallonHall2018,
@@ -340,6 +360,16 @@
   volume    = {24},
   pages     = {135--162},
   year      = {1986}
+}
+
+@article{Manna2011,
+  title     = {Fitness landscapes: an alternative theory for the dominance of mutation},
+  author    = {Manna, F. and Martin, G. and Lenormand, T.},
+  journal   = {Genetics},
+  volume    = {189},
+  pages     = {923--937},
+  year      = {2011},
+  publisher = {Genetics Society of America}
 }
 
 @article{MatthewsConnallon2019,
@@ -1346,16 +1376,6 @@ of Balanced Lethal Factors},
   volume    = {43},
   pages     = {115--135},
   year      = {2012}
-}
-
-@article{AgrawalWhitlock2011,
-  title     = {Inferences about the distribution of dominance drawn from yeast gene knockout data},
-  author    = {Agrawal, A.~F. and Whitlock, M.~C.},
-  journal   = {Genetics},
-  volume    = {178},
-  pages     = {553--566},
-  year      = {2011},
-  publisher = {Gen.~Soc.~America}
 }
 
 @Book{Andersson1994,
@@ -2374,6 +2394,17 @@ causes and its variation within and among gynodioecious species},
   publisher = {SIAM},
   year      = {2005},
   author    = {Iannelli, Mimmo and Martcheva, Maia and Milner, Fabio Augusto},
+}
+
+@Article{hitchcock2020gene,
+  author    = {Hitchcock, Thomas J and Gardner, Andy},
+  title     = {A gene's-eye view of sexual antagonism},
+  journal   = {Proceedings of the Royal Society B},
+  year      = {2020},
+  volume    = {287},
+  number    = {1932},
+  pages     = {20201633},
+  publisher = {The Royal Society},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
