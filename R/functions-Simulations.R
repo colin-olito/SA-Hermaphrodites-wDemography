@@ -2186,10 +2186,13 @@ cleanPolySpaceData  <-  function(data, sexSpecDom = FALSE) {
 
     # Get plotting levels from df
 	if(sexSpecDom) {
-	    hLev  <-  unique(data$hf)
+		hLev  <-  unique(data$hf)
 	}
     else{hLev  <-  unique(data$h)}
     fLev  <-  unique(data$f)
+    if(is.null(fLev)){
+		fLev  <-  1
+    }
     CLev  <-  unique(data$C)
     nHs   <-  length(hLev)
     nCs   <-  length(CLev)
@@ -2208,7 +2211,9 @@ cleanPolySpaceData  <-  function(data, sexSpecDom = FALSE) {
 					d  <-  data[data$h == hLev[i],]
 				}
 				# Subset data by Fertility Value
-				d  <-  d[d$f == fLev[j],]     
+				if(!is.null(d$f)){
+					d  <-  d[d$f == fLev[j],]
+				}
 				# Subset data by Selfing Rate
 				d  <-  d[d$C == CLev[k],]     
 
@@ -2352,8 +2357,11 @@ quantPolySpaceSexSpec  <-  function(data, pars) {
     # get levels for loops
     res      <-  pars$res
     sMax     <-  pars$sMax
-    hfLev     <-  unique(data$hf)
+    hfLev    <-  unique(data$hf)
     fLev     <-  unique(data$f)
+    if(is.null(fLev)) {
+		fLev  <-  1
+    }
     CLev     <-  unique(data$C)
     nHs      <-  length(hfLev)
     nFs      <-  length(fLev)
@@ -2371,7 +2379,9 @@ quantPolySpaceSexSpec  <-  function(data, pars) {
 				# Subset data by Dominance
 				d  <-  data[data$hf == hfLev[i],]
 				# Subset data by Fertility Value
-				d  <-  d[d$f == fLev[j],]
+				if(!is.null(d$f)) {
+					d  <-  d[d$f == fLev[j],]
+				}
 				# Subset data by Selfing Rate
 				d  <-  d[d$C == CLev[k],]
 
@@ -2401,13 +2411,16 @@ quantPolySpaceSexSpec  <-  function(data, pars) {
 						PrViaPoly  <-  viaPoly/totSpace
 					}
 
+					if(fLev == 1){
+						fLev  <-  pars$f
+					}
 				# append results
 				results  <-  rbind(results, c(hfLev[i], fLev[j], CLev[k], polySpace, PrPoly, extSpace, PrExt, viaPoly, PrViaPoly))
 
 			}
 		}
 	}
-
+#browser()
 	results  <-  results[-1,]
 	colnames(results)  <-  c("hf", "f", "C", "polySpace", "PrPoly", "extSpace", "PrExt", "viaPoly", "PrViaPoly")
 	results  <-  as.data.frame(results, row.names=FALSE)
@@ -2620,10 +2633,10 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 #' 
 #' Parameters
 #' df:	dataDeltaPolySpace dataframe
-cleanDeltaPolySpaceData  <-  function(data) {
+cleanDeltaPolySpaceData  <-  function(data, sexSpec = FALSE) {
 
     # Get plotting levels from df
-    hLev  <-  unique(data$h)
+    hLev  <-  unique(data$hf)
     dLev  <-  unique(data$Delta)
     CLev  <-  unique(data$C)
     nHs   <-  length(hLev)
@@ -2637,7 +2650,10 @@ cleanDeltaPolySpaceData  <-  function(data) {
         for(j in 1:nDs) {
 			for(k in 1:nCs) {
 				# Subset data by Dominance
-				d  <-  data[data$h == hLev[i],]            
+				if(sexSpec == TRUE) {
+					d  <-  data[data$hf == hLev[i],]	
+				}
+				else{d  <-  data[data$h == hLev[i],]}
 				# Subset data by Fertility Value
 				d  <-  d[d$Delta == dLev[j],]     
 				# Subset data by Selfing Rate
@@ -2696,18 +2712,23 @@ cleanDeltaPolySpaceData  <-  function(data) {
 #' 
 #' #' Parameters:
 #' df:	data.frame object form dataDeltaPolySpaceFig_*.csv
-quantDeltaPolySpace  <-  function(data, pars) {
+quantDeltaPolySpace  <-  function(data, pars, sexSpec = FALSE, ...) {
 
     # Clean up aberrant smExt value
-    data  <-  cleanDeltaPolySpaceData(data = data)
-    data$smExt[6530:6544]  <-  0
-    data$sfExt[6578:6579]  <-  0
+    data  <-  cleanDeltaPolySpaceData(data = data, sexSpec=TRUE)
+    if(!sexSpec) {
+    	data$smExt[6530:6544]  <-  0
+	    data$sfExt[6578:6579]  <-  0
+
+    }
 
     # Extract plotting parameter values from df pars,
     # get levels for loops
     res      <-  pars$res
     sMax     <-  pars$sMax
-    hLev     <-  unique(data$h)
+    if(sexSpec) {
+		hLev     <-  unique(data$hf)    	
+    } else{hLev     <-  unique(data$h)}
     dLev     <-  unique(data$Delta)
     CLev     <-  unique(data$C)
     nHs      <-  length(hLev)
@@ -2724,7 +2745,10 @@ quantDeltaPolySpace  <-  function(data, pars) {
 			for(k in 1:nCs) {
 
 				# Subset data by Dominance
-				d  <-  data[data$h == hLev[i],]
+				if(sexSpec) {
+					d  <-  data[data$hf == hLev[i],]
+				}
+				else{d  <-  data[data$h == hLev[i],]}
 				# Subset data by Inbreeding Depression Parameter
 				d  <-  d[d$Delta == dLev[j],]
 				# Subset data by Selfing Rate
@@ -2775,7 +2799,9 @@ quantDeltaPolySpace  <-  function(data, pars) {
 	}
 
 	results  <-  results[-1,]
-	colnames(results)  <-  c("h", "Delta", "C", "polySpace", "PrPoly", "extSpace", "PrExt", "viaPoly", "PrViaPoly")
+	if(sexSpec){
+		colnames(results)  <-  c("hf", "Delta", "C", "polySpace", "PrPoly", "extSpace", "PrExt", "viaPoly", "PrViaPoly")
+	} else{ colnames(results)  <-  c("h", "Delta", "C", "polySpace", "PrPoly", "extSpace", "PrExt", "viaPoly", "PrViaPoly")}
 	results  <-  as.data.frame(results, row.names=FALSE)
 
 	return(results)

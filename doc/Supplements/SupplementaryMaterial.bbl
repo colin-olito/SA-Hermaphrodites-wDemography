@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{7}
+\begin{thebibliography}{10}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Caswell(2012)}]{caswell2012matrix}
@@ -39,9 +39,26 @@ Hunter, C.~M., and H.~Caswell. 2005.
   models.
 \newblock Ecological modelling 188:15--21.
 
+\bibitem[{Jordan and Connallon(2014)}]{JordanConnallon2014}
+Jordan, C.~Y., and T.~Connallon. 2014.
+\newblock Sexually antagonistic polymorphism in simultaneous hermaphrodites.
+\newblock Evolution 68:3555--3569.
+
 \bibitem[{Magnus and Neudecker(1979)}]{magnus1979commutation}
 Magnus, J.~R., and H.~Neudecker. 1979.
 \newblock The commutation matrix: some properties and applications.
 \newblock The Annals of Statistics pages 381--394.
+
+\bibitem[{Olito(2017)}]{Olito2017}
+Olito, C. 2017.
+\newblock Consequences of genetic linkage for the maintenance of sexually
+  antagonistic polymorphism in hermaphrodites.
+\newblock Evolution 71:458--464.
+
+\bibitem[{Spencer and Priest(2016)}]{SpencerPriest2016}
+Spencer, H., and N.~Priest. 2016.
+\newblock The evolution of sex-specific dominance in response to sexually
+  antagonistic selection.
+\newblock American Naturalist 187:658--666.
 
 \end{thebibliography}

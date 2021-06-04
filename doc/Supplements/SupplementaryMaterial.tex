@@ -36,7 +36,7 @@
 
 % Graphics package
 \usepackage{graphicx}
-\graphicspath{{../output/figs/}.pdf}
+\graphicspath{{../../output/figs/}.pdf}
 
 % Change default margins
 \usepackage[top=0.75in, bottom=0.75in, left=0.75in, right=0.75in]{geometry}
@@ -63,7 +63,8 @@
 % the short title of your MS. You can comment authorship information out
 % while your MS is undergoing double-blind review.
 %
-\rhead{Supplement to Olito \& de Vries, "Costs of SA selection" \textit{Am.~Nat.}}
+%\rhead{Supplement to Olito \& de Vries, "Costs of SA selection" \textit{Am.~Nat.}}
+\rhead{Supplement to "Costs of SA selection" \textit{Am.~Nat.}}
 \setlength{\headsep}{0.3in}  
 \lhead{} 
 
@@ -82,7 +83,7 @@
 %
 % (Thanks to Vlastimil Krivan for pointing this out to us!)
 
-\title{Online Supplement to "Demographic costs of sexually antagonistic selection in partially selfing populations \\ 
+\title{Online Supplement to "Demographic costs of sexually antagonistic selection in partially selfing populations" \\ 
 %\LaTeX{} Template for Author-Supplied Supplementary PDFs, \\ 
 \textit{The~American~Naturalist} }
 
@@ -101,8 +102,8 @@
 % title page that includes (at least) the authors' names, the title of 
 % the MS, and the name of the journal. It should also have a header and
 % page numbers.
-\author{Colin Olito$^{1,\ast}$ \\ 
-Charlotte de Vries$^{2}$}
+%\author{Colin Olito$^{1,\ast}$ \\ 
+%Charlotte de Vries$^{2}$}
 
 \date{\today}
 
@@ -110,11 +111,11 @@ Charlotte de Vries$^{2}$}
 
 \maketitle
 
-\noindent{} 1. Department of Biology, Lund University, Lund 223 62, Sweden;
+%\noindent{} 1. Department of Biology, Lund University, Lund 223 62, Sweden;
 
-\noindent{} 2.  Department of Evolutionary Biology and Environmental Studies, University of Zurich, Zurich CH-8057, Switzerland;
+%\noindent{} 2.  Department of Evolutionary Biology and Environmental Studies, University of Zurich, Zurich CH-8057, Switzerland;
 
-\noindent{} $\ast$ Corresponding author; e-mail: \url{colin.olito@gmail.com}
+%\noindent{} $\ast$ Corresponding author; e-mail: \url{colin.olito@gmail.com}
 
 %\linenumbers{}
 %\modulolinenumbers[3]
@@ -140,7 +141,7 @@ Charlotte de Vries$^{2}$}
 \renewcommand{\theequation}{S\arabic{equation}}
 % redefine the command that creates the equation number.
 \renewcommand{\thetable}{S\arabic{table}}
-\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesection}{Supplement~\arabic{section}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 \setcounter{equation}{0}  % reset counter 
 \setcounter{figure}{0}
@@ -152,7 +153,7 @@ Charlotte de Vries$^{2}$}
 
 \newpage{}
 \section{Construction of the population projection matrix}
-We will now derive the expressions for the survival and fertility matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ as given by equations \textcolor{red}{(10)-(13)} in the main text. The matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ are the ingredients of the population projection matrix, $\tilde{\mbf{A}}$, as given in equation \textcolor{red}{(9)}, repeated here for convenience, 
+We will now derive the expressions for the survival and fertility matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ as given by Eq(10)-(13) in the main text. The matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ are the ingredients of the population projection matrix, $\tilde{\mbf{A}}$, as given in Eq(9), repeated here for convenience, 
 \begin{linenomath*}
 \begin{equation} \label{eq:Atilde_appendix}
 	\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
@@ -264,7 +265,7 @@ Using the exact same sequence of equations, we can derive
 \end{eqnarray}
 \end{linenomath*}
 
-Finally, substitute the expressions derived for the parent-offpspring genotype maps, $\bo H^X(\tilde{\mbf{p}}) $, and $\bo H^S$, in the main text (\textcolor{red}{equations (12) and (13))} into the above equations to obtain 
+Finally, substitute the expressions derived for the parent-offpspring genotype maps, $\bo H^X(\tilde{\mbf{p}}) $, and $\bo H^S$ into the above equations to obtain Eq(12) and Eq (13) in the main text:
 \begin{linenomath*}
 \begin{eqnarray}
 	\mcal{F}^S = \mbf{K}^{\intercal} \mbb{H}^S\mbf{K} \mbb{F}^S = 
@@ -336,7 +337,7 @@ The population projection matrix $\tilde{\mbf{A}}$ consists of $3 \times 3$ bloc
 
 
 
-The Mendelian matrix model defined in equations \textcolor{red}{(9)-(13)}, or (\ref{eq:AtildeCoexistence}), reduces to a linear matrix model on the boundary where the population is initially fixed for the $A$ allele (since $q^{\prime}_{A} = 1$ and $q^{\prime}_{a} = 0$). Provided the initial population contains a nonzero number of females, the population will grow or shrink exponentially after converging to a stable population structure (see Caswell (2001), section 4.5.2.1). We can take advantage of the homogeneity of $\tilde{\mbf{F}}$ by rewriting the model in terms of the normalized population vector (the frequency vector):
+The Mendelian matrix model defined in Eq(9)-(13), Eq(A1), or in reorderd form as (\ref{eq:AtildeCoexistence}), reduces to a linear matrix model on the boundary where the population is initially fixed for the $A$ allele (since $q^{\prime}_{A} = 1$ and $q^{\prime}_{a} = 0$). Provided the initial population contains a nonzero number of females, the population will grow or shrink exponentially after converging to a stable population structure (see Caswell (2001), section 4.5.2.1). We can take advantage of the homogeneity of $\tilde{\mbf{F}}$ by rewriting the model in terms of the normalized population vector (the frequency vector):
 \begin{equation} 
 	\tilde{\mbf{p}}(t + 1) = \frac{ \tilde{\mbf{A}}[\tilde{\mbf{p}}(t)] \tilde{\mbf{p}}(t) }{ \| \tilde{\mbf{A}}[\tilde{\mbf{p}}(t)] \tilde{\mbf{p}}(t) \|},\label{eq:freq_model}
 \end{equation}
@@ -666,7 +667,7 @@ The above expression requires the derivative of the frequency of allele $A$ in t
  \end{landscape}
 
 
- Start with equation \textcolor{red}{(4)} from the main text:
+ Start with Eq(6) from the main text:
 \begin{linenomath*}
 \begin{equation} \label{eq:maleGametePool}
 	\left(
@@ -882,7 +883,7 @@ Note that the outcrossing terms are the sum of a term due to heterozygote ovules
 % 			\end{array} \right). \numberthis
 % \end{align*}
 
-A boundary equilibrium is unstable to invasion by the rare allele if the leading eigenvalue of the Jacobian evaluated at the equilibrium is greater than $1$. The conditions for a protected polymorphism is that both boundaries are unstable (i.e., both $\tilde{\zeta}_{AA} > 1$ and $\tilde{\zeta}_{aa} > 1$). The conditions for coexistence are, therefore, as given in equation \textcolor{red}{(B1)} and \textcolor{red}{(B2)},
+A boundary equilibrium is unstable to invasion by the rare allele if the leading eigenvalue of the Jacobian evaluated at the equilibrium is greater than $1$. The conditions for a protected polymorphism is that both boundaries are unstable (i.e., both $\tilde{\zeta}_{AA} > 1$ and $\tilde{\zeta}_{aa} > 1$). The conditions for coexistence are, therefore, as given in Eq(B1) and Eq(B2),
 
 
 {\footnotesize
@@ -910,7 +911,50 @@ where $\Phi_{AA} = \frac{(1 - C_{aa})}{p_{n}} \mbf{F}_{aa} \big(\hat{\mbf{p}}_{X
 Because these coexistence conditions contain the stable stage specific frequencies on the boundaries, $\hat{\mbf{p}}_{X,AA}$, and $\hat{\mbf{p}}_{S,aa}$, finding an analytical expression in terms of the model parameters (i.e., a closed form solution),  is in general a non trivial task. We therefore used numerical techniques as described in the main text to identify invasion and extinction thresholds, which could then be used to define regions of demographically viable polymorphism across $s_f \times s_m$ parameter space. All computer code necessary to reproduce the results are available at \url{https://github.com/colin-olito/SA-Hermaphrodites-wDemography}.
 
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage{}
+\section{Sex-specific dominance}
+\renewcommand{\thefigure}{S\arabic{equation}}
+\setcounter{figure}{1}  % reset counter 
+\setcounter{equation}{1}  % reset counter 
+\setcounter{table}{1}  % reset counter 
+
+A variety of biologically interesting dominance scenarios are possible under sex-specific selection. For reasons explained in the main text, we focused on two scenarios of equal dominance (where $h_f = h_m = h$): additivity ($h = 1/2$), and dominance reversal ($h = 1/4$). In fact, these scenarios are special cases of two broader classes of sex-specific dominance scenarios. Additivity represents a case where sex-specific dominance is complementary ($h_f + h_m = 1$), and dominance reversals represent one where $h_f + h_m < 1$. Complementarity means there is a trade-off in the levels of dominance between male and female function. Furthermore, it is of particular biological interest because it represents the case where phenotypes under sex-specific selection are identical in males and females (or for hermaphrodites, investment in eggs/ovules and sperm/pollen is equivalent) and fitness is a linear function of the phenotype. Complementarity therefore seems plausible when sex-specific selection first arises \citep{SpencerPriest2016}. However, it is not intuitively obvious what the demographic consequences of sex-specific dominance will be in our model, especially given the assumption of female demographic dominance. Below we explore two scenarios of complementary sex-specific dominance, one where SA fitness effects are recessive in females and dominant in males ($h_f = 1/4$, $h_m = 3/4$), and the reverse ($h_f = 3/4$, $h_m = 1/4$). Overall, our supplementary results show that under complementary sex-specific dominance, the demographic consequences of SA selection are broadly similar to those under additive SA fitness effects.
+
+
+
 %%%%%%%%%%%%%%%%%%%%%
+% Figure S1
+ \begin{figure}[htbp]
+ \centering
+ \includegraphics[width=\linewidth]{extinctionThresholdsSexSpecDomFig}
+ \caption{\footnotesize{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). "Demographically viable polymorphic parameter space" corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two cases of complementary dominance ($h_f = 1/4$, $h_m = 3/4$, top row), and ($h_f = 3/4$, $h_m = 1/4$, bottom row), and extinction thresholds are illustrated for the same three values of female fecundity illustrated in fig.~1 of the main text ($f$ values annotated on each panel).}}
+ \label{fig:extThresholdsCompSexSpec}
+ \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%
+% Figure S2
+ \begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.75]{polymorphicSpaceTitrateSexSpec}
+ \caption{\footnotesize{Proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$) in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$), plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under two cases of complementary dominance for  SA fitness effects ($h_f = 1/4$, $h_m = 3/4$, panel A; and $h_f = 3/4$, $h_m = 1/4$, panel B). Each point was calculated by numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see Analyses section in the main text), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
+ \label{fig:polySpaceCompSexSPec}
+ \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%
+% Figure 3
+ \begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.75]{deltaPolymorphicSpaceTitrateCompSexSpec}
+ \caption{\footnotesize{Effects of early- and late-acting inbreeding depression on the proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$), plotted as a function of the population selfing rate. In all plots, the strength of inbreeding depression decreases as the selfing rate goes up following a simple model of purging recessive deleterious mutations. Only single inbreeding depression terms ($\delta$ and $\delta_i$, where $i \in \{j,a,\gamma\}$, indicated in the legend) are allowed to vary at one time (all others are set to $0$). Results are shown for the same three fertility values as used in the main text ($f = \{6.5,\,7.5,\,8.5\}$) under two cases of complementary dominance for  SA fitness effects ($h_f = 1/4$, $h_m = 3/4$, panel A; and $h_f = 3/4$, $h_m = 1/4$, panel B). Each point was calculated by numerically integrating the corresponding SA invasion conditions and extinction threshold predicted by the model (see Analyses section in the main text), while solid lines were produced by numerically integrating the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
+ \label{fig:deltaPolySpaceCompSexSpec}
+ \end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%
 % Bibliography
 %%%%%%%%%%%%%%%%%%%%%
 %
@@ -918,6 +962,7 @@ Because these coexistence conditions contain the stable stage specific frequenci
 % template, under the heading
 % \section*{References Cited Only in the Online Enhancements}
 % except when they are already cited in the main text.
+\newpage{}
 \bibliography{suppRefs.bib}
 
 

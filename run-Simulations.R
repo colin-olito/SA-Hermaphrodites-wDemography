@@ -1517,7 +1517,7 @@ makeDataPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 
 
 ##########################################################
-# Fig. 3 - Dem. viable polymorphic param. space (w/ I.D.)
+# Fig. SX- Dem. viable polymorphic param. space (w/ I.D.)
 
 makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 

@@ -51,17 +51,22 @@ embed_fonts(figPath(name='MimulusInv6FigNewSel.pdf'))
 # Supp. Figs
 #################
 
-# SuppFig. -- Illustration of Invaions & Extinction thresholds for sex-specific dominance
+# Fig. S1 -- Illustration of Invaions & Extinction thresholds for sex-specific dominance
 toPdf(demViablePolySpace_SexSpecDominance_Fig(), 
 			figPath(name='extinctionThresholdsSexSpecDomFig.pdf'), width=10, height=5)
 embed_fonts(figPath(name='extinctionThresholdsSexSpecDomFig.pdf'))
 
-# SuppFig. -- Quantification of demographically viable parameter space, no inbreeding depression
+# Fig. S2 -- Quantification of demographically viable parameter space, no inbreeding depression
 
 toPdf(polySpaceFigTitrateSexSpec(), 
 			figPath(name='polymorphicSpaceTitrateSexSpec.pdf'), width=5, height=7)
 embed_fonts(figPath(name='polymorphicSpaceTitrateSexSpec.pdf'))
 
+# Fig. S3 -- Quantification of demographically viable parameter space, 
+#			showing effects of inbreeding depression
+toPdf(deltaSelfingLoadPolySpaceFigTitrateSexSpec(), 
+			figPath(name='deltaPolymorphicSpaceTitrateCompSexSpec.pdf'), width=5, height=7)
+embed_fonts(figPath(name='deltaPolymorphicSpaceTitrateCompSexSpec.pdf'))
 
 
 
