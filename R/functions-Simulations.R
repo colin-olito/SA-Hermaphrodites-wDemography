@@ -14,6 +14,12 @@
 ##  Dependencies
 source('R/functions-MatModels.R')
 
+# install.packages("foreach")
+library(foreach)
+#install.packages("doParallel")
+library(doParallel)
+#install.packages("doSNOW")
+library(doSNOW)
 
 ###########################
 #' 1-locus Pop Gen Invasion
@@ -1346,6 +1352,90 @@ pickInvadingAllele  <-  function(hf, hm, sf, sm, C) {
 midPoint  <-  function(x1,x2) {
 	x1 + (x2-x1)/2 + runif(1, min=-1, max=1)*(x2-x1)/10
 }
+
+
+##############################
+#' Identify extinction threshold across sf x sm parameter space
+#' faster method for calculating proportions of sf x sm where
+#' different dynamical outcomes happen(?)
+#'
+makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4,
+									om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+									hf = 1/2, hm = 1/2, C = 0, delta = 0, 
+									delta_j = 0, delta_a = 0, delta_gamma = 0,
+									tlimit = 10^5, eqThreshold = 1e-8,
+									nCluster = 4, funs, writeFile = TRUE) {
+
+	# Set number of cluster
+	if(is.na(nCluster)) {
+		numberOfCluster  <-  2*(detectCores() - 1)
+	} else{numberOfCluster <-  nCluster}	
+
+	# register local cluster
+	cl  <-  makeCluster(numberOfCluster, type="SOCK")
+	registerDoSNOW(cl)
+
+	# Coordinates in selection space to loop over
+	s      <-  seq(0, sMax, length=len+1)[-1]
+	sfs    <-  rep(s, times=length(s))
+	sms    <-  rep(s, each=length(s))
+	nSims  <-  length(sfs)
+
+	# Export list for %dopar%
+	ex.vec  <-  funs
+
+	# Progress
+	progress <- function(n) cat('\r', paste(sprintf("simulation %d /", n), nSims, " is complete"))
+	opts <- list(progress = progress)
+
+	# Loop over selection coefficients
+	output  <-  foreach(i=icount(nSims), .combine=rbind, 
+						.options.snow=opts, .export = ex.vec) %dopar% {
+
+		if(hf == hm && hf == 1/2) {
+			qHat  <-  popGen_qHat_Add(sf = sfs[i], sm = sms[i], C = C)
+		}
+		if(hf == hm && hf < 1/2) {
+			qHat  <-  popGen_qHat_DomRev(h = hf, sf = sfs[i], sm = sms[i], C = C)
+		}
+		if(qHat < 1/2){
+			Ainvade  <-  TRUE
+		}
+		if(qHat > 1/2){
+			Ainvade  <-  FALSE
+		}
+
+		results  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+									hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, delta = delta, 
+									delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
+									tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = FALSE)
+		output_i  <-  c(sfs[i], sms[i],results$extinct,results$polymorphism,results$pEq,results$zeta_i,results$lambda_i,results$lambda_sim)
+
+		# return results
+		output_i
+	}
+
+	# Close cluster
+	stopCluster(cl)
+
+	# Cleanup output
+	colnames(output)  <-  c("sf", "sm", "extinct", "polymorphism",
+							"pEq_AA", "pEq_Aa", "pEq_aa",
+							"zeta_i_AA", "zeta_i_aa",
+							"lambda_i_AA", "lambda_i_aa",
+							"lambda_sim")
+
+	# Export Results as a data frame
+	# export data as .csv to ./output/data
+	if(writeFile) {
+			filename <-  paste("./output/simData/lambdaHeatMapData", "_sMax", sMax, "_len", len, "_hf", hf, "_hm", hm, 
+							"_C", C, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, "_f", theta[4], ".csv", sep="")
+			write.csv(output, file=filename, row.names = FALSE)
+	} else{ return(output) }
+}
+
+
+
 
 
 ##############################

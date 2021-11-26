@@ -243,6 +243,232 @@ extinctThreshTitrate(sMax=0.15, res=0.0015, precision=1e-4,
 
 
 ##########################################################
+# REVISED Fig. 1 - Make data to generate heatmap of lambda 
+
+
+## Additive SA Fitness
+## hf = hm = 1/2
+
+	# Obligate Outcrossing
+	# C = 0
+	pars  <-  list(
+					"hf"     =  1/2,
+					"hm"     =  1/2,
+					"C"      =  0,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+# Export list for dopar function
+allObj  <-  ls()
+defObj  <-  c("i")
+funs    <-  allObj[-which(allObj %in% defObj)]
+
+# Note: you can set nCluster to what ever value you want (provided it makes sense
+#       given how many cores your computer has available. If left as nCluster = 'NA')
+#       the default will be to use 2*(detectCores() - 1)
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs = funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+
+
+
+	# Intermediate Selfing
+	# C = 1/4
+	pars  <-  list(
+					"hf"     =  1/2,
+					"hm"     =  1/2,
+					"C"      =  1/4,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+
+	# Intermediate Selfing
+	# C = 1/2
+	pars  <-  list(
+					"hf"     =  1/2,
+					"hm"     =  1/2,
+					"C"      =  1/2,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+
+## Partially Recessive SA Fitness
+## hf = hm = 1/4
+
+	# Obligate Outcrossing
+	# C = 0
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  1/4,
+					"C"      =  0,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+
+	# Intermediate Selfing
+	# C = 1/4
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  1/4,
+					"C"      =  1/4,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+
+
+
+	# Intermediate Selfing
+	# C = 1/2
+	pars  <-  list(
+					"hf"     =  1/4,
+					"hm"     =  1/4,
+					"C"      =  1/2,
+					"delta"  =  0,
+					"dj"     =  0,
+					"da"     =  0,
+					"dg"     =  0
+					)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
+					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
+					 tlimit = 10^5, eqThreshold = 1e-8,
+					 nCluster = 12, funs=funs, writeFile = TRUE)
+
+
+
+##########################################################
 # Fig. 2 - Dem. viable polymorphic param. space (no I.D.)
 
 makeDataPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
