@@ -8,6 +8,9 @@ library(plyr)
 library(lattice)
 library(latticeExtra)
 library(wesanderson)
+library(MASS)
+library(raster)
+library(akima)
 
 source('./R/functions-Simulations.R')
 
@@ -453,6 +456,438 @@ layout     <- layout(layout.mat,respect=TRUE)
         proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
 }
 
+# Function to create color scalebar for image() heatmap
+# from https://menugget.blogspot.com/2011/08/adding-scale-to-image-plot.html#more
+image.scale <- function(z, zlim, col = heat.colors(12),
+                        breaks, horiz=TRUE, ylim=NULL, xlim=NULL, ...){
+ if(!missing(breaks)){
+  if(length(breaks) != (length(col)+1)){stop("must have one more break than colour")}
+ }
+ if(missing(breaks) & !missing(zlim)){
+  breaks <- seq(zlim[1], zlim[2], length.out=(length(col)+1)) 
+ }
+ if(missing(breaks) & missing(zlim)){
+  zlim <- range(z, na.rm=TRUE)
+  zlim[2] <- zlim[2]+c(zlim[2]-zlim[1])*(1E-3)#adds a bit to the range in both directions
+  zlim[1] <- zlim[1]-c(zlim[2]-zlim[1])*(1E-3)
+  breaks <- seq(zlim[1], zlim[2], length.out=(length(col)+1))
+ }
+ poly <- vector(mode="list", length(col))
+ for(i in seq(poly)){
+  poly[[i]] <- c(breaks[i], breaks[i+1], breaks[i+1], breaks[i])
+ }
+ xaxt <- ifelse(horiz, "s", "n")
+ yaxt <- ifelse(horiz, "n", "s")
+ if(horiz){YLIM<-c(0,1); XLIM<-range(breaks)}
+ if(!horiz){YLIM<-range(breaks); XLIM<-c(0,1)}
+ if(missing(xlim)) xlim=XLIM
+ if(missing(ylim)) ylim=YLIM
+ plot(1,1,t="n",ylim=ylim, xlim=xlim, xaxt=xaxt, yaxt=yaxt, xaxs="i", yaxs="i", ...)  
+ for(i in seq(poly)){
+  if(horiz){
+   polygon(poly[[i]], c(0,0,1,1), col=col[i], border=NA)
+  }
+  if(!horiz){
+   polygon(c(0,0,1,1), poly[[i]], col=col[i], border=NA)
+  }
+ }
+}
+#' Revised Fig. 1 showing heatmap of lambda 
+#' instead of extinction thresholds
+
+lambdaPolySpaceFig  <-  function() {
+ 
+    # Import data sets
+    invA        <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatA_f5.8  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatA_f6.0  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+    heatA_f6.2  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f6.2.csv", head=TRUE)
+
+    invB        <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.5_hm0.5_C0.25_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatB_f5.8  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0.25_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatB_f6.0  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0.25_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+    heatB_f6.2  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0.25_delta0_dj0_da0_dg0_f6.2.csv", head=TRUE)
+
+    invC        <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.5_hm0.5_C0.5_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatC_f5.8  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0.5_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatC_f6.0  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0.5_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+    heatC_f6.2  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0.5_delta0_dj0_da0_dg0_f6.2.csv", head=TRUE)
+
+    invD        <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.25_hm0.25_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatD_f5.8  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.25_hm0.25_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatD_f5.9  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.25_hm0.25_C0_delta0_dj0_da0_dg0_f5.9.csv", head=TRUE)
+    heatD_f6.0  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.25_hm0.25_C0_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+
+    invE        <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.25_hm0.25_C0.25_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatE_f5.8  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.25_hm0.25_C0.25_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatE_f5.9  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.25_hm0.25_C0.25_delta0_dj0_da0_dg0_f5.9.csv", head=TRUE)
+    heatE_f6.0  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.25_hm0.25_C0.25_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+
+    invF        <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.25_hm0.25_C0.5_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatF_f5.8  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.25_hm0.25_C0.5_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatF_f5.9  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.25_hm0.25_C0.5_delta0_dj0_da0_dg0_f5.9.csv", head=TRUE)
+    heatF_f6.0  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.25_hm0.25_C0.5_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+
+
+    # Color scheme
+    COLS  <-  list("line"     =  transparentColor('#252525', opacity=1),
+                   "extinct"  =  transparentColor('red', opacity=0.15))
+
+    
+    # heatmap colors modified from wes_anderson palette "Zissou1"
+    Z1 = rev(c("dodgerblue4","dodgerblue4","#3B9AB2","#3B9AB2", "#EBCC2A", "#EBCC2A", "#E1AF00", "#E1AF00", "#F21A00", "#F21A00"))
+    blu     <-  colorRampPalette(Z1[length(Z1)])(2)
+    notBlu  <-  colorRampPalette(Z1, interpolate = c("linear"))(60)
+    HEAT    <-  c(notBlu, blu)
+
+    # resolution for heatmaps
+    resolution = (heatA_f6.2$sf[2] - heatA_f6.2$sf[1])
+    # breaks for heatmap colors
+    breaks <- seq(min(c(heatA_f5.8$lambda_sim,
+                      heatB_f5.8$lambda_sim,
+                      heatC_f5.8$lambda_sim,
+                      heatD_f5.8$lambda_sim,
+                      heatE_f5.8$lambda_sim,
+                      heatF_f5.8$lambda_sim)), 
+                max(c(heatA_f6.2$lambda_sim,
+                      heatB_f6.2$lambda_sim,
+                      heatC_f6.2$lambda_sim,
+                      heatD_f6.0$lambda_sim,
+                      heatE_f6.0$lambda_sim,
+                      heatF_f6.0$lambda_sim)),length.out=(length(HEAT)+1))
+#    image.scale(A_f6.2, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n")
+#    axis(4, las=2)
+
+    # Set plot layout
+    layout.mat <- matrix(c(
+                           1,1, 2,2, 3,3, 10,
+                           1,1, 2,2, 3,3, 10,
+                           4,4, 5,5, 6,6, 10,
+                           4,4, 5,5, 6,6, 10,
+                           7,7, 8,8, 9,9, 10,
+                           7,7, 8,8, 9,9, 10,
+                           11,11, 11,11, 11,11, 11,
+                           12,12, 13,13, 14,14, 21,
+                           12,12, 13,13, 14,14, 21,
+                           15,15, 16,16, 17,17, 21,
+                           15,15, 16,16, 17,17, 21,
+                           18,18, 19,19, 20,20, 21,
+                           18,18, 19,19, 20,20, 21), 
+                        nrow=13, ncol=7, byrow=TRUE)
+    layout     <- layout(layout.mat,respect=TRUE)
+
+
+
+##  Row 1: Fertility = 6.2
+
+    # Panel 1: h = 1/2,  C = 0, , f = 6.2
+    A_f6.2 <- interp(x=heatA_f6.2$sm, y=heatA_f6.2$sf, z=heatA_f6.2$lambda_sim, 
+                     xo=seq(min(heatA_f6.2$sm),max(heatA_f6.2$sm),by=resolution), 
+                     yo=seq(min(heatA_f6.2$sf),max(heatA_f6.2$sf),by=resolution), duplicate="mean")
+    # heatmap of lambda
+    par(omi=c(1, 1.5, 0.5, 1.25), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s', xpd=TRUE)
+    image(A_f6.2, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    # Invasion Boundaries
+    lines(aInvBound[1:88] ~ sms[1:88], lty=1, lwd=1.5, col=COLS$line, data=invA)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invA)
+    # Labels/Annotations
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 0')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.04, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 6.2")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+    # Panel 2: h = 1/2,  C = 1/4, f = 6.2
+    B_f6.2 <- interp(x=heatB_f6.2$sm, y=heatB_f6.2$sf, z=heatB_f6.2$lambda_sim, 
+                xo=seq(min(heatB_f6.2$sm),max(heatB_f6.2$sm),by=resolution), 
+                yo=seq(min(heatB_f6.2$sf),max(heatB_f6.2$sf),by=resolution), duplicate="mean")
+    image(B_f6.2, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
+    # Labels/Annotations
+#    proportionalLabel(0.5, 1.35, expression(paste(italic(h), " = 1/2")), cex=2.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/4')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.04, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    # Panel 3: h = 1/2,  C = 1/2, f = 6.2
+    C_f6.2 <- interp(x=heatC_f6.2$sm, y=heatC_f6.2$sf, z=heatC_f6.2$lambda_sim, 
+                xo=seq(min(heatC_f6.2$sm),max(heatC_f6.2$sm),by=resolution), 
+                yo=seq(min(heatC_f6.2$sf),max(heatC_f6.2$sf),by=resolution), duplicate="mean")
+    image(C_f6.2, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invC)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invC)
+    # Labels/Annotations
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/2')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.04, 1.075, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+##  Row 2: Fertility = 6.0
+
+    # Panel 4: h = 1/2,  C = 0, , f = 6.0
+    A_f6.0 <- interp(x=heatA_f6.0$sm, y=heatA_f6.0$sf, z=heatA_f6.0$lambda_sim, 
+                     xo=seq(min(heatA_f6.0$sm),max(heatA_f6.0$sm),by=resolution), 
+                     yo=seq(min(heatA_f6.0$sf),max(heatA_f6.0$sf),by=resolution), duplicate="mean")
+    # heatmap of lambda
+    image(A_f6.0, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    # Invasion Boundaries
+    lines(aInvBound[1:88] ~ sms[1:88], lty=1, lwd=1.5, col=COLS$line, data=invA)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invA)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(-0.3, 0.5, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.75, 0.5, expression(paste(italic(h), " = 1/2")), cex=2.0, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 6.0")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+    # Panel 5: h = 1/2,  C = 1/4, f = 6.0
+    B_f6.0 <- interp(x=heatB_f6.0$sm, y=heatB_f6.0$sf, z=heatB_f6.0$lambda_sim, 
+                xo=seq(min(heatB_f6.0$sm),max(heatB_f6.0$sm),by=resolution), 
+                yo=seq(min(heatB_f6.0$sf),max(heatB_f6.0$sf),by=resolution), duplicate="mean")
+    image(B_f6.0, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'E', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    # Panel 6: h = 1/2,  C = 1/2, f = 6.0
+    C_f6.0 <- interp(x=heatC_f6.0$sm, y=heatC_f6.0$sf, z=heatC_f6.0$lambda_sim, 
+                xo=seq(min(heatC_f6.0$sm),max(heatC_f6.0$sm),by=resolution), 
+                yo=seq(min(heatC_f6.0$sf),max(heatC_f6.0$sf),by=resolution), duplicate="mean")
+    image(C_f6.0, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invC)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invC)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'F', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+##  Row 3: Fertility = 5.8
+
+    # Panel 7: h = 1/2,  C = 0, , f = 5.8
+    A_f5.8 <- interp(x=heatA_f5.8$sm, y=heatA_f5.8$sf, z=heatA_f5.8$lambda_sim, 
+                     xo=seq(min(heatA_f5.8$sm),max(heatA_f5.8$sm),by=resolution), 
+                     yo=seq(min(heatA_f5.8$sf),max(heatA_f5.8$sf),by=resolution), duplicate="mean")
+    # heatmap of lambda
+    image(A_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    # Invasion Boundaries
+    lines(aInvBound[1:88] ~ sms[1:88], lty=1, lwd=1.5, col=COLS$line, data=invA)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invA)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'G', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 5.8")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+    # Panel 8: h = 1/2,  C = 1/4, f = 5.8
+    B_f5.8 <- interp(x=heatB_f5.8$sm, y=heatB_f5.8$sf, z=heatB_f5.8$lambda_sim, 
+                xo=seq(min(heatB_f5.8$sm),max(heatB_f5.8$sm),by=resolution), 
+                yo=seq(min(heatB_f5.8$sf),max(heatB_f5.8$sf),by=resolution), duplicate="mean")
+    image(B_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.5, -0.3, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+    # Panel 9: h = 1/2,  C = 1/2, f = 5.8
+    C_f5.8 <- interp(x=heatC_f5.8$sm, y=heatC_f5.8$sf, z=heatC_f5.8$lambda_sim, 
+                xo=seq(min(heatC_f5.8$sm),max(heatC_f5.8$sm),by=resolution), 
+                yo=seq(min(heatC_f5.8$sf),max(heatC_f5.8$sf),by=resolution), duplicate="mean")
+    image(C_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invC)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invC)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'I', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    # Color ScaleBar
+    image.scale(A_f6.2, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n")
+    axis(4, las=2, cex=1.5)
+    proportionalLabel(2.5, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=2.5, adj=c(0.5, 0.5), xpd=NA, srt=270)
+
+
+##  Blank Space between Plots
+plot(0, xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
+
+##  Row 4: Fertility = 6.0
+
+    # Panel 10: h = 1/2,  C = 0, , f = 6.0
+    D_f6.0 <- interp(x=heatD_f6.0$sm, y=heatD_f6.0$sf, z=heatD_f6.0$lambda_sim, 
+                     xo=seq(min(heatD_f6.0$sm),max(heatD_f6.0$sm),by=resolution), 
+                     yo=seq(min(heatD_f6.0$sf),max(heatD_f6.0$sf),by=resolution), duplicate="mean")
+    # heatmap of lambda
+    image(D_f6.0, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    # Invasion Boundaries
+    lines(aInvBound[1:33] ~ sms[1:33], lty=1, lwd=1.5, col=COLS$line, data=invD)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invD)
+    # Labels/Annotations
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 0')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.04, 1.075, 'P', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 6.2")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+    # Panel 11: h = 1/2,  C = 1/4, f = 6.0
+    E_f6.0 <- interp(x=heatE_f6.0$sm, y=heatE_f6.0$sf, z=heatE_f6.0$lambda_sim, 
+                xo=seq(min(heatE_f6.0$sm),max(heatE_f6.0$sm),by=resolution), 
+                yo=seq(min(heatE_f6.0$sf),max(heatE_f6.0$sf),by=resolution), duplicate="mean")
+    image(E_f6.0, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound[1:68] ~ sms[1:68], lty=1, lwd=1.5, col=COLS$line, data=invE)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invE)
+    # Labels/Annotations
+#    proportionalLabel(0.5, 1.35, expression(paste(italic(h), " = 1/4")), cex=2.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/4')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.04, 1.075, 'Q', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    # Panel 12: h = 1/2,  C = 1/2, f = 6.0
+    F_f6.0 <- interp(x=heatF_f6.0$sm, y=heatF_f6.0$sf, z=heatF_f6.0$lambda_sim, 
+                xo=seq(min(heatF_f6.0$sm),max(heatF_f6.0$sm),by=resolution), 
+                yo=seq(min(heatF_f6.0$sf),max(heatF_f6.0$sf),by=resolution), duplicate="mean")
+    image(F_f6.0, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invF)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invF)
+    # Labels/Annotations
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/2')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.04, 1.075, 'R', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+##  Row 5: Fertility = 5.9
+    # Panel 13: h = 1/4,  C = 0, , f = 6.0
+    D_f5.9 <- interp(x=heatD_f5.9$sm, y=heatD_f5.9$sf, z=heatD_f5.9$lambda_sim, 
+                     xo=seq(min(heatD_f5.9$sm),max(heatD_f5.9$sm),by=resolution), 
+                     yo=seq(min(heatD_f5.9$sf),max(heatD_f5.9$sf),by=resolution), duplicate="mean")
+    # heatmap of lambda
+    image(D_f5.9, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    # Invasion Boundaries
+    lines(aInvBound[1:33] ~ sms[1:33], lty=1, lwd=1.5, col=COLS$line, data=invD)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invD)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'M', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(-0.75, 0.5, expression(paste(italic(h), " = 1/4")), cex=2.0, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.3, 0.5, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 5.9")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+    # Panel 14: h = 1/4,  C = 1/4, f = 5.9
+    E_f5.9 <- interp(x=heatE_f5.9$sm, y=heatE_f5.9$sf, z=heatE_f5.9$lambda_sim, 
+                xo=seq(min(heatE_f5.9$sm),max(heatE_f5.9$sm),by=resolution), 
+                yo=seq(min(heatE_f5.9$sf),max(heatE_f5.9$sf),by=resolution), duplicate="mean")
+    image(E_f5.9, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound[1:68] ~ sms[1:68], lty=1, lwd=1.5, col=COLS$line, data=invE)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invE)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'N', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    # Panel 15: h = 1/2,  C = 1/2, f = 5.9
+    F_f5.9 <- interp(x=heatF_f5.9$sm, y=heatF_f5.9$sf, z=heatF_f5.9$lambda_sim, 
+                xo=seq(min(heatF_f5.9$sm),max(heatF_f5.9$sm),by=resolution), 
+                yo=seq(min(heatF_f5.9$sf),max(heatF_f5.9$sf),by=resolution), duplicate="mean")
+    image(F_f5.9, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invF)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invF)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'O', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+##  Row 6: h = 1/4, Fertility = 6.0
+    # Panel 16: h = 1/4,  C = 0, f = 6.0
+    D_f5.8 <- interp(x=heatD_f5.8$sm, y=heatD_f5.8$sf, z=heatD_f5.8$lambda_sim, 
+                     xo=seq(min(heatD_f5.8$sm),max(heatD_f5.8$sm),by=resolution), 
+                     yo=seq(min(heatD_f5.8$sf),max(heatD_f5.8$sf),by=resolution), duplicate="mean")
+    # heatmap of lambda
+    image(D_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    # Invasion Boundaries
+    lines(aInvBound[1:33] ~ sms[1:33], lty=1, lwd=1.5, col=COLS$line, data=invD)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invD)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'J', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 5.8")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+
+
+    # Panel 17: h = 1/4,  C = 1/4, f = 5.8
+    E_f5.8 <- interp(x=heatE_f5.8$sm, y=heatE_f5.8$sf, z=heatE_f5.8$lambda_sim, 
+                xo=seq(min(heatE_f5.8$sm),max(heatE_f5.8$sm),by=resolution), 
+                yo=seq(min(heatE_f5.8$sf),max(heatE_f5.8$sf),by=resolution), duplicate="mean")
+    image(E_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound[1:68] ~ sms[1:68], lty=1, lwd=1.5, col=COLS$line, data=invE)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invE)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'K', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.5, -0.3, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+    # Panel 18: h = 1/2,  C = 1/2, f = 6.2
+    F_f5.8 <- interp(x=heatF_f5.8$sm, y=heatF_f5.8$sf, z=heatF_f5.8$lambda_sim, 
+                xo=seq(min(heatF_f5.8$sm),max(heatF_f5.8$sm),by=resolution), 
+                yo=seq(min(heatF_f5.8$sf),max(heatF_f5.8$sf),by=resolution), duplicate="mean")
+    image(F_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
+    # Invasion Boundaries
+    lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invF)
+    lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invF)
+    # Labels/Annotations
+    proportionalLabel(0.04, 1.075, 'L', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+#    proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+    # Color ScaleBar
+    image.scale(A_f6.2, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n")
+    axis(4, las=2, cex=1.5)
+    proportionalLabel(2.5, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=2.5, adj=c(0.5, 0.5), xpd=NA, srt=270)
+
+}
+
 
 
 #' Fig showing Proportion of polymorphic parameter space
@@ -607,6 +1042,9 @@ polySpaceFigTitrate  <-  function(df = "dataPolySpaceFig_sMax0.15_res0.003_delta
                  bty     =  'n',
                  border  =  NA)        
 }
+
+
+
 
 
 #' Fig showing Effect of Inbreeding Depression on 

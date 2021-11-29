@@ -286,7 +286,7 @@ makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
-					 tlimit = 10^5, eqThreshold = 1e-8,
+					 tlimit = 2*10^5, eqThreshold = 1e-8,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
 
 
@@ -383,18 +383,19 @@ makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
 
 makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
-					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_prime = 5.9, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
 					 tlimit = 10^5, eqThreshold = 1e-8,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
 
 makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
-					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
 					 tlimit = 10^5, eqThreshold = 1e-8,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
+
 
 
 	# Intermediate Selfing
@@ -417,18 +418,19 @@ makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
 
 makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
-					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_prime = 5.9, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
 					 tlimit = 10^5, eqThreshold = 1e-8,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
 
 makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
-					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
 					 tlimit = 10^5, eqThreshold = 1e-8,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
+
 
 
 
@@ -453,14 +455,14 @@ makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
 
 makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
-					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.9), theta_prime = 5.9, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
 					 tlimit = 10^5, eqThreshold = 1e-8,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
 
 makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
-					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
+					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
 					 tlimit = 10^5, eqThreshold = 1e-8,

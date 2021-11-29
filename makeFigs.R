@@ -20,6 +20,7 @@ rm(list=ls())
 source('R/functions-Figs.R')
 source('./R/loadData-Compadre.R')
 
+
 #################
 # Figs for Paper
 #################
@@ -28,6 +29,13 @@ source('./R/loadData-Compadre.R')
 toPdf(demViablePolySpaceFig(), 
 			figPath(name='extinctionThresholdsFig.pdf'), width=10, height=5)
 embed_fonts(figPath(name='extinctionThresholdsFig.pdf'))
+
+# REVISED Fig. 1 - Illustration of population intrinsic growth rates (lambda)
+#				   for the same parameter sets used in Fig.1 
+toPdf(lambdaPolySpaceFig(), 
+			figPath(name='lambdaFig1.pdf'), width=10, height=20)
+embed_fonts(figPath(name='lambdaFig1.pdf'))
+
 
 # Fig. 2 - Quantification of demographically viable parameter space, no inbreeding depression
 toPdf(polySpaceFigTitrate(), 
