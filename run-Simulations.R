@@ -272,21 +272,21 @@ makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
-					 tlimit = 10^5, eqThreshold = 1e-8,
+					 tlimit = 4*10^5, eqThreshold = 5*1e-9,
 					 nCluster = 12, funs = funs, writeFile = TRUE)
 
 makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
-					 tlimit = 10^5, eqThreshold = 1e-8,
+					 tlimit = 4*10^5, eqThreshold = 1e-8,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
 
 makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
-					 tlimit = 2*10^5, eqThreshold = 1e-8,
+					 tlimit = 4*10^5, eqThreshold = 1e-8,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
 
 
@@ -506,9 +506,221 @@ makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							tlimit = 10^5, eqThreshold = 1e-8)
 
 
-######################
-# Preliminary figures
-######################
+
+##########################################################
+#' Fig. 4 - Comparison of Dem. viable polymorphic param. 
+#'			space for locally adapted and non-locally 
+#' 			adapted population demographic parameters
+#' 			for C =0 and C = empirical est. (w/ I.D.)
+
+
+#################################################
+#' Find extinction threshold for Mimulus example
+#' TAKING AVERAGE (2012 & 2013) FLOWER # EFFECT 
+#' INTO ACCOUNT WHEN CALCULATING MALE SELECTION
+#' COEFFICIENTS AND DOMINANCE FOR INV6
+# Eagle Meadows population  (Peterson et al. 2016)
+datMat  <-  matList_Mg_EM
+theta.list  <-  list(D = 0.534, 
+					 G = 0.469,
+					 F = 0.64,
+					 O = 614,
+					 A = 6.7e-4,
+					 S = 0.179,
+					 R = 8.71,
+					 pop = "EM")
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0,
+					 delta_F = 0,
+					 delta_O = 0,
+					 delta_S = 0
+					 )
+
+
+## Obligate oucrossing
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm = 1/2, C=0, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 1/2, C = 0, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 makePlots=TRUE, writeFile=TRUE, verbose=TRUE) 
+
+## Empirical selfing rate estimates
+## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0.085,
+					 delta_F = 0.2,
+					 delta_O = 0,
+					 delta_S = 0.38
+					 )
+	# Low-end of Empirical selfing rates
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm = 1/2, C=0.29, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 1/2, C = 0.29, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 writeFile=TRUE, verbose=TRUE) 
+
+
+##########################
+# Low-elevation perenials (Peterson et al. 2016; Correction Table 1)
+theta.list  <-  list(D = 0.534, 
+					 G = 0.652,
+					 F = 4.09,
+					 O = 494,
+					 A = 6.7e-4,
+					 S = 0,
+					 R = 0,
+					 pop = "LEP")
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0,
+					 delta_F = 0,
+					 delta_O = 0,
+					 delta_S = 0
+					 )
+
+
+## Obligate oucrossing
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm = 1/2, C=0, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 1/2, C = 0, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 makePlots=TRUE, writeFile=TRUE, verbose=TRUE) 
+
+## Empirical selfing rate estimates
+## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0.085,
+					 delta_F = 0.2,
+					 delta_O = 0,
+					 delta_S = 0.38
+					 )
+	# Empirical selfing rates
+titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
+						hf=1/2, hm = 1/2, C=0.29, 
+						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
+extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
+					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+					 hf = 1/2, hm = 1/2, C = 0.29, 
+					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+					 writeFile=TRUE, verbose=TRUE) 
+
+
+
+
+###########################################################
+#' REVISED Fig. 4 - Make data to generate heatmap of lambda 
+#'					for same parameter conditions as fig. 4
+
+# Export list for dopar function
+allObj  <-  ls()
+defObj  <-  c("i")
+funs    <-  allObj[-which(allObj %in% defObj)]
+
+
+#################################################
+#' Find extinction threshold for Mimulus example
+#' TAKING AVERAGE (2012 & 2013) FLOWER # EFFECT 
+#' INTO ACCOUNT WHEN CALCULATING MALE SELECTION
+#' COEFFICIENTS AND DOMINANCE FOR INV6
+# Eagle Meadows population  (Peterson et al. 2016)
+datMat  <-  matList_Mg_EM
+theta.list  <-  list(D = 0.534, 
+					 G = 0.469,
+					 F = 0.64,
+					 O = 614,
+					 A = 6.7e-4,
+					 S = 0.179,
+					 R = 8.71,
+					 pop = "EM")
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0,
+					 delta_F = 0,
+					 delta_O = 0,
+					 delta_S = 0
+					 )
+
+
+## Obligate oucrossing
+makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
+							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+							 hf = 1/2, hm = 1/2, C = 0,
+							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+							 nCluster = 12, funs = funs, writeFile = TRUE)
+
+## Empirical selfing rate estimates
+## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0.085,
+					 delta_F = 0.2,
+					 delta_O = 0,
+					 delta_S = 0.38
+					 )
+# Low-end of Empirical selfing rates
+makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
+							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+							 hf=1/2, hm = 1/2, C = 0.29, 
+							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+							 nCluster = 12, funs = funs, writeFile = TRUE)
+
+
+##########################
+# Low-elevation perenials (Peterson et al. 2016; Correction Table 1)
+theta.list  <-  list(D = 0.534, 
+					 G = 0.652,
+					 F = 4.09,
+					 O = 494,
+					 A = 6.7e-4,
+					 S = 0,
+					 R = 0,
+					 pop = "LEP")
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0,
+					 delta_F = 0,
+					 delta_O = 0,
+					 delta_S = 0
+					 )
+
+
+## Obligate oucrossing
+makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
+							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+							 hf=1/2, hm = 1/2, C = 0, 
+							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+							 nCluster = 12, funs = funs, writeFile = TRUE)
+
+## Empirical selfing rate estimates
+## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0.085,
+					 delta_F = 0.2,
+					 delta_O = 0,
+					 delta_S = 0.38
+					 )
+	# Empirical selfing rates
+makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
+							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+							 hf = 1/2, hm = 1/2, C = 0.29, 
+							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+							 nCluster = 12, funs = funs, writeFile = TRUE)
+
+
+
+
+##################################################################
+# Preliminary/Exploratory figures
+##################################################################
 
 ## Additive SA Fitness
 ## hf = hm = 1/2
@@ -1191,108 +1403,6 @@ extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4,
 
 
 
-
-#################################################
-#' Find extinction threshold for Mimulus example
-#' TAKING AVERAGE (2012 & 2013) FLOWER # EFFECT 
-#' INTO ACCOUNT WHEN CALCULATING MALE SELECTION
-#' COEFFICIENTS AND DOMINANCE FOR INV6
-# Eagle Meadows population  (Peterson et al. 2016)
-datMat  <-  matList_Mg_EM
-theta.list  <-  list(D = 0.534, 
-					 G = 0.469,
-					 F = 0.64,
-					 O = 614,
-					 A = 6.7e-4,
-					 S = 0.179,
-					 R = 8.71,
-					 pop = "EM")
-delta.list  <-  list(delta_D = 0,
-					 delta_G = 0,
-					 delta_F = 0,
-					 delta_O = 0,
-					 delta_S = 0
-					 )
-
-
-## Obligate oucrossing
-titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
-						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
-						hf=1/2, hm = 1/2, C=0, 
-						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
-extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
-					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
-					 hf = 1/2, hm = 1/2, C = 0, 
-					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
-					 makePlots=TRUE, writeFile=TRUE, verbose=TRUE) 
-
-## Empirical selfing rate estimates
-## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
-delta.list  <-  list(delta_D = 0,
-					 delta_G = 0.085,
-					 delta_F = 0.2,
-					 delta_O = 0,
-					 delta_S = 0.38
-					 )
-	# Low-end of Empirical selfing rates
-titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
-						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
-						hf=1/2, hm = 1/2, C=0.29, 
-						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
-extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
-					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
-					 hf = 1/2, hm = 1/2, C = 0.29, 
-					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
-					 writeFile=TRUE, verbose=TRUE) 
-
-
-##########################
-# Low-elevation perenials (Peterson et al. 2016; Correction Table 1)
-theta.list  <-  list(D = 0.534, 
-					 G = 0.652,
-					 F = 4.09,
-					 O = 494,
-					 A = 6.7e-4,
-					 S = 0,
-					 R = 0,
-					 pop = "LEP")
-delta.list  <-  list(delta_D = 0,
-					 delta_G = 0,
-					 delta_F = 0,
-					 delta_O = 0,
-					 delta_S = 0
-					 )
-
-
-## Obligate oucrossing
-titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
-						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
-						hf=1/2, hm = 1/2, C=0, 
-						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
-extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
-					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
-					 hf = 1/2, hm = 1/2, C = 0, 
-					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
-					 makePlots=TRUE, writeFile=TRUE, verbose=TRUE) 
-
-## Empirical selfing rate estimates
-## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
-delta.list  <-  list(delta_D = 0,
-					 delta_G = 0.085,
-					 delta_F = 0.2,
-					 delta_O = 0,
-					 delta_S = 0.38
-					 )
-	# Empirical selfing rates
-titrateInvBoundMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
-						datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
-						hf=1/2, hm = 1/2, C=0.29, 
-						tlimit = 10^5, eqThreshold = 1e-8, writeFile=TRUE)
-extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4, 
-					 datMat=datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
-					 hf = 1/2, hm = 1/2, C = 0.29, 
-					 tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
-					 writeFile=TRUE, verbose=TRUE) 
 	
 
 
@@ -1499,18 +1609,11 @@ extinctThreshMimulus(sMax = 0.99, res=0.01, precision=1e-4,
 
 
 
-test  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
-				 hf = 1/2, hm = 0.35, sf = 0.308, sm = 0, C = 0.24,
-				 tlimit = 10^5, eqThreshold=1e-9, Ainvade = FALSE, intInit = TRUE)
-
-
-
-
-
-##################################
-
+##########################################################
 ##########################################################
 # Supplementary Figures
+##########################################################
+##########################################################
 
 ## Illustrating Effects of sex-specific dominance
 # Assume complementary dominance (hf = 1 - hm)

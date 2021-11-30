@@ -33,7 +33,7 @@ embed_fonts(figPath(name='extinctionThresholdsFig.pdf'))
 # REVISED Fig. 1 - Illustration of population intrinsic growth rates (lambda)
 #				   for the same parameter sets used in Fig.1 
 toPdf(lambdaPolySpaceFig(), 
-			figPath(name='lambdaFig1.pdf'), width=10, height=20)
+			figPath(name='lambdaFig1.pdf'), width=10, height=16)
 embed_fonts(figPath(name='lambdaFig1.pdf'))
 
 

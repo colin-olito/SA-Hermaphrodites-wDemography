@@ -1355,9 +1355,8 @@ midPoint  <-  function(x1,x2) {
 
 
 ##############################
-#' Identify extinction threshold across sf x sm parameter space
-#' faster method for calculating proportions of sf x sm where
-#' different dynamical outcomes happen(?)
+#' Run simulations across sf x sm parameter space, save results
+#' for producing heatmap of lambda_sim.
 #'
 makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4,
 									om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
@@ -1409,7 +1408,7 @@ makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4,
 									hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, delta = delta, 
 									delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 									tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = FALSE)
-		output_i  <-  c(sfs[i], sms[i],results$extinct,results$polymorphism,results$pEq,results$zeta_i,results$lambda_i,results$lambda_sim)
+		output_i  <-  c(sfs[i], sms[i], results$extinct, results$polymorphism, results$pEq, results$zeta_i, results$lambda_i, results$lambda_sim)
 
 		# return results
 		output_i
@@ -3921,9 +3920,97 @@ if(makePlots) {
 			filename <-  paste("./output/simData/extThresholdMimulus_SfxSm", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
 							"_C", C, "_useCompadre", useCompadre, "_ID", ID, "_", theta.list[[8]], ".csv", sep="")
 			write.csv(results.df, file=filename, row.names = FALSE)
-	} else{
-			return(results.df)
-	}
+	} else{ return(results.df) }
 }
 
 
+
+
+
+
+
+##############################
+#' Run simulations across sf x sm parameter space, save results
+#' for producing heatmap of lambda_sim.
+#'
+makeLambdaHeatMapMimulusData  <-  function(sMax=0.15, len=10,
+										   datMat, theta.list, delta.list, useCompadre = FALSE,
+										   hf = 1/2, hm = 1/2, C = 0, 
+										   tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+										   nCluster = 4, funs, writeFile = TRUE) {
+
+	# Set number of cluster
+	if(is.na(nCluster)) {
+		numberOfCluster  <-  2*(detectCores() - 1)
+	} else{numberOfCluster <-  nCluster}	
+
+	# register local cluster
+	cl  <-  makeCluster(numberOfCluster, type="SOCK")
+	registerDoSNOW(cl)
+
+	# Coordinates in selection space to loop over
+	s      <-  seq(0, sMax, length=len+1)[-1]
+	sfs    <-  rep(s, times=length(s))
+	sms    <-  rep(s, each=length(s))
+	nSims  <-  length(sfs)
+
+	# Export list for %dopar%
+	ex.vec  <-  funs
+
+	# Progress
+	progress <- function(n) cat('\r', paste(sprintf("simulation %d /", n), nSims, " is complete"))
+	opts <- list(progress = progress)
+
+	# Loop over selection coefficients
+	output  <-  foreach(i=icount(nSims), .combine=rbind, 
+						.options.snow=opts, .export = ex.vec) %dopar% {
+
+#		if(hf == hm && hf == 1/2) {
+#			qHat  <-  popGen_qHat_Add(sf = sfs[i], sm = sms[i], C = C)
+#		}
+#		if(hf == hm && hf < 1/2) {
+#			qHat  <-  popGen_qHat_DomRev(h = hf, sf = sfs[i], sm = sms[i], C = C)
+#		}
+#		if(qHat < 1/2){
+#			Ainvade  <-  TRUE
+#		}
+#		if(qHat > 1/2){
+#			Ainvade  <-  FALSE
+#		}
+
+		results  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = useCompadre,
+									  hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C,
+									  tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = Ainvade, intInit = intInit)
+
+		output_i  <-  c(sfs[i], sms[i], results$extinct, results$polymorphism, results$pEq, results$zeta_i, results$lambda_i, results$lambda_sim)
+
+		# return results
+		output_i
+	}
+
+	# Close cluster
+	stopCluster(cl)
+
+	# Cleanup output
+	colnames(output)  <-  c("sf", "sm", "extinct", "polymorphism",
+							"pEq_AA", "pEq_Aa", "pEq_aa",
+							"zeta_i_AA", "zeta_i_aa",
+							"lambda_i_AA", "lambda_i_aa",
+							"lambda_sim")
+
+	# Export Results as a data frame
+	# export data as .csv to ./output/data
+	# Alter file name for if there is inbreeding depression
+	if (all(delta.list == 0)){
+		ID  <-  "FALSE"
+	} else(ID  <-  "TRUE")
+
+	# export data as .csv to ./output/data
+	if(writeFile) {
+			filename <-  paste("./output/simData/lambdaHeatMapMimulusData", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
+							"_C", C, "_useCompadre", useCompadre, "_ID", ID, "_", theta.list[[8]], ".csv", sep="")
+			write.csv(output, file=filename, row.names = FALSE)
+	} else{ return(output) }
+
+
+}

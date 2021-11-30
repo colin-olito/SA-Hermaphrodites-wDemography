@@ -589,15 +589,14 @@ lambdaPolySpaceFig  <-  function() {
     image(A_f6.2, col=HEAT, breaks=breaks, axes=FALSE)
     # axes
     axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
-    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex=1.2)
     # Invasion Boundaries
     lines(aInvBound[1:88] ~ sms[1:88], lty=1, lwd=1.5, col=COLS$line, data=invA)
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invA)
     # Labels/Annotations
-    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 0')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 0')), cex=1.75, adj=c(0.5, 0.5), xpd=NA)
     proportionalLabel(0.04, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-    proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
-    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 6.2")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 6.2")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
     # Panel 2: h = 1/2,  C = 1/4, f = 6.2
     B_f6.2 <- interp(x=heatB_f6.2$sm, y=heatB_f6.2$sf, z=heatB_f6.2$lambda_sim, 
@@ -612,7 +611,7 @@ lambdaPolySpaceFig  <-  function() {
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
     # Labels/Annotations
 #    proportionalLabel(0.5, 1.35, expression(paste(italic(h), " = 1/2")), cex=2.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
-    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/4')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/4')), cex=1.75, adj=c(0.5, 0.5), xpd=NA)
     proportionalLabel(0.04, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
     # Panel 3: h = 1/2,  C = 1/2, f = 6.2
@@ -627,7 +626,7 @@ lambdaPolySpaceFig  <-  function() {
     lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invC)
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invC)
     # Labels/Annotations
-    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/2')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/2')), cex=1.75, adj=c(0.5, 0.5), xpd=NA)
     proportionalLabel(0.04, 1.075, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
 ##  Row 2: Fertility = 6.0
@@ -640,15 +639,15 @@ lambdaPolySpaceFig  <-  function() {
     image(A_f6.0, col=HEAT, breaks=breaks, axes=FALSE)
     # axes
     axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
-    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex.axis=1.2)
     # Invasion Boundaries
     lines(aInvBound[1:88] ~ sms[1:88], lty=1, lwd=1.5, col=COLS$line, data=invA)
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invA)
     # Labels/Annotations
     proportionalLabel(0.04, 1.075, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-    proportionalLabel(-0.3, 0.5, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.3, 0.5, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
     proportionalLabel(-0.75, 0.5, expression(paste(italic(h), " = 1/2")), cex=2.0, adj=c(0.5, 0.5), xpd=NA, srt=90)
-    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 6.0")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 6.0")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
     # Panel 5: h = 1/2,  C = 1/4, f = 6.0
     B_f6.0 <- interp(x=heatB_f6.0$sm, y=heatB_f6.0$sf, z=heatB_f6.0$lambda_sim, 
@@ -688,14 +687,14 @@ lambdaPolySpaceFig  <-  function() {
     image(A_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
     # axes
     # axes
-    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
-    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex.axis=1.2)
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex.axis=1.2)
     # Invasion Boundaries
     lines(aInvBound[1:88] ~ sms[1:88], lty=1, lwd=1.5, col=COLS$line, data=invA)
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invA)
     # Labels/Annotations
     proportionalLabel(0.04, 1.075, 'G', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 5.8")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 5.8")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
     # Panel 8: h = 1/2,  C = 1/4, f = 5.8
     B_f5.8 <- interp(x=heatB_f5.8$sm, y=heatB_f5.8$sf, z=heatB_f5.8$lambda_sim, 
@@ -703,14 +702,14 @@ lambdaPolySpaceFig  <-  function() {
                 yo=seq(min(heatB_f5.8$sf),max(heatB_f5.8$sf),by=resolution), duplicate="mean")
     image(B_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
     # axes
-    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex.axis=1.2)
     axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
     # Invasion Boundaries
     lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
     # Labels/Annotations
     proportionalLabel(0.04, 1.075, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-    proportionalLabel(0.5, -0.3, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=0)
+    proportionalLabel(0.5, -0.3, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
     # Panel 9: h = 1/2,  C = 1/2, f = 5.8
     C_f5.8 <- interp(x=heatC_f5.8$sm, y=heatC_f5.8$sf, z=heatC_f5.8$lambda_sim, 
@@ -718,7 +717,7 @@ lambdaPolySpaceFig  <-  function() {
                 yo=seq(min(heatC_f5.8$sf),max(heatC_f5.8$sf),by=resolution), duplicate="mean")
     image(C_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
     # axes
-    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex.axis=1.2)
     axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
     # Invasion Boundaries
     lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invC)
@@ -728,7 +727,7 @@ lambdaPolySpaceFig  <-  function() {
 
     # Color ScaleBar
     image.scale(A_f6.2, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n")
-    axis(4, las=2, cex=1.5)
+    axis(4, las=2, cex.axis=1.5)
     proportionalLabel(2.5, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=2.5, adj=c(0.5, 0.5), xpd=NA, srt=270)
 
 
@@ -745,14 +744,14 @@ plot(0, xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
     image(D_f6.0, col=HEAT, breaks=breaks, axes=FALSE)
     # axes
     axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
-    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex.axis=1.2)
     # Invasion Boundaries
     lines(aInvBound[1:33] ~ sms[1:33], lty=1, lwd=1.5, col=COLS$line, data=invD)
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invD)
     # Labels/Annotations
-    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 0')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 0')), cex=1.75, adj=c(0.5, 0.5), xpd=NA)
     proportionalLabel(0.04, 1.075, 'P', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 6.2")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 6.2")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
     # Panel 11: h = 1/2,  C = 1/4, f = 6.0
     E_f6.0 <- interp(x=heatE_f6.0$sm, y=heatE_f6.0$sf, z=heatE_f6.0$lambda_sim, 
@@ -767,7 +766,7 @@ plot(0, xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invE)
     # Labels/Annotations
 #    proportionalLabel(0.5, 1.35, expression(paste(italic(h), " = 1/4")), cex=2.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
-    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/4')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/4')), cex=1.75, adj=c(0.5, 0.5), xpd=NA)
     proportionalLabel(0.04, 1.075, 'Q', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
     # Panel 12: h = 1/2,  C = 1/2, f = 6.0
@@ -782,7 +781,7 @@ plot(0, xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
     lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invF)
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invF)
     # Labels/Annotations
-    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/2')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+    proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 1/2')), cex=1.75, adj=c(0.5, 0.5), xpd=NA)
     proportionalLabel(0.04, 1.075, 'R', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
 ##  Row 5: Fertility = 5.9
@@ -794,15 +793,15 @@ plot(0, xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
     image(D_f5.9, col=HEAT, breaks=breaks, axes=FALSE)
     # axes
     axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
-    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex.axis=1.2)
     # Invasion Boundaries
     lines(aInvBound[1:33] ~ sms[1:33], lty=1, lwd=1.5, col=COLS$line, data=invD)
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invD)
     # Labels/Annotations
     proportionalLabel(0.04, 1.075, 'M', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
     proportionalLabel(-0.75, 0.5, expression(paste(italic(h), " = 1/4")), cex=2.0, adj=c(0.5, 0.5), xpd=NA, srt=90)
-    proportionalLabel(-0.3, 0.5, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
-    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 5.9")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.3, 0.5, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 5.9")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
     # Panel 14: h = 1/4,  C = 1/4, f = 5.9
     E_f5.9 <- interp(x=heatE_f5.9$sm, y=heatE_f5.9$sf, z=heatE_f5.9$lambda_sim, 
@@ -840,14 +839,14 @@ plot(0, xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
     # heatmap of lambda
     image(D_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
     # axes
-    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
-    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex.axis=1.2)
+    axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex.axis=1.2)
     # Invasion Boundaries
     lines(aInvBound[1:33] ~ sms[1:33], lty=1, lwd=1.5, col=COLS$line, data=invD)
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invD)
     # Labels/Annotations
     proportionalLabel(0.04, 1.075, 'J', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 5.8")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 5.8")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
 
 
@@ -857,14 +856,14 @@ plot(0, xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
                 yo=seq(min(heatE_f5.8$sf),max(heatE_f5.8$sf),by=resolution), duplicate="mean")
     image(E_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
     # axes
-    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex.axis=1.2)
     axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
     # Invasion Boundaries
     lines(aInvBound[1:68] ~ sms[1:68], lty=1, lwd=1.5, col=COLS$line, data=invE)
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invE)
     # Labels/Annotations
     proportionalLabel(0.04, 1.075, 'K', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-    proportionalLabel(0.5, -0.3, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=0)
+    proportionalLabel(0.5, -0.3, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
     # Panel 18: h = 1/2,  C = 1/2, f = 6.2
     F_f5.8 <- interp(x=heatF_f5.8$sm, y=heatF_f5.8$sf, z=heatF_f5.8$lambda_sim, 
@@ -872,7 +871,7 @@ plot(0, xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
                 yo=seq(min(heatF_f5.8$sf),max(heatF_f5.8$sf),by=resolution), duplicate="mean")
     image(F_f5.8, col=HEAT, breaks=breaks, axes=FALSE)
     # axes
-    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"))
+    axis(1, at=c(0,0.05,0.10, 0.1485), labels=c("0","0.05","0.10", "0.015"), cex.axis=1.2)
     axis(2, at=c(0,0.05,0.10, 0.1485), labels=c("","","", ""))
     # Invasion Boundaries
     lines(aInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invF)
@@ -883,7 +882,7 @@ plot(0, xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
 
     # Color ScaleBar
     image.scale(A_f6.2, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n")
-    axis(4, las=2, cex=1.5)
+    axis(4, las=2, cex.axis=1.5)
     proportionalLabel(2.5, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=2.5, adj=c(0.5, 0.5), xpd=NA, srt=270)
 
 }
