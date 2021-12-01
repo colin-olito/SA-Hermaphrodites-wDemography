@@ -953,8 +953,9 @@ resultsIllustrationFig  <-  function() {
     # axes        
         axis(1, at=c(0,0.05,0.10, 0.15), labels=c("0","0.05","0.10", "0.15"))
         axis(2, at=c(0,0.05,0.10, 0.15), labels=c("0","0.05","0.10", "0.15"))
-        proportionalLabel(-0.25, 0.5, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(1.25, -0.25, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.28, 0.5, expression(paste("Selection through female")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.2, 0.5, expression(paste("reproductive function (", italic(s[f]), ")")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(1.25, -0.2, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=0)
     # Labels/Annotations
 #        proportionalLabel(0.03, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, 1.1, 'Population Genetic Outcome', cex=1.5, adj=c(0.5, 0.5), xpd=NA)
@@ -990,7 +991,7 @@ resultsIllustrationFig  <-  function() {
     # Color ScaleBar
     image.scale(A_f6.2, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n")
     axis(4, las=2, cex.axis=1.1)
-    proportionalLabel(4.5, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.1, adj=c(0.5, 0.5), xpd=NA, srt=270)
+    proportionalLabel(4, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=270)
 
 }
 
@@ -1485,6 +1486,189 @@ MimulusInv6Fig  <-  function() {
         proportionalLabel(0.5, 1.15, 'Non-local Demographic Rates', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 #        proportionalLabel(-0.15, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
         proportionalLabel(0.5, -0.25, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+}
+
+
+# Mimulus fig w/ heatmap for lambda + inv6 
+MimulusInv6LambdaFig  <-  function() {
+
+    # import data
+    path  <-  './output/simData/'
+    inv1  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.5_C0_deltaF_useCompadreFALSE_EM", '.csv', sep=""), header=TRUE)
+    inv2  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.5_C0_deltaF_useCompadreFALSE_LEP", '.csv', sep=""), header=TRUE)
+    inv3  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.5_C0.29_deltaT_useCompadreFALSE_EM", '.csv', sep=""), header=TRUE)
+    inv4  <-  read.csv(paste(path, "invBoundMimulus_sMax0.99_res0.01_hf0.5_hm0.5_C0.29_deltaT_useCompadreFALSE_LEP", '.csv', sep=""), header=TRUE)
+    heat_1  <-  read.csv("./output/simData/lambdaHeatMapMimulusData_sMax0.99_len100_alpha0_hf0.5_hm0.5_C0_useCompadreFALSE_IDFALSE_EM.csv", head=TRUE)
+    heat_2  <-  read.csv("./output/simData/lambdaHeatMapMimulusData_sMax0.99_len100_alpha0_hf0.5_hm0.5_C0_useCompadreFALSE_IDFALSE_LEP.csv", head=TRUE)
+    heat_3  <-  read.csv("./output/simData/lambdaHeatMapMimulusData_sMax0.99_len100_alpha0_hf0.5_hm0.5_C0.29_useCompadreFALSE_IDTRUE_EM.csv", head=TRUE)
+    heat_4  <-  read.csv("./output/simData/lambdaHeatMapMimulusData_sMax0.99_len100_alpha0_hf0.5_hm0.5_C0.29_useCompadreFALSE_IDTRUE_LEP.csv", head=TRUE)
+
+    # Clean up abberrant lambda_sim values
+        oddOnes  <-  which(heat_1$lambda_sim < 1e-14)
+        heat_1$lambda_sim[oddOnes]  <-  (heat_1$lambda_sim[oddOnes+1] + heat_1$lambda_sim[oddOnes-1])/2    
+        # two more odd results: 
+        oddOnes  <-  which(heat_1$lambda_sim < 1)
+        heat_1$lambda_sim[oddOnes]  <-  (heat_1$lambda_sim[oddOnes+2] + heat_1$lambda_sim[oddOnes-1])/2    
+
+        oddOnes  <-  which(heat_2$lambda_sim < 1e-14)
+        heat_2$lambda_sim[oddOnes]  <-  (heat_2$lambda_sim[oddOnes+1] + heat_2$lambda_sim[oddOnes-1])/2    
+
+        oddOnes  <-  which(heat_3$lambda_sim < 1e-14)
+        heat_3$lambda_sim[oddOnes]  <-  (heat_3$lambda_sim[oddOnes+1] + heat_3$lambda_sim[oddOnes-1])/2    
+
+        oddOnes  <-  which(heat_4$lambda_sim < 1e-14)
+        heat_4$lambda_sim[oddOnes]  <-  (heat_4$lambda_sim[oddOnes+1] + heat_4$lambda_sim[oddOnes-1])/2    
+
+
+    # heatmap colors modified from wes_anderson palette "Zissou1"
+    Z1 = rev(c("dodgerblue4","dodgerblue4","#3B9AB2","#3B9AB2", "#EBCC2A", "#EBCC2A", "#E1AF00", "#E1AF00", "#F21A00", "#F21A00", "#F21A00"))
+    blu     <-  colorRampPalette(Z1[length(Z1)])(10)
+    notBlu  <-  colorRampPalette(Z1, interpolate = c("linear"))(60)
+    HEAT    <-  c(notBlu, blu)
+#    HEAT    <-  colorRampPalette(Z1, interpolate = c("linear"))(60)
+
+    # resolution for heatmaps
+    resolution = (heat_1$sf[2] - heat_1$sf[1])
+    # breaks for heatmap colors
+#    breaks <- seq(min(heat_1$lambda_sim,
+#                      heat_2$lambda_sim,
+#                      heat_3$lambda_sim,
+#                      heat_4$lambda_sim), 
+#                  max(heat_1$lambda_sim,
+#                      heat_2$lambda_sim,
+#                      heat_3$lambda_sim,
+#                      heat_4$lambda_sim),length.out=(length(HEAT)+1))
+    breaks <- c(seq(min(heat_1$lambda_sim,
+                      heat_2$lambda_sim,
+                      heat_3$lambda_sim,
+                      heat_4$lambda_sim), 
+                  1.1,length.out=(length(HEAT))),1.1)
+    #  relabel large lambdas so color bar is pretty
+        heat_1$lambda_sim[heat_1$lambda_sim > 1.1]  <- 1.1
+        heat_3$lambda_sim[heat_3$lambda_sim > 1.1]  <- 1.1
+
+    # Set plot layout
+    layout.mat <- matrix(c(
+                           1,1,1,1, 2,2,2,2, 3,
+                           1,1,1,1, 2,2,2,2, 3,
+                           1,1,1,1, 2,2,2,2, 3,
+                           1,1,1,1, 2,2,2,2, 3,
+                           4,4,4,4, 5,5,5,5, 6,
+                           4,4,4,4, 5,5,5,5, 6,
+                           4,4,4,4, 5,5,5,5, 6,
+                           4,4,4,4, 5,5,5,5, 6), 
+                            nrow=8, ncol=9, byrow=TRUE)
+    layout     <- layout(layout.mat,respect=TRUE)
+
+    # Selection coefficients for Inv6 (including average flower # effect)
+    sfInv6  <-  0.31
+    smInv6  <-  0.30
+
+# Color scheme
+    COLS  <-  list(
+                    "line"   =  transparentColor('#252525', opacity=1),
+                    "fill"   =  transparentColor('#252525', opacity=0.5),
+                    "inv6"   =  transparentColor('tomato', opacity=1),
+                    "inv6bg" =  transparentColor('tomato', opacity=0.6),
+                    "extinct"  =  transparentColor('red', opacity=0.15)
+                    )
+
+## Panel A: Eagle Meadows Population, Obligate Outcrossing
+    # Make the plot
+    par(omi=c(0.5, 0.5, 0.5, 1.2), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s')
+    EM_C0 <- interp(x=heat_1$sm, y=heat_1$sf, z=heat_1$lambda_sim, 
+                     xo=seq(min(heat_1$sm),max(heat_1$sm),by=resolution), 
+                     yo=seq(min(heat_1$sf),max(heat_1$sf),by=resolution), duplicate="mean")
+    # heatmap of lambda
+        image(EM_C0, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+        axis(1, at=c(0.01, 0.25, 0.5, 0.75, 0.99), labels=c("","","","",""))
+        axis(2, at=c(0.01, 0.25, 0.5, 0.75, 0.99), labels=c("0","0.25","0.5", "0.75", "1.0"))
+    # Invasion Boundaries
+        lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv1)
+        lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv1)
+    # Plot inv6
+        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
+    # Labels/Annotations
+        proportionalLabel(0.03, 1.04, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, 'Local Demographic Rates', cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.4, 0.5, expression(italic(C) == 0), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+## Panel B: Low-Elevation Perennials, Obligate Outcrossing
+        # Make the plot
+        LEP_C0 <- interp(x=heat_2$sm, y=heat_2$sf, z=heat_2$lambda_sim, 
+                     xo=seq(min(heat_2$sm),max(heat_2$sm),by=resolution), 
+                     yo=seq(min(heat_2$sf),max(heat_2$sf),by=resolution), duplicate="mean")
+    # heatmap of lambda
+        image(LEP_C0, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+        axis(1, at=c(0.01, 0.25, 0.5, 0.75, 0.99), labels=c("","","","",""))
+        axis(2, at=c(0.01, 0.25, 0.5, 0.75, 0.99), labels=c("","","","",""))
+    # Invasion Boundaries
+        lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv2)
+        lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv2)
+    # Plot inv6
+        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
+    # Labels/Annotations
+        proportionalLabel(0.03, 1.04, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(0.5, 1.15, 'Non-local Demographic Rates', cex=1.5, adj=c(0.5, 0.5), xpd=NA)
+
+    # Color ScaleBar
+        image.scale(LEP_C0, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n", xpd=TRUE)
+        axis(4, at=c(0.98,1.00,1.02,1.04,1.06,1.08,1.10), labels=c("0.98","1.00","1.02","1.04","1.06","1.08","> 1.10"), las=2, cex.axis=1.1)
+        proportionalLabel(4, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=270)
+
+
+
+## Panel C: Eagle Meadows Population, Selfing w/ I.D>
+    EM_C0.29 <- interp(x=heat_3$sm, y=heat_3$sf, z=heat_3$lambda_sim, 
+                     xo=seq(min(heat_3$sm),max(heat_3$sm),by=resolution), 
+                     yo=seq(min(heat_3$sf),max(heat_3$sf),by=resolution), duplicate="mean")
+    # heatmap of lambda
+        image(EM_C0.29, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+        axis(1, at=c(0.01, 0.25, 0.5, 0.75, 0.99), labels=c("0","0.25","0.5", "0.75", "1.0"))
+        axis(2, at=c(0.01, 0.25, 0.5, 0.75, 0.99), labels=c("0","0.25","0.5", "0.75", "1.0"))
+    # Invasion Boundaries
+        lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv3)
+        lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv3)
+    # Plot inv6
+        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
+    # Labels/Annotations
+        proportionalLabel(0.03, 1.04, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel(-0.4, 0.5, expression(paste(italic(C), " = 0.29, w/ I.D.")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+
+        proportionalLabel(-0.2, 1.15, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(1.15, -0.2, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=0)
+
+## Panel D: Low-Elevation Perennials, Obligate Outcrossing
+        # Make the plot
+        LEP_C0.29 <- interp(x=heat_4$sm, y=heat_4$sf, z=heat_4$lambda_sim, 
+                     xo=seq(min(heat_4$sm),max(heat_4$sm),by=resolution), 
+                     yo=seq(min(heat_4$sf),max(heat_4$sf),by=resolution), duplicate="mean")
+    # heatmap of lambda
+        image(LEP_C0.29, col=HEAT, breaks=breaks, axes=FALSE)
+    # axes
+        axis(1, at=c(0.01, 0.25, 0.5, 0.75, 0.99), labels=c("0","0.25","0.5", "0.75", "1.0"))
+        axis(2, at=c(0.01, 0.25, 0.5, 0.75, 0.99), labels=c("","","","",""))
+    # Invasion Boundaries
+        lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv4)
+        lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv4)
+    # Plot inv6
+        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='black')
+    # Labels/Annotations
+        proportionalLabel(0.03, 1.04, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
+
+    # Color ScaleBar
+        image.scale(LEP_C0, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n", xpd=TRUE)
+        axis(4, at=c(0.98,1.00,1.02,1.04,1.06,1.08,1.10), labels=c("0.98","1.00","1.02","1.04","1.06","1.08","> 1.10"), las=2, cex.axis=1.1)
+        proportionalLabel(4, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=270)
+
 
 }
 

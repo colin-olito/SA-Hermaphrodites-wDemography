@@ -18,7 +18,7 @@ rm(list=ls())
 ################
 ## Dependencies
 source('R/functions-Figs.R')
-source('./R/loadData-Compadre.R')
+#source('./R/loadData-Compadre.R')
 
 
 #################
@@ -55,11 +55,17 @@ toPdf(deltaSelfingLoadPolySpaceFigTitrate(),
 			figPath(name='deltaPolymorphicSpaceTitrate.pdf'), width=5, height=7)
 embed_fonts(figPath(name='deltaPolymorphicSpaceTitrate.pdf'))
 
-# Fig. 4 - Illustration of polymorphic parameter space w/ 
+# Fig. 4 - Mimulus Case study: polymorphic parameter space w/ 
 #			Inv6 plotted
 toPdf(MimulusInv6Fig(), 
 			figPath(name='MimulusInv6FigNewSel.pdf'), width=10, height=5)
 embed_fonts(figPath(name='MimulusInv6FigNewSel.pdf'))
+
+
+# REVISED Fig. 4 - Mimulus Case study: lambda heatmap w/ Inv6
+toPdf(MimulusInv6LambdaFig(), 
+			figPath(name='MimulusInv6LambdaFig.pdf'), width=8, height=8)
+embed_fonts(figPath(name='MimulusInv6LambdaFig.pdf'))
 
 
 #################
