@@ -779,7 +779,7 @@ polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2, alpha = 0,
 #' Quantify proportion of polymorphic AND/OR demographically viable
 #' Parameter space for different Selfing rates & dominance
 #'
-deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2, alpha = 0
+deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2, alpha = 0,
 									om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
 									hf = 1/2, hm = 1/2, C = 1/2,
 									tlimit = 10^5, eqThreshold = 1e-8) {
@@ -4011,7 +4011,7 @@ makeLambdaHeatMapMimulusData  <-  function(sMax=0.15, len=10, alpha = 0,
 
 	# export data as .csv to ./output/data
 	if(writeFile) {
-			filename <-  paste("./output/simData/lambdaHeatMapMimulusData", "_sMax", sMax, "_res", res, "_alpha", alpha, "_hf", hf, "_hm", hm, 
+			filename <-  paste("./output/simData/lambdaHeatMapMimulusData", "_sMax", sMax, "_len", len, "_alpha", alpha, "_hf", hf, "_hm", hm, 
 							"_C", C, "_useCompadre", useCompadre, "_ID", ID, "_", theta.list[[8]], ".csv", sep="")
 			write.csv(output, file=filename, row.names = FALSE)
 	} else{ return(output) }

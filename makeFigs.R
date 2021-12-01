@@ -25,6 +25,13 @@ source('./R/loadData-Compadre.R')
 # Figs for Paper
 #################
 
+
+# Possible Fig. 1 - Didactic figure of genetic and demographic predictions
+toPdf(resultsIllustrationFig(), 
+			figPath(name='didacticFig.pdf'), width=8, height=4)
+embed_fonts(figPath(name='didacticFig.pdf'))
+
+
 # Fig. 1 - Illustration of invasion conditions & extinction thresholds
 toPdf(demViablePolySpaceFig(), 
 			figPath(name='extinctionThresholdsFig.pdf'), width=10, height=5)
