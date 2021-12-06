@@ -383,6 +383,7 @@ fwdDyn2Eq  <-  function(nzero, alpha, om, g, W_prime, blkFX_prime, blkUS, blkUX,
 	results  <-  list(
 					  "nout"         =  nout,
 					  "n"            =  nout[,ncol(nout)],
+					  "Nstar"        =  sum(nout[,ncol(nout)]),
 					  "lambda_sim"   =  sum(nout[,ncol(nout)]) / sum(nout[,ncol(nout)-1]),
 					  "p"            =  p,
 					  "p_genotypes"  =  p_genotypes,
@@ -555,6 +556,8 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), alpha 
 	# results
 	res  <-  list(
 					"nout"         =  invadeEq$nout,
+					"n"            =  invadeEq$n,
+					"Nstar"        =  invadeEq$Nstar,
 					"p_genotypes"  =  invadeEq$p_genotypes,
 					"pEq"          =  invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)],
 					"eqReached"    =  invadeEq$eqReached,
@@ -1411,7 +1414,7 @@ makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4, alpha =
 									hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, delta = delta, 
 									delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 									tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = FALSE)
-		output_i  <-  c(sfs[i], sms[i], results$extinct, results$polymorphism, results$pEq, results$zeta_i, results$lambda_i, results$lambda_sim)
+		output_i  <-  c(sfs[i], sms[i], results$extinct, results$polymorphism, results$pEq, results$zeta_i, results$lambda_i, results$lambda_sim, results$Nstar)
 
 		# return results
 		output_i
@@ -1425,7 +1428,7 @@ makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4, alpha =
 							"pEq_AA", "pEq_Aa", "pEq_aa",
 							"zeta_i_AA", "zeta_i_aa",
 							"lambda_i_AA", "lambda_i_aa",
-							"lambda_sim")
+							"lambda_sim", "Nstar")
 
 	# Export Results as a data frame
 	# export data as .csv to ./output/data
@@ -3113,6 +3116,8 @@ fwdSimMimulusDat  <-  function(datMat, theta.list, delta.list, useCompadre = TRU
 	# results
 	res  <-  list(
 					"nout"         =  invadeEq$nout,
+					"n"            =  invadeEq$n,
+					"Nstar"        =  invadeEq$Nstar,
 					"p_genotypes"  =  invadeEq$p_genotypes,
 					"pEq"          =  invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)],
 					"eqReached"    =  invadeEq$eqReached,
@@ -3304,7 +3309,7 @@ findInvBoundZetaMimulus  <-  function(om, g, theta.list, delta.list, useCompadre
 				(1 - C)*c(c(100-(om-1), rep(1,times=(om-1))), rep(0,times = 2*om)))
 	n0aa  <-  c(      C*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))), 
 				(1 - C)*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))))
-#browser()
+
 	# Simulate to demographic equilibrium for each boundary
 	AAEq  <-  fwdDyn2Eq(nzero=n0AA, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold, alpha=alpha)
 	aaEq  <-  fwdDyn2Eq(nzero=n0aa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold, alpha=alpha)
@@ -3969,24 +3974,24 @@ makeLambdaHeatMapMimulusData  <-  function(sMax=0.15, len=10, alpha = 0,
 	output  <-  foreach(i=icount(nSims), .combine=rbind, 
 						.options.snow=opts, .export = ex.vec) %dopar% {
 
-#		if(hf == hm && hf == 1/2) {
-#			qHat  <-  popGen_qHat_Add(sf = sfs[i], sm = sms[i], C = C)
-#		}
-#		if(hf == hm && hf < 1/2) {
-#			qHat  <-  popGen_qHat_DomRev(h = hf, sf = sfs[i], sm = sms[i], C = C)
-#		}
-#		if(qHat < 1/2){
-#			Ainvade  <-  TRUE
-#		}
-#		if(qHat > 1/2){
-#			Ainvade  <-  FALSE
-#		}
+		if(hf == hm && hf == 1/2) {
+			qHat  <-  popGen_qHat_Add(sf = sfs[i], sm = sms[i], C = C)
+		}
+		if(hf == hm && hf < 1/2) {
+			qHat  <-  popGen_qHat_DomRev(h = hf, sf = sfs[i], sm = sms[i], C = C)
+		}
+		if(qHat < 1/2){
+			Ainvade  <-  TRUE
+		}
+		if(qHat > 1/2){
+			Ainvade  <-  FALSE
+		}
 
 		results  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = useCompadre,
 									  hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, alpha = alpha,
 									  tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = Ainvade, intInit = intInit)
 
-		output_i  <-  c(sfs[i], sms[i], results$extinct, results$polymorphism, results$pEq, results$zeta_i, results$lambda_i, results$lambda_sim)
+		output_i  <-  c(sfs[i], sms[i], results$extinct, results$polymorphism, results$pEq, results$zeta_i, results$lambda_i, results$lambda_sim, results$Nstar)
 
 		# return results
 		output_i
@@ -4000,7 +4005,7 @@ makeLambdaHeatMapMimulusData  <-  function(sMax=0.15, len=10, alpha = 0,
 							"pEq_AA", "pEq_Aa", "pEq_aa",
 							"zeta_i_AA", "zeta_i_aa",
 							"lambda_i_AA", "lambda_i_aa",
-							"lambda_sim")
+							"lambda_sim", "Nstar")
 
 	# Export Results as a data frame
 	# export data as .csv to ./output/data

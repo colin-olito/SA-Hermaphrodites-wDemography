@@ -1576,7 +1576,7 @@ MimulusInv6LambdaFig  <-  function() {
 
 ## Panel A: Eagle Meadows Population, Obligate Outcrossing
     # Make the plot
-    par(omi=c(0.5, 0.5, 0.5, 1.2), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s')
+    par(omi=c(0.5, 1, 0.5, 1.2), mar = c(3,3,0.5,0.5), bty='o', xaxt='s', yaxt='s')
     EM_C0 <- interp(x=heat_1$sm, y=heat_1$sf, z=heat_1$lambda_sim, 
                      xo=seq(min(heat_1$sm),max(heat_1$sm),by=resolution), 
                      yo=seq(min(heat_1$sf),max(heat_1$sf),by=resolution), duplicate="mean")
@@ -1619,7 +1619,7 @@ MimulusInv6LambdaFig  <-  function() {
     # Color ScaleBar
         image.scale(LEP_C0, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n", xpd=TRUE)
         axis(4, at=c(0.98,1.00,1.02,1.04,1.06,1.08,1.10), labels=c("0.98","1.00","1.02","1.04","1.06","1.08","> 1.10"), las=2, cex.axis=1.1)
-        proportionalLabel(4, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=270)
+        proportionalLabel(5, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=270)
 
 
 
@@ -1642,8 +1642,8 @@ MimulusInv6LambdaFig  <-  function() {
         proportionalLabel(0.03, 1.04, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.4, 0.5, expression(paste(italic(C), " = 0.29, w/ I.D.")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
-        proportionalLabel(-0.2, 1.15, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(1.15, -0.2, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.25, 1.15, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(1.15, -0.25, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
 ## Panel D: Low-Elevation Perennials, Obligate Outcrossing
         # Make the plot
@@ -1667,7 +1667,7 @@ MimulusInv6LambdaFig  <-  function() {
     # Color ScaleBar
         image.scale(LEP_C0, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n", xpd=TRUE)
         axis(4, at=c(0.98,1.00,1.02,1.04,1.06,1.08,1.10), labels=c("0.98","1.00","1.02","1.04","1.06","1.08","> 1.10"), las=2, cex.axis=1.1)
-        proportionalLabel(4, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=270)
+        proportionalLabel(5, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=270)
 
 
 }
