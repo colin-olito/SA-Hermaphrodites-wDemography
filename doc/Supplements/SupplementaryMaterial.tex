@@ -153,6 +153,86 @@
 
 \newpage{}
 \section{Construction of the population projection matrix}
+\subsubsection*{Mating and offspring production under partial selfing}
+ Outcrossing in our model proceeds similarly to a two-sex model of reproduction \citep{deVriesCaswell2019b}. That is, each individual's genotype determines both the number of ovules produced and the paternal mating success, broadly defined. For hermaphroditic flowering plants, for example, paternal mating success could reflect pollen production, export efficiency, pollen-tube germination and growth rates, among other things \citep{LloydWebb1986, WangBarrett2020, Harder2016}. Note, however, that by modeling paternal relative mating success rather than pollen/sperm production, we implicitly assume female demographic dominance (i.e., production/transport of male gametes does not limit ovule fertilization and hence population growth), a point we return to in the Discussion. For the purpose of this article, we also assume that mating is random with respect to stage.
+
+Because we assume that inbreeding depression only affects offspring viability, the allele frequency in the male mating population is obtained by simply summing the vectors of individuals produced through selfing and outcrossing:
+\begin{linenomath*}
+\begin{equation}
+ 	\mbf{p}^{\prime}=\frac{(\mbf{n}^X + \mbf{n}^S)}{\| (\mbf{n}^X + \mbf{n}^S)\|}.
+ \end{equation}
+\end{linenomath*}
+Depending on their stage and genotype at the SA locus, individuals contribute male gametes to the overall population gamete pool according to the following equation
+\begin{linenomath*}
+\begin{equation}
+		\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p}^{\prime}= 
+		\left(
+			\begin{array}{ccc}
+				\mbf{1}^{\intercal}_{\omega} & \frac{1}{2} \mbf{1}^{\intercal}_{\omega} & \mbf{0} \\
+				\mbf{0}  & \frac{1}{2} \mbf{1}^{\intercal}_{\omega} & \mbf{1}^{\intercal}_{\omega} \\
+			\end{array} \right)
+		\left(
+			\begin{array}{ccc}
+				\mbf{F}^{\prime}_{AA} & \mbf{0}  &\mbf{0}  \\
+				\mbf{0}  & \mbf{F}^{\prime}_{Aa} & \mbf{0}  \\
+				\mbf{0}  & \mbf{0}  & \mbf{F}^{\prime}_{aa} \\
+			\end{array} \right)
+		\left(
+			\begin{array}{c}
+				\mbf{p}^{\prime}_{AA} \\
+				\mbf{p}^{\prime}_{Aa} \\
+				\mbf{p}^{\prime}_{aa} \\
+			\end{array} \right),
+\end{equation}
+\end{linenomath*}
+
+\noindent where $\mbf{1}^{\intercal}_{\omega} $ is a vector of ones of size $1 \times \omega$. The matrix $\mbb{F}^{\prime}$ is composed of genotype-specific fertility matrices, and operates on the vector of genotype frequencies to give their relative contribution of each genotype to the gamete pool. The matrix $\mbf{W}^{\prime}$ converts these contributions to allele numbers. Normalizing the resulting vector gives the allele frequencies in the male gamete pool:
+\begin{linenomath*}
+\begin{equation} \label{eq:maleGametePool}
+	\left(
+		\begin{array}{c}
+			q^{\prime}_{A} \\
+			q^{\prime}_{a} \\
+		\end{array} \right) = 
+			\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p}^{\prime}}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} \mbf{p}^{\prime} \|} = 
+				\frac{\mbf{W}^{\prime} \mbb{F}^{\prime} (\mbf{n}^X + \mbf{n}^S)}{\| \mbf{W}^{\prime} \mbb{F}^{\prime} (\mbf{n}^X + \mbf{n}^S)\|}.
+\end{equation}
+\end{linenomath*}
+The key difference between selfing and outcrossing reproduction can be seen in the parent-offspring maps, which reflect the joint effects of meiosis and mating on the distribution of offspring genotypes.
+% \textcolor{red}{
+% I'm doubting whether to move the next paragraph to the appendices as well.  Equation (\ref{eq:maleGametePool}) is all we strictly need. If we keep the parent-offspring maps, we can explain in the next section how the matrices $\mcal{F}^S$ and $\mcal{F}^X$ have the same structure. Would that be helpful? Or would it be easier to just explain in the next section what the structure of $\mcal{F}^S$ and $\mcal{F}^X$ is? }
+
+The parent-offspring map for outcrossing is a function of the allele frequencies in the male gamete pool, and is given by 
+\begin{linenomath*}
+\begin{equation} \label{eq:HX}
+	\mbf{H}^X = 
+			\left(
+			\begin{array}{ccc}
+				q^{\prime}_{A} & \frac{1}{2} q^{\prime}_{A} & 0 \\
+				q^{\prime}_{a} & \frac{1}{2} & q^{\prime}_{A}  \\
+				0 & \frac{1}{2} q^{\prime}_{a} & q^{\prime}_{a} \\
+			\end{array} \right).
+\end{equation}
+\end{linenomath*}
+\noindent From left to right, the columns of matrix $\mbf{H}^X$ give the genotype distribution of outcrossed offspring produced by a maternal parent of each genotype ($AA$, $Aa$, and $aa$ respectively).
+
+The parent-offspring map for reproduction via self-fertilization differs from the outcrossing parent-offspring map. As in previous models of partial selfing, we assume that individuals produce enough male gametes to easily self-fertilize all of their ovules, and that self-fertilization involves little or no selection via the male sex function from external factors (e.g., pollinator visitation) relative to outcrossing (\citealt{Charlesworth1978a,JordanConnallon2014,Olito2017}, but see \citealt{Tazzyman2015}). Under these assumptions, the genotype distributions of selfed offspring are determined entirely by the parental genotype and the probabilities of segregation and fertilization during and after meiosis: 
+\begin{linenomath*}
+\begin{equation} \label{eq:HS}
+	\mbf{H}^S(\tilde{\mbf{n}}) = 
+			\left(
+			\begin{array}{ccc}
+				1 & 1/4 & 0 \\
+				0 & 1/2 & 0 \\
+				0 & 1/4 & 1 \\
+			\end{array} \right).
+\end{equation}
+\end{linenomath*}
+\noindent The columns of $\mbf{H}^S(\tilde{\mbf{n}})$ again give the selfed offspring genotype distributions for parental genotypes of $AA$, $Aa$, and $aa$, respectively. As described in the next section, these parent-offspring maps influence the projection matrix by altering the fertility matrices for individuals produced by selfing and outcrossing (see Eq(\ref{eq:BlkFS}) and Eq(\ref{eq:BlkFX}) below).
+
+Following previous theory for partially selfing populations \cite[e.g.,][]{Charlesworth2010,JordanConnallon2014,Glemin2021}, we use a 'fixed prior selfing' model where all individuals are assumed to self-fertilize at a constant rate, $C$, prior to receiving outcross pollen, for reasons of analytic tractability. In the Online Supplement, we present a more general model of genotype-specific self-fertilization rates (after \citealt{JordanConnallon2014}).
+
+
 We will now derive the expressions for the survival and fertility matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ as given by Eq(10)-(13) in the main text. The matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ are the ingredients of the population projection matrix, $\tilde{\mbf{A}}$, as given in Eq(9), repeated here for convenience, 
 \begin{linenomath*}
 \begin{equation} \label{eq:Atilde_appendix}
@@ -927,30 +1007,30 @@ A variety of biologically interesting dominance scenarios are possible under sex
 
 %%%%%%%%%%%%%%%%%%%%%
 % Figure S1
- \begin{figure}[htbp]
- \centering
- \includegraphics[width=\linewidth]{extinctionThresholdsSexSpecDomFig}
- \caption{\footnotesize{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). "Demographically viable polymorphic parameter space" corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two cases of complementary dominance ($h_f = 1/4$, $h_m = 3/4$, top row), and ($h_f = 3/4$, $h_m = 1/4$, bottom row), and extinction thresholds are illustrated for the same three values of female fecundity illustrated in fig.~1 of the main text ($f$ values annotated on each panel).}}
- \label{fig:extThresholdsCompSexSpec}
- \end{figure}
+%  \begin{figure}[htbp]
+%  \centering
+%  \includegraphics[width=\linewidth]{extinctionThresholdsSexSpecDomFig}
+%  \caption{\footnotesize{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). "Demographically viable polymorphic parameter space" corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two cases of complementary dominance ($h_f = 1/4$, $h_m = 3/4$, top row), and ($h_f = 3/4$, $h_m = 1/4$, bottom row), and extinction thresholds are illustrated for the same three values of female fecundity illustrated in fig.~1 of the main text ($f$ values annotated on each panel).}}
+%  \label{fig:extThresholdsCompSexSpec}
+%  \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%
-% Figure S2
- \begin{figure}[htbp]
- \centering
- \includegraphics[scale=0.75]{polymorphicSpaceTitrateSexSpec}
- \caption{\footnotesize{Proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$) in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$), plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under two cases of complementary dominance for  SA fitness effects ($h_f = 1/4$, $h_m = 3/4$, panel A; and $h_f = 3/4$, $h_m = 1/4$, panel B). Each point was calculated by numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see Analyses section in the main text), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
- \label{fig:polySpaceCompSexSPec}
- \end{figure}
+% %%%%%%%%%%%%%%%%%%%%%
+% % Figure S2
+%  \begin{figure}[htbp]
+%  \centering
+%  \includegraphics[scale=0.75]{polymorphicSpaceTitrateSexSpec}
+%  \caption{\footnotesize{Proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$) in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$), plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under two cases of complementary dominance for  SA fitness effects ($h_f = 1/4$, $h_m = 3/4$, panel A; and $h_f = 3/4$, $h_m = 1/4$, panel B). Each point was calculated by numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see Analyses section in the main text), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
+%  \label{fig:polySpaceCompSexSPec}
+%  \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%
-% Figure 3
- \begin{figure}[htbp]
- \centering
- \includegraphics[scale=0.75]{deltaPolymorphicSpaceTitrateCompSexSpec}
- \caption{\footnotesize{Effects of early- and late-acting inbreeding depression on the proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$), plotted as a function of the population selfing rate. In all plots, the strength of inbreeding depression decreases as the selfing rate goes up following a simple model of purging recessive deleterious mutations. Only single inbreeding depression terms ($\delta$ and $\delta_i$, where $i \in \{j,a,\gamma\}$, indicated in the legend) are allowed to vary at one time (all others are set to $0$). Results are shown for the same three fertility values as used in the main text ($f = \{6.5,\,7.5,\,8.5\}$) under two cases of complementary dominance for  SA fitness effects ($h_f = 1/4$, $h_m = 3/4$, panel A; and $h_f = 3/4$, $h_m = 1/4$, panel B). Each point was calculated by numerically integrating the corresponding SA invasion conditions and extinction threshold predicted by the model (see Analyses section in the main text), while solid lines were produced by numerically integrating the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
- \label{fig:deltaPolySpaceCompSexSpec}
- \end{figure}
+% %%%%%%%%%%%%%%%%%%%%%
+% % Figure 3
+%  \begin{figure}[htbp]
+%  \centering
+%  \includegraphics[scale=0.75]{deltaPolymorphicSpaceTitrateCompSexSpec}
+%  \caption{\footnotesize{Effects of early- and late-acting inbreeding depression on the proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$), plotted as a function of the population selfing rate. In all plots, the strength of inbreeding depression decreases as the selfing rate goes up following a simple model of purging recessive deleterious mutations. Only single inbreeding depression terms ($\delta$ and $\delta_i$, where $i \in \{j,a,\gamma\}$, indicated in the legend) are allowed to vary at one time (all others are set to $0$). Results are shown for the same three fertility values as used in the main text ($f = \{6.5,\,7.5,\,8.5\}$) under two cases of complementary dominance for  SA fitness effects ($h_f = 1/4$, $h_m = 3/4$, panel A; and $h_f = 3/4$, $h_m = 1/4$, panel B). Each point was calculated by numerically integrating the corresponding SA invasion conditions and extinction threshold predicted by the model (see Analyses section in the main text), while solid lines were produced by numerically integrating the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
+%  \label{fig:deltaPolySpaceCompSexSpec}
+%  \end{figure}
 
 
 
