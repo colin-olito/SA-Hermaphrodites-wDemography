@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{89}
+\begin{thebibliography}{102}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -19,6 +19,12 @@ Aizen, M., and L.~Harder. 2007.
 \newblock Expanding the limits of the pollen-limitation concept: effects of
   pollen quantity and quality.
 \newblock Ecology 88:271--281.
+
+\bibitem[{Barfield et~al.(2011)Barfield, Holt, and
+  Gomulkiewicz}]{barfield2011evolution}
+Barfield, M., R.~D. Holt, and R.~Gomulkiewicz. 2011.
+\newblock Evolution in stage-structured populations.
+\newblock The American Naturalist 177:397--409.
 
 \bibitem[{Berger et~al.(2014)Berger, Grieshop, Lind, Goenaga, Maklakov, and
   Arnqvist}]{BergerEtAl2014}
@@ -51,17 +57,10 @@ Caswell, H. 2001.
   4.5.2.1, pages 84--87.
 \newblock Sinauer Assoc., Sunderland, MA, USA.
 
-\bibitem[{Caswell et~al.(2018)Caswell, de~Vries, Hartemink, Roth, and van
-  Daalen}]{CaswellEtAl2018}
-Caswell, H., C.~de~Vries, N.~Hartemink, G.~Roth, and S.~F. van Daalen. 2018.
-\newblock Age $\times$ stage-classified demographic analysis: a comprehensive
-  approach.
-\newblock Ecological Monographs 4:88.
-
-\bibitem[{Charlesworth and Charlesworth(1978)}]{Charlesworth1978a}
-Charlesworth, B., and D.~Charlesworth. 1978.
-\newblock A model for the evolution of dioecy and gynodioecy.
-\newblock American Naturalist 112:975--997.
+\bibitem[{Charlesworth(1991)}]{BCharlesworth1991}
+Charlesworth, B. 1991.
+\newblock The evolution of sex chromosomes.
+\newblock Science 251:1030--1033.
 
 \bibitem[{Charlesworth and Hughes(2000)}]{CharlesworthHughes2000}
 Charlesworth, B., and K.~A. Hughes. 2000.
@@ -91,6 +90,11 @@ Charlesworth, D., and B.~Charlesworth. 1987.
 Charlesworth, D., and J.~Willis. 2009.
 \newblock The genetics of inbreeding depression.
 \newblock Nature Reviews Genetics 10:783--796.
+
+\bibitem[{Childs et~al.(2016)Childs, Sheldon, and Rees}]{childs2016evolution}
+Childs, D.~Z., B.~C. Sheldon, and M.~Rees. 2016.
+\newblock The evolution of labile traits in sex-and age-structured populations.
+\newblock Journal of Animal Ecology 85:329--342.
 
 \bibitem[{{\firstsecond{COMPADRE}{Plant Matrix
   Database}}(2020)}]{CompadreDB2020}
@@ -129,6 +133,13 @@ Connallon, T., S.~Sharma, and C.~Olito. 2019.
   environments: Four simple models reveal diverse evolutionary outcomes.
 \newblock American Naturalist 193:93--105.
 
+\bibitem[{Coulson et~al.(2006)Coulson, Benton, Lundberg, Dall, and
+  Kendall}]{coulson2006putting}
+Coulson, T., T.~Benton, P.~Lundberg, S.~Dall, and B.~Kendall. 2006.
+\newblock Putting evolutionary biology back in the ecological theatre: a
+  demographic framework mapping genes to communities.
+\newblock Evolutionary Ecology Research 8:1155--1171.
+
 \bibitem[{Crnokrak and Barrett(2002)}]{CrnokrakBarrett2002}
 Crnokrak, P., and S.~Barrett. 2002.
 \newblock Purging the genetic load: a review of the experimental evidence.
@@ -153,6 +164,18 @@ de~Vries, C., R.~A. Desharnais, and H.~Caswell. 2020.
   populations, with application to pesticide resistance in tribolium.
 \newblock Ecological Modelling 416:108875.
 
+\bibitem[{Dieckmann et~al.(2002)Dieckmann, Metz, Sabelis, and
+  Sigmund}]{dieckmann2002adaptive}
+Dieckmann, U., J.~A. Metz, M.~W. Sabelis, and K.~Sigmund. 2002.
+\newblock Adaptive dynamics of infectious diseases.
+\newblock Pursuit of virulence management pages 460--463.
+
+\bibitem[{Durinx et~al.(2008)Durinx, Metz, and
+  Mesz{\'e}na}]{durinx2008adaptive}
+Durinx, M., J.~H. Metz, and G.~Mesz{\'e}na. 2008.
+\newblock Adaptive dynamics for physiologically structured population models.
+\newblock Journal of mathematical biology 56:673--742.
+
 \bibitem[{Eyre-Walker and Keightly(2007)}]{Eyre-WalkerKeightly2007}
 Eyre-Walker, A., and P.~D. Keightly. 2007.
 \newblock The distribution of fitness effects of new mutations.
@@ -162,6 +185,11 @@ Eyre-Walker, A., and P.~D. Keightly. 2007.
 Fisher, R.~A. 1930.
 \newblock The genetical theory of natural selection.
 \newblock The Clarendon Press, Oxford, UK.
+
+\bibitem[{Fussmann et~al.(2007)Fussmann, Loreau, and Abrams}]{fussmann2007eco}
+Fussmann, G.~F., M.~Loreau, and P.~A. Abrams. 2007.
+\newblock Eco-evolutionary dynamics of communities and ecosystems.
+\newblock Functional ecology 21:465--477.
 
 \bibitem[{Gl\'{e}min(2021)}]{Glemin2021}
 Gl\'{e}min, S. 2021.
@@ -174,6 +202,15 @@ Goodwillie, C., S.~Kalisz, and C.~G. Eckert. 2005.
 \newblock The evolutionary enigma of mixed mating systems in plants:
   occurrence, theoretical explanations, and empirical evidence.
 \newblock Ann.~Rev.~Ecol.~Evol.~Syst. 36:47--79.
+
+\bibitem[{Govaert et~al.(2019)Govaert, Fronhofer, Lion, Eizaguirre, Bonte,
+  Egas, Hendry, De~Brito~Martins, Meli{\'a}n, Raeymaekers
+  et~al.}]{govaert2019eco}
+Govaert, L., E.~A. Fronhofer, S.~Lion, C.~Eizaguirre, D.~Bonte, M.~Egas, A.~P.
+  Hendry, A.~De~Brito~Martins, C.~J. Meli{\'a}n, J.~A. Raeymaekers, et~al.
+  2019.
+\newblock Eco-evolutionary feedbacks—theoretical models and perspectives.
+\newblock Functional Ecology 33:13--30.
 
 \bibitem[{Grieshop et~al.(2017)Grieshop, Berger, and
   Arnqvist}]{grieshop2017male}
@@ -386,6 +423,24 @@ Olito, C., and T.~Connallon. 2019.
   systems.
 \newblock American Naturalist 193:688--701.
 
+\bibitem[{Orive(1995)}]{orive1995senescence}
+Orive, M.~E. 1995.
+\newblock Senescence in organisms with clonal reproduction and complex life
+  histories.
+\newblock The American Naturalist 145:90--108.
+
+\bibitem[{Orive(2001)}]{orive2001somatic}
+---{}---{}---. 2001.
+\newblock Somatic mutations in organisms with complex life histories.
+\newblock Theoretical Population Biology 59:235--249.
+
+\bibitem[{Orive et~al.(2017)Orive, Barfield, Fernandez, and
+  Holt}]{orive2017effects}
+Orive, M.~E., M.~Barfield, C.~Fernandez, and R.~D. Holt. 2017.
+\newblock Effects of clonal reproduction on evolutionary lag and evolutionary
+  rescue.
+\newblock The American Naturalist 190:469--490.
+
 \bibitem[{Orr and Unckless(2008)}]{OrrUnckless2008}
 Orr, H.~A., and R.~L. Unckless. 2008.
 \newblock Population extinction and the genetics of adaptation.
@@ -462,6 +517,21 @@ Ritland, K., and F.~R. Ganders. 1987.
   within populations of {\itshape mimulus guttatus}.
 \newblock Evolution 41:760--771.
 
+\bibitem[{Ronce et~al.(2000)Ronce, Gandon, and Rousset}]{ronce2000kin}
+Ronce, O., S.~Gandon, and F.~Rousset. 2000.
+\newblock Kin selection and natal dispersal in an age-structured population.
+\newblock Theoretical Population Biology 58:143--159.
+
+\bibitem[{Roughgarden(1971)}]{roughgarden1971density}
+Roughgarden, J. 1971.
+\newblock Density-dependent natural selection.
+\newblock Ecology 52:453--468.
+
+\bibitem[{Rousset(2004)}]{rousset2004genetic}
+Rousset, F. 2004.
+\newblock Genetic structure and selection in subdivided populations, vol.~40.
+\newblock Princeton University Press.
+
 \bibitem[{Ruzicka et~al.(2020)Ruzicka, Dutoit, Czuppon, Jordan, Li, Olito,
   Runemark, Svensson, Yazdi, and Connallon}]{RuzickaESEB2020}
 Ruzicka, F., L.~Dutoit, P.~Czuppon, C.~Y. Jordan, X.~Li, C.~Olito, A.~Runemark,
@@ -495,6 +565,13 @@ Tazzyman, S.~J., and J.~K. Abbott. 2015.
 \newblock Self-fertilization and inbreeding limit the scope for sexually
   antagonisitc polymorphism.
 \newblock J.~Evol.~Biol. 28:723--729.
+
+\bibitem[{Ten~Brink et~al.(2020)Ten~Brink, Onstein, and
+  de~Roos}]{ten2020habitat}
+Ten~Brink, H., R.~E. Onstein, and A.~M. de~Roos. 2020.
+\newblock Habitat deterioration promotes the evolution of direct development in
+  metamorphosing species.
+\newblock Evolution 74:1826--1850.
 
 \bibitem[{Wang et~al.(2020)Wang, Barrett, Li, Niu, Duan, Zhang, and
   Li}]{WangBarrett2020}

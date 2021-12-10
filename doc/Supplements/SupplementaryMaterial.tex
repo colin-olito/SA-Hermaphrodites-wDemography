@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+	\documentclass[11pt]{article}
 \usepackage[sc]{mathpazo} %Like Palatino with extensive math support
 \usepackage{fullpage}
 \usepackage[authoryear,sectionbib,sort]{natbib}
@@ -153,6 +153,9 @@
 
 \newpage{}
 \section{Construction of the population projection matrix}
+
+In this section we will go through the derivation of the matrix model incorporating multiple life-cycle stages and a single diallelic locus under SA selection on male and female fertility for populations of partially-selfing simultaneous hermaphrodites model presented in the main text. We start by calculating the frequencies of alleles in the gamete pool. These frequencies are the ingredients for the map of parent genotype to offspring genotype, which itself is a necessary ingredient to create the fertility matrices. Finally putting the fertility components together with the (slightly simpler) survival matrices, we obtain all the ingredients to build the population projection matrix. 
+
 \subsubsection*{Mating and offspring production under partial selfing}
  Outcrossing in our model proceeds similarly to a two-sex model of reproduction \citep{deVriesCaswell2019b}. That is, each individual's genotype determines both the number of ovules produced and the paternal mating success, broadly defined. For hermaphroditic flowering plants, for example, paternal mating success could reflect pollen production, export efficiency, pollen-tube germination and growth rates, among other things \citep{LloydWebb1986, WangBarrett2020, Harder2016}. Note, however, that by modeling paternal relative mating success rather than pollen/sperm production, we implicitly assume female demographic dominance (i.e., production/transport of male gametes does not limit ovule fertilization and hence population growth), a point we return to in the Discussion. For the purpose of this article, we also assume that mating is random with respect to stage.
 
@@ -228,12 +231,12 @@ The parent-offspring map for reproduction via self-fertilization differs from th
 			\end{array} \right).
 \end{equation}
 \end{linenomath*}
-\noindent The columns of $\mbf{H}^S(\tilde{\mbf{n}})$ again give the selfed offspring genotype distributions for parental genotypes of $AA$, $Aa$, and $aa$, respectively. As described in the next section, these parent-offspring maps influence the projection matrix by altering the fertility matrices for individuals produced by selfing and outcrossing (see Eq(\ref{eq:BlkFS}) and Eq(\ref{eq:BlkFX}) below).
+\noindent The columns of $\mbf{H}^S(\tilde{\mbf{n}})$ again give the selfed offspring genotype distributions for parental genotypes of $AA$, $Aa$, and $aa$, respectively. As described in the next section, these parent-offspring maps influence the projection matrix by altering the fertility matrices for individuals produced by selfing and outcrossing (see Eq(\ref{eq:BlkFS_appendix}) and Eq(\ref{eq:BlkFX_appendix}) below).
 
-Following previous theory for partially selfing populations \cite[e.g.,][]{Charlesworth2010,JordanConnallon2014,Glemin2021}, we use a 'fixed prior selfing' model where all individuals are assumed to self-fertilize at a constant rate, $C$, prior to receiving outcross pollen, for reasons of analytic tractability. In the Online Supplement, we present a more general model of genotype-specific self-fertilization rates (after \citealt{JordanConnallon2014}).
+Following previous theory for partially selfing populations \cite[e.g.,][]{Charlesworth2010,JordanConnallon2014,Glemin2021}, we use a 'fixed prior selfing' model where all individuals are assumed to self-fertilize at a constant rate, $C$, prior to receiving outcross pollen, for reasons of analytic tractability. Further down in the Online Supplement, we present a more general model of genotype-specific self-fertilization rates (after \citealt{JordanConnallon2014}).
 
-
-We will now derive the expressions for the survival and fertility matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ as given by Eq(10)-(13) in the main text. The matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ are the ingredients of the population projection matrix, $\tilde{\mbf{A}}$, as given in Eq(9), repeated here for convenience, 
+\subsubsection*{The Population Projection Matrix}
+We will now derive the expressions for the survival and fertility matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ as given by Eq(12)-(15) in the main text. The matrices $\mcal{U}^S$, $\mcal{U}^X$, $\mcal{F}^S$, and $\mcal{F}^X$ are the ingredients of the population projection matrix, $\tilde{\mbf{A}}$, as given in Eq(9), repeated here for convenience, 
 \begin{linenomath*}
 \begin{equation} \label{eq:Atilde_appendix}
 	\tilde{\mbf{A}}[\tilde{\mbf{n}}] = 
