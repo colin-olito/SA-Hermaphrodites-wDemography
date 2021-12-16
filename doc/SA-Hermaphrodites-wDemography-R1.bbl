@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{102}
+\begin{thebibliography}{108}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -57,10 +57,11 @@ Caswell, H. 2001.
   4.5.2.1, pages 84--87.
 \newblock Sinauer Assoc., Sunderland, MA, USA.
 
-\bibitem[{Charlesworth(1991)}]{BCharlesworth1991}
-Charlesworth, B. 1991.
-\newblock The evolution of sex chromosomes.
-\newblock Science 251:1030--1033.
+\bibitem[{Charlesworth(1994)}]{Charlesworth_1994}
+Charlesworth, B. 1994.
+\newblock Evolution in Age-Structured Populations.
+\newblock Cambridge Studies in Mathematical Biology, 2nd ed. Cambridge
+  University Press.
 
 \bibitem[{Charlesworth and Hughes(2000)}]{CharlesworthHughes2000}
 Charlesworth, B., and K.~A. Hughes. 2000.
@@ -96,6 +97,13 @@ Childs, D.~Z., B.~C. Sheldon, and M.~Rees. 2016.
 \newblock The evolution of labile traits in sex-and age-structured populations.
 \newblock Journal of Animal Ecology 85:329--342.
 
+\bibitem[{Chippnedale et~al.(2001)Chippnedale, Gibson, and
+  Rice}]{Chippendale-etal-2001}
+Chippnedale, A., J.~Gibson, and W.~Rice. 2001.
+\newblock Negative genetic correlation for adult fitness between sexes reveals
+  ontogenetic conflict in \textit{Drosophila}.
+\newblock PNAS 98:1671--1675.
+
 \bibitem[{{\firstsecond{COMPADRE}{Plant Matrix
   Database}}(2020)}]{CompadreDB2020}
 {\firstsecond{COMPADRE}{Plant Matrix Database}}. 2020.
@@ -126,6 +134,12 @@ Connallon, T., and M.~D. Hall. 2018.
   genomics era.
 \newblock Ann.~N.~Y.~Acad.~Sci. 1422:65--87.
 
+\bibitem[{Connallon and Matthews(2019)}]{ConnallonMatthews2019}
+Connallon, T., and G.~Matthews. 2019.
+\newblock Cross-sex genetic correlations for fitness and fitness components:
+  connecting theoretical predictions to empirical patterns.
+\newblock Evolution Letters 3:254--262.
+
 \bibitem[{Connallon et~al.(2019)Connallon, Sharma, and
   Olito}]{ConnallonSharmaOlito2019}
 Connallon, T., S.~Sharma, and C.~Olito. 2019.
@@ -140,10 +154,23 @@ Coulson, T., T.~Benton, P.~Lundberg, S.~Dall, and B.~Kendall. 2006.
   demographic framework mapping genes to communities.
 \newblock Evolutionary Ecology Research 8:1155--1171.
 
+\bibitem[{Cox and Calsbeek(2009)}]{CoxCalsbeek2009}
+Cox, R., and R.~Calsbeek. 2009.
+\newblock Sexually antagonistic selection, sexual dimorphism, and the
+  resolution of intralocus sexual conflict.
+\newblock American Naturalist 173:176--187.
+
 \bibitem[{Crnokrak and Barrett(2002)}]{CrnokrakBarrett2002}
 Crnokrak, P., and S.~Barrett. 2002.
 \newblock Purging the genetic load: a review of the experimental evidence.
 \newblock Evolution 56:2347--2358.
+
+\bibitem[{De~Lisle et~al.(2018)De~Lisle, Goedert, Reedy, and
+  Svensson}]{DeLisle-etal-2018}
+De~Lisle, S., D.~Goedert, A.~Reedy, and E.~Svensson. 2018.
+\newblock Climatic factors and species range position predict sexually
+  antagonistic selection across taxa.
+\newblock Phil.~Trans.~Roy.~Soc.~B 373:20170415.
 
 \bibitem[{de~Vries and Caswell(2019a)}]{deVriesCaswell2019a}
 de~Vries, C., and H.~Caswell. 2019a.
@@ -164,17 +191,18 @@ de~Vries, C., R.~A. Desharnais, and H.~Caswell. 2020.
   populations, with application to pesticide resistance in tribolium.
 \newblock Ecological Modelling 416:108875.
 
-\bibitem[{Dieckmann et~al.(2002)Dieckmann, Metz, Sabelis, and
-  Sigmund}]{dieckmann2002adaptive}
-Dieckmann, U., J.~A. Metz, M.~W. Sabelis, and K.~Sigmund. 2002.
-\newblock Adaptive dynamics of infectious diseases.
-\newblock Pursuit of virulence management pages 460--463.
+\bibitem[{Delph et~al.(2011)Delph, Andiocoechea, Steven, Herlihy, Scarpino, and
+  Bell}]{Delph-etal-2011}
+Delph, L.~F., J.~Andiocoechea, J.~Steven, C.~R. Herlihy, S.~Scarpino, and
+  D.~Bell. 2011.
+\newblock Environment-dependent intralocus sexual conflict in adioecious plant.
+\newblock New Phytologist 192:542--552.
 
-\bibitem[{Durinx et~al.(2008)Durinx, Metz, and
-  Mesz{\'e}na}]{durinx2008adaptive}
-Durinx, M., J.~H. Metz, and G.~Mesz{\'e}na. 2008.
-\newblock Adaptive dynamics for physiologically structured population models.
-\newblock Journal of mathematical biology 56:673--742.
+\bibitem[{Delph and Herlihy(2012)}]{DelphHerlihy2012}
+Delph, L.~F., and C.~R. Herlihy. 2012.
+\newblock Sexual, fecundity, and viability selection on flower size and number
+  in a sexually dimorphic plant.
+\newblock Evolution 66:1154--1166.
 
 \bibitem[{Eyre-Walker and Keightly(2007)}]{Eyre-WalkerKeightly2007}
 Eyre-Walker, A., and P.~D. Keightly. 2007.
@@ -368,6 +396,12 @@ Levene, H. 1953.
 \newblock Genetic equilibrium when more than one ecological niche is available.
 \newblock American Naturalist 87:331--333.
 
+\bibitem[{Lewis et~al.(2011)Lewis, Wedell, and Hunt}]{Lewis-etal-2011}
+Lewis, Z., N.~Wedell, and J.~Hunt. 2011.
+\newblock Evidence for strong intralocus sexual-conflict in the indian meal
+  moth, {\itshape plodia interpunctella}.
+\newblock Evolution 65:2085--2097.
+
 \bibitem[{Lloyd and Webb(1986)}]{LloydWebb1986}
 Lloyd, D.~G., and C.~J. Webb. 1986.
 \newblock The avoidance of interference between the presentation of pollen and
@@ -540,6 +574,13 @@ Ruzicka, F., L.~Dutoit, P.~Czuppon, C.~Y. Jordan, X.~Li, C.~Olito, A.~Runemark,
   studies of local adaptation and statistical genomics.
 \newblock Evol.~Lett. 4-5:398--415.
 
+\bibitem[{Ruzicka et~al.(2021)Ruzicka, Holman, and
+  Connallon}]{RuzickaConnallon2022}
+Ruzicka, F., L.~Holman, and T.~Connallon. 2021.
+\newblock Polygenic signals of sexually antagonistic selection in contemporary
+  human genomes.
+\newblock bior\textchi v pages 1--43.
+
 \bibitem[{Servedio et~al.(2014)Servedio, Brandvain, Dhole, Fitzpatrick,
   Goldberg, Stern, Van~Cleve, and Yeh}]{Servedio2014}
 Servedio, M.~R., Y.~Brandvain, S.~Dhole, C.~L. Fitzpatrick, E.~E. Goldberg,
@@ -547,6 +588,11 @@ Servedio, M.~R., Y.~Brandvain, S.~Dhole, C.~L. Fitzpatrick, E.~E. Goldberg,
 \newblock Not just a theory -- the utility of mathematical models in
   evolutionary biology.
 \newblock PLoS Biology 12:e1002017.
+
+\bibitem[{Singh and Punzalan(2018)}]{SinghPunzalan2018}
+Singh, A., and D.~Punzalan. 2018.
+\newblock The strength of sex-specific selection in the wild.
+\newblock Evolution 72:2818--2824.
 
 \bibitem[{Spencer and Priest(2016)}]{SpencerPriest2016}
 Spencer, H., and N.~Priest. 2016.
@@ -565,13 +611,6 @@ Tazzyman, S.~J., and J.~K. Abbott. 2015.
 \newblock Self-fertilization and inbreeding limit the scope for sexually
   antagonisitc polymorphism.
 \newblock J.~Evol.~Biol. 28:723--729.
-
-\bibitem[{Ten~Brink et~al.(2020)Ten~Brink, Onstein, and
-  de~Roos}]{ten2020habitat}
-Ten~Brink, H., R.~E. Onstein, and A.~M. de~Roos. 2020.
-\newblock Habitat deterioration promotes the evolution of direct development in
-  metamorphosing species.
-\newblock Evolution 74:1826--1850.
 
 \bibitem[{Wang et~al.(2020)Wang, Barrett, Li, Niu, Duan, Zhang, and
   Li}]{WangBarrett2020}
