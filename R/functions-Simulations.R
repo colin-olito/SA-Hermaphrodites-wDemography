@@ -275,6 +275,9 @@ evalAtilde  <-  function(nHat, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom
 #' Forward dynamics to Equil 
 #'
 #' Parameters:
+#' nzero:	Initial state vector
+#' alpha:	Shape parameter for density-dependent growth (of the form exp(-alpha*sum(n))). 
+#' 			Defaults to alpha = 0, corresponding to density independent growth. 
 #' om:		Number of stages in life-cycle
 #' g:		number of genotypes (default 3 for 1-locus, 2-allele)
 #' theta: 	vector of length 4 (but actually becomes vector of length 7), c(sigmaS_J, sigmaS_A, sigmaX_J, sigmaX_A, gammaS, gammaX, f_ii)
@@ -289,7 +292,7 @@ evalAtilde  <-  function(nHat, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom
 #' tlimit:	Max # of generations for fwd simulation
 #' Ainvade:	Should A allele start off rare
 #' intInit:	Optional initial frequency of A allele
-fwdDyn2Eq  <-  function(nzero, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, Ig, K, Z, blkFS, blkFX, tlimit, eqThreshold, alpha, ...){
+fwdDyn2Eq  <-  function(nzero, alpha, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom, Ig, K, Z, blkFS, blkFX, tlimit, eqThreshold, ...){
 
 	# initial state vector, frequency vector, and empty storage matrix for time-series
 	n     <-  t(t(nzero))
@@ -349,8 +352,10 @@ fwdDyn2Eq  <-  function(nzero, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom
         nnext  <-  exp(-alpha*sum(n))*Atilde %*% n
 
         # Regulate population size to avoid crashing simulation
-		if (sum(nnext) > 1e+100) {
-			nnext  <-  nnext * 1e-20
+		if(sum(nnext) > 1e+100 | sum(nnext) < 1e-300) {
+			if(sum(nnext) > 1e+100){
+				nnext  <-  nnext * 1e-20
+					} else {nnext  <-  nnext * 1e+20}
 			n      <-  nnext
 			pnext  <-  n/norm(as.matrix(n), type="1")
 			pcheck <-  p
@@ -380,6 +385,7 @@ fwdDyn2Eq  <-  function(nzero, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom
 	results  <-  list(
 					  "nout"         =  nout,
 					  "n"            =  nout[,ncol(nout)],
+					  "Nstar"        =  sum(nout[,ncol(nout)]),
 					  "lambda_sim"   =  sum(nout[,ncol(nout)]) / sum(nout[,ncol(nout)-1]),
 					  "p"            =  p,
 					  "p_genotypes"  =  p_genotypes,
@@ -409,7 +415,7 @@ fwdDyn2Eq  <-  function(nzero, om, g, W_prime, blkFX_prime, blkUS, blkUX, W, Iom
 #' tlimit:	Max # of generations for fwd simulation
 #' Ainvade:	Should A allele start off rare
 #' intInit:	Optional initial frequency of A allele
-fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_prime = 5.9, 
+fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), alpha = 0, theta_prime = 5.9, 
 							 hf = 1/2, hm = 1/2, sf = 0.1, sm = 0.105, C = 0, delta = 0, 
 							 delta_j = 0, delta_a = 0, delta_gamma = 0, datMat = NA,
 							 tlimit = 10^4, eqThreshold = 1e-8, Ainvade = FALSE, intInit = FALSE, ...) {
@@ -552,6 +558,8 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 	# results
 	res  <-  list(
 					"nout"         =  invadeEq$nout,
+					"n"            =  invadeEq$n,
+					"Nstar"        =  invadeEq$Nstar,
 					"p_genotypes"  =  invadeEq$p_genotypes,
 					"pEq"          =  invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)],
 					"eqReached"    =  invadeEq$eqReached,
@@ -589,7 +597,7 @@ fwdDemModelSim  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_
 #' dims: 	vector c(om, g), with om = # stages, g = # genotypes
 #' theta: 	vector of length 4, c(sigma_J, sigma_A, gamma, f_ii)
 #' selPars:	vector of length 4, c(hf, hm, sf, sm,)
-selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
+selLoop  <-  function(sMax = 0.15, nSamples=1e+2, alpha=0,
 					  om = 2, g = 3, theta = c(0.6,0.6,0.05,6.1), theta_prime = 6, 
 					  hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 					  delta_j = 0, delta_a = 0, delta_gamma = 0,
@@ -618,7 +626,7 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 				Ainvade  <-  FALSE
 			}
 
-			results  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+			results  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, alpha = alpha,
 										hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, delta = delta, 
 										delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 										tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = intInit)
@@ -694,7 +702,7 @@ selLoop  <-  function(sMax = 0.15, nSamples=1e+2,
 #' Quantify proportion of polymorphic AND/OR demographically viable
 #' Parameter space for different Selfing rates & dominance
 #'
-polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
+polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2, alpha = 0,
 									 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 									 hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 									 delta_j = 0, delta_a = 0, delta_gamma = 0,
@@ -716,7 +724,7 @@ polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 	eigaFix        <-  c()
 	eigaFixViable  <-  c()
 	for(i in 1:length(Cs)) {
-		res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+		res  <-  selLoop(sMax=sMax, nSamples=nSamples, alpha = alpha,
 						 om = om, g = g, theta = theta, theta_prime = theta_prime, 
 						 hf = hf, hm = hm, C = Cs[i], delta = delta,
 						 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
@@ -776,7 +784,7 @@ polyParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 #' Quantify proportion of polymorphic AND/OR demographically viable
 #' Parameter space for different Selfing rates & dominance
 #'
-deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
+deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2, alpha = 0,
 									om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
 									hf = 1/2, hm = 1/2, C = 1/2,
 									tlimit = 10^5, eqThreshold = 1e-8) {
@@ -810,7 +818,7 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 	d_eigaFix        <-  c()
 	d_eigaFixViable  <-  c()
 	for(i in 1:length(d)) {
-		d_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+		d_res  <-  selLoop(sMax=sMax, nSamples=nSamples, alpha = alpha,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = C, delta = d[i],
 							delta_j = 0, delta_a = 0, delta_gamma = 0,
@@ -856,7 +864,7 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 	d_j_eigaFix        <-  c()
 	d_j_eigaFixViable  <-  c()
 	for(i in 1:length(d_j)) {
-		d_j_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+		d_j_res  <-  selLoop(sMax=sMax, nSamples=nSamples,  alpha = alpha,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = C, delta = 0,
 							delta_j = d_j[i], delta_a = 0, delta_gamma = 0,
@@ -903,7 +911,7 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 	d_a_eigaFixViable  <-  c()
 	for(i in 1:length(d_a)) {
 
-		d_a_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+		d_a_res  <-  selLoop(sMax=sMax, nSamples=nSamples,  alpha = alpha,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = C, delta = 0,
 							delta_j = 0, delta_a = d_a[i], delta_gamma = 0,
@@ -949,7 +957,7 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 	d_g_eigaFix        <-  c()
 	d_g_eigaFixViable  <-  c()
 	for(i in 1:length(d_g)) {
-		d_g_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+		d_g_res  <-  selLoop(sMax=sMax, nSamples=nSamples,  alpha = alpha,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = C, delta = 0,
 							delta_j = 0, delta_a = 0, delta_gamma = d_g[i],
@@ -1061,7 +1069,7 @@ deltaParamSpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 #' Quantify proportion of polymorphic AND/OR demographically viable
 #' Parameter space for different Selfing rates & dominance
 #'
-deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
+deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2, alpha = 0,
 											om = 2, g = 3, theta = c(0.6,0.6,0.05,7), theta_prime = 7, 
 											hf = 1/2, hm = 1/2, dStar = 0.8, 
 											tlimit = 10^5, eqThreshold = 1e-8) {
@@ -1089,7 +1097,7 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 	d_eigaFix        <-  c()
 	d_eigaFixViable  <-  c()
 	for(i in 1:length(deltaSeq)) {
-		d_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+		d_res  <-  selLoop(sMax=sMax, nSamples=nSamples,  alpha = alpha,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = Cs[i], delta = deltaSeq[i],
 							delta_j = 0, delta_a = 0, delta_gamma = 0,
@@ -1136,7 +1144,7 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 	d_j_eigaFix        <-  c()
 	d_j_eigaFixViable  <-  c()
 	for(i in 1:length(deltaSeq)) {
-		d_j_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+		d_j_res  <-  selLoop(sMax=sMax, nSamples=nSamples,  alpha = alpha,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = Cs[i], delta = 0,
 							delta_j = deltaSeq[i], delta_a = 0, delta_gamma = 0,
@@ -1184,7 +1192,7 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 	d_a_eigaFixViable  <-  c()
 	for(i in 1:length(deltaSeq)) {
 
-		d_a_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+		d_a_res  <-  selLoop(sMax=sMax, nSamples=nSamples,  alpha = alpha,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = Cs[i], delta = 0,
 							delta_j = 0, delta_a = deltaSeq[i], delta_gamma = 0,
@@ -1231,7 +1239,7 @@ deltaSelfingPolySpaceMakeData  <-  function(sMax = 0.15, nSamples=1e+2,
 	d_g_eigaFix        <-  c()
 	d_g_eigaFixViable  <-  c()
 	for(i in 1:length(deltaSeq)) {
-		d_g_res  <-  selLoop(sMax=sMax, nSamples=nSamples, 
+		d_g_res  <-  selLoop(sMax=sMax, nSamples=nSamples,  alpha = alpha,
 							om = om, g = g, theta = theta, theta_prime = theta_prime, 
 							hf = hf, hm = hm, C = Cs[i], delta = 0,
 							delta_j = 0, delta_a = 0, delta_gamma = deltaSeq[i],
@@ -1358,11 +1366,11 @@ midPoint  <-  function(x1,x2) {
 #' Run simulations across sf x sm parameter space, save results
 #' for producing heatmap of lambda_sim.
 #'
-makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4,
+makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4, alpha = 0,
 									om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 									hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 									delta_j = 0, delta_a = 0, delta_gamma = 0,
-									tlimit = 10^5, eqThreshold = 1e-8, Ainvade = FALSE,
+									tlimit = 10^5, eqThreshold = 1e-8, Ainvade = TRUE,
 									nCluster = 4, funs, writeFile = TRUE) {
 
 	# Set number of cluster
@@ -1403,12 +1411,12 @@ makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4,
 		if(qHat > 1/2){
 			Ainvade  <-  FALSE
 		}
-
-		results  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+Ainvade  <-  FALSE
+		results  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 									hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, delta = delta, 
 									delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 									tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = FALSE)
-		output_i  <-  c(sfs[i], sms[i], results$extinct, results$polymorphism, results$pEq, results$zeta_i, results$lambda_i, results$lambda_sim)
+		output_i  <-  c(sfs[i], sms[i], results$extinct, results$polymorphism, results$pEq, results$zeta_i, results$lambda_i, results$lambda_sim, results$Nstar)
 
 		# return results
 		output_i
@@ -1422,12 +1430,12 @@ makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4,
 							"pEq_AA", "pEq_Aa", "pEq_aa",
 							"zeta_i_AA", "zeta_i_aa",
 							"lambda_i_AA", "lambda_i_aa",
-							"lambda_sim")
+							"lambda_sim", "Nstar")
 
 	# Export Results as a data frame
 	# export data as .csv to ./output/data
 	if(writeFile) {
-			filename <-  paste("./output/simData/lambdaHeatMapData", "_sMax", sMax, "_len", len, "_hf", hf, "_hm", hm, 
+			filename <-  paste("./output/simData/lambdaHeatMapData", "_sMax", sMax, "_len", len, "_alpha", alpha, "_hf", hf, "_hm", hm, 
 							"_C", C, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, "_f", theta[4], ".csv", sep="")
 			write.csv(output, file=filename, row.names = FALSE)
 	} else{ return(output) }
@@ -1442,7 +1450,7 @@ makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4,
 #' faster method for calculating proportions of sf x sm where
 #' different dynamical outcomes happen(?)
 #'
-extinctThreshTitrate  <-  function(sMax=0.15, res=0.015, precision = 1e-4,
+extinctThreshTitrate  <-  function(sMax=0.15, res=0.015, precision = 1e-4, alpha = 0,
 								   om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 								   hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 								   delta_j = 0, delta_a = 0, delta_gamma = 0,
@@ -1472,11 +1480,11 @@ if(makePlots) {
 		titrateDelta  <-  1
 
 		# start tit. at boundaries of [0, sMax] OR at narrower window based on previous threshold
-		L  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+		L  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, alpha = alpha,
 							  hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,1], C = C, delta = delta, 
 							  delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 							  tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = FALSE)
-		R  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+		R  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 							  hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,2], C = C, delta = delta, 
 							  delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 							  tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = TRUE, intInit = FALSE)
@@ -1512,7 +1520,7 @@ if(makePlots) {
 if(makePlots) {
 	points(sfs[i] ~ sm_prop, cex=0.25)
 }
-			proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+			proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 										 hf = hf, hm = hm, sf = sfs[i], sm = sm_prop, C = C, delta = delta, 
 										 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 										 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
@@ -1567,11 +1575,11 @@ if(makePlots) {
 		} 
 
 		# start at boundaries of [0, sMax] OR at narrower window based on previous threshold
-		B  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+		B  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 								 hf = hf, hm = hm, sf = titrateVals[1,1], sm = sms[i], C = C, delta = delta, 
 								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 								 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
-		T  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+		T  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 								 hf = hf, hm = hm, sf = titrateVals[1,2], sm = sms[i], C = C, delta = delta, 
 								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 								 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
@@ -1609,7 +1617,7 @@ if(makePlots) {
 if(makePlots) {
 	points(sf_prop ~ sms[i], cex=0.5)
 }
-			proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+			proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 										 hf = hf, hm = hm, sf = sf_prop, sm = sms[i], C = C, delta = delta, 
 										 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 										 tlimit = tlimit, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = FALSE)
@@ -1657,7 +1665,7 @@ if(makePlots) {
 
 	# export data as .csv to ./output/data
 	if(writeFile) {
-			filename <-  paste("./output/simData/extThreshold_SfxSm", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
+			filename <-  paste("./output/simData/extThreshold_SfxSm", "_sMax", sMax, "_res", res, "_alpha", alpha, "_hf", hf, "_hm", hm, 
 							"_C", C, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, "_f", theta[4], ".csv", sep="")
 			write.csv(results.df, file=filename, row.names = FALSE)
 	} else{
@@ -1675,7 +1683,7 @@ if(makePlots) {
 #' faster method for calculating proportions of sf x sm where
 #' different dynamical outcomes happen(?)
 #'
-extinctThreshTitrateRotate  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
+extinctThreshTitrateRotate  <-  function(sMax=0.15, res=0.0015, precision=1e-4, alpha = 0,
 								   om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 6, 
 								   hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 								   delta_j = 0, delta_a = 0, delta_gamma = 0,
@@ -1708,11 +1716,11 @@ plot(NA, xlim=c(0,sMax), ylim=c(0,sMax))
 
 points(	titrateVals[,2] ~ 	titrateVals[,1])
 		# calculate population growth rate at these boundaries
-		L  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+		L  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, alpha = alpha,
 								 hf = hf, hm = hm, sf = titrateVals[1,2], sm = titrateVals[1,1], C = C, delta = delta, 
 								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
-		R  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+		R  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 								 hf = hf, hm = hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C = C, delta = delta, 
 								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
@@ -1744,7 +1752,7 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 								   midPoint(titrateVals[1,2],titrateVals[2,2]))
 # points(s_prop[2]~s_prop[2])
 				titrateDelta  <-  eucDist(s_prop, titrateVals[1,c(1:2)])
-				proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+				proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 											 hf = hf, hm = hm, sf = s_prop[2], sm = s_prop[1], C = C, delta = delta, 
 											 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 											 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
@@ -1780,11 +1788,11 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 
 points(	titrateVals[,2] ~ 	titrateVals[,1])
 		# calculate population growth rate at these boundaries
-		L  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+		L  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 								 hf = hf, hm = hm, sf = titrateVals[1,2], sm = titrateVals[1,1], C = C, delta = delta, 
 								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
-		R  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+		R  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 								 hf = hf, hm = hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C = C, delta = delta, 
 								 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 								 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = FALSE, intInit = TRUE)
@@ -1815,7 +1823,7 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 				s_prop       <-  c(midPoint(titrateVals[1,1],titrateVals[2,1]),
 								   midPoint(titrateVals[1,2],titrateVals[2,2]))
 				titrateDelta  <-  eucDist(s_prop, titrateVals[1,c(1:2)])
-				proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime, 
+				proposal  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 											 hf = hf, hm = hm, sf = s_prop[2], sm = s_prop[1], C = C, delta = delta, 
 											 delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 											 tlimit = 10^5, eqThreshold = eqThreshold, Ainvade = Ainvade, intInit = TRUE)
@@ -1852,7 +1860,7 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 
 	# export data as .csv to ./output/data
 	if(writeFile) {
-			filename <-  paste("./output/simData/extThresholdRotate_SfxSm", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
+			filename <-  paste("./output/simData/extThresholdRotate_SfxSm", "_sMax", sMax, "_res", res, "_alpha", alpha, "_hf", hf, "_hm", hm, 
 							"_C", C, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, "_f", theta[4], ".csv", sep="")
 			write.csv(results.df, file=filename, row.names = FALSE)
 	} else{
@@ -1880,7 +1888,7 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 #' tlimit:	Max # of generations for fwd simulation
 #' Ainvade:	Should A allele start off rare
 #' intInit:	Optional initial frequency of A allele
-findInvBoundZeta  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_prime = 5.9, 
+findInvBoundZeta  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), theta_prime = 5.9, alpha = 0,
 							hf = 1/2, hm = 1/2, sf = 0.1, sm = 0.105, C = 0, delta = 0, 
 							delta_j = 0, delta_a = 0, delta_gamma = 0, datMat = NA,
 							tlimit = 10^2, eqThreshold = 1e-8, ...) {
@@ -2015,7 +2023,7 @@ findInvBoundZeta  <-  function(om = 2, g = 3, theta = c(0.6, 0.6, 0.05, 6), thet
 #' faster method for calculating proportions of sf x sm where
 #' different dynamical outcomes happen(?)
 #'
-titrateInvBoundaries  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
+titrateInvBoundaries  <-  function(sMax=0.15, res=0.0015, precision=1e-4, alpha = 0,
 								   om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 6, 
 								   hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 								   delta_j = 0, delta_a = 0, delta_gamma = 0,
@@ -2046,11 +2054,11 @@ titrateInvBoundaries  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
 
 # points(	titrateVals[,2] ~ 	titrateVals[,1])
 		# calculate population growth rate at these boundaries
-		T  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime,
+		T  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime, alpha = alpha,
 							hf = hf, hm = hm, sf = titrateVals[1,2], sm = titrateVals[1,1], C = C, delta = delta, 
 							delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 							tlimit = tlimit, eqThreshold = eqThreshold)
-		B  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime,
+		B  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime, alpha = alpha,
 							hf = hf, hm = hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C = C, delta = delta, 
 							delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 							tlimit = tlimit, eqThreshold = eqThreshold)
@@ -2071,7 +2079,7 @@ titrateInvBoundaries  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
 			s_prop       <-  c(midPoint(titrateVals[1,1],titrateVals[2,1]),
 							   midPoint(titrateVals[1,2],titrateVals[2,2]))
 
-			proposal  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime,
+			proposal  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime, alpha = alpha,
 							hf = hf, hm = hm, sf = s_prop[2], sm = s_prop[1], C = C, delta = delta, 
 							delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 							tlimit = tlimit, eqThreshold = eqThreshold)
@@ -2118,11 +2126,11 @@ titrateInvBoundaries  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
 
 # points(	titrateVals[,2] ~ 	titrateVals[,1])
 		# calculate population growth rate at these boundaries
-		T  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime,
+		T  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime, alpha = alpha,
 							hf = hf, hm = hm, sf = titrateVals[1,2], sm = titrateVals[1,1], C = C, delta = delta, 
 							delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 							tlimit = tlimit, eqThreshold = eqThreshold)
-		B  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime,
+		B  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime, alpha = alpha,
 							hf = hf, hm = hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C = C, delta = delta, 
 							delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 							tlimit = tlimit, eqThreshold = eqThreshold)
@@ -2143,7 +2151,7 @@ titrateInvBoundaries  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
 			s_prop       <-  c(midPoint(titrateVals[1,1],titrateVals[2,1]),
 							   midPoint(titrateVals[1,2],titrateVals[2,2]))
 
-			proposal  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime,
+			proposal  <-  findInvBoundZeta(om = om, g = g, theta = theta, theta_prime = theta_prime, alpha = alpha,
 							hf = hf, hm = hm, sf = s_prop[2], sm = s_prop[1], C = C, delta = delta, 
 							delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 							tlimit = tlimit, eqThreshold = eqThreshold)
@@ -2177,7 +2185,7 @@ titrateInvBoundaries  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
 
 	# export data as .csv to ./output/data
 	if(writeFile) {
-			filename <-  paste("./output/simData/invasionBoundaries", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
+			filename <-  paste("./output/simData/invasionBoundaries", "_sMax", sMax, "_res", res, "_alpha", alpha, "_hf", hf, "_hm", hm, 
 							"_C", C, "_delta", delta, "_dj", delta_j, "_da", delta_a, "_dg", delta_gamma, "_f", theta[4], ".csv", sep="")
 			write.csv(results.df, file=filename, row.names = FALSE)
 	} else{
@@ -2197,7 +2205,7 @@ titrateInvBoundaries  <-  function(sMax=0.15, res=0.0015, precision=1e-4,
 #' function to make data to quantify demographically viable 
 #' polymorphic parameter space for different dominance, scenarios
 #' selfing rates, and fertility values.
-makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4,
+makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4, alpha = 0,
 									 om = 2, g = 3, theta = c(0.6,0.6,0.05,NA), theta_prime = NA, 
 									 hfVals= c(1/2, 1/4), hmVals= c(1/2, 1/4), fVals = c(5.8, 5.9, 6.0, 6.5), 
 									 delta = 0, delta_j = 0, delta_a = 0, delta_gamma = 0,
@@ -2223,14 +2231,14 @@ makeDataPolyParamSpace  <-  function(sMax=0.1, res=0.01, precision = 1e-4,
 			for(k in 1:length(Cs)) {
 
 				# Find Invasion Boundaries
-				invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
+				invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision, alpha = alpha,
 												  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 												  hf = hfVals[i], hm = hmVals[i], C = Cs[k], 
 												  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 												  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
 
 				# Find Extinction Threshold
-				extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
+				extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision, alpha = alpha,
 												  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 												  hf = hfVals[i], hm = hmVals[i], C = Cs[k], 
 												  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
@@ -2527,7 +2535,7 @@ quantPolySpaceSexSpec  <-  function(data, pars) {
 #' function to make data to quantify demographically viable 
 #' polymorphic parameter space for different dominance,
 #' selfing rates, and inbreeding depression values.
-makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-4,
+makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-4, alpha = 0,
 									 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
 									 hfVals= c(1/2, 1/4), hmVals= c(1/2, 1/4), dStar = 0.8, 
 									 delta = 0, delta_j = 0, delta_a = 0, delta_gamma = 0,
@@ -2558,14 +2566,14 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 		# loop over Cs for delta
 		for(j in 1:length(Cs)){
 			# Find Invasion Boundaries
-			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
+			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision, alpha = alpha,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = deltaSeq[j], delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
 
 			# Find Extinction Threshold
-			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
+			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision, alpha = alpha,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = deltaSeq[j], delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,
@@ -2594,14 +2602,14 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 		# loop over Cs for delta_j
 		for(j in 1:length(Cs)){
 			# Find Invasion Boundaries
-			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
+			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision, alpha = alpha,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = deltaSeq[j], delta_a = delta_a, delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
 
 				# Find Extinction Threshold
-			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
+			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision, alpha = alpha,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = deltaSeq[j], delta_a = delta_a, delta_gamma = delta_gamma,
@@ -2630,14 +2638,14 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 		# loop over Cs for delta_a
 		for(j in 1:length(Cs)){
 			# Find Invasion Boundaries
-			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
+			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision, alpha = alpha,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = delta_j, delta_a = deltaSeq[j], delta_gamma = delta_gamma,
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
 
 				# Find Extinction Threshold
-			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
+			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision, alpha = alpha,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = delta_j, delta_a = deltaSeq[j], delta_gamma = delta_gamma,
@@ -2667,14 +2675,14 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 		# loop over Cs for delta_gamma
 		for(j in 1:length(Cs)){
 			# Find Invasion Boundaries
-			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision,
+			invData  <-  titrateInvBoundaries(sMax=sMax, res=res, precision=precision, alpha = alpha,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = deltaSeq[j],
 											  tlimit = tlimit, eqThreshold = eqThreshold, verbose=FALSE, writeFile=FALSE)
 
 				# Find Extinction Threshold
-			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision,
+			extData  <-  extinctThreshTitrate(sMax=sMax, res=res, precision=precision, alpha = alpha,
 											  om = om, g = g, theta = theta, theta_prime = theta_prime, 
 											  hf = hfVals[i], hm = hmVals[i], C = Cs[j], 
 											  delta = delta, delta_j = delta_j, delta_a = delta_a, delta_gamma = deltaSeq[j],
@@ -2703,7 +2711,7 @@ makeDataDeltaPolyParamSpace  <-  function(sMax=0.15, res=0.0015, precision = 1e-
 
 	# Export data as .csv to ./output/data
 	if(all(hfVals == hmVals)) {
-		filename <-  paste("./output/simData/dataDeltaPolySpaceFig", "_sMax", sMax, "_res", res, "_dStar", dStar, "_f", theta[4], ".csv", sep="")
+		filename <-  paste("./output/simData/dataDeltaPolySpaceFig", "_sMax", sMax, "_res", res, "_alpha", alpha, "_dStar", dStar, "_f", theta[4], ".csv", sep="")
 	}
 	if(!all(hfVals == hmVals)) {
 		filename <-  paste("./output/simData/dataDeltaPolySpaceFigSexSpecDom", "_sMax", sMax, "_res", res, "_dStar", dStar, "_f", theta[4], ".csv", sep="")
@@ -2934,7 +2942,7 @@ quantDeltaPolySpace  <-  function(data, pars, sexSpec = FALSE, ...) {
 #' eqThreshold:	threshold per gen. change in allele frequencies for determining demographic equilibrium
 #' Ainvade:	Should A allele start off rare
 #' intInit:	Optional initial frequency of A allele
-fwdSimMimulusDat  <-  function(datMat, theta.list, delta.list, useCompadre = TRUE,
+fwdSimMimulusDat  <-  function(datMat, theta.list, delta.list, useCompadre = TRUE, alpha = 0,
 								hf = 1/2, hm = 1/2, sf = 0.025, sm = 0.03, C = 0,
 								tlimit = 10^4, eqThreshold=1e-8, Ainvade = FALSE, intInit = FALSE, ...) {
 
@@ -3110,12 +3118,15 @@ fwdSimMimulusDat  <-  function(datMat, theta.list, delta.list, useCompadre = TRU
 	# results
 	res  <-  list(
 					"nout"         =  invadeEq$nout,
+					"n"            =  invadeEq$n,
+					"Nstar"        =  invadeEq$Nstar,
 					"p_genotypes"  =  invadeEq$p_genotypes,
 					"pEq"          =  invadeEq$p_genotypes[,ncol(invadeEq$p_genotypes)],
 					"eqReached"    =  invadeEq$eqReached,
 					"lambda_i"     =  zeta_i$lambda_i,
 					"rhoM22"       =  zeta_i$rhoM22,
 					"zeta_i"       =  zeta_i$zeta_i,
+					"alpha"        =  alpha,
 					"om"           =  om,
 					"g"            =  g,
 					"hf"           =  hf,
@@ -3169,7 +3180,7 @@ fwdSimMimulusDat  <-  function(datMat, theta.list, delta.list, useCompadre = TRU
 #' Ainvade:	Should A allele start off rare
 #' intInit:	Optional initial frequency of A allele
 findInvBoundZetaMimulus  <-  function(om, g, theta.list, delta.list, useCompadre,
-										hf, hm, sf, sm, C,
+										hf, hm, sf, sm, C, alpha = 0,
 										tlimit = 10^2, eqThreshold = 1e-8, ...) {
 
 	# calculate # life stages from data matrices
@@ -3300,7 +3311,7 @@ findInvBoundZetaMimulus  <-  function(om, g, theta.list, delta.list, useCompadre
 				(1 - C)*c(c(100-(om-1), rep(1,times=(om-1))), rep(0,times = 2*om)))
 	n0aa  <-  c(      C*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))), 
 				(1 - C)*c(rep(0,times = 2*om), c(100-(om-1), rep(1,times=(om-1)))))
-#browser()
+
 	# Simulate to demographic equilibrium for each boundary
 	AAEq  <-  fwdDyn2Eq(nzero=n0AA, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold, alpha=alpha)
 	aaEq  <-  fwdDyn2Eq(nzero=n0aa, om=om, g=g, W_prime=W_prime, blkFX_prime=blkFX_prime, blkUS=blkUS, blkUX=blkUX, W=W, Iom=Iom, Ig=Ig, K=K, Z=Z, blkFS=blkFS, blkFX=blkFX, tlimit=10^2, eqThreshold=eqThreshold, alpha=alpha)
@@ -3335,7 +3346,7 @@ findInvBoundZetaMimulus  <-  function(om, g, theta.list, delta.list, useCompadre
 #' faster method for calculating proportions of sf x sm where
 #' different dynamical outcomes happen(?)
 #'
-titrateInvBoundMimulus  <-  function(sMax = 0.15, res=0.01, precision=1e-4, 
+titrateInvBoundMimulus  <-  function(sMax = 0.15, res=0.01, precision=1e-4, alpha = 0,
 								   datMat, theta.list, delta.list, useCompadre = FALSE,
 								   hf, hm, C, 
 								   tlimit = 10^2, eqThreshold = 1e-8, verbose=TRUE, writeFile=TRUE){
@@ -3370,11 +3381,11 @@ titrateInvBoundMimulus  <-  function(sMax = 0.15, res=0.01, precision=1e-4,
 # points(	titrateVals[,2] ~ 	titrateVals[,1])
 		# calculate population growth rate at these boundaries
 		T  <-  findInvBoundZetaMimulus(om=om, g=g, theta.list=theta.list, delta.list=delta.list, useCompadre=useCompadre,
-								hf=hf, hm=hm, sf=titrateVals[1,2], sm=titrateVals[1,1], C=C,
+								hf=hf, hm=hm, sf=titrateVals[1,2], sm=titrateVals[1,1], C=C, alpha = alpha,
 								tlimit = tlimit, eqThreshold = eqThreshold)
 		
 		B  <-  findInvBoundZetaMimulus(om=om, g=g, theta.list=theta.list, delta.list=delta.list, useCompadre=useCompadre,
-								hf=hf, hm=hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C=C, datMat = TRUE,
+								hf=hf, hm=hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C=C, datMat = TRUE, alpha = alpha,
 								tlimit = tlimit, eqThreshold = eqThreshold)
 
 		# Titrate to find threshold value where zeta_AA crosses 1
@@ -3394,7 +3405,7 @@ titrateInvBoundMimulus  <-  function(sMax = 0.15, res=0.01, precision=1e-4,
 							   midPoint(titrateVals[1,2],titrateVals[2,2]))
 
 			proposal  <-  findInvBoundZetaMimulus(om=om, g=g, theta.list=theta.list, delta.list=delta.list, useCompadre=useCompadre,
-								hf=hf, hm=hm, sf = s_prop[2], sm = s_prop[1], C=C,
+								hf=hf, hm=hm, sf = s_prop[2], sm = s_prop[1], C=C, alpha = alpha,
 								tlimit = tlimit, eqThreshold = eqThreshold)
 
 			titrateDelta  <-  eucDist(s_prop, titrateVals[1,c(1:2)])
@@ -3440,10 +3451,10 @@ titrateInvBoundMimulus  <-  function(sMax = 0.15, res=0.01, precision=1e-4,
 # points(	titrateVals[,2] ~ 	titrateVals[,1])
 		# calculate population growth rate at these boundaries
 		T  <-  findInvBoundZetaMimulus(om=om, g=g, theta.list=theta.list, delta.list=delta.list, useCompadre=useCompadre,
-								hf=hf, hm=hm, sf=titrateVals[1,2], sm=titrateVals[1,1], C=C,
+								hf=hf, hm=hm, sf=titrateVals[1,2], sm=titrateVals[1,1], C=C, alpha = alpha,
 								tlimit = tlimit, eqThreshold = eqThreshold)
 		B  <-  findInvBoundZetaMimulus(om=om, g=g, theta.list=theta.list, delta.list=delta.list, useCompadre=useCompadre,
-								hf=hf, hm=hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C=C,
+								hf=hf, hm=hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C=C, alpha = alpha,
 								tlimit = tlimit, eqThreshold = eqThreshold)
 
 		# Titrate to find threshold value where zeta_AA crosses 1
@@ -3463,7 +3474,7 @@ titrateInvBoundMimulus  <-  function(sMax = 0.15, res=0.01, precision=1e-4,
 							   midPoint(titrateVals[1,2],titrateVals[2,2]))
 
 			proposal  <-  findInvBoundZetaMimulus(om=om, g=g, theta.list=theta.list, delta.list=delta.list, useCompadre=useCompadre,
-								hf=hf, hm=hm, sf = s_prop[2], sm = s_prop[1], C=C,
+								hf=hf, hm=hm, sf = s_prop[2], sm = s_prop[1], C=C, alpha = alpha,
 								tlimit = tlimit, eqThreshold = eqThreshold)
 
 			titrateDelta  <-  eucDist(s_prop, titrateVals[1,c(1:2)])
@@ -3500,7 +3511,7 @@ titrateInvBoundMimulus  <-  function(sMax = 0.15, res=0.01, precision=1e-4,
 	}
 	# export data as .csv to ./output/data
 	if(writeFile) {
-			filename <-  paste("./output/simData/invBoundMimulus", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
+			filename <-  paste("./output/simData/invBoundMimulus", "_sMax", sMax, "_res", res, "_alpha", alpha, "_hf", hf, "_hm", hm, 
 							"_C", C, "_delta", IDpres, "_useCompadre", useCompadre, "_", theta.list[[8]], ".csv", sep="")
 			write.csv(results.df, file=filename, row.names = FALSE)
 	} else{
@@ -3514,7 +3525,7 @@ titrateInvBoundMimulus  <-  function(sMax = 0.15, res=0.01, precision=1e-4,
 #'
 extinctThreshMimulus  <-  function(sMax = 0.15, res=0.01, precision=1e-4, 
 								   datMat, theta.list, delta.list, useCompadre = FALSE,
-								   hf = 1/2, hm = 1/2, C = 0, 
+								   hf = 1/2, hm = 1/2, C = 0, alpha = 0,
 								   tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
 								   writeFile=FALSE, verbose=TRUE) {
 	
@@ -3560,10 +3571,10 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 
 		# start at boundaries of [0, sMax]
 		L  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
-								hf = hf, hm = hm, sf = titrateVals[1,2], sm = titrateVals[1,1], C = C,
+								hf = hf, hm = hm, sf = titrateVals[1,2], sm = titrateVals[1,1], C = C, alpha = alpha,
 								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
 		R  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
-								hf = hf, hm = hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C = C,
+								hf = hf, hm = hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C = C, alpha = alpha,
 								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
 		
 		# check to see if extinction outcomes differ. If not, go to next sf value
@@ -3586,7 +3597,7 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 
 				titrateDelta  <-  eucDist(s_prop, titrateVals[1,c(1:2)])
 				proposal      <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
-												   hf = hf, hm = hm, sf = s_prop[2], sm = s_prop[1], C = C,
+												   hf = hf, hm = hm, sf = s_prop[2], sm = s_prop[1], C = C, alpha = alpha,
 												   tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = TRUE)
 
 				# replace appropriate boundary value
@@ -3624,10 +3635,10 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 
 		# calculate population growth rate at these boundaries
 		L  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
-								hf = hf, hm = hm, sf = titrateVals[1,2], sm = titrateVals[1,1], C = C,
+								hf = hf, hm = hm, sf = titrateVals[1,2], sm = titrateVals[1,1], C = C, alpha = alpha,
 								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
 		R  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
-								hf = hf, hm = hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C = C,
+								hf = hf, hm = hm, sf = titrateVals[2,2], sm = titrateVals[2,1], C = C, alpha = alpha,
 								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
 
 		# check to see if extinction outcomes differ. If not, go to next sf value
@@ -3649,7 +3660,7 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 								   midPoint(titrateVals[1,2],titrateVals[2,2]))
 				titrateDelta  <-  eucDist(s_prop, titrateVals[1,c(1:2)])
 				proposal      <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = TRUE,
-												   hf = hf, hm = hm, sf = s_prop[2], sm = s_prop[1], C = C,
+												   hf = hf, hm = hm, sf = s_prop[2], sm = s_prop[1], C = C, alpha = alpha,
 												   tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = TRUE)
 				# replace appropriate boundary value
 				if(proposal$lambda_sim  < 1) {
@@ -3685,7 +3696,7 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 
 	# export data as .csv to ./output/data
 	if(writeFile) {
-			filename <-  paste("./output/simData/extThresholdMimulus_SfxSm", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
+			filename <-  paste("./output/simData/extThresholdMimulus_SfxSm", "_sMax", sMax, "_res", res, "_alpha", alpha, "_hf", hf, "_hm", hm, 
 							"_C", C, "_useCompadre", useCompadre, "_ID", ID, "_", theta.list[[8]], ".csv", sep="")
 			write.csv(results.df, file=filename, row.names = FALSE)
 	} else{
@@ -3703,7 +3714,7 @@ points(	titrateVals[,2] ~ 	titrateVals[,1])
 	
 extinctThreshMimulus  <-  function(sMax = 0.99, res=0.01, precision=1e-4, 
 								   datMat, theta.list, delta.list, useCompadre = FALSE,
-								   hf = 1/2, hm = 1/2, C = 0, 
+								   hf = 1/2, hm = 1/2, C = 0, alpha = 0,
 								   tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
 								   makePlots=TRUE, writeFile=FALSE, verbose=TRUE) {
 	
@@ -3733,10 +3744,10 @@ extinctThreshMimulus  <-  function(sMax = 0.99, res=0.01, precision=1e-4,
 		# start tit. at boundaries of [0, sMax] OR at narrower window based on previous threshold
 		# start at boundaries of [0, sMax]
 		L  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
-								hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,1], C = C,
+								hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,1], C = C, alpha = alpha,
 								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
 		R  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
-								hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,2], C = C,
+								hf = hf, hm = hm, sf = sfs[i], sm = titrateVals[1,2], C = C, alpha = alpha,
 								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
 		
 		# If populations are viable at both boundaries of sf x sm space, 
@@ -3771,7 +3782,7 @@ extinctThreshMimulus  <-  function(sMax = 0.99, res=0.01, precision=1e-4,
 				points(sfs[i] ~ sm_prop, cex=0.25)
 			}
 			proposal  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
-								hf = hf, hm = hm, sf = sfs[i], sm = sm_prop, C = C,
+								hf = hf, hm = hm, sf = sfs[i], sm = sm_prop, C = C, alpha = alpha,
 								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
 
 			# replace appropriate boundary value
@@ -3826,10 +3837,10 @@ extinctThreshMimulus  <-  function(sMax = 0.99, res=0.01, precision=1e-4,
 
 		# start at boundaries of [0, sMax] OR at narrower window based on previous threshold
 		B  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
-								hf = hf, hm = hm, sf = titrateVals[1,1], sm = sms[i], C = C,
+								hf = hf, hm = hm, sf = titrateVals[1,1], sm = sms[i], C = C, alpha = alpha,
 								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
 		T  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
-								hf = hf, hm = hm, sf = titrateVals[1,2], sm = sms[i], C = C,
+								hf = hf, hm = hm, sf = titrateVals[1,2], sm = sms[i], C = C, alpha = alpha,
 								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
 		
 		# If extinction does not occur at either boundary of sf x sm space,
@@ -3866,7 +3877,7 @@ extinctThreshMimulus  <-  function(sMax = 0.99, res=0.01, precision=1e-4,
 				points(sf_prop ~ sms[i], cex=0.5)
 			}
 			proposal  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = FALSE,
-								hf = hf, hm = hm, sf = sf_prop, sm = sms[i], C = C,
+								hf = hf, hm = hm, sf = sf_prop, sm = sms[i], C = C, alpha = alpha,
 								tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = FALSE, intInit = intInit)
 			
 			# replace appropriate boundary value
@@ -3917,7 +3928,7 @@ if(makePlots) {
 
 	# export data as .csv to ./output/data
 	if(writeFile) {
-			filename <-  paste("./output/simData/extThresholdMimulus_SfxSm", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
+			filename <-  paste("./output/simData/extThresholdMimulus_SfxSm", "_sMax", sMax, "_res", res, "_alpha", alpha, "_hf", hf, "_hm", hm, 
 							"_C", C, "_useCompadre", useCompadre, "_ID", ID, "_", theta.list[[8]], ".csv", sep="")
 			write.csv(results.df, file=filename, row.names = FALSE)
 	} else{ return(results.df) }
@@ -3933,7 +3944,7 @@ if(makePlots) {
 #' Run simulations across sf x sm parameter space, save results
 #' for producing heatmap of lambda_sim.
 #'
-makeLambdaHeatMapMimulusData  <-  function(sMax=0.15, len=10,
+makeLambdaHeatMapMimulusData  <-  function(sMax=0.15, len=10, alpha = 0,
 										   datMat, theta.list, delta.list, useCompadre = FALSE,
 										   hf = 1/2, hm = 1/2, C = 0, 
 										   tlimit = 10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
@@ -3965,24 +3976,24 @@ makeLambdaHeatMapMimulusData  <-  function(sMax=0.15, len=10,
 	output  <-  foreach(i=icount(nSims), .combine=rbind, 
 						.options.snow=opts, .export = ex.vec) %dopar% {
 
-#		if(hf == hm && hf == 1/2) {
-#			qHat  <-  popGen_qHat_Add(sf = sfs[i], sm = sms[i], C = C)
-#		}
-#		if(hf == hm && hf < 1/2) {
-#			qHat  <-  popGen_qHat_DomRev(h = hf, sf = sfs[i], sm = sms[i], C = C)
-#		}
-#		if(qHat < 1/2){
-#			Ainvade  <-  TRUE
-#		}
-#		if(qHat > 1/2){
-#			Ainvade  <-  FALSE
-#		}
+		if(hf == hm && hf == 1/2) {
+			qHat  <-  popGen_qHat_Add(sf = sfs[i], sm = sms[i], C = C)
+		}
+		if(hf == hm && hf < 1/2) {
+			qHat  <-  popGen_qHat_DomRev(h = hf, sf = sfs[i], sm = sms[i], C = C)
+		}
+		if(qHat < 1/2){
+			Ainvade  <-  TRUE
+		}
+		if(qHat > 1/2){
+			Ainvade  <-  FALSE
+		}
 
 		results  <-  fwdSimMimulusDat(datMat=datMat, theta.list=theta.list, delta.list=delta.list, useCompadre = useCompadre,
-									  hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C,
+									  hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, alpha = alpha,
 									  tlimit = tlimit, eqThreshold=eqThreshold, Ainvade = Ainvade, intInit = intInit)
 
-		output_i  <-  c(sfs[i], sms[i], results$extinct, results$polymorphism, results$pEq, results$zeta_i, results$lambda_i, results$lambda_sim)
+		output_i  <-  c(sfs[i], sms[i], results$extinct, results$polymorphism, results$pEq, results$zeta_i, results$lambda_i, results$lambda_sim, results$Nstar)
 
 		# return results
 		output_i
@@ -3996,7 +4007,7 @@ makeLambdaHeatMapMimulusData  <-  function(sMax=0.15, len=10,
 							"pEq_AA", "pEq_Aa", "pEq_aa",
 							"zeta_i_AA", "zeta_i_aa",
 							"lambda_i_AA", "lambda_i_aa",
-							"lambda_sim")
+							"lambda_sim", "Nstar")
 
 	# Export Results as a data frame
 	# export data as .csv to ./output/data
@@ -4007,7 +4018,7 @@ makeLambdaHeatMapMimulusData  <-  function(sMax=0.15, len=10,
 
 	# export data as .csv to ./output/data
 	if(writeFile) {
-			filename <-  paste("./output/simData/lambdaHeatMapMimulusData", "_sMax", sMax, "_res", res, "_hf", hf, "_hm", hm, 
+			filename <-  paste("./output/simData/lambdaHeatMapMimulusData", "_sMax", sMax, "_len", len, "_alpha", alpha, "_hf", hf, "_hm", hm, 
 							"_C", C, "_useCompadre", useCompadre, "_ID", ID, "_", theta.list[[8]], ".csv", sep="")
 			write.csv(output, file=filename, row.names = FALSE)
 	} else{ return(output) }

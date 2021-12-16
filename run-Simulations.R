@@ -268,21 +268,21 @@ funs    <-  allObj[-which(allObj %in% defObj)]
 # Note: you can set nCluster to what ever value you want (provided it makes sense
 #       given how many cores your computer has available. If left as nCluster = 'NA')
 #       the default will be to use 2*(detectCores() - 1)
-makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4, alpha=0,
 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
-					 tlimit = 4*10^5, eqThreshold = 5*1e-9,
-					 nCluster = 12, funs = funs, writeFile = TRUE)
+					 tlimit = 4*10^5, eqThreshold = 1e-9,
+					 nCluster = 10, funs = funs, writeFile = TRUE)
 
-makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4, alpha=0,
 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
 					 tlimit = 4*10^5, eqThreshold = 1e-8,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
 
-makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4, alpha=0,
 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
@@ -630,7 +630,7 @@ funs    <-  allObj[-which(allObj %in% defObj)]
 
 
 #################################################
-#' Find extinction threshold for Mimulus example
+#' Find lambda for Mimulus example
 #' TAKING AVERAGE (2012 & 2013) FLOWER # EFFECT 
 #' INTO ACCOUNT WHEN CALCULATING MALE SELECTION
 #' COEFFICIENTS AND DOMINANCE FOR INV6
@@ -714,6 +714,111 @@ makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
 							 hf = 1/2, hm = 1/2, C = 0.29, 
 							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
 							 nCluster = 12, funs = funs, writeFile = TRUE)
+
+
+
+
+###########################################################
+#' SUPPLEMENTARY DENSITY DEPENDENCE FIGURE
+#' Just like Fig. 4, but with density dependence
+#' Make data to generate heatmap of lambda 
+#' for same parameter conditions as fig. 4
+rm(list=ls())
+source('R/functions-Simulations.R')
+source('R/loadData-Compadre.R')
+
+# Export list for dopar function
+allObj  <-  ls()
+defObj  <-  c("i")
+funs    <-  allObj[-which(allObj %in% defObj)]
+
+#################################################
+#' Find extinction threshold for Mimulus example
+#' TAKING AVERAGE (2012 & 2013) FLOWER # EFFECT 
+#' INTO ACCOUNT WHEN CALCULATING MALE SELECTION
+#' COEFFICIENTS AND DOMINANCE FOR INV6
+# Eagle Meadows population  (Peterson et al. 2016)
+datMat  <-  matList_Mg_EM
+theta.list  <-  list(D = 0.534, 
+					 G = 0.469,
+					 F = 0.64,
+					 O = 614,
+					 A = 6.7e-4,
+					 S = 0.179,
+					 R = 8.71,
+					 pop = "EM")
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0,
+					 delta_F = 0,
+					 delta_O = 0,
+					 delta_S = 0
+					 )
+alpha  <-  10^-3
+
+## Obligate oucrossing
+makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
+							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+							 hf = 1/2, hm = 1/2, C = 0, alpha = alpha,
+							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+							 nCluster = 10, funs = funs, writeFile = TRUE)
+
+## Empirical selfing rate estimates
+## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0.085,
+					 delta_F = 0.2,
+					 delta_O = 0,
+					 delta_S = 0.38
+					 )
+# Low-end of Empirical selfing rates
+makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
+							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+							 hf=1/2, hm = 1/2, C = 0.29,  alpha = alpha,
+							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+							 nCluster = 12, funs = funs, writeFile = TRUE)
+
+
+##########################
+# Low-elevation perenials (Peterson et al. 2016; Correction Table 1)
+theta.list  <-  list(D = 0.534, 
+					 G = 0.652,
+					 F = 4.09,
+					 O = 494,
+					 A = 6.7e-4,
+					 S = 0,
+					 R = 0,
+					 pop = "LEP")
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0,
+					 delta_F = 0,
+					 delta_O = 0,
+					 delta_S = 0
+					 ) 
+
+
+## Obligate oucrossing
+makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
+							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+							 hf=1/2, hm = 1/2, C = 0,  alpha = alpha,
+							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+							 nCluster = 10, funs = funs, writeFile = TRUE)
+
+## Empirical selfing rate estimates
+## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
+delta.list  <-  list(delta_D = 0,
+					 delta_G = 0.085,
+					 delta_F = 0.2,
+					 delta_O = 0,
+					 delta_S = 0.38
+					 )
+	# Empirical selfing rates
+makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
+							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
+							 hf = 1/2, hm = 1/2, C = 0.29,  alpha = alpha,
+							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
+							 nCluster = 12, funs = funs, writeFile = TRUE)
+
+
 
 
 
