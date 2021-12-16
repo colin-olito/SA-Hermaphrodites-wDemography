@@ -501,7 +501,7 @@ lambdaPolySpaceFig  <-  function() {
  
     # Import data sets
     invA        <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
-    heatA_f5.8  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
+    heatA_f5.8  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_alpha0_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
     heatA_f6.0  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
     heatA_f6.2  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f6.2.csv", head=TRUE)
 
@@ -1619,7 +1619,7 @@ MimulusInv6LambdaFig  <-  function() {
     # Color ScaleBar
         image.scale(LEP_C0, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n", xpd=TRUE)
         axis(4, at=c(0.98,1.00,1.02,1.04,1.06,1.08,1.10), labels=c("0.98","1.00","1.02","1.04","1.06","1.08","> 1.10"), las=2, cex.axis=1.1)
-        proportionalLabel(5, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=270)
+        proportionalLabel(5, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=270)
 
 
 
@@ -1667,7 +1667,7 @@ MimulusInv6LambdaFig  <-  function() {
     # Color ScaleBar
         image.scale(LEP_C0, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n", xpd=TRUE)
         axis(4, at=c(0.98,1.00,1.02,1.04,1.06,1.08,1.10), labels=c("0.98","1.00","1.02","1.04","1.06","1.08","> 1.10"), las=2, cex.axis=1.1)
-        proportionalLabel(5, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=270)
+        proportionalLabel(5, 0.5, expression(paste("Population intrinsic growth rate (", italic(lambda), ")")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=270)
 
 
 }
@@ -1706,10 +1706,11 @@ MimulusInv6NstarFig  <-  function() {
     heat_4$lNstar  <-  log(heat_4$Nstar)
 
     # heatmap colors modified from wes_anderson palette "Zissou1"
-    Z1 = rev(c("dodgerblue4","dodgerblue4","#3B9AB2","#3B9AB2", "#EBCC2A", "#EBCC2A", "#E1AF00", "#E1AF00", "#F21A00", "#F21A00", "#F21A00"))
-    blu     <-  colorRampPalette(Z1[length(Z1)])(0)
-    notBlu  <-  colorRampPalette(Z1, interpolate = c("linear"))(60)
-    HEAT    <-  c(notBlu, blu)
+    Z1 = rev(c("dodgerblue4","#3B9AB2", "#EBCC2A", "#E1AF00", "#F21A00"))
+#    blu     <-  colorRampPalette(Z1[length(Z1)])(0)
+#    notBlu  <-  colorRampPalette(Z1, interpolate = c("linear"))(60)
+#    HEAT    <-  c(notBlu, blu)
+    HEAT  <-  colorRampPalette(Z1, interpolate = c("linear"))(60)
 
     # resolution for heatmaps
     resolution = (heat_1$sf[2] - heat_1$sf[1])
@@ -1791,7 +1792,7 @@ MimulusInv6NstarFig  <-  function() {
     # Color ScaleBar
         image.scale(LEP_C0, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n", xpd=TRUE)
         axis(4, at=c(-10, -5, 0, 5), labels=c("< -10","-5","0","5"), las=2, cex.axis=1.1)
-        proportionalLabel(5, 0.5, expression(paste("Log Equilibrium Density (ln[", italic(N)^{"*"}, "])")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=270)
+        proportionalLabel(5, 0.5, expression(paste("Log Equilibrium Density (ln[", italic(N)^{"*"}, "])")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=270)
 
 
 
@@ -1832,7 +1833,7 @@ MimulusInv6NstarFig  <-  function() {
         lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv4)
     # Plot inv6
         points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
-        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='black')
+        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
     # Labels/Annotations
         proportionalLabel(0.03, 1.04, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
@@ -1840,7 +1841,7 @@ MimulusInv6NstarFig  <-  function() {
         image.scale(LEP_C0, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n", xpd=TRUE)
 #        axis(4, las=2, cex.axis=1.1)
         axis(4, at=c(-10, -5, 0, 5), labels=c("< -10","-5","0","5"), las=2, cex.axis=1.1)
-        proportionalLabel(5, 0.5, expression(paste("Log Equilibrium Density (ln[", italic(N)^{"*"}, "])")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=270)
+        proportionalLabel(5, 0.5, expression(paste("Log Equilibrium Density (ln[", italic(N)^{"*"}, "])")), cex=1.25, adj=c(0.5, 0.5), xpd=NA, srt=270)
 
 
 }

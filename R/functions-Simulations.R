@@ -352,8 +352,10 @@ fwdDyn2Eq  <-  function(nzero, alpha, om, g, W_prime, blkFX_prime, blkUS, blkUX,
         nnext  <-  exp(-alpha*sum(n))*Atilde %*% n
 
         # Regulate population size to avoid crashing simulation
-		if (sum(nnext) > 1e+100) {
-			nnext  <-  nnext * 1e-20
+		if(sum(nnext) > 1e+100 | sum(nnext) < 1e-300) {
+			if(sum(nnext) > 1e+100){
+				nnext  <-  nnext * 1e-20
+					} else {nnext  <-  nnext * 1e+20}
 			n      <-  nnext
 			pnext  <-  n/norm(as.matrix(n), type="1")
 			pcheck <-  p
@@ -1368,7 +1370,7 @@ makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4, alpha =
 									om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 									hf = 1/2, hm = 1/2, C = 0, delta = 0, 
 									delta_j = 0, delta_a = 0, delta_gamma = 0,
-									tlimit = 10^5, eqThreshold = 1e-8, Ainvade = FALSE,
+									tlimit = 10^5, eqThreshold = 1e-8, Ainvade = TRUE,
 									nCluster = 4, funs, writeFile = TRUE) {
 
 	# Set number of cluster
@@ -1409,7 +1411,7 @@ makeLambdaHeatMapData  <-  function(sMax=0.15, len=10, precision = 1e-4, alpha =
 		if(qHat > 1/2){
 			Ainvade  <-  FALSE
 		}
-
+Ainvade  <-  FALSE
 		results  <-  fwdDemModelSim(om = om, g = g, theta = theta, theta_prime = theta_prime,  alpha = alpha,
 									hf = hf, hm = hm, sf = sfs[i], sm = sms[i], C = C, delta = delta, 
 									delta_j = delta_j, delta_a = delta_a, delta_gamma = delta_gamma,

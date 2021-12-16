@@ -268,21 +268,21 @@ funs    <-  allObj[-which(allObj %in% defObj)]
 # Note: you can set nCluster to what ever value you want (provided it makes sense
 #       given how many cores your computer has available. If left as nCluster = 'NA')
 #       the default will be to use 2*(detectCores() - 1)
-makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4, alpha=0,
 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,5.8), theta_prime = 5.8, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
-					 tlimit = 4*10^5, eqThreshold = 5*1e-9,
-					 nCluster = 12, funs = funs, writeFile = TRUE)
+					 tlimit = 4*10^5, eqThreshold = 1e-9,
+					 nCluster = 10, funs = funs, writeFile = TRUE)
 
-makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4, alpha=0,
 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6), theta_prime = 6, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
 					 tlimit = 4*10^5, eqThreshold = 1e-8,
 					 nCluster = 12, funs=funs, writeFile = TRUE)
 
-makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4,
+makeLambdaHeatMapData(sMax=0.15, len=100, precision = 1e-4, alpha=0,
 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,6.2), theta_prime = 6.2, 
 					 hf = pars$hf, hm = pars$hm, C = pars$C, delta = pars$delta, 
 					 delta_j = pars$dj, delta_a = pars$da, delta_gamma = pars$dg,
@@ -753,7 +753,7 @@ delta.list  <-  list(delta_D = 0,
 					 delta_O = 0,
 					 delta_S = 0
 					 )
-alpha  <-  10^-4
+alpha  <-  10^-3
 
 ## Obligate oucrossing
 makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
