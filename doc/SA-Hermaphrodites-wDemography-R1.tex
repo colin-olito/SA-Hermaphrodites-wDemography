@@ -334,7 +334,7 @@ The population state at time $t$ is described by a population state vector, $\ti
 	\tilde{\mbf{n}}(t + 1) = \tilde{\mbf{A}}[\tilde{\mbf{n}}(t)] \, \tilde{\mbf{n}}(t)
 \end{equation}
 \end{linenomath*}
-\textcolor{blue}{If the survival or fertility rates are a function of the population density, $\tilde{\mbf{n}}(t)$, then the model will be a density dependent model and the population projection matrix is a function of the full population vector, $\tilde{\mbf{A}}[\tilde{\mbf{n}}(t)]$. In the online supplementary materials we show results for a density-dependent version of the model. In the main text of this paper, we will consider models with density-independent survival and fertility rates. The population projection matrix is then only a function of the proportional population vector, $\tilde{\mbf{A}}[\tilde{\mbf{p}}(t)]$, and the model is referred to as a frequency-dependent model.}
+\textcolor{blue}{If the survival or fertility rates are a function of the population density, $\tilde{\mbf{n}}(t)$, then the model will be a density dependent model and the population projection matrix is a function of the full population vector, $\tilde{\mbf{A}}[\tilde{\mbf{n}}(t)]$. In appendix B we construct and analyze a density-dependent version of the model. In the main text of this paper, we will consider models with density-independent survival and fertility rates. The population projection matrix is then only a function of the proportional population vector, $\tilde{\mbf{A}}[\tilde{\mbf{p}}(t)]$, and the model is referred to as a frequency-dependent model.}
 
 
 The population projection matrix $\tilde{\mbf{A}}$ is constructed from four sets of matrices representing the demographic and genetic processes: The matrices $\mbf{U}^{S}_{i}$ and $\mbf{U}^{X}_{i}$ contain transition and survival probabilities for each genotype, produced by selfing and outcrossing respectively. The matrices $\mbf{F}_{i}$ and $\mbf{F}^{\prime}_{i}$ contain the genotype $\times$ stage specific contribution of genotype $i$ to the female and male gamete pools, respectively, and therefore to zygotes in the next generation. We assume that whether individuals were produced through selfing or outcrossing does not affect their fecundity or mating success, that is, we assume  $\mbf{F}^X_{i}=\mbf{F}^S_{i}=\mbf{F}_{i}$ and $\mbf{F}^{\prime X}_{i}=\mbf{F}^{\prime S}_{i}=\mbf{F}^{\prime}_{i}$, respectively. Deviations from this assumption are straightforward to incorporate but beyond the scope of this paper. 
@@ -730,16 +730,37 @@ Despite the demographic pitfalls associated with SA alleles, our example using {
 
 Overall, our findings provide a more nuanced picture of the nature of SA genetic variation that we should expect to find in natural populations, where the fate of SA alleles and the populations harboring them is determined jointly by evolutionary and demographic processes.
 
+\textcolor{blue}{Of course in natural populations processes like resource competition or competition for breeding sites will often prevent populations from exponentially growing (or shrinking). That is,  natural populations experience population regulation, or density-dependence. In appendix B we extend the model presented in the main paper by including density-dependence that acts on the survival of all life history stages equally. We reanalyse the results for \textit{Mimulus guttatus} using this density-dependent version of the model in Figure \ref{fig:mimulusFig_dd}, whereby the heatmap in Figure \ref{fig:mimulusFig_dd} now shows equilibrium population densities rather than population growth rates that are shown in Figure \ref{fig:mimulusFig}. The shape of the coexistence region is unchanged by the density-dependence, and the shape of the population density heatmap in Figure \ref{fig:mimulusFig_dd} is qualitatively the same as the shape of the population growth rate heatmap in Figure \ref{fig:mimulusFig} because density-dependence that acts age-independently does not change the selection gradients, see also discussions in cite\textbf{mylius1995evolutionarily, caswell20174}. }
+
+\textcolor{blue}{In many natural populations density-dependence does not have the exact same effect on survival of individuals of all ages or developmental stages. For example, competition for breeding sites will lead to a reduction in fecundity rather than survival. In addition, experienced females might be better at securing a breeding site than newcomers. Similarly, very young or very old individuals might be worse competitors for resources than adults, so resource competition might affect juvenile and old-age survival more severely. This type of age or stage specific density-dependence will change the selection gradients, and therefore the shape of the coexistence boundaries and the extinction boundaries in Figure \ref{fig:mimulusFig}, and warrants further research.}
+
+% @article{mylius1995evolutionarily,
+%   title={On evolutionarily stable life histories, optimization and the need to be specific about density dependence},
+%   author={Mylius, Sido D and Diekmann, Odo},
+%   journal={Oikos},
+%   pages={218--224},
+%   year={1995},
+%   publisher={JSTOR}
+% }
+
+% @article{caswell20174,
+%   title={4 Senescence, Selection Gradients and Mortality},
+%   author={Caswell, Hal and Shyu, Esther},
+%   journal={The Evolution of Senescence in the Tree of Life},
+%   pages={56},
+%   year={2017},
+%   publisher={Cambridge University Press}
+% }
 
 \subsubsection*{Extensions and future directions}
 
-By combining the tools of demography and population genetics, the framework we present here enables the exploration of interactions between life cycle complexity, mating system, and sexual antagonism. For the sake of simplicity, we made a variety of simplifying assumptions in our analyses, and \textcolor{blue}{many extensions of the model are} possible. For example, we used a simple life cycle with just two stages for most of this paper, adults and juveniles (the \textit{Mimulus} example has $3$ stages). However, it is possible to include additional age classes, allowing us to explore whether the scope for SA selection to maintain polymorphisms is affected by whether a species exhibits positive or negative senescence \citep{jones2014diversity}. Put another way, does the shape of the survival curve affect the demographic and population genetic consequences of SA selection, and how does this interact with the age at which a sexually antagonistic allele is expressed? What if the allele not only affects male and female fertility but also affects survival of individuals? Additionally, how would the scope for SA polymorphism be affected by density-dependence acting on different life history stages?
+By combining the tools of demography and population genetics, the framework we present here enables the exploration of interactions between life cycle complexity, mating system, and sexual antagonism. For the sake of simplicity, we made a variety of simplifying assumptions in our analyses, and \textcolor{blue}{many extensions of the model are} possible. For example, we used a simple life cycle with just two stages for most of this paper, adults and juveniles (the \textit{Mimulus} example has $3$ stages). However, it is possible to include additional age classes, allowing us to explore whether the scope for SA selection to maintain polymorphisms is affected by whether a species exhibits positive or negative senescence \citep{jones2014diversity}. Put another way, does the shape of the survival curve affect the demographic and population genetic consequences of SA selection, and how does this interact with the age at which a sexually antagonistic allele is expressed? What if the allele not only affects male and female fertility but also affects survival of individuals? 
 
 Like most demographic matrix models, ours also assumes female demographic dominance, where population growth rates are determined entirely by female fecundity \citep{pollard1975mathematical,Caswell2001,iannelli2005gender}. Yet, many hermaphroditic populations experience limitation of reproductive success due to both quantity and quality of male gametes \citep[e.g.,][]{Yund2000,AizenHarder2007, Harder2016}. Explicitly modeling male gamete production is a natural extension to our modeling framework, and would enable us to analyze how tension between the demographic consequences of SA fitness variation through both female and male function alters or abolishes asymmetries in the extinction thresholds and polymorphic parameter space \citep[e.g.,][]{Tazzyman2015}.  Interestingly, different forms of self-fertilization can aid in reproductive assurance, and should therefore have demographic consequences -- for example, under pollen limitation and delayed selfing (where only ovules that fail to receive outcross pollen are selfed), the selfing rate will be a function of genotype frequencies because these will directly influence pollen production \citep{HarderBarrett2006}.
 
 Another major simplifying assumption in our model was that how individuals themselves were produced (i.e., by selfing or outcrossing) affects the level of inbreeding depression they suffer. In reality, the history of consecutive generations of inbreeding in each individual's lineage will influence the severity of inbreeding depression they experience, particularly when inbreeding depression is caused primarily by recessive deleterious mutations. It would be an interesting and feasible extension of our modeling framework to expand the individual state space to include selfing cohorts (i.e., first generation selfing, second generation selfing, etc.), as in the models of \citet{kelly1999response,kelly2007mutation}, thereby enabling a more biologically plausible approach to modelling self-fertilization.
 
-\cite{grieshop2017male} found that genotypes with sexually antagonstic alleles that are male beneficial experience higher levels of inbreeding depression than genotypes with female beneficial SA alleles. This effect can easily be included in our model by making the inbreeding depression parameters, $\delta$ and $\delta_i$, a function of the genotype of the individual. Such an effect would further reduce the demographically viable polymorphic parameter space, and increase the bias in viable SA polymorphisms towards alleles with weaker selection in females.
+\cite{grieshop2017male} found that genotypes with sexually antagonistic alleles that are male beneficial experience higher levels of inbreeding depression than genotypes with female beneficial SA alleles. This effect can easily be included in our model by making the inbreeding depression parameters, $\delta$ and $\delta_i$, a function of the genotype of the individual. Such an effect would further reduce the demographically viable polymorphic parameter space, and increase the bias in viable SA polymorphisms towards alleles with weaker selection in females.
 
 
 \subsubsection*{Conclusion} 
@@ -857,8 +878,47 @@ A full derivation of the model, including all component matrices, is provided in
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Appendix B
 %%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Appendix B: Eigenvalues for invasion analysis}
+\section*{Appendix B: Example with density-dependence}
 \renewcommand{\theequation}{B\arabic{equation}}
+\renewcommand{\thetable}{B\arabic{table}}
+\setcounter{equation}{0}  % reset counter 
+\setcounter{table}{0}  % reset counter 
+
+\textcolor{blue}{Here we extend the model in the main text by introducing population regulation into the model. We chose the simplest population regulation possible in a structured population model: population regulation affecting all life history stages in the same way. Note that this is the only type of population regulation that is possible in unstructured population models, like the classical Lotka-Volterra model, or the Rosenzweig-MacArthur model. We model survival of all life-history stages as decreasing exponentially with increasing population density, such that the population projection becomes
+\begin{linenomath*}
+\begin{equation}
+	\tilde{\mbf{n}}(t + 1) = \exp\left(-\alpha \sum_i n_i \right) \tilde{\mbf{A}}[\tilde{\mbf{n}}(t)] \, \tilde{\mbf{n}}(t),
+\end{equation}
+\end{linenomath*}
+where $\sum_i n_i$ simply sums over all entries of the vector, so it sums over all genotypes and all life-history stages. Equivalently, in matrix algebra notation,
+\begin{linenomath*}
+\begin{equation}
+	\tilde{\mbf{n}}(t + 1) = \exp\left(-\alpha \| \tilde{\mbf{n}}(t) \|\right) \tilde{\mbf{A}}[\tilde{\mbf{n}}(t)] \, \tilde{\mbf{n}}(t),
+\end{equation}
+\end{linenomath*}
+where $\| \tilde{\mbf{n}}(t) \|$ is the one-norm which is identical to the sum of the entries of $\tilde{\mbf{n}}(t)$ because the population vector only has nonnegative entries. }
+
+
+\textcolor{blue}{We reanalyzed the {\itshape Mimulus guttatus} example from the main text using this density-dependent version of the model. Figure \ref{fig:mimulusFig_dd} has the same structure as Figure \ref{fig:mimulusFig}  except that now the heatmap indicates the equilibrium population size, $\sum_i n_i $, rather than the population growth rate. }
+
+\textcolor{blue}{Note that with this simplest kind of density-dependence, very little changes about the results. By introducing a density-dependent factor that acts on survival of all life-history stages in the same way, we did not change any of the selection gradients. That is, because the density-dependent factor essentially scales the entire population projection matrix, it does not change the stable stage distribution vector, or the normalized reproductive value vector. As a consequence, adding this density-dependence did not change the relative importance of any of the life history stages, or any of the demographic rates in the population projection matrix. }
+
+\textcolor{blue}{Of course, more realistic and more interesting density-dependent scenarios that will change the results in Figure \ref{fig:mimulusFig_dd} significantly are possible. For example, density-dependence could instead mostly impact recruitment of juveniles into the population, or density-dependence could affect only survival of older individuals. In this case we would expect significant qualitative as well as quantitative changes to the resuls in Figures \ref{fig:mimulusFig} and \ref{fig:mimulusFig_dd}. }
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.8]{../output/figs/MimulusInv6NstarFig.pdf}
+ \caption{\footnotesize{Illustration of density-dependent model predictions, using empirically estimated demographic rates for {\itshape M.~guttatus} as in the main text. Results are shown for two hypothetical populations using demographic rates for locally adapted (Eagle Meadows; panel A), and non-local (Low-Elevation Perennial; panel B) populations reported by \citet{PetersonEtAl2016}. Invasion conditions and equilibrium population densities were calculated using the conservative assumption of additive fitness effects in both sexes ($h_f = h_m = 0.5$) for two parameter conditions: obligate outcrossing (solid black lines, dark red shaded region)  and partial selfing with inbreeding depression using the highest field-estimate of selfing, and inbreeding depression parameters ($\delta_i$) calculated for the Iron Mountain population of \citet{Willis1993} (dashed lines, light red shaded region). The location of inv6 is also shown on both plots, using selection coefficients calculated from field estimates of male and female fitness components from \citet{LeeKelly2015} under the relatively conservative assumption of additive fitness effects in both sexes, where $(s_f,\,s_m) = (0.30,\, 0.31)$. Note that in panel A the invasion conditions for partial selfing with inbreeding depression (dotted lines) are nearly indistinguishable from those for obligate outcrossing (solid lines).}} 
+ \label{fig:mimulusFig_dd}
+ \end{figure}
+
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix C
+%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix C: Eigenvalues for invasion analysis}
+\renewcommand{\theequation}{C\arabic{equation}}
 \setcounter{equation}{0}  % reset counter 
 \setcounter{table}{0}  % reset counter 
 
@@ -932,11 +992,11 @@ Under obligate outcrossing (when $C=0$), the leading eigenvalue evaluated at the
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
-% Appendix C
+% Appendix D
 %%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Appendix C: Demographic and empirical data for {\itshape M.~guttatus} case study}
-\renewcommand{\theequation}{C\arabic{equation}}
-\renewcommand{\thetable}{C\arabic{table}}
+\section*{Appendix D: Demographic and empirical data for {\itshape M.~guttatus} case study}
+\renewcommand{\theequation}{D\arabic{equation}}
+\renewcommand{\thetable}{D\arabic{table}}
 \setcounter{equation}{0}  % reset counter 
 \setcounter{table}{0}  % reset counter 
 
