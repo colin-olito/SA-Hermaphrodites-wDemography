@@ -502,8 +502,8 @@ lambdaPolySpaceFig  <-  function() {
     # Import data sets
     invA        <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
     heatA_f5.8  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_alpha0_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
-    heatA_f6.0  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
-    heatA_f6.2  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f6.2.csv", head=TRUE)
+    heatA_f6.0  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_alpha0_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f6.csv", head=TRUE)
+    heatA_f6.2  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_alpha0_hf0.5_hm0.5_C0_delta0_dj0_da0_dg0_f6.2.csv", head=TRUE)
 
     invB        <-  read.csv("./output/simData/invasionBoundaries_sMax0.15_res0.0015_hf0.5_hm0.5_C0.25_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)
     heatB_f5.8  <-  read.csv("./output/simData/lambdaHeatMapData_sMax0.15_len100_hf0.5_hm0.5_C0.25_delta0_dj0_da0_dg0_f5.8.csv", head=TRUE)

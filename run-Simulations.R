@@ -753,7 +753,7 @@ delta.list  <-  list(delta_D = 0,
 					 delta_O = 0,
 					 delta_S = 0
 					 )
-alpha  <-  10^-3
+alpha  <-  1e-4
 
 ## Obligate oucrossing
 makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,

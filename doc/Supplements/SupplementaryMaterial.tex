@@ -997,10 +997,29 @@ Because these coexistence conditions contain the stable stage specific frequenci
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Supplementary Figures}
+\renewcommand{\thefigure}{S\arabic{equation}}
+\setcounter{figure}{1}  % reset counter 
+\setcounter{equation}{1}  % reset counter 
+\setcounter{table}{1}  % reset counter 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+% Lambda Heatmap Version of Fig. 2
+ \begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.45]{lambdaFig1_2}
+ \caption{\footnotesize{Illustration of parameter space for SA polymorphism and population intrinsic growth rates ($\lambda$) predicted by the model for the same combination of parameter values presented in fig.~2 in the main text. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, population growth rates are less than one, and will ultimately go extinct (yellow-red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two dominance scenarios (additivity, where $h = 1/2$, and dominance reversal, where $h = 1/4$); extinction thresholds are illustrated for three different values of female fecundity ($f$ values annotated on each panel).}}
+ \label{fig:LambdaOverviewFig}
+ \end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage{}
 \section{Sex-specific dominance}
 \renewcommand{\thefigure}{S\arabic{equation}}
-\setcounter{figure}{1}  % reset counter 
 \setcounter{equation}{1}  % reset counter 
 \setcounter{table}{1}  % reset counter 
 
@@ -1010,30 +1029,30 @@ A variety of biologically interesting dominance scenarios are possible under sex
 
 %%%%%%%%%%%%%%%%%%%%%
 % Figure S1
-%  \begin{figure}[htbp]
-%  \centering
-%  \includegraphics[width=\linewidth]{extinctionThresholdsSexSpecDomFig}
-%  \caption{\footnotesize{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). "Demographically viable polymorphic parameter space" corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two cases of complementary dominance ($h_f = 1/4$, $h_m = 3/4$, top row), and ($h_f = 3/4$, $h_m = 1/4$, bottom row), and extinction thresholds are illustrated for the same three values of female fecundity illustrated in fig.~1 of the main text ($f$ values annotated on each panel).}}
-%  \label{fig:extThresholdsCompSexSpec}
-%  \end{figure}
+ \begin{figure}[htbp]
+ \centering
+ \includegraphics[width=\linewidth]{extinctionThresholdsSexSpecDomFig}
+ \caption{\footnotesize{Illustration of parameter space for SA polymorphism and extinction thresholds predicted by the model. Balanced SA polymorphisms can be maintained in the funnel-shaped region between the invasion conditions for each SA allele (dark solid lines). However, for some parameter conditions, populations will ultimately go extinct (red shaded regions) due to reduced female fitness resulting from the male-beneficial/female-deleterious allele that is either segregating as a balanced polymorphism (inside the funnel), or becomes fixed (area below the funnel). "Demographically viable polymorphic parameter space" corresponds to the area inside the funnel that is also to the left of the extinction threshold for a given fertility value. Results are shown for three different population selfing rates ($C = \{0,\,1/4,\,1/2\}$), and two cases of complementary dominance ($h_f = 1/4$, $h_m = 3/4$, top row), and ($h_f = 3/4$, $h_m = 1/4$, bottom row), and extinction thresholds are illustrated for the same three values of female fecundity illustrated in fig.~1 of the main text ($f$ values annotated on each panel).}}
+ \label{fig:extThresholdsCompSexSpec}
+ \end{figure}
 
-% %%%%%%%%%%%%%%%%%%%%%
-% % Figure S2
-%  \begin{figure}[htbp]
-%  \centering
-%  \includegraphics[scale=0.75]{polymorphicSpaceTitrateSexSpec}
-%  \caption{\footnotesize{Proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$) in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$), plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under two cases of complementary dominance for  SA fitness effects ($h_f = 1/4$, $h_m = 3/4$, panel A; and $h_f = 3/4$, $h_m = 1/4$, panel B). Each point was calculated by numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see Analyses section in the main text), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
-%  \label{fig:polySpaceCompSexSPec}
-%  \end{figure}
+%%%%%%%%%%%%%%%%%%%%%
+% Figure S2
+ \begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.75]{polymorphicSpaceTitrateSexSpec}
+ \caption{\footnotesize{Proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$) in the absence of inbreeding depression (i.e., assuming $\delta = \delta_i = 0$, where $i \in \{j,a,\gamma\}$), plotted as a function of the population selfing rate. Results are shown for three fertility values corresponding to low, medium, and high fertility (blue, green, and red points respectively) under two cases of complementary dominance for  SA fitness effects ($h_f = 1/4$, $h_m = 3/4$, panel A; and $h_f = 3/4$, $h_m = 1/4$, panel B). Each point was calculated by numerical integration of the corresponding SA invasion conditions and extinction threshold predicted by the mendelian matrix model (see Analyses section in the main text), while solid lines were produced by numerically integrating the analytic expressions for the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
+ \label{fig:polySpaceCompSexSPec}
+ \end{figure}
 
-% %%%%%%%%%%%%%%%%%%%%%
-% % Figure 3
-%  \begin{figure}[htbp]
-%  \centering
-%  \includegraphics[scale=0.75]{deltaPolymorphicSpaceTitrateCompSexSpec}
-%  \caption{\footnotesize{Effects of early- and late-acting inbreeding depression on the proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$), plotted as a function of the population selfing rate. In all plots, the strength of inbreeding depression decreases as the selfing rate goes up following a simple model of purging recessive deleterious mutations. Only single inbreeding depression terms ($\delta$ and $\delta_i$, where $i \in \{j,a,\gamma\}$, indicated in the legend) are allowed to vary at one time (all others are set to $0$). Results are shown for the same three fertility values as used in the main text ($f = \{6.5,\,7.5,\,8.5\}$) under two cases of complementary dominance for  SA fitness effects ($h_f = 1/4$, $h_m = 3/4$, panel A; and $h_f = 3/4$, $h_m = 1/4$, panel B). Each point was calculated by numerically integrating the corresponding SA invasion conditions and extinction threshold predicted by the model (see Analyses section in the main text), while solid lines were produced by numerically integrating the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
-%  \label{fig:deltaPolySpaceCompSexSpec}
-%  \end{figure}
+%%%%%%%%%%%%%%%%%%%%%
+% Figure 3
+ \begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.75]{deltaPolymorphicSpaceTitrateCompSexSpec}
+ \caption{\footnotesize{Effects of early- and late-acting inbreeding depression on the proportion of demographically viable parameter space (out of total $s_f \times s_m$ space with $\max(s) = 0.15$), plotted as a function of the population selfing rate. In all plots, the strength of inbreeding depression decreases as the selfing rate goes up following a simple model of purging recessive deleterious mutations. Only single inbreeding depression terms ($\delta$ and $\delta_i$, where $i \in \{j,a,\gamma\}$, indicated in the legend) are allowed to vary at one time (all others are set to $0$). Results are shown for the same three fertility values as used in the main text ($f = \{6.5,\,7.5,\,8.5\}$) under two cases of complementary dominance for  SA fitness effects ($h_f = 1/4$, $h_m = 3/4$, panel A; and $h_f = 3/4$, $h_m = 1/4$, panel B). Each point was calculated by numerically integrating the corresponding SA invasion conditions and extinction threshold predicted by the model (see Analyses section in the main text), while solid lines were produced by numerically integrating the single-locus invasion conditions from the population genetic models of \citet{JordanConnallon2014} and \citet{Olito2017} (solid black lines).}} 
+  \label{fig:deltaPolySpaceCompSexSpec}
+  \end{figure}
 
 
 

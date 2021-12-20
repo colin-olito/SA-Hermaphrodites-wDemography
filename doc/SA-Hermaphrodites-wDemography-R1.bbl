@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{108}
+\begin{thebibliography}{112}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -56,6 +56,11 @@ Caswell, H. 2001.
 \newblock Matrix Models: construction, analysis, and interpretation, chap.
   4.5.2.1, pages 84--87.
 \newblock Sinauer Assoc., Sunderland, MA, USA.
+
+\bibitem[{Caswell and Shyu(2017)}]{caswell2017}
+Caswell, H., and E.~Shyu. 2017.
+\newblock Senescence, selection gradients and mortality.
+\newblock The Evolution of Senescence in the Tree of Life page~56.
 
 \bibitem[{Charlesworth(1994)}]{Charlesworth_1994}
 Charlesworth, B. 1994.
@@ -127,6 +132,12 @@ Connallon, T., and A.~G. Clark. 2012.
 \newblock A general population genetic framework for antagonistic selection
   that accounts for demography and recurrent mutation.
 \newblock Genetics 190:1477--1489.
+
+\bibitem[{Connallon et~al.(2018)Connallon, D{\' e}barre, and
+  Li}]{ConnallonDebarreLi2018}
+Connallon, T., F.~D{\' e}barre, and X.-Y. Li. 2018.
+\newblock Linking local adaptation with the evolution of sex differences.
+\newblock Phil.~Trans.~Roy.~Soc.~ B 373:20170414.
 
 \bibitem[{Connallon and Hall(2018)}]{ConnallonHall2018}
 Connallon, T., and M.~D. Hall. 2018.
@@ -408,6 +419,13 @@ Lloyd, D.~G., and C.~J. Webb. 1986.
   stigmas in angiosperms i. dichogamy.
 \newblock NZ J.~Botany 24:135--162.
 
+\bibitem[{Lyberger et~al.(2021)Lyberger, Osmond, and
+  Schrieber}]{Lyberger-etal-2021}
+Lyberger, K., M.~Osmond, and S.~Schrieber. 2021.
+\newblock Is evolution in response to extreme events good for population
+  persistence?
+\newblock American Naturalist 198:44--52.
+
 \bibitem[{Manna et~al.(2011)Manna, Martin, and Lenormand}]{Manna2011}
 Manna, F., G.~Martin, and T.~Lenormand. 2011.
 \newblock Fitness landscapes: an alternative theory for the dominance of
@@ -438,6 +456,12 @@ M{\'e}rot, C., V.~Llaurens, E.~Normandeau, L.~Bernatchez, and M.~Wellenreuther.
 \newblock Balancing selection via life-history trade-offs maintains an
   inversion polymorphism in a seaweed fly.
 \newblock Nature communications 11:1--11.
+
+\bibitem[{Mylius and Diekmann(1995)}]{mylius1995evolutionarily}
+Mylius, S.~D., and O.~Diekmann. 1995.
+\newblock On evolutionarily stable life histories, optimization and the need to
+  be specific about density dependence.
+\newblock Oikos 74:218--224.
 
 \bibitem[{Olito(2017)}]{Olito2017}
 Olito, C. 2017.
@@ -617,7 +641,7 @@ Tazzyman, S.~J., and J.~K. Abbott. 2015.
 Wang, H., S.~C.~H. Barrett, X.~Li, Y.~Niu, Y.~Duan, Z.~Zhang, and Q.~Li. 2020.
 \newblock Sexual conflict in protandrous flowers and the evolution of
   gynodioecy.
-\newblock Evolution TBD:XXX--XXX.
+\newblock Evolution 75:278--293.
 
 \bibitem[{Webb and Lloyd(1986)}]{WebbLloyd1986}
 Webb, C.~J., and D.~G. Lloyd. 1986.
