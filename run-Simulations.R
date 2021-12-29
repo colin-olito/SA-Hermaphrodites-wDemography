@@ -504,7 +504,33 @@ makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,8.5), theta_prime = 8.5, 
 							hVals= c(1/2, 1/4), dStar = 0.8, 
 							tlimit = 10^5, eqThreshold = 1e-8)
-
+ 
+# Cs[11]
+# deltaSeq  <-  predDelta(dStar=dStar, b=1/2, a=0.2, C=Cs)
+ #
+# j=11
+# invData_f8.5  <-  titrateInvBoundaries(sMax=0.15, res=0.003, precision = 1e-4, alpha = 0,
+# 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,8.5), theta_prime = 8.5, 
+# 					 hf = 1/2, hm = 1/2, C = Cs[j], 
+# 					 delta = 0, delta_j = deltaSeq[j], delta_a = 0, delta_gamma = 0,
+# 					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=FALSE)
+# invData_f6.5  <-  titrateInvBoundaries(sMax=0.15, res=0.003, precision = 1e-4, alpha = 0,
+# 					 om = 2, g = 3, theta = c(0.6,0.6,0.05,8.5), theta_prime = 6.5, 
+# 					 hf = 1/2, hm = 1/2, C = Cs[j], 
+# 					 delta = 0, delta_j = deltaSeq[j], delta_a = 0, delta_gamma = 0,
+# 					 tlimit = 10^5, eqThreshold = 1e-8, verbose=TRUE, writeFile=FALSE)
+ #
+# pgAinv  <-  popGen_A_invade_Delta_Add(C=Cs[j], delta=deltaSeq[j], sm=invData$sms)
+# pgainv  <-  popGen_a_invade_Delta_Add(C=Cs[j], delta=deltaSeq[j], sm=invData$sms)
+ #
+# plot(pgAinv ~ invData_f8.5$sms, type='l', lwd=2, col=1, ylim=c(0,0.15))
+# lines(pgainv ~ invData_f8.5$sms, lwd=2, col=1)
+ #
+# lines(invData_f8.5$AInvBound ~ invData_f8.5$sms, lwd=2, col=2)
+# lines(invData_f8.5$aInvBound ~ invData_f8.5$sms, lwd=2, col=2)
+ #
+# lines(invData_f6.5$AInvBound ~ invData_f6.5$sms, lwd=2, col=4)
+# lines(invData_f6.5$aInvBound ~ invData_f6.5$sms, lwd=2, col=4)
 
 
 ##########################################################

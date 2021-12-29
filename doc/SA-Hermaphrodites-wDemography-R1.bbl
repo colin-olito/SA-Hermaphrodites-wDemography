@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{112}
+\begin{thebibliography}{111}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -19,6 +19,12 @@ Aizen, M., and L.~Harder. 2007.
 \newblock Expanding the limits of the pollen-limitation concept: effects of
   pollen quantity and quality.
 \newblock Ecology 88:271--281.
+
+\bibitem[{Antonovics and Levin(1980)}]{AntonovicsLevin1980}
+Antonovics, J., and D.~Levin. 1980.
+\newblock The ecological and genetic consequences of density-dependent
+  regulation in plants.
+\newblock Ann.~Rev.~Ecol.~Syst. 11:411--452.
 
 \bibitem[{Barfield et~al.(2011)Barfield, Holt, and
   Gomulkiewicz}]{barfield2011evolution}
@@ -59,14 +65,15 @@ Caswell, H. 2001.
 
 \bibitem[{Caswell and Shyu(2017)}]{caswell2017}
 Caswell, H., and E.~Shyu. 2017.
-\newblock Senescence, selection gradients and mortality.
-\newblock The Evolution of Senescence in the Tree of Life page~56.
+\newblock Senescence, selection gradients, and mortality.
+\newblock Page~56 \emph{in} R.~Shefferson, O.~Jones, and R.~Salguero-G{\'o}mez,
+  eds. The Evolution of Senescence in the Tree of LIfe. Cambridge University
+  Press, Cambridge, U.~K.
 
 \bibitem[{Charlesworth(1994)}]{Charlesworth_1994}
 Charlesworth, B. 1994.
 \newblock Evolution in Age-Structured Populations.
-\newblock Cambridge Studies in Mathematical Biology, 2nd ed. Cambridge
-  University Press.
+\newblock University of Chicago, Chicago, Il., USA.
 
 \bibitem[{Charlesworth and Hughes(2000)}]{CharlesworthHughes2000}
 Charlesworth, B., and K.~A. Hughes. 2000.
@@ -102,11 +109,11 @@ Childs, D.~Z., B.~C. Sheldon, and M.~Rees. 2016.
 \newblock The evolution of labile traits in sex-and age-structured populations.
 \newblock Journal of Animal Ecology 85:329--342.
 
-\bibitem[{Chippnedale et~al.(2001)Chippnedale, Gibson, and
+\bibitem[{Chippindale et~al.(2001)Chippindale, Gibson, and
   Rice}]{Chippendale-etal-2001}
-Chippnedale, A., J.~Gibson, and W.~Rice. 2001.
+Chippindale, A., J.~Gibson, and W.~Rice. 2001.
 \newblock Negative genetic correlation for adult fitness between sexes reveals
-  ontogenetic conflict in \textit{Drosophila}.
+  ontogenetic conflict in {\itshape drosophila}.
 \newblock PNAS 98:1671--1675.
 
 \bibitem[{{\firstsecond{COMPADRE}{Plant Matrix
@@ -133,11 +140,11 @@ Connallon, T., and A.~G. Clark. 2012.
   that accounts for demography and recurrent mutation.
 \newblock Genetics 190:1477--1489.
 
-\bibitem[{Connallon et~al.(2018)Connallon, D{\' e}barre, and
+\bibitem[{Connallon et~al.(2018)Connallon, D{\'e}barre, and
   Li}]{ConnallonDebarreLi2018}
-Connallon, T., F.~D{\' e}barre, and X.-Y. Li. 2018.
+Connallon, T., F.~D{\'e}barre, and X.-Y. Li. 2018.
 \newblock Linking local adaptation with the evolution of sex differences.
-\newblock Phil.~Trans.~Roy.~Soc.~ B 373:20170414.
+\newblock Phil.~Trans.~Roy.~Soc.~B 373:20170414.
 
 \bibitem[{Connallon and Hall(2018)}]{ConnallonHall2018}
 Connallon, T., and M.~D. Hall. 2018.
@@ -148,7 +155,7 @@ Connallon, T., and M.~D. Hall. 2018.
 \bibitem[{Connallon and Matthews(2019)}]{ConnallonMatthews2019}
 Connallon, T., and G.~Matthews. 2019.
 \newblock Cross-sex genetic correlations for fitness and fitness components:
-  connecting theoretical predictions to empirical patterns.
+  Connecting theoretical predictions to empirical patterns.
 \newblock Evolution Letters 3:254--262.
 
 \bibitem[{Connallon et~al.(2019)Connallon, Sharma, and
@@ -169,19 +176,12 @@ Coulson, T., T.~Benton, P.~Lundberg, S.~Dall, and B.~Kendall. 2006.
 Cox, R., and R.~Calsbeek. 2009.
 \newblock Sexually antagonistic selection, sexual dimorphism, and the
   resolution of intralocus sexual conflict.
-\newblock American Naturalist 173:176--187.
+\newblock American Naturalist 173:173--187.
 
 \bibitem[{Crnokrak and Barrett(2002)}]{CrnokrakBarrett2002}
 Crnokrak, P., and S.~Barrett. 2002.
 \newblock Purging the genetic load: a review of the experimental evidence.
 \newblock Evolution 56:2347--2358.
-
-\bibitem[{De~Lisle et~al.(2018)De~Lisle, Goedert, Reedy, and
-  Svensson}]{DeLisle-etal-2018}
-De~Lisle, S., D.~Goedert, A.~Reedy, and E.~Svensson. 2018.
-\newblock Climatic factors and species range position predict sexually
-  antagonistic selection across taxa.
-\newblock Phil.~Trans.~Roy.~Soc.~B 373:20170415.
 
 \bibitem[{de~Vries and Caswell(2019a)}]{deVriesCaswell2019a}
 de~Vries, C., and H.~Caswell. 2019a.
@@ -202,11 +202,19 @@ de~Vries, C., R.~A. Desharnais, and H.~Caswell. 2020.
   populations, with application to pesticide resistance in tribolium.
 \newblock Ecological Modelling 416:108875.
 
-\bibitem[{Delph et~al.(2011)Delph, Andiocoechea, Steven, Herlihy, Scarpino, and
+\bibitem[{DeLisle et~al.(2018)DeLisle, Goedert, Reedy, and
+  Svensson}]{DeLisle-etal-2018}
+DeLisle, S., D.~Goedert, A.~Reedy, and E.~Svensson. 2018.
+\newblock Climatic factors and species range position predict sexually
+  antagonistic selection across taxa.
+\newblock Phil.~Trans.~Roy.~Soc.~B 373:20170415.
+
+\bibitem[{Delph et~al.(2011)Delph, Andicoechea, Steven, Herlihy, Scarpino, and
   Bell}]{Delph-etal-2011}
-Delph, L.~F., J.~Andiocoechea, J.~Steven, C.~R. Herlihy, S.~Scarpino, and
-  D.~Bell. 2011.
-\newblock Environment-dependent intralocus sexual conflict in adioecious plant.
+Delph, L.~F., J.~Andicoechea, J.~Steven, C.~Herlihy, S.~Scarpino, and D.~Bell.
+  2011.
+\newblock Environment-dependent intralocus sexual conflict in a dioecious
+  plant.
 \newblock New Phytologist 192:542--552.
 
 \bibitem[{Delph and Herlihy(2012)}]{DelphHerlihy2012}
@@ -225,11 +233,6 @@ Fisher, R.~A. 1930.
 \newblock The genetical theory of natural selection.
 \newblock The Clarendon Press, Oxford, UK.
 
-\bibitem[{Fussmann et~al.(2007)Fussmann, Loreau, and Abrams}]{fussmann2007eco}
-Fussmann, G.~F., M.~Loreau, and P.~A. Abrams. 2007.
-\newblock Eco-evolutionary dynamics of communities and ecosystems.
-\newblock Functional ecology 21:465--477.
-
 \bibitem[{Gl\'{e}min(2021)}]{Glemin2021}
 Gl\'{e}min, S. 2021.
 \newblock Balancing selection in self-fertilizing populations.
@@ -241,15 +244,6 @@ Goodwillie, C., S.~Kalisz, and C.~G. Eckert. 2005.
 \newblock The evolutionary enigma of mixed mating systems in plants:
   occurrence, theoretical explanations, and empirical evidence.
 \newblock Ann.~Rev.~Ecol.~Evol.~Syst. 36:47--79.
-
-\bibitem[{Govaert et~al.(2019)Govaert, Fronhofer, Lion, Eizaguirre, Bonte,
-  Egas, Hendry, De~Brito~Martins, Meli{\'a}n, Raeymaekers
-  et~al.}]{govaert2019eco}
-Govaert, L., E.~A. Fronhofer, S.~Lion, C.~Eizaguirre, D.~Bonte, M.~Egas, A.~P.
-  Hendry, A.~De~Brito~Martins, C.~J. Meli{\'a}n, J.~A. Raeymaekers, et~al.
-  2019.
-\newblock Eco-evolutionary feedbacks—theoretical models and perspectives.
-\newblock Functional Ecology 33:13--30.
 
 \bibitem[{Grieshop et~al.(2017)Grieshop, Berger, and
   Arnqvist}]{grieshop2017male}
@@ -409,7 +403,7 @@ Levene, H. 1953.
 
 \bibitem[{Lewis et~al.(2011)Lewis, Wedell, and Hunt}]{Lewis-etal-2011}
 Lewis, Z., N.~Wedell, and J.~Hunt. 2011.
-\newblock Evidence for strong intralocus sexual-conflict in the indian meal
+\newblock Evidence for strong intralocus sexual conflict in the indian meal
   moth, {\itshape plodia interpunctella}.
 \newblock Evolution 65:2085--2097.
 
@@ -420,8 +414,8 @@ Lloyd, D.~G., and C.~J. Webb. 1986.
 \newblock NZ J.~Botany 24:135--162.
 
 \bibitem[{Lyberger et~al.(2021)Lyberger, Osmond, and
-  Schrieber}]{Lyberger-etal-2021}
-Lyberger, K., M.~Osmond, and S.~Schrieber. 2021.
+  Schreiber}]{Lyberger-etal-2021}
+Lyberger, L., M.~Osmond, and S.~Schreiber. 2021.
 \newblock Is evolution in response to extreme events good for population
   persistence?
 \newblock American Naturalist 198:44--52.
@@ -458,9 +452,9 @@ M{\'e}rot, C., V.~Llaurens, E.~Normandeau, L.~Bernatchez, and M.~Wellenreuther.
 \newblock Nature communications 11:1--11.
 
 \bibitem[{Mylius and Diekmann(1995)}]{mylius1995evolutionarily}
-Mylius, S.~D., and O.~Diekmann. 1995.
-\newblock On evolutionarily stable life histories, optimization and the need to
-  be specific about density dependence.
+Mylius, S., and O.~Diekmann. 1995.
+\newblock On evolutionarily stable life histories, optimization, and the need
+  to be specific about density dependence.
 \newblock Oikos 74:218--224.
 
 \bibitem[{Olito(2017)}]{Olito2017}
@@ -598,12 +592,12 @@ Ruzicka, F., L.~Dutoit, P.~Czuppon, C.~Y. Jordan, X.~Li, C.~Olito, A.~Runemark,
   studies of local adaptation and statistical genomics.
 \newblock Evol.~Lett. 4-5:398--415.
 
-\bibitem[{Ruzicka et~al.(2021)Ruzicka, Holman, and
+\bibitem[{Ruzicka et~al.(2022)Ruzicka, Holman, and
   Connallon}]{RuzickaConnallon2022}
-Ruzicka, F., L.~Holman, and T.~Connallon. 2021.
+Ruzicka, F., L.~Holman, and T.~Connallon. 2022.
 \newblock Polygenic signals of sexually antagonistic selection in contemporary
   human genomes.
-\newblock bior\textchi v pages 1--43.
+\newblock Bior \textchi v 4-5:1--43.
 
 \bibitem[{Servedio et~al.(2014)Servedio, Brandvain, Dhole, Fitzpatrick,
   Goldberg, Stern, Van~Cleve, and Yeh}]{Servedio2014}
@@ -641,7 +635,7 @@ Tazzyman, S.~J., and J.~K. Abbott. 2015.
 Wang, H., S.~C.~H. Barrett, X.~Li, Y.~Niu, Y.~Duan, Z.~Zhang, and Q.~Li. 2020.
 \newblock Sexual conflict in protandrous flowers and the evolution of
   gynodioecy.
-\newblock Evolution 75:278--293.
+\newblock Evolution TBD:XXX--XXX.
 
 \bibitem[{Webb and Lloyd(1986)}]{WebbLloyd1986}
 Webb, C.~J., and D.~G. Lloyd. 1986.

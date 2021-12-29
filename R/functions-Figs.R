@@ -985,8 +985,8 @@ resultsIllustrationFig  <-  function() {
 #        proportionalLabel(0.6, 0.9, expression(paste("Extinction")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
 #        proportionalArrows(px1=0.6, py1=0.85, px2=0.9, py2=0.6, length=0.1)
 #        proportionalLabel(0.4, 0.35, expression(paste("Exp. Growth (", lambda," > 1)")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        proportionalLabel(0.45, 0.5, expression(paste("Exp. Growth")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
-        proportionalLabel(0.45, 0.425, expression(paste("(", lambda," > 1)")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.55, 0.425, expression(paste("Exp. Growth")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.55, 0.35, expression(paste("(", lambda," > 1)")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
     # Color ScaleBar
     image.scale(A_f6.2, col=HEAT, breaks=breaks, horiz=FALSE, yaxt="n")
