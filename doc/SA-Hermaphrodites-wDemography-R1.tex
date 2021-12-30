@@ -258,10 +258,12 @@ The population projection matrix $\tilde{\mbf{A}}$ is constructed from four sets
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[htbp]
 \centering
-\caption{\bf Definition of terms.}
+\caption{\bf Mathematical notation and parameter values used in this article.}
 \label{tab:Terms}
 \begin{tabular}{ l p{0.7\linewidth} r }
  \toprule
+\multicolumn{3}{l}{Definition of symbols used in the general model description} \\
+
 Symbol & Definition & Dimension \\
 \hline
 $g$      & Number of genotypes ($3$; $AA$, $Aa$, and $aa$) & \\
@@ -276,17 +278,20 @@ $\mcal{F}^{S},\, \mcal{F}^{X}$ & Block diagonal selfed/outcrossed fertility matr
 % $\mbf{I}$   & Identity matrix & given in subscript \\
 $q^{\prime}_{A}$,\, $q^{\prime}_{a}$ & Allele frequencies in male gamete pool & $1$ \\
 $\tilde{\mbf{A}}(\tilde{\mbf{p}})$ & Population projection matrix & $2 \omega g \times 2\omega g$ \\
-
-$s_f,\,s_m$ & Selection coefficients through female and male reproductive function & \\
-$h_f,\,h_m$ & Dominance coefficients through female and male reproductive function & \\
-$\sigma_j,\, \sigma_a$ & Survival rates for juvenile and adult stages & \\
-$\gamma$ & Transition rate from juvenile to adult stages \\
-$C$ & The population rate of self-fertilization & \\
-$\delta$ &\textcolor{blue}{ Inbreeding depression effect on ovule viability}&\\
-$ \delta_j$ & \textcolor{blue}{ Inbreeding depression effect on juvenile survival}& \\
-$\delta_a$ & \textcolor{blue}{ Inbreeding depression effect on adult survival}& \\
-$\delta_{\gamma}$ &\textcolor{blue}{Inbreeding depression effect on maturation rate} & \\
-$f_i,\,f^{\prime}_i$ & Adult fertilities through female and male sex functions respectively & \\
+\hline
+\multicolumn{3}{l}{Parameters used in the two stage example} \\
+Symbol & Definition & Value/Range\\
+\hline
+$s_f,\,s_m$ & Selection coefficients through female and male reproductive function & 0-0.15\\
+$h_f,\,h_m$ & Dominance coefficients through female and male reproductive function & $\frac{1}{2}$ or $\frac{1}{4}$\\
+$\sigma_j,\, \sigma_a$ & Survival rates for juvenile and adult stages & 0.6\\
+$\gamma$ & Transition rate from juvenile to adult stages & 0.05\\
+$C$ & The population rate of self-fertilization &0-1 \\
+$\delta$ &\textcolor{blue}{ Inbreeding depression effect on ovule viability}&0-0.8\\
+$ \delta_j$ & \textcolor{blue}{ Inbreeding depression effect on juvenile survival}& 0-0.8\\
+$\delta_a$ & \textcolor{blue}{ Inbreeding depression effect on adult survival}& 0-0.8\\
+$\delta_{\gamma}$ &\textcolor{blue}{Inbreeding depression effect on maturation rate} & 0-0.8\\
+$f_i,\,f^{\prime}_i$ & Adult fertilities through female and male sex functions respectively & 5.8-8.5 \\
 
 \hline
 \end{tabular}
@@ -349,6 +354,8 @@ The fertility matrices through female and male function are
 \end{linenomath*}
 
 \noindent where $f$ and $f^{\prime}$ represent \textcolor{blue}{maximum adult fertilities}, and $w_{i}$ and $w^{\prime}_{i}$ the genotypic relative scaling factors for female and male sex-functions (see Table \ref{tab:Fitness}). 
+
+Unless stated otherwise, we use the following parameter values for the demographic rates in the model: $\sigma_j = \sigma_a = 0.6$ and $\gamma = 0.05$. These chosen values are similar to those used in \citet{deVriesCaswell2019b}, facilitating comparison between models, and correspond to a life-history in which individuals spend multiple timesteps in the juvenile phase prior to maturing into reproductively active adults, but are otherwise arbitrary. Our parameters of interest include \textcolor{blue}{maximum female} fertility, $f$, the inbreeding depression parameters, $\delta$, $\delta_j$, $\delta_a$, $\delta_{\gamma}$, and the selection parameters $h_f$, $s_f$, $h_m$, and $s_m$, which are given different values for each analyses as described in the figure captions. 
 
 \begin{table}[htbp]
  \centering
@@ -482,7 +489,6 @@ The blocks of $\mcal{F}^X(\tilde{\mbf{p}})$ can be constructed and interpreted a
 
 Iterating the projection matrix, Eq(\ref{eq:Atilde}), with the above demographic matrices, given an initial population state vector, allows numerical simulation of the eco-evolutionary dynamics for selection operating on any of the stage- or sex-function-specific demographic parameters. As we outline below, we use numerical techniques together with mathematical analyses to study the conditions for the maintenance of SA polymorphisms, and the demographic fate of the populations (i.e., positive growth, or extinction).
 
-Unless stated otherwise, we use the following parameter values for the demographic rates in the model: $\sigma_j = \sigma_a = 0.6$ and $\gamma = 0.05$. These chosen values are similar to those used in \citet{deVriesCaswell2019b}, facilitating comparison between models, and correspond to a life-history in which individuals spend multiple timesteps in the juvenile phase prior to maturing into reproductively active adults, but are otherwise arbitrary. Our parameters of interest include \textcolor{blue}{maximum female} fertility, $f$, the inbreeding depression parameters, $\delta$, $\delta_j$, $\delta_a$, $\delta_{\gamma}$, and the selection parameters $h_f$, $s_f$, $h_m$, and $s_m$, which are given different values for each analyses as described in the figure captions. 
 
 
 % Notational note: The superscript on a matrix in age$\times$stage models conventionally indicates the stage or age of the subsection of the population vector that the matrix is acting on (see for example \citep{CaswellEtAl2018}). For example, $\mbf{U}^{S}_{i}$, acts on the vector of individuals of genotype $i$ that were produced through selfing. In the following, we deviate from this convention by also using $S$ and $X$ as superscripts to indicate production of offspring through current selfing or reproduction. That is,  we will write production $\mcal{F}^S$ and $\mcal{F}^X$ to denote offspring production by self-fertilization and outcrossing. Likewise, we define the matrices $\mbf{H}^S_{j}(\tilde{\mbf{n}})$ and $\mbf{H}^X_{j}(\tilde{\mbf{n}})$ as the map of the genotypes of the parent in stage $j$ to the genotypes of their offspring produced by selfing and outcrossing, respectively. The $(k, l)$ entry of $\mbf{H}^{X}_{j}$ and $\mbf{H}^{S}_{j}$ is the probability that an offspring of a genotype $l$ mother, of stage $j$, has genotype $k$. Since we assume that how-you-were-produced does not affect how you reproduce, these matrices will act on both $\mbf{n}^{S}$ and $\mbf{n}^{X}$. 
@@ -524,7 +530,12 @@ Because single-locus selection coefficients are generally weak (e.g., \citealt{E
 %%% LdV: We say more or less the same thing two paragraphs earlier, so I think we don't need to explain this here anymroe? 
 
 
-To analyze the demographic effects of inbreeding depression, we make two additional simplifying assumptions: First, to keep our analyses tractable we explore the effects of individual inbreeding depression terms in isolation. That is, we assume that only one of the $\delta$ and $\delta_i$ terms (where $i \in \{j,a,\gamma\}$) can be non-zero at a time. Second, we assume that if inbreeding depression is caused primarily by recessive deleterious mutations (as suggested by empirical data), it should covary negatively with the population selfing rate due to purging, provided the population selfing rate has been relatively constant in recent evolutionary time (\citealt{Charlesworth2009}; though we note that other processes could give rise to this pattern, e.g., \citealt{CrnokrakBarrett2002, Charlesworth2009,HedrickGarcia-Dorado2016}). Following \citet{Olito2019}, we incorporate such negative covariance by constraining the inbreeding depression terms in the model ($\delta$ and $\delta_i$, where $i \in \{j,a,\gamma\}$) to follow a simple declining function of the selfing rate: \textcolor{blue}{$\delta = \delta^{\ast} (1 - b (1 - a(1 - C)/(C + a(1 - C))))$}, where $\delta^{\ast}$ is the hypothetical severity of inbreeding depression for a completely outcrossing population, $b$ is a shape parameter determining how far $\delta$ will decline under complete selfing (when $C = 1$), \textcolor{blue}{and $a$ is a shape parameter} controlling the curvature of the overall function for $\delta$ (see Appendix E in \citealt{Olito2019} for additional details). We set $\delta^{\ast} = 0.8$, $b = 0.5$, and $a = 0.2$ for all analyses involving inbreeding depression, values chosen to be consistent with empirical estimates of inbreeding depression (e.g., fig.~2 in \citealt{HusbandSchemske1996}). 
+To analyze the demographic effects of inbreeding depression, we make two additional simplifying assumptions: First, to keep our analyses tractable we explore the effects of individual inbreeding depression terms in isolation. That is, we assume that only one of the $\delta$ and $\delta_i$ terms (where $i \in \{j,a,\gamma\}$) can be non-zero at a time. Second, we assume that if inbreeding depression is caused primarily by recessive deleterious mutations (as suggested by empirical data), it should covary negatively with the population selfing rate due to purging, provided the population selfing rate has been relatively constant in recent evolutionary time (\citealt{Charlesworth2009}; though we note that other processes could give rise to this pattern, e.g., \citealt{CrnokrakBarrett2002, Charlesworth2009,HedrickGarcia-Dorado2016}). Following \citet{Olito2019}, we incorporate such negative covariance by constraining the inbreeding depression terms in the model ($\delta$ and $\delta_i$, where $i \in \{j,a,\gamma\}$) to follow a simple declining function of the selfing rate: \textcolor{blue}{
+\begin{equation}
+  \delta = \delta^{\ast} \left(1 - b \left(1 - \frac{a(1 - C)}{(C + a(1 - C))}\right)\right),
+  \label{eq:Canddelta}
+\end{equation}}
+where $\delta^{\ast}$ is the hypothetical severity of inbreeding depression for a completely outcrossing population, $b$ is a shape parameter determining how far $\delta$ will decline under complete selfing (when $C = 1$), \textcolor{blue}{and $a$ is a shape parameter} controlling the curvature of the overall function for $\delta$ (see Appendix E in \citealt{Olito2019} for additional details). We set $\delta^{\ast} = 0.8$, $b = 0.5$, and $a = 0.2$ for all analyses involving inbreeding depression, values chosen to be consistent with empirical estimates of inbreeding depression (e.g., fig.~2 in \citealt{HusbandSchemske1996}). 
 
 
 
@@ -573,7 +584,7 @@ In populations with high fertility (larger $f$), the proportion of demographical
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Demographic effects of inbreeding depression} \label{subsec:InbreedEffects}
 
-Unlike previous population genetic models, which assume constant population sizes \citep{JordanConnallon2014,Olito2017}, mortality caused by inbreeding depression can strongly influence population persistence in our evolutionary demographic model. Populations with high fertility rates can maintain positive population growth rates despite this additional mortality. This causes a greater proportion of SA polymorphic parameter space to be demographically viable, with the demographic model predictions converging on those from population genetic models in high-fertility populations (fig.~\ref{fig:deltaPolySpace}). For populations with lower fertility rates, the proportion of demographically viable polymorphic parameter space \textcolor{blue}{is very similar to} the population genetic model predictions \textcolor{blue}{for low selfing rates}. \textcolor{blue}{Note, however, that in our model, mortality due to late-acting inbreeding depression also reduces the population effective selfing rate, and therefore shifts the invasion boundaries for the SA alleles to more closely resemble an outcrossing population. In some cases, this can lead to larger regions of viable polymorphic parameter space than predicted by the population genetic models, which can only include early-acting inbreeding depression (e.g., see cross symbols in fig.~\ref{fig:deltaPolySpace})}. However, as the selfing rate increases, demographic viability eventually crashes when the population can no longer sustain the concomitant increase in mortality due to inbreeding depression (fig.~\ref{fig:deltaPolySpace}). 
+Unlike previous population genetic models, which assume constant population sizes \citep{JordanConnallon2014,Olito2017}, mortality caused by inbreeding depression can strongly influence population persistence in our evolutionary demographic model. Populations with high fertility rates can maintain positive population growth rates despite this additional mortality. This causes a greater proportion of SA polymorphic parameter space to be demographically viable, with the demographic model predictions converging on those from population genetic models in high-fertility populations (fig.~\ref{fig:deltaPolySpace}).  \textcolor{blue}{Note, however, that in our model, mortality due to late-acting inbreeding depression also reduces the population effective selfing rate, and therefore shifts the invasion boundaries for the SA alleles to more closely resemble an outcrossing population. In some cases, this can lead to larger regions of viable polymorphic parameter space than predicted by the population genetic models, which can only include early-acting inbreeding depression (e.g., see cross symbols in fig.~\ref{fig:deltaPolySpace})}. However, as the selfing rate increases, demographic viability eventually crashes when the population can no longer sustain the concomitant increase in mortality due to inbreeding depression (fig.~\ref{fig:deltaPolySpace}). For populations with lower fertility rates, the proportion of demographically viable polymorphic parameter space \textcolor{blue}{is very similar to} the population genetic model predictions \textcolor{blue}{for low selfing rates}.
 
 % Figure 3
  \begin{figure}[htbp]
@@ -586,7 +597,7 @@ Unlike previous population genetic models, which assume constant population size
 
 Mortality from inbreeding depression quickly outweighs the beneficial effect of selfing on the equilbirium female load that was apparent in the previous section. In contrast to our earlier results, predominantly outcrossing populations are predicted to have the highest proportion of demographically viable polymorphic space when inbreeding depression is taken into acount (compare fig.~\ref{fig:polySpace} with fig.~\ref{fig:deltaPolySpace}). Regardless of the life-history stage at which inbreeding depression affects survival, populations with intermediate to high selfing rates are unlikely to harbour SA polymorphism unless they can afford the resulting loss of self-fertilized ovules/offspring. An interesting alternative interpetation of these results is that populations with intermediate to high selfing rates and population intrinsic growth rates near one are vulnerable to extinction if a sexually antagonistic allele invades the population.
 
-The point in the life-cycle where inbreeding depression manifests can influence the threshold selfing rate at which demographically viable polymorphic parameter space crashes. Our results indicate that population viability was most sensitive to inbreeding depression affecting juvenile survival rates ($\delta_j$; fig.~\ref{fig:deltaPolySpace}, dark blue points), while early-acting inbreeding depression ($\delta$, ovule abortion shortly after fertilization) had a similar effect on population viability as late-acting inbreeding depression affecting adult survial ($\delta_a$) and juvenile-to-adult transition rates ($\delta_{\gamma}$). Inbreeding effects on juvenile survival had the strongest effect on population viability because on average individuals will spend multiple time steps in the juvenile stage before they mature. At each time, juveniles have a probability $\gamma$ to mature and a probability $\sigma_j(1-\delta_j)$ to survive. Inbreeding depression at the juvenile stage therefore makes it harder to survive long enough to mature. Although early-acting inbreeding depression ($\delta$) actually manifests earlier in the life-cycle than juvenile survival, it acts only once by influencing the total number of self-fertilized zygotes that become juveniles. Note, however, that the relative strength of inbreeding depression at different stages of the life history will depend on the interaction between the various inbreeding depression parameters, which we have precluded from our analyses.
+The point in the life-cycle where inbreeding depression manifests can influence the threshold selfing rate at which demographically viable polymorphic parameter space crashes. Our results indicate that population viability was most sensitive to inbreeding depression affecting juvenile survival rates ($\delta_j$; fig.~\ref{fig:deltaPolySpace}, dark blue points), while early-acting inbreeding depression ($\delta$, ovule abortion shortly after fertilization) had a similar effect on population viability as late-acting inbreeding depression affecting adult survial ($\delta_a$) and juvenile-to-adult transition rates ($\delta_{\gamma}$). Inbreeding effects on juvenile survival had the strongest effect on population viability because on average individuals will spend multiple time steps in the juvenile stage before they mature. At each time step, juveniles have a probability $\gamma$ to mature and a probability $\sigma_j(1-\delta_j)$ to survive. Inbreeding depression at the juvenile stage therefore makes it harder to survive long enough to mature. \textcolor{blue}{Of course the strength of this effect is influenced by the maturation rate, $\gamma$, which therefore also affects the shape of the curves in Figure \ref{fig:deltaPolySpace}.} Although early-acting inbreeding depression ($\delta$) actually manifests earlier in the life-cycle than juvenile survival, it acts only once by influencing the total number of self-fertilized zygotes that become juveniles. Note, however, that the relative strength of inbreeding depression at different stages of the life history will depend on the interaction between the various inbreeding depression parameters, which we have precluded from our analyses.
 
 
 \section*{Case study: {\itshape M. guttatus}}
