@@ -1,5 +1,5 @@
 \DeclareRobustCommand{\firstsecond}[2]{#2}
-\begin{thebibliography}{103}
+\begin{thebibliography}{105}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Abbott(2011)}]{Abbott2011}
@@ -58,12 +58,9 @@ Caswell, H. 2001.
   4.5.2.1, pages 84--87.
 \newblock Sinauer Assoc., Sunderland, MA, USA.
 
-\bibitem[{Caswell and Shyu(2017)}]{caswell2017}
-Caswell, H., and E.~Shyu. 2017.
-\newblock Senescence, selection gradients, and mortality.
-\newblock Page~56 \emph{in} R.~Shefferson, O.~Jones, and R.~Salguero-G{\'o}mez,
-  eds. The Evolution of Senescence in the Tree of LIfe. Cambridge University
-  Press, Cambridge, U.~K.
+\bibitem[{Caswell and Shyu(2018)}]{caswell2017senescence}
+Caswell, H., and E.~Shyu. 2018.
+\newblock Senescence, selection gradients, and mortality, vol. 4:88.
 
 \bibitem[{Charlesworth(1994)}]{Charlesworth_1994}
 Charlesworth, B. 1994.
@@ -417,6 +414,11 @@ M{\'e}rot, C., V.~Llaurens, E.~Normandeau, L.~Bernatchez, and M.~Wellenreuther.
   inversion polymorphism in a seaweed fly.
 \newblock Nature communications 11:1--11.
 
+\bibitem[{Metcalf and Pavard(2007)}]{metcalf2007evolutionary}
+Metcalf, C. J.~E., and S.~Pavard. 2007.
+\newblock Why evolutionary biologists should be demographers.
+\newblock Trends in Ecology \& Evolution 22:205--212.
+
 \bibitem[{Mylius and Diekmann(1995)}]{mylius1995evolutionarily}
 Mylius, S., and O.~Diekmann. 1995.
 \newblock On evolutionarily stable life histories, optimization, and the need
@@ -535,6 +537,12 @@ Roughgarden, J. 1971.
 Rousset, F. 2004.
 \newblock Genetic structure and selection in subdivided populations, vol.~40.
 \newblock Princeton University Press.
+
+\bibitem[{Rueffler et~al.(2006)Rueffler, Egas, and
+  Metz}]{rueffler2006evolutionary}
+Rueffler, C., M.~Egas, and J.~A. Metz. 2006.
+\newblock Evolutionary predictions should be based on individual-level traits.
+\newblock The American Naturalist 168:E148--E162.
 
 \bibitem[{Ruzicka et~al.(2020)Ruzicka, Dutoit, Czuppon, Jordan, Li, Olito,
   Runemark, Svensson, Yazdi, and Connallon}]{RuzickaESEB2020}

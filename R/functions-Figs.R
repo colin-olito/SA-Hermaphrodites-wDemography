@@ -647,7 +647,7 @@ lambdaPolySpaceFig  <-  function() {
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invA)
     # Labels/Annotations
     proportionalLabel(0.04, 1.075, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-    proportionalLabel(-0.3, 0.5, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.3, 0.5, expression(paste("Selection on female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
     proportionalLabel(-0.75, 0.5, expression(paste(italic(h), " = 1/2")), cex=2.0, adj=c(0.5, 0.5), xpd=NA, srt=90)
     proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 6.0")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
@@ -711,7 +711,7 @@ lambdaPolySpaceFig  <-  function() {
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invB)
     # Labels/Annotations
     proportionalLabel(0.04, 1.075, 'H', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-    proportionalLabel(0.5, -0.3, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+    proportionalLabel(0.5, -0.3, expression(paste("Selection on male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
     # Panel 9: h = 1/2,  C = 1/2, f = 5.8
     C_f5.8 <- interp(x=heatC_f5.8$sm, y=heatC_f5.8$sf, z=heatC_f5.8$lambda_sim, 
@@ -802,7 +802,7 @@ plot(0, xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
     # Labels/Annotations
     proportionalLabel(0.04, 1.075, 'M', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
     proportionalLabel(-0.75, 0.5, expression(paste(italic(h), " = 1/4")), cex=2.0, adj=c(0.5, 0.5), xpd=NA, srt=90)
-    proportionalLabel(-0.3, 0.5, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+    proportionalLabel(-0.3, 0.5, expression(paste("Selection on female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
     proportionalLabel(-0.5, 0.5, expression(paste(italic(f), " = 5.9")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
     # Panel 14: h = 1/4,  C = 1/4, f = 5.9
@@ -865,7 +865,7 @@ plot(0, xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
     lines(AInvBound ~ sms, lty=1, lwd=1.5, col=COLS$line, data=invE)
     # Labels/Annotations
     proportionalLabel(0.04, 1.075, 'Q', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-    proportionalLabel(0.5, -0.3, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+    proportionalLabel(0.5, -0.3, expression(paste("Selection on male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
     # Panel 18: h = 1/2,  C = 1/2, f = 6.2
     F_f5.8 <- interp(x=heatF_f5.8$sm, y=heatF_f5.8$sf, z=heatF_f5.8$lambda_sim, 
@@ -953,9 +953,9 @@ resultsIllustrationFig  <-  function() {
     # axes        
         axis(1, at=c(0,0.05,0.10, 0.15), labels=c("0","0.05","0.10", "0.15"))
         axis(2, at=c(0,0.05,0.10, 0.15), labels=c("0","0.05","0.10", "0.15"))
-        proportionalLabel(-0.28, 0.5, expression(paste("Selection through female")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.28, 0.5, expression(paste("Selection on female")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=90)
         proportionalLabel(-0.2, 0.5, expression(paste("reproductive function (", italic(s[f]), ")")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(1.25, -0.2, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(1.125, -0.2, expression(paste("Selection on male reproductive function (", italic(s[m]), ")")), cex=1.4, adj=c(0.5, 0.5), xpd=NA, srt=0)
     # Labels/Annotations
 #        proportionalLabel(0.03, 1.05, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, 1.1, 'Population Genetic Outcome', cex=1.5, adj=c(0.5, 0.5), xpd=NA)
@@ -1642,8 +1642,8 @@ MimulusInv6LambdaFig  <-  function() {
         proportionalLabel(0.03, 1.04, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.4, 0.5, expression(paste(italic(C), " = 0.29, w/ I.D.")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
-        proportionalLabel(-0.25, 1.15, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(1.15, -0.25, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.25, 1.125, expression(paste("Selection on female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(1.125, -0.25, expression(paste("Selection on male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
 ## Panel D: Low-Elevation Perennials, Obligate Outcrossing
         # Make the plot
@@ -1720,7 +1720,9 @@ MimulusInv6NstarFig  <-  function() {
                       heat_4$lNstar), 
                   max(heat_1$lNstar,
                       heat_3$lNstar),length.out=(length(HEAT)+1))
-
+    # fix aberrant point corresponding to min(heat_4$lNstar)
+    heat_4$lNstar[heat_4$sf == 0.2970 & heat_4$sm == 0.4455]  <-  -11.5129 # original value: -11.51293
+    
     # Set plot layout
     layout.mat <- matrix(c(
                            1,1,1,1, 2,2,2,2, 3,
@@ -1815,8 +1817,8 @@ MimulusInv6NstarFig  <-  function() {
         proportionalLabel(0.03, 1.04, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.4, 0.5, expression(paste(italic(C), " = 0.29, w/ I.D.")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
 
-        proportionalLabel(-0.25, 1.15, expression(paste("Selection through female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(1.15, -0.25, expression(paste("Selection through male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(-0.25, 1.125, expression(paste("Selection on female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(1.125, -0.25, expression(paste("Selection on male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
 ## Panel D: Low-Elevation Perennials, Obligate Outcrossing
         # Make the plot

@@ -71,8 +71,8 @@ embed_fonts(figPath(name='MimulusInv6LambdaFig.pdf'))
 # DENSITY DEPENDENT DYNAMICS
 # Mimulus Case study: Nstar heatmap w/ Inv6
 toPdf(MimulusInv6NstarFig(), 
-			figPath(name='MimulusInv6NstarFig2.pdf'), width=8, height=8)
-embed_fonts(figPath(name='MimulusInv6NstarFig2.pdf'))
+			figPath(name='MimulusInv6NstarFig.pdf'), width=8, height=8)
+embed_fonts(figPath(name='MimulusInv6NstarFig.pdf'))
 
 
 
