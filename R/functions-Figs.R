@@ -260,7 +260,8 @@ layout     <- layout(layout.mat,respect=TRUE)
         axis(1, las=1, labels=NA)
         axis(2, las=1)
         proportionalLabel(-0.5, 0.5, expression(paste(italic(h), " = 1/2")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+        proportionalLabel(-0.3, -0.2, expression(paste("Selection on female reproductive function (", italic(s[f]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
+#        proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
         proportionalLabel(0.5, 1.15, expression(paste(italic(C), ' = 0')), cex=1.5, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.04, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
@@ -381,9 +382,9 @@ layout     <- layout(layout.mat,respect=TRUE)
         axis(1, las=1)
         axis(2, las=1)
         proportionalLabel(-0.5, 0.5, expression(paste(italic(h), " = 1/4")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
-        proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
+#        proportionalLabel(-0.3, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
         proportionalLabel(0.04, 1.075, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+#        proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
 
   ##  Panel E: C = 1/4; hf = hm = 1/4
@@ -418,7 +419,8 @@ layout     <- layout(layout.mat,respect=TRUE)
         axis(1, las=1)
         axis(2, las=1, labels=NA)
         proportionalLabel(0.04, 1.075, 'E', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+        proportionalLabel(0.5, -0.3, expression(paste("Selection on male reproductive function (", italic(s[m]), ")")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=0)
+#        proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
 
   ##  Panel F: C = 1/2; hf = hm = 1/4
         # Make the plot
@@ -453,7 +455,7 @@ layout     <- layout(layout.mat,respect=TRUE)
         axis(1, las=1)
         axis(2, las=1, labels=NA)
         proportionalLabel(0.04, 1.075, 'F', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
-        proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
+#        proportionalLabel(0.5, -0.3, expression(paste(italic(s[m]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=0)
 }
 
 # Function to create color scalebar for image() heatmap
