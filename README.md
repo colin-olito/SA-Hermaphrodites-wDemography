@@ -22,24 +22,24 @@ Full citing information will be provided when it is made [available through the 
 The key directories in this repository that are needed to reproduce the results and manuscript are as follows:
 .  
 |-**`R`**   
-| |-`functions-Figs.R`  
-| |-`functions-MatModels.R`  
-| |-`functions-Simulations.R`  
-| |-`loadData-Compadre.R`  
+|    |-`functions-Figs.R`  
+|    |-`functions-MatModels.R`  
+|    |-`functions-Simulations.R`  
+|    |-`loadData-Compadre.R`  
 |  
 |-**`doc`**  
-|  |-`Refs2.bib`  
-|  |-`SA-Hermaphrodites-wDemography.tex`  
-|  |-**`Supplements`**  
-|          |-`SupplementaryMaterial.tex`  
-|-<span style="color:blue">**`output`**</span>  
-|      |-<span style="color:blue">**`figs`**</span>  
-|      |-<span style="color:blue">**`simData`**</span>  
+|        |-`Refs2.bib`  
+|        |-`SA-Hermaphrodites-wDemography.tex`  
+|        |-**`Supplements`**  
+|            |-`SupplementaryMaterial.tex`  
+|-**`output`**  
+|    |-**`figs`**  
+|    |-**`simData`**  
 |  
 |-`run-Simulations.R`  
 |-`makeFigs.R`  
 
-**Note:** Output directories are indicated in blue and *must be created locally by the user* before running the simulations. All other files were created during the development of the study, and are not essential for reproducing the main results presented in the published paper.
+**Note:** Output directories *must be created locally by the user* before running the simulations. All other files were created during the development of the study, and are not essential for reproducing the main results presented in the published paper.
 
 In accordance with The American Naturalist's [guidelines for archiving Code with Data](http://comments.amnat.org/2021/12/guidelines-for-archiving-code-with-data.html), a clean version of this repository has been uploaded to [Dryad](https://datadryad.org/stash).
 
@@ -48,7 +48,7 @@ In accordance with The American Naturalist's [guidelines for archiving Code with
 
 This repository provides all code necessary to (1) rerun the simulations, (2) produce figures as .pdf's, and (3) compile the LaTeX to produce the accepted manuscript, complete with embedded figures. To do so, please follow these basic steps:
 
-1. Clone the repo, and create the output directories (indicated in blue) locally so that the simulation and figure files can be correctly saved and recalled later.
+1. Clone the repo, and create the output directories locally so that the simulation and figure files can be correctly saved and recalled later.
 2. Check the notes in the `run-Simulations.R` to be sure that the necessary R packages are installed locally (especially those needed for parallelizing the simulations).
 3. Run the file `run-Simulations.R` either interactively in R or in terminal using Rscript. The simulations will take some time to generate the output files. We recommend doing this interactively and only running up to L.725, which will avoid running many simulations contained in a code to the main simulations.
 4. Run the file `makeFigs.R`, which will read the simulation output files and generate the figures. Again, check to be sure that all required R packages are installed.
