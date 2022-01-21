@@ -19,25 +19,23 @@ Full citing information will be provided when it is made [available through the 
 
 ## Structure of this repository & instructions for reproducing the results
 
-The key directories in this repository that are needed to reproduce the results and manuscript are as follows:
+The key directories in this repository that are needed to reproduce the results and manuscript are as follows:  
 .  
-|-**`R`**   
-|    |-`functions-Figs.R`  
-|    |-`functions-MatModels.R`  
-|    |-`functions-Simulations.R`  
-|    |-`loadData-Compadre.R`  
-|  
-|-**`doc`**  
-|        |-`Refs2.bib`  
-|        |-`SA-Hermaphrodites-wDemography.tex`  
-|        |-**`Supplements`**  
-|            |-`SupplementaryMaterial.tex`  
-|-**`output`**  
-|    |-**`figs`**  
-|    |-**`simData`**  
-|  
-|-`run-Simulations.R`  
-|-`makeFigs.R`  
+- **`R`**   
+	- `functions-Figs.R`  
+	- `functions-MatModels.R`  
+	- `functions-Simulations.R`  
+	- `loadData-Compadre.R`   
+- **`doc`**  
+	- `Refs2.bib`  
+	- `SA-Hermaphrodites-wDemography.tex`  
+	- **`Supplements`**  
+		- `SupplementaryMaterial.tex`  
+- **`output`**  
+	- **`figs`**  
+	- **`simData`**  
+- `run-Simulations.R`  
+- `makeFigs.R`  
 
 **Note:** Output directories *must be created locally by the user* before running the simulations. All other files were created during the development of the study, and are not essential for reproducing the main results presented in the published paper.
 
