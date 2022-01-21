@@ -1,15 +1,23 @@
-################################################################
-#  Functions to simulate demographic model across selection
-#  parameter space
-#
-#
-#  Author: Colin Olito, adapted from L. DeVries
-#
-#  NOTES:  
-#		
+#################################################################
+#'  Raw functions to simulate demographic model across selection
+#'  parameter space
+#'
+#'
+#'  Author: Colin Olito, Charlotte DeVries
+#'
+#'  NOTES:  This file contains the underlying simulation functions
+#' 			for the analyses. This file is a dependency for the
+#' 			run-Simulations.R file, which calls these functions
+#' 			in order to generate the data.
+#' 
+#' 			Users may need to install several R packages  
+#' 			used to locally parallelize some of the 
+#' 			simulations in order to speed them up. To do so,
+#' 			users need only uncomment the necessary 
+#' 			install.packages() commands below the first time
+#' 			the code is run.
 
 
-#rm(list=ls())
 #####################
 ##  Dependencies
 source('R/functions-MatModels.R')
