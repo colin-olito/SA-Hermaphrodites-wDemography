@@ -734,9 +734,8 @@ makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
 #' 
 #' The remainder of this file contains code to generate exploratory
 #' figures & analyses written during the development of the study. 
-#' It is almost certainly buggy, and some of it is deprecated, 
-#' having been replaced by better/more functional code for the final
-#' analyses. 
+#' Some  functions are buggy, and some are deprecated, having been 
+#' replaced by better/more functional code for the final analyses.
 ####################################################################
 
 

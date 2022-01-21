@@ -1,18 +1,26 @@
 #####################################################
-#'  SA in hermaphrodites with demography 
-#' and partial selfing
+#'  R code to generate .pdf figures for:
+#' 
+#'  Olito, C. and C. DeVries. 2022. Demographic consequences of 
+#'  sexually antagonistic selection in partially selfing
+#' populations. American Naturalist XX: XX--XX. doi: XXX
 #'
-#'  Functions to generate Figures for: 
-#'    Article title goes here...
-#'  
 #'  Author: Colin Olito
-#'
+#' 
 #'
 #'  NOTES: Run this file, either from terminal using Rscript,
-#'		  or interactively in R. This should create all the 
-#'		  figures needed to correctly compile the mansucript
-#'		  LaTeX file.  
-#'          
+#'		   or interactively in R AFTER running the necessary
+#'		   simulations provided in run-Simulations.R. This 
+#' 		   should create .pdf files for each of the figures
+#' 		   needed to correctly compile the manuscript LaTeX
+#'		   file.  
+#'         
+#' 			To reproduce the figures for the paper and 
+#' 			supplementary figures, run the following R code
+#' 			up to L.108. This will generate output data as
+#' 			.csv files saved to ./output/figs/
+#' 			Be sure to create this directory locally prior
+#' 			to running the simulations.
 
 rm(list=ls())
 ################
@@ -21,64 +29,66 @@ source('R/functions-Figs.R')
 #source('./R/loadData-Compadre.R')
 
 
-#################
-# Figs for Paper
-#################
 
+#########################################################
+#' Functions to generate figures for the published paper
+#########################################################
 
-# Possible Fig. 1 - Didactic figure of genetic and demographic predictions
+#' Fig. 1 - Didactic figure illustrating genetic and demographic predictions
+#'			made by the model
 toPdf(resultsIllustrationFig(), 
 			figPath(name='didacticFig.pdf'), width=8, height=4)
 embed_fonts(figPath(name='didacticFig.pdf'))
 
 
-# Fig. 1 - Illustration of invasion conditions & extinction thresholds
+#' Fig. 2 - Illustration of invasion conditions & extinction thresholds
 toPdf(demViablePolySpaceFig(), 
 			figPath(name='extinctionThresholdsFig.pdf'), width=10, height=5)
 embed_fonts(figPath(name='extinctionThresholdsFig.pdf'))
 
-# REVISED Fig. 1 - Illustration of population intrinsic growth rates (lambda)
-#				   for the same parameter sets used in Fig.1 
+#' Fig. S1 - Illustration of population intrinsic growth rates (lambda)
+#'				   for the same parameter sets used in Fig.1 
 toPdf(lambdaPolySpaceFig(), 
 			figPath(name='lambdaFig1_2.pdf'), width=10, height=16)
 embed_fonts(figPath(name='lambdaFig1_2.pdf'))
 
 
-# Fig. 2 - Quantification of demographically viable parameter space, no inbreeding depression
+#' Fig. 3 - Quantification of demographically viable parameter space, 
+#' 			no inbreeding depression
 toPdf(polySpaceFigTitrate(), 
 			figPath(name='polymorphicSpaceTitrate.pdf'), width=5, height=7)
 embed_fonts(figPath(name='polymorphicSpaceTitrate.pdf'))
 
-# Fig. 3 - Quantification of demographically viable parameter space, 
-#			showing effects of inbreeding depression
+#' Fig. 4 - Quantification of demographically viable parameter space, 
+#'			showing effects of inbreeding depression
 toPdf(deltaSelfingLoadPolySpaceFigTitrate(), 
 			figPath(name='deltaPolymorphicSpaceTitrate.pdf'), width=5, height=7)
 embed_fonts(figPath(name='deltaPolymorphicSpaceTitrate.pdf'))
 
-# Fig. 4 - Mimulus Case study: polymorphic parameter space w/ 
-#			Inv6 plotted
-toPdf(MimulusInv6Fig(), 
-			figPath(name='MimulusInv6FigNewSel.pdf'), width=10, height=5)
-embed_fonts(figPath(name='MimulusInv6FigNewSel.pdf'))
+#' Deprecated Fig. 5 - Mimulus Case study: polymorphic parameter space w/ 
+#'			Inv6 plotted (using extinction thresholds)
+#' toPdf(MimulusInv6Fig(), 
+#'			figPath(name='MimulusInv6FigNewSel.pdf'), width=10, height=5)
+#' embed_fonts(figPath(name='MimulusInv6FigNewSel.pdf'))
 
 
-# REVISED Fig. 4 - Mimulus Case study: lambda heatmap w/ Inv6
+#' Fig. 5 - Mimulus Case study: lambda heatmap w/ Inv6
 toPdf(MimulusInv6LambdaFig(), 
 			figPath(name='MimulusInv6LambdaFig.pdf'), width=8, height=8)
 embed_fonts(figPath(name='MimulusInv6LambdaFig.pdf'))
 
 
-# DENSITY DEPENDENT DYNAMICS
-# Mimulus Case study: Nstar heatmap w/ Inv6
+#' Fig. B1 - Density Dependent Dynamics
+#' Mimulus Case study: Nstar heatmap w/ Inv6
 toPdf(MimulusInv6NstarFig(), 
 			figPath(name='MimulusInv6NstarFig.pdf'), width=8, height=8)
 embed_fonts(figPath(name='MimulusInv6NstarFig.pdf'))
 
 
 
-#################
-# Supp. Figs
-#################
+########################
+# Supplementary Figures
+########################
 
 # Fig. S1 -- Illustration of Invaions & Extinction thresholds for sex-specific dominance
 toPdf(demViablePolySpace_SexSpecDominance_Fig(), 
@@ -99,19 +109,14 @@ embed_fonts(figPath(name='deltaPolymorphicSpaceTitrateCompSexSpec.pdf'))
 
 
 
-toPdf(suppPolySpaceThresholdFigs(), 
-			figPath(name='SuppFig-polySpace.pdf'), width=20, height=8)
-embed_fonts(figPath(name='SuppFig-polySpace.pdf'))
+####################################################################
+# Preliminary Figures
 
-
-toPdf(suppDeltaPolySpaceThresholdFigs(), 
-			figPath(name='SuppFig-deltaPolySpace.pdf'), width=40, height=20)
-embed_fonts(figPath(name='SuppFig-deltaPolySpace.pdf'))
-
-
-###############
-# PRELIM FIGS
-###############
+#' The remainder of this file contains code to generate exploratory
+#' figures & analyses written during the development of the study. 
+#' Some  functions are buggy, and some are deprecated, having been 
+#' replaced by better/more functional code for the final analyses.
+####################################################################
 
 #'  Funnel plots comparing population genetic model predictions
 #'  with simulation results, distinguishing between different 
@@ -195,4 +200,18 @@ embed_fonts(figPath(name='deltaSelfingPolySpace.pdf'))
 toPdf(MimulusInv6Fig(),
 			figPath(name='mimulusInv6Fig.pdf'), width=7, height=5)
 embed_fonts(figPath(name='mimulusInv6Fig.pdf'))
+
+
+
+#' Ugly multi-panel figure showing invasion conditions and extinction
+#' thresholds for the same parameter conditions that are summarized
+#' in figures 3 & 4.
+toPdf(suppPolySpaceThresholdFigs(), 
+			figPath(name='SuppFig-polySpace.pdf'), width=20, height=8)
+embed_fonts(figPath(name='SuppFig-polySpace.pdf'))
+
+
+toPdf(suppDeltaPolySpaceThresholdFigs(), 
+			figPath(name='SuppFig-deltaPolySpace.pdf'), width=40, height=20)
+embed_fonts(figPath(name='SuppFig-deltaPolySpace.pdf'))
 
