@@ -110,3 +110,6 @@ doc/notes/*
 # Untracked Files for public repo #
 ###################################
 *CoverLetter*.tex
+*ResponseLetter*.tex
+fix-Zeta-MWE.R
+test_SA_Hermaphrodite_Model.R
