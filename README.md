@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a GitHub repository for the development of a theoretical evolutionary genetics research project that is now published under the title "*Demographic consequences of sexually antagonistic selection in partially selfing populations*" (doi: [XXX](https://doi.org/...)). Here you can find all of the necessary code to reproduce the simulations presented in the published paper and appendices, and the LaTeX files used to compile the manuscript. Supplementary material for the paper is also available from the publisher [here](https://www.journals.uchicago.edu/toc/an/current).
+This is a GitHub repository for the development of a theoretical evolutionary genetics research project that is now published under the title "*Demographic consequences of sexually antagonistic selection in partially selfing populations*" (doi: [XXX](https://doi.org/...)). Here you can find all of the necessary code to reproduce the simulations presented in the published paper and appendices, and the LaTeX files used to compile the manuscript. Supplementary material for the paper is also available from the publisher [here](https://www.journals.uchicago.edu/toc/an/current), and on the Dryad digital repository [here](https://doi.org/10.5061/dryad.c2fqz619t).
 
 
 ## Abstract
@@ -35,11 +35,11 @@ The key directories in this repository that are needed to reproduce the results 
 	- **`figs`**  
 	- **`simData`**  
 - `run-Simulations.R`  
-- `makeFigs.R`  
+- `makeFigs.R`    
 
 **Note:** Output directories *must be created locally by the user* before running the simulations. All other files were created during the development of the study, and are not essential for reproducing the main results presented in the published paper.
 
-In accordance with The American Naturalist's [guidelines for archiving Code with Data](http://comments.amnat.org/2021/12/guidelines-for-archiving-code-with-data.html), a clean version of this repository has been uploaded to [Dryad](https://datadryad.org/stash).
+In accordance with The American Naturalist's [guidelines for archiving Code with Data](http://comments.amnat.org/2021/12/guidelines-for-archiving-code-with-data.html), a clean version of this repository has been uploaded to Dryad [here](https://datadryad.org/stash).
 
 
 ###  How to reproduce the results & manuscript
@@ -61,7 +61,7 @@ All empirical data used to parameterize the simulations for the *Mimulus gutattu
 
 - Selfing and inbreeding depression estimates were calculated directly from Tables 1 & 2 in *Willis (1993) Heredity 71:145—154*.
 
-- Data from which selection coefficients for inv6 were calculated were taken directly from data presesented in *Lee et al. (2016) Genetics: 202, 1473–1484*.
+- Data from which selection coefficients for inv6 were calculated were taken directly from data presesented in *Lee et al. (2016) Genetics: 202, 1473–1484*. Data files showing our calculations are available on Dryad [here](https://datadryad.org/stash).
 
 ## Contact & bug reporting
 
