@@ -13,6 +13,7 @@ library(raster)
 library(akima)
 
 source('./R/functions-Simulations.R')
+source('./data/inv6-selection-coefficients.R')
 
 #######################
 # AUXILLIARY FUNCTIONS
@@ -30,6 +31,7 @@ toDev <- function(expr, dev, filename, ..., verbose=TRUE) {
   if ( verbose )
     cat(sprintf('Creating %s\n', filename))
     dev(filename, family='CM Roman', ...)
+#    dev(filename, family='yourFONT', ...) # To embed figs with the font of your choice, uncomment this line (and comment out the previous one) and replace yourFONT with your chosen font family.
     on.exit(dev.off())
     eval.parent(substitute(expr))
 }
@@ -1394,9 +1396,6 @@ MimulusInv6Fig  <-  function() {
 
 #    ext4$sf[46]  <-  mean(ext4$sf[45], ext4$sf[47])
     ext4$smThreshold[46]  <-  mean(c(ext4$smThreshold[45], ext4$smThreshold[47]))
-    # Selection coefficients for Inv6 (including average flower # effect)
-    sfInv6  <-  0.31
-    smInv6  <-  0.30
 
 # Color scheme
     COLS  <-  list(
@@ -1426,11 +1425,11 @@ MimulusInv6Fig  <-  function() {
         lines(AInvBound ~ sms, lty=2, lwd=2, col=COLS$line, data=inv2)
         lines(c(inv2$aInvBound[inv2$aInvBound < max(inv2$sms)],max(inv2$sms)) ~ c(inv2$sms[inv2$aInvBound < max(inv2$sms)],0.50), lty=2, lwd=2, col=COLS$line, data=inv2)
         # no lines to plot for extinction threshold (all polymorphic space is viable)
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg=COLS$fill, cex=1.25)
+        points(inv6_sf ~ inv6_sm, pch=21, col=COLS$line, bg=COLS$fill, cex=1.25)
         # axes        
         axis(1, las=1)
         axis(2, las=1)
-        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel((inv6_sm-0.1), (inv6_sf+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.03, 1.075, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, 1.15, 'Local Demographic Rates', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.25, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
@@ -1479,11 +1478,11 @@ MimulusInv6Fig  <-  function() {
         lines(sf ~ smThreshold, lwd=1.5, lty=2, col=COLS$line, data=ext4)
         lines(sfThreshold ~ sms, lwd=1.5, lty=2, col=COLS$line, data=ext4)
         # Plot inv6
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg=COLS$fill, cex=1.25)
+        points(inv6_sf ~ inv6_sm, pch=21, col=COLS$line, bg=COLS$fill, cex=1.25)
         # axes        
         axis(1, las=1)
         axis(2, las=1, labels=NA)
-        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA)
+        proportionalLabel((inv6_sm-0.1), (inv6_sf+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.03, 1.075, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, 1.15, 'Non-local Demographic Rates', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 #        proportionalLabel(-0.15, 0.5, expression(paste(italic(s[f]))), cex=1.2, adj=c(0.5, 0.5), xpd=NA, srt=90)
@@ -1564,8 +1563,8 @@ MimulusInv6LambdaFig  <-  function() {
     layout     <- layout(layout.mat,respect=TRUE)
 
     # Selection coefficients for Inv6 (including average flower # effect)
-    sfInv6  <-  0.31
-    smInv6  <-  0.30
+    inv6_sf  <-  0.31
+    inv6_sm  <-  0.30
 
 # Color scheme
     COLS  <-  list(
@@ -1591,8 +1590,8 @@ MimulusInv6LambdaFig  <-  function() {
         lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv1)
         lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv1)
     # Plot inv6
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
-        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
+        points(inv6_sf ~ inv6_sm, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((inv6_sm-0.1), (inv6_sf+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
     # Labels/Annotations
         proportionalLabel(0.03, 1.04, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, 1.15, 'Local Demographic Rates', cex=1.5, adj=c(0.5, 0.5), xpd=NA)
@@ -1612,8 +1611,8 @@ MimulusInv6LambdaFig  <-  function() {
         lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv2)
         lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv2)
     # Plot inv6
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
-        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
+        points(inv6_sf ~ inv6_sm, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((inv6_sm-0.1), (inv6_sf+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
     # Labels/Annotations
         proportionalLabel(0.03, 1.04, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, 1.15, 'Non-local Demographic Rates', cex=1.5, adj=c(0.5, 0.5), xpd=NA)
@@ -1638,8 +1637,8 @@ MimulusInv6LambdaFig  <-  function() {
         lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv3)
         lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv3)
     # Plot inv6
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
-        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
+        points(inv6_sf ~ inv6_sm, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((inv6_sm-0.1), (inv6_sf+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
     # Labels/Annotations
         proportionalLabel(0.03, 1.04, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.4, 0.5, expression(paste(italic(C), " = 0.29, w/ I.D.")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
@@ -1661,8 +1660,8 @@ MimulusInv6LambdaFig  <-  function() {
         lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv4)
         lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv4)
     # Plot inv6
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
-        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='black')
+        points(inv6_sf ~ inv6_sm, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((inv6_sm-0.1), (inv6_sf+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='black')
     # Labels/Annotations
         proportionalLabel(0.03, 1.04, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
@@ -1739,8 +1738,8 @@ MimulusInv6NstarFig  <-  function() {
     layout     <- layout(layout.mat,respect=TRUE)
 
     # Selection coefficients for Inv6 (including average flower # effect)
-    sfInv6  <-  0.31
-    smInv6  <-  0.30
+    inv6_sf  <-  0.31
+    inv6_sm  <-  0.30
 
 # Color scheme
     COLS  <-  list(
@@ -1766,8 +1765,8 @@ MimulusInv6NstarFig  <-  function() {
         lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv1)
         lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv1)
     # Plot inv6
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
-        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
+        points(inv6_sf ~ inv6_sm, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((inv6_sm-0.1), (inv6_sf+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
     # Labels/Annotations
         proportionalLabel(0.03, 1.04, 'A', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, 1.15, 'Local Demographic Rates', cex=1.5, adj=c(0.5, 0.5), xpd=NA)
@@ -1787,8 +1786,8 @@ MimulusInv6NstarFig  <-  function() {
         lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv2)
         lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv2)
     # Plot inv6
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
-        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
+        points(inv6_sf ~ inv6_sm, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((inv6_sm-0.1), (inv6_sf+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
     # Labels/Annotations
         proportionalLabel(0.03, 1.04, 'B', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(0.5, 1.15, 'Non-local Demographic Rates', cex=1.5, adj=c(0.5, 0.5), xpd=NA)
@@ -1813,8 +1812,8 @@ MimulusInv6NstarFig  <-  function() {
         lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv3)
         lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv3)
     # Plot inv6
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
-        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
+        points(inv6_sf ~ inv6_sm, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((inv6_sm-0.1), (inv6_sf+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
     # Labels/Annotations
         proportionalLabel(0.03, 1.04, 'C', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
         proportionalLabel(-0.4, 0.5, expression(paste(italic(C), " = 0.29, w/ I.D.")), cex=1.5, adj=c(0.5, 0.5), xpd=NA, srt=90)
@@ -1836,8 +1835,8 @@ MimulusInv6NstarFig  <-  function() {
         lines(AInvBound ~ sms, lwd=2, col=COLS$line, data=inv4)
         lines(aInvBound[aInvBound < max(sms)] ~ sms[aInvBound < max(sms)], lwd=2, col=COLS$line, data=inv4)
     # Plot inv6
-        points(sfInv6 ~ smInv6, pch=21, col=COLS$line, bg='white', cex=1.25)
-        proportionalLabel((smInv6-0.1), (sfInv6+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
+        points(inv6_sf ~ inv6_sm, pch=21, col=COLS$line, bg='white', cex=1.25)
+        proportionalLabel((inv6_sm-0.1), (inv6_sf+0.05), expression('inv6'), cex=1, adj=c(0.5, 0.5), xpd=NA, col='white')
     # Labels/Annotations
         proportionalLabel(0.03, 1.04, 'D', cex=1.2, adj=c(0.5, 0.5), xpd=NA)
 
