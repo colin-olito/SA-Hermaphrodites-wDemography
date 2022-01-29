@@ -52,7 +52,7 @@ In accordance with The American Naturalist's [guidelines for archiving Code with
 This repository provides all code necessary to (1) rerun the simulations, (2) produce figures as .pdf's, and (3) compile the LaTeX to produce the accepted manuscript, complete with embedded figures. To do so, please follow these basic steps:
 
 1. Clone the repo, and create the output directories locally so that the simulation and figure files can be correctly saved and recalled later.  
-2. Check that the following R package dependencies are correctly installed using `install.packages('packageName')`:  
+2. Check that the following R package dependencies are correctly installed using `install.packages()`:  
 	- `extrafont`  
 	- `fontcm`
 		- **A note on fonts**: We embeded CM Modern font in the .pdf figures produced for the paper. If you prefer to use a different font, instructions are provided on L.34 of `./R/functions-Figs.R`. If you prefer not to use the above font packages, comment out L.4-6 in `./R/functions-Figs.R`, choose a standard font as described on L.34, and comment out the `embed_fonts()` statements `in makeFigs.R`.
