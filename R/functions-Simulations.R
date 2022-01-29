@@ -165,29 +165,6 @@ predDelta  <-  function(dStar, b=1/2, a=0.2, C) {
 ###########################################
 #' Eigenvalue Calculator for full demographic model
 #' 
-#calcZeta  <-  function(om, FSi, FXi, FXi_pr, USi, UXi, pHat_AA, pHat_aa, C, delta, lambda_i){
-#
-#	pn_AA   <-  ones(c(om)) %*% FXi_pr[,,1] %*% (pHat_AA[1:om] + pHat_AA[om+1:om])
-#	pn_aa   <-  ones(c(om)) %*% FXi_pr[,,3] %*% (pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)])
-#	M22_AA  <-  rbind(
-#					cbind(USi[,,2] + C*(1 - delta)*FSi[,,2]/2, C*(1 - delta)*FSi[,,2]/2, zeros(c(om,om))),
-#					cbind(           ((1 - C)/2)*FXi[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,2])),
-#						  UXi[,,2] + ((1 - C)/2)*FXi[,,2] + kronecker(c(((1 - C)/(2*pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,2])), 
-#						                 (1 - C)*FXi[,,3] + kronecker(c(((1 - C)/(  pn_AA)))*FXi[,,1]%*%(pHat_AA[1:om] + pHat_AA[om+1:om]), (ones(om)%*%FXi_pr[,,3]))),
-#					cbind(((C*(1 - delta))/4)*FSi[,,2], ((C*(1 - delta))/4)*FSi[,,2], USi[,,3] + C*(1 - delta)*FSi[,,3])
-#					)
-#	M22_aa  <-  rbind(
-#					cbind(USi[,,2] + C*(1 - delta)*FSi[,,2]/2, C*(1 - delta)*FSi[,,2]/2, zeros(c(om,om))),
-#					cbind(           ((1 - C)/2)*FXi[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,2])),
-#						  UXi[,,2] + ((1 - C)/2)*FXi[,,2] + kronecker(c(((1 - C)/(2*pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,2])),
-#						                 (1 - C)*FXi[,,1] + kronecker(c(((1 - C)/(  pn_aa)))*FXi[,,3]%*%(pHat_aa[(4*om+1):(5*om)] + pHat_aa[(5*om+1):(6*om)]), (ones(om)%*%FXi_pr[,,1]))),
-#					cbind(((C*(1 - delta))/4)*FSi[,,2], ((C*(1 - delta))/4)*FSi[,,2], USi[,,1] + C*(1 - delta)*FSi[,,1])
-#					)
-#	zeta_i  <-  c(max(Re(eigen(M22_AA, symmetric=FALSE, only.values = TRUE)$values)),
-#				  max(Re(eigen(M22_aa, symmetric=FALSE, only.values = TRUE)$values)))
-#	zeta_i  <-  zeta_i/lambda_i[c(1,3)]
-#	return(zeta_i)
-#}
 calcZeta  <-  function(om, FSi, FXi, FXi_pr, USi, UXi, pHat_AA, pHat_aa, C, delta){
 
 	pn_AA   <-  ones(c(om)) %*% FXi_pr[,,1] %*% (pHat_AA[1:om] + pHat_AA[om+1:om])
