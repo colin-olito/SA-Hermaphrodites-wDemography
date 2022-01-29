@@ -13,7 +13,7 @@ library(raster)
 library(akima)
 
 source('./R/functions-Simulations.R')
-source('./data/inv6-selection-coefficients.R')
+source('./R/inv6-selection-coefficients.R')
 
 #######################
 # AUXILLIARY FUNCTIONS
