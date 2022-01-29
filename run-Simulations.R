@@ -8,7 +8,7 @@
 #'  Author: Colin Olito
 #'
 #'  NOTES:  To reproduce the analyses for the paper, run the 
-#' 			following R code up to L.725. This will generate
+#' 			following R code up to L.717. This will generate
 #' 			output data as .csv files saved to ./output/simData/
 #' 			Be sure to create this directory locally prior
 #' 			to running the simulations.
@@ -21,6 +21,36 @@ rm(list=ls())
 source('R/functions-Simulations.R')
 source('R/loadData-Compadre.R')
 
+###########################################
+##  Import parameter values from tables in
+##  Peterson et al. (2016) & Willis (1993)
+petersonData  <-  read.csv('./data/Peterson_2016_Data.csv', header=TRUE)
+WillisData    <-  read.csv('./data/Willis_1993_Data.csv', header=TRUE)
+Peterson2016.EM.theta.list  <-  list(D = petersonData$D[petersonData$population == "EM"], 
+						G = petersonData$G[petersonData$population == "EM"],
+						F = petersonData$F[petersonData$population == "EM"],
+						O = petersonData$O[petersonData$population == "EM"],
+						A = petersonData$A[petersonData$population == "EM"],
+						S = petersonData$S[petersonData$population == "EM"],
+						R = petersonData$R[petersonData$population == "EM"],
+						pop = petersonData$population[petersonData$population == "EM"]
+						)
+Peterson2016.LEP.theta.list  <-  list(D = petersonData$D[petersonData$population == "LEP"], 
+						 G = petersonData$G[petersonData$population == "LEP"],
+						 F = petersonData$F[petersonData$population == "LEP"],
+						 O = petersonData$O[petersonData$population == "LEP"],
+						 A = petersonData$A[petersonData$population == "LEP"],
+						 S = petersonData$S[petersonData$population == "LEP"],
+						 R = petersonData$R[petersonData$population == "LEP"],
+						 pop = petersonData$population[petersonData$population == "LEP"]
+						)
+Willis1993.SelfingRate  <-  WillisData$C
+Willis1993.delta.list   <-  list(delta_D = WillisData$delta_D,
+								 delta_G = WillisData$delta_G,
+								 delta_F = WillisData$delta_F,
+								 delta_O = WillisData$delta_O,
+								 delta_S = WillisData$delta_S
+							 )
 
 ######################################
 #' Simulations for the published paper
@@ -493,22 +523,22 @@ makeDataPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 
 makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,6.5), theta_prime = 6.5, 
-							hVals= c(1/2, 1/4), dStar = 0.8, 
+							hfVals= c(1/2, 1/4), hmVals= c(1/2, 1/4), dStar = 0.8, 
 							tlimit = 10^5, eqThreshold = 1e-8)
 
 makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,7), theta_prime = 7, 
-							hVals= c(1/2, 1/4), dStar = 0.8, 
+							hfVals= c(1/2, 1/4), hmVals= c(1/2, 1/4), dStar = 0.8, 
 							tlimit = 10^5, eqThreshold = 1e-8)
 
 makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,7.5), theta_prime = 7.5, 
-							hVals= c(1/2, 1/4), dStar = 0.8, 
+							hfVals= c(1/2, 1/4), hmVals= c(1/2, 1/4), dStar = 0.8, 
 							tlimit = 10^5, eqThreshold = 1e-8)
 
 makeDataDeltaPolyParamSpace(sMax=0.15, res=0.003, precision = 1e-4,
 							om = 2, g = 3, theta = c(0.6,0.6,0.05,8.5), theta_prime = 8.5, 
-							hVals= c(1/2, 1/4), dStar = 0.8, 
+							hfVals= c(1/2, 1/4), hmVals= c(1/2, 1/4), dStar = 0.8, 
 							tlimit = 10^5, eqThreshold = 1e-8)
  
 
@@ -545,22 +575,16 @@ defObj  <-  c("i")
 funs    <-  allObj[-which(allObj %in% defObj)]
 
 # Eagle Meadows population (locally adapted)
-datMat  <-  matList_Mg_EM
-theta.list  <-  list(D = 0.534, 
-					 G = 0.469,
-					 F = 0.64,
-					 O = 614,
-					 A = 6.7e-4,
-					 S = 0.179,
-					 R = 8.71,
-					 pop = "EM")
+datMat      <-  matList_Mg_EM # created in ./R/loadData-Compadre.R
+theta.list  <-  Peterson2016.EM.theta.list
+
+# inbreeding depression parameters set to 0 due to obligate outcrossing (C = 0)
 delta.list  <-  list(delta_D = 0,
 					 delta_G = 0,
 					 delta_F = 0,
 					 delta_O = 0,
 					 delta_S = 0
 					 )
-
 
 ## Obligate oucrossing
 makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
@@ -571,37 +595,27 @@ makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
 
 ## Empirical selfing rate estimates
 ## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
-delta.list  <-  list(delta_D = 0,
-					 delta_G = 0.085,
-					 delta_F = 0.2,
-					 delta_O = 0,
-					 delta_S = 0.38
-					 )
-# Low-end of Empirical selfing rates
+delta.list  <-  Willis1993.delta.list
+
+# Empirical selfing rate
 makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
 							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
-							 hf=1/2, hm = 1/2, C = 0.29, 
+							 hf=1/2, hm = 1/2, C = Willis1993.SelfingRate, 
 							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
 							 nCluster = 12, funs = funs, writeFile = TRUE)
 
 
 ##########################
 # Low-elevation perenials (Peterson et al. 2016; Correction Table 1)
-theta.list  <-  list(D = 0.534, 
-					 G = 0.652,
-					 F = 4.09,
-					 O = 494,
-					 A = 6.7e-4,
-					 S = 0,
-					 R = 0,
-					 pop = "LEP")
+theta.list  <-  Peterson2016.LEP.theta.list
+
+# inbreeding depression parameters set to 0 due to obligate outcrossing (C = 0)
 delta.list  <-  list(delta_D = 0,
 					 delta_G = 0,
 					 delta_F = 0,
 					 delta_O = 0,
 					 delta_S = 0
 					 )
-
 
 ## Obligate oucrossing
 makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
@@ -612,16 +626,12 @@ makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
 
 ## Empirical selfing rate estimates
 ## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
-delta.list  <-  list(delta_D = 0,
-					 delta_G = 0.085,
-					 delta_F = 0.2,
-					 delta_O = 0,
-					 delta_S = 0.38
-					 )
-	# Empirical selfing rates
+delta.list  <-  Willis1993.delta.list
+
+	# Empirical selfing rate
 makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
 							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
-							 hf = 1/2, hm = 1/2, C = 0.29, 
+							 hf = 1/2, hm = 1/2, C = Willis1993.SelfingRate, 
 							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
 							 nCluster = 12, funs = funs, writeFile = TRUE)
 
@@ -644,15 +654,10 @@ funs    <-  allObj[-which(allObj %in% defObj)]
 #' INTO ACCOUNT WHEN CALCULATING MALE SELECTION
 #' COEFFICIENTS AND DOMINANCE FOR INV6
 # Eagle Meadows population  (Peterson et al. 2016)
-datMat  <-  matList_Mg_EM
-theta.list  <-  list(D = 0.534, 
-					 G = 0.469,
-					 F = 0.64,
-					 O = 614,
-					 A = 6.7e-4,
-					 S = 0.179,
-					 R = 8.71,
-					 pop = "EM")
+datMat      <-  matList_Mg_EM
+theta.list  <-  Peterson2016.EM.theta.list
+
+# inbreeding depression parameters set to 0 due to obligate outcrossing (C = 0)
 delta.list  <-  list(delta_D = 0,
 					 delta_G = 0,
 					 delta_F = 0,
@@ -670,37 +675,27 @@ makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
 
 ## Empirical selfing rate estimates
 ## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
-delta.list  <-  list(delta_D = 0,
-					 delta_G = 0.085,
-					 delta_F = 0.2,
-					 delta_O = 0,
-					 delta_S = 0.38
-					 )
-# Low-end of Empirical selfing rates
+delta.list  <-  Willis1993.delta.list
+
+# Empirical selfing rates
 makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
 							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
-							 hf=1/2, hm = 1/2, C = 0.29,  alpha = alpha,
+							 hf=1/2, hm = 1/2, C = Willis1993.SelfingRate,  alpha = alpha,
 							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
 							 nCluster = 12, funs = funs, writeFile = TRUE)
 
 
 ##########################
 # Low-elevation perenials (Peterson et al. 2016; Correction Table 1)
-theta.list  <-  list(D = 0.534, 
-					 G = 0.652,
-					 F = 4.09,
-					 O = 494,
-					 A = 6.7e-4,
-					 S = 0,
-					 R = 0,
-					 pop = "LEP")
+theta.list  <-  Peterson2016.LEP.theta.list
+
+# inbreeding depression parameters set to 0 due to obligate outcrossing (C = 0)
 delta.list  <-  list(delta_D = 0,
 					 delta_G = 0,
 					 delta_F = 0,
 					 delta_O = 0,
 					 delta_S = 0
 					 ) 
-
 
 ## Obligate oucrossing
 makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
@@ -711,16 +706,12 @@ makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
 
 ## Empirical selfing rate estimates
 ## Empirical Inbreeding Depression (delta values calculated from Willis 1993)
-delta.list  <-  list(delta_D = 0,
-					 delta_G = 0.085,
-					 delta_F = 0.2,
-					 delta_O = 0,
-					 delta_S = 0.38
-					 )
+delta.list  <-  Willis1993.delta.list
+
 	# Empirical selfing rates
 makeLambdaHeatMapMimulusData(sMax = 0.99, len = 100,
 							 datMat = datMat, theta.list = theta.list, delta.list = delta.list, useCompadre = FALSE,
-							 hf = 1/2, hm = 1/2, C = 0.29,  alpha = alpha,
+							 hf = 1/2, hm = 1/2, C = Willis1993.SelfingRate,  alpha = alpha,
 							 tlimit = 4*10^5, intInit = TRUE, Ainvade=FALSE, eqThreshold=1e-9, 
 							 nCluster = 12, funs = funs, writeFile = TRUE)
 
