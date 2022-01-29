@@ -1,0 +1,6 @@
+﻿year,no_inv6_flowers_inches,inv6_het_flowers_inches,no_inv6_fruits_inches,inv6_het_fruits_inches,no_inv6_seeds_inches,inv6_het_seeds_inches,no_inv6_PrViablePollen_inches,inv6_het_PrViablePollen_inches,scaleUnits,scaleAxis,pptInches
+2007,NA,NA,NA,NA,NA,NA,4.24,2.93,flowers,6,1.69
+2010,NA,NA,0.29,0.35,0.24,0.3,NA,NA,fruits,5,1.69
+2011,NA,NA,0.51,0.44,0.54,0.45,NA,NA,seeds,250,1.67
+2012,0.61,0.8,0.48,0.58,0.35,0.46,NA,NA,PrViablePollen,1,5
+2013,1.32,1.52,1.23,1.36,1.48,1.28,NA,NA,,,
