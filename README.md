@@ -42,7 +42,7 @@ The key directories in this repository that are needed to reproduce the results 
 - `run-Simulations.R`  
 - `makeFigs.R`    
 
-**Note:** Output directories *must be created locally by the user* before running the simulations. All other files were created during the development of the study, and are not essential for reproducing the main results presented in the published paper.
+**Note:** Output directories *must be created locally by the user* before running the simulations so that the results can be saved correctly.
 
 In accordance with The American Naturalist's [guidelines for archiving Code with Data](http://comments.amnat.org/2021/12/guidelines-for-archiving-code-with-data.html), a clean version of this repository has been uploaded to Dryad [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
 
