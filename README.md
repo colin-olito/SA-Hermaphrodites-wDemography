@@ -52,10 +52,10 @@ In accordance with The American Naturalist's [guidelines for archiving Code with
 This repository provides all code necessary to (1) rerun the simulations, (2) produce figures as .pdf's, and (3) compile the LaTeX to produce the accepted manuscript, complete with embedded figures. To do so, please follow these basic steps:
 
 1. Clone the repo, and create the output directories locally so that the simulation and figure files can be correctly saved and recalled later.  
-2. Check that the following R package dependencies are correctly installed:  
+2. Check that the following R package dependencies are correctly installed using `install.packages('packageName')`:  
 	- `extrafont`  
 	- `fontcm`
-		- **A note on fonts**: We embeded CM Modern font in the .pdf figures produced for the paper. If you prefer to use a different font, instructions are provided on l.33 of `./R/functions-Figures.R`. If you prefer not to use the above font packages, comment out L.4-6 in `./R/functions-Figures.R`, change the font as above, and comment out the `embed_fonts()` statement `in makeFigs.R`.
+		- **A note on fonts**: We embeded CM Modern font in the .pdf figures produced for the paper. If you prefer to use a different font, instructions are provided on L.34 of `./R/functions-Figs.R`. If you prefer not to use the above font packages, comment out L.4-6 in `./R/functions-Figs.R`, choose a standard font as described on L.34, and comment out the `embed_fonts()` statements `in makeFigs.R`.
 	- `plyr`  
 	- `lattice`  
 	- `latticeExtra`  
@@ -66,8 +66,8 @@ This repository provides all code necessary to (1) rerun the simulations, (2) pr
 	- `foreach`  
 	- `doParallel`  
 	- `doSNOW`  
-3. Run the file `run-Simulations.R` either interactively in R or in terminal using Rscript. The simulations will take some time to generate the output files. We recommend doing this interactively and only running up to L.717, which will avoid running many simulations contained in a coda to the main simulations.
-4. Run the file `makeFigs.R`, which will read the simulation output files and generate the figures.  
+3. Run the file `run-Simulations.R` either interactively in R or in terminal using Rscript. The simulations will take some time to generate the output files. *We recommend doing this interactively and only running up to L.717*, which will avoid running many simulations contained in a coda to the main simulations.
+4. Run the file `makeFigs.R` (up to L.108), which will read the simulation output files and generate the main figures in the paper and supplementary material.  
 5. Compile the LaTeX file `SA-Hermaphrodites-wDemography.tex` to produce a .pdf version of the accepted manuscript.  
 6. Compile the LaTeX file `SupplementaryMaterial.tex` to produce a .pdf version of the Supplementary Material.  
 
