@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a GitHub repository for the development of a theoretical evolutionary genetics research project that is now published under the title "*Demographic consequences of sexually antagonistic selection in partially selfing populations*" (doi: [XXX](https://doi.org/...)). Here you can find all of the necessary code to reproduce the simulations presented in the published paper and appendices, and the LaTeX files used to compile the manuscript. Supplementary material for the paper is also available from the publisher [here](https://www.journals.uchicago.edu/toc/an/current), and on the Dryad digital repository [here](https://doi.org/10.5061/dryad.c2fqz619t).
+This is a GitHub repository for the development of a theoretical evolutionary genetics research project that is now published under the title "*Demographic consequences of sexually antagonistic selection in partially selfing populations*" (doi: [XXX](https://doi.org/...)). Here you can find all of the necessary code to reproduce the simulations presented in the published paper and appendices, and the LaTeX files used to compile the manuscript. Supplementary material for the paper is also available from the publisher [here](https://www.journals.uchicago.edu/toc/an/current), and on the Dryad digital repository [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
 
 
 ## Abstract
@@ -20,12 +20,17 @@ Full citing information will be provided when it is made [available through the 
 ## Structure of this repository & instructions for reproducing the results
 
 The key directories in this repository that are needed to reproduce the results and manuscript are as follows:  
-.  
+
 - **`R`**   
 	- `functions-Figs.R`  
 	- `functions-MatModels.R`  
 	- `functions-Simulations.R`  
 	- `loadData-Compadre.R`   
+	- `inv6-selection-coefficients.R`  
+- **`data`**  
+	- `Peterson_2016_Data.csv`  
+	- `Willis_1993_Data.csv`  
+	- `inv6_Figure_Measurements.csv`  
 - **`doc`**  
 	- `Refs2.bib`  
 	- `SA-Hermaphrodites-wDemography.tex`  
@@ -39,29 +44,42 @@ The key directories in this repository that are needed to reproduce the results 
 
 **Note:** Output directories *must be created locally by the user* before running the simulations. All other files were created during the development of the study, and are not essential for reproducing the main results presented in the published paper.
 
-In accordance with The American Naturalist's [guidelines for archiving Code with Data](http://comments.amnat.org/2021/12/guidelines-for-archiving-code-with-data.html), a clean version of this repository has been uploaded to Dryad [here](https://datadryad.org/stash).
+In accordance with The American Naturalist's [guidelines for archiving Code with Data](http://comments.amnat.org/2021/12/guidelines-for-archiving-code-with-data.html), a clean version of this repository has been uploaded to Dryad [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
 
 
 ###  How to reproduce the results & manuscript
 
 This repository provides all code necessary to (1) rerun the simulations, (2) produce figures as .pdf's, and (3) compile the LaTeX to produce the accepted manuscript, complete with embedded figures. To do so, please follow these basic steps:
 
-1. Clone the repo, and create the output directories locally so that the simulation and figure files can be correctly saved and recalled later.
-2. Check the notes in the `run-Simulations.R` to be sure that the necessary R packages are installed locally (especially those needed for parallelizing the simulations).
-3. Run the file `run-Simulations.R` either interactively in R or in terminal using Rscript. The simulations will take some time to generate the output files. We recommend doing this interactively and only running up to L.725, which will avoid running many simulations contained in a code to the main simulations.
-4. Run the file `makeFigs.R`, which will read the simulation output files and generate the figures. Again, check to be sure that all required R packages are installed.
-5. Compile the LaTeX file `SA-Hermaphrodites-wDemography.tex` to produce a .pdf version of the accepted manuscript.
-6. Compile the LaTeX file `SupplementaryMaterial.tex` to produce a .pdf version of the Supplementary Material.
+1. Clone the repo, and create the output directories locally so that the simulation and figure files can be correctly saved and recalled later.  
+2. Check that the following R package dependencies are correctly installed:  
+	- `extrafont`  
+	- `fontcm`
+		- **A note on fonts**: We embeded CM Modern font in the .pdf figures produced for the paper. If you prefer to use a different font, instructions are provided on l.33 of `./R/functions-Figures.R`. If you prefer not to use the above font packages, comment out L.4-6 in `./R/functions-Figures.R`, change the font as above, and comment out the `embed_fonts()` statement `in makeFigs.R`.
+	- `plyr`  
+	- `lattice`  
+	- `latticeExtra`  
+	- `wesanderson`  
+	- `MASS`  
+	- `raster`  
+	- `akima`  
+	- `foreach`  
+	- `doParallel`  
+	- `doSNOW`  
+3. Run the file `run-Simulations.R` either interactively in R or in terminal using Rscript. The simulations will take some time to generate the output files. We recommend doing this interactively and only running up to L.717, which will avoid running many simulations contained in a coda to the main simulations.
+4. Run the file `makeFigs.R`, which will read the simulation output files and generate the figures.  
+5. Compile the LaTeX file `SA-Hermaphrodites-wDemography.tex` to produce a .pdf version of the accepted manuscript.  
+6. Compile the LaTeX file `SupplementaryMaterial.tex` to produce a .pdf version of the Supplementary Material.  
 
-## A note on data used in the study
+## An important note on data used in the study
 
-All empirical data used to parameterize the simulations for the *Mimulus gutattus* case study were taken directly from tables presented in previously published studies (i.e., no data sets were generated or analyzed for this study). Details of how these data were used in our study is presented in Appendix D of the main paper. The sources can be founde here:
+All empirical data used to parameterize the simulations for the *Mimulus gutattus* case study were taken directly from tables presented in previously published studies (i.e., no new data sets were generated or analyzed for this study). Details of how these published data were used in our study is presented in Appendix D of the main paper. The sources for the data can be found here:
 
-- Demographic rates were taken directly from Table 1 in *Peterson et al. (2017) New Phytologist 216: 956–957*. **Note** that this is a corrected version of the table presented in the original publication *Peterson et al. (2016) New Phytologist (2016) 211: 345–356. doi: 10.1111/nph.13971*.
+- Demographic rates were taken directly from Table 1 in *Peterson et al. (2017) New Phytologist 216: 956–957*. **Note** that this is a corrected version of the table presented in the original publication *Peterson et al. (2016) New Phytologist (2016) 211: 345–356. doi: 10.1111/nph.13971*. The specific parameters from Peterson et al. (2016) used in our simulations is provided in `./data/Peterson_2016_Data.csv`.
 
-- Selfing and inbreeding depression estimates were calculated directly from Tables 1 & 2 in *Willis (1993) Heredity 71:145—154*.
+- Selfing and inbreeding depression estimates were calculated directly from Tables 1 & 2 in *Willis (1993) Heredity 71:145—154*. The specific parameters from Willis (1993) used in our simulations is provided in `./data/Willis_1993_Data.csv`.
 
-- Data from which selection coefficients for inv6 were calculated were taken directly from data presesented in *Lee et al. (2016) Genetics: 202, 1473–1484*. Data files showing our calculations are available on Dryad [here](https://datadryad.org/stash).
+- inv6 selection coefficients were back-calculated from data presented in Figs. 2, 5, & 6 of *Lee et al. (2016) Genetics: 202, 1473–1484*. Our raw measurements were done in Powerpoint, and are provided as .pptx, .odp, and .pdf in the Dryad digital repository for this article [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac). The resulting measurements are provided here in `inv6_Figure_Measurements.csv` and back-calculation to selection coefficients is performed in `inv6-selection-coefficients.R`, which is called by `.R/functions-Figs.R` during plotting.
 
 ## Contact & bug reporting
 
