@@ -89,6 +89,8 @@ vignettes/*.pdf
 *.Rhistory
 *.RData
 *.pptx
+*.ods
+*.odp
 # LaTeX Files #
 ###############
 *.aux
