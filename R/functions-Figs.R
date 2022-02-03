@@ -2,7 +2,7 @@
 # DEPENDENCIES
 ###############
 library(extrafont)
-library(fontcm)
+#library(fontcm)
 loadfonts(quiet=TRUE)
 library(plyr)
 library(lattice)
@@ -30,8 +30,8 @@ figPath  <-  function(name) {
 toDev <- function(expr, dev, filename, ..., verbose=TRUE) {
   if ( verbose )
     cat(sprintf('Creating %s\n', filename))
-    dev(filename, family='CM Roman', ...)
-#    dev(filename, family='yourFONT', ...) # To embed figs with the font of your choice, uncomment this line (and comment out the previous one) and replace yourFONT with your chosen font family.
+#    dev(filename, family='CM Roman', ...) # To embed CM Modern font in figs, be sure that the extrafont and fontcm packages are installed correctly and working, then uncomment this line (and comment out the next one).
+    dev(filename, family='Arial', ...) 
     on.exit(dev.off())
     eval.parent(substitute(expr))
 }

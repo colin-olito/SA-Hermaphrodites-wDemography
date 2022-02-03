@@ -53,9 +53,9 @@ This repository provides all code necessary to (1) rerun the simulations, (2) pr
 
 1. Clone the repo, and create the output directories locally so that the simulation and figure files can be correctly saved and recalled later.  
 2. Check that the following R package dependencies are correctly installed using `install.packages()`:  
+	- `Rcompadre`
+		- **NOTE:** see [https://github.com/jonesor/Rcompadre](https://github.com/jonesor/Rcompadre) for installation details.
 	- `extrafont`  
-	- `fontcm`
-		- **A note on fonts**: We embeded CM Modern font in the .pdf figures produced for the paper. If you prefer to use a different font, instructions are provided on L.34 of `./R/functions-Figs.R`. If you prefer not to use the above font packages, comment out L.4-6 in `./R/functions-Figs.R`, choose a standard font as described on L.34, and comment out the `embed_fonts()` statements `in makeFigs.R`.
 	- `plyr`  
 	- `lattice`  
 	- `latticeExtra`  
@@ -73,13 +73,13 @@ This repository provides all code necessary to (1) rerun the simulations, (2) pr
 
 ## An important note on data used in the study
 
-All empirical data used to parameterize the simulations for the *Mimulus gutattus* case study were taken directly from tables presented in previously published studies (i.e., no new data sets were generated or analyzed for this study). Details of how these published data were used in our study is presented in Appendix D of the main paper. The sources for the data can be found here:
+All empirical data used to parameterize the simulations for the *Mimulus gutattus* case study were taken directly from tables and figures presented in previously published studies (i.e., no *new* data was generated for this study). Details of how these published data were used to parameterize our demographic model are presented in Appendix D to the main paper. The sources for the data can be found here:
 
-- Demographic rates were taken directly from Table 1 in *Peterson et al. (2017) New Phytologist 216: 956–957*. **Note** that this is a corrected version of the table presented in the original publication *Peterson et al. (2016) New Phytologist (2016) 211: 345–356. doi: 10.1111/nph.13971*. The specific parameters from Peterson et al. (2016) used in our simulations is provided in `./data/Peterson_2016_Data.csv`.
+- Demographic rates were taken directly from Table 1 in *Peterson et al. (2017) New Phytologist 216: 956–957*. **Note** that this is a corrected version of the table presented in the original publication *Peterson et al. (2016) New Phytologist (2016) 211: 345–356. doi: 10.1111/nph.13971*. The specific parameter values used in our simulations are provided in `./data/Peterson_2016_Data.csv`.
 
-- Selfing and inbreeding depression estimates were calculated directly from Tables 1 & 2 in *Willis (1993) Heredity 71:145—154*. The specific parameters from Willis (1993) used in our simulations is provided in `./data/Willis_1993_Data.csv`.
+- Selfing and inbreeding depression estimates were calculated directly from Tables 1 & 2 in *Willis (1993) Heredity 71:145—154*. The specific parameter values used in our simulations are provided in `./data/Willis_1993_Data.csv`.
 
-- inv6 selection coefficients were back-calculated from data presented in Figs. 2, 5, & 6 of *Lee et al. (2016) Genetics: 202, 1473–1484*. Our raw measurements were done in Powerpoint, and are provided as .pptx, .odp, and .pdf in the Dryad digital repository for this article [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac). The resulting measurements are provided here in `inv6_Figure_Measurements.csv` and back-calculation to selection coefficients is performed in `inv6-selection-coefficients.R`, which is called by `.R/functions-Figs.R` during plotting.
+- inv6 selection coefficients were extracted from Figs. 2, 5, & 6 of *Lee et al. (2016) Genetics: 202, 1473–1484*. Raw measurements were performed in Powerpoint, and are provided as .pptx, .odp, and .pdf in the Dryad digital repository for this article [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac). The resulting measurements are provided here in `inv6_Figure_Measurements.csv` and back-calculation to selection coefficients is performed in `inv6-selection-coefficients.R`, which is called by `.R/functions-Figs.R` during plotting.
 
 ## Contact & bug reporting
 
