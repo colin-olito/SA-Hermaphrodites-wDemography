@@ -19,39 +19,51 @@ Full citing information will be provided when it is made [available through the 
 
 ## Structure of this repository & instructions for reproducing the results
 
-The key directories in this repository that are needed to reproduce the results and manuscript are as follows:  
+The directories/files needed to reproduce the results for this study are as follows:  
 
 - **`R`**   
 	- `functions-Figs.R`  
 	- `functions-MatModels.R`  
 	- `functions-Simulations.R`  
-	- `loadData-Compadre.R`   
+	- `loadData-Compadre.R`  
 	- `inv6-selection-coefficients.R`  
 - **`data`**  
 	- `Peterson_2016_Data.csv`  
 	- `Willis_1993_Data.csv`  
 	- `inv6_Figure_Measurements.csv`  
-- **`doc`**  
-	- `Refs2.bib`  
-	- `SA-Hermaphrodites-wDemography.tex`  
-	- **`Supplements`**  
-		- `SupplementaryMaterial.tex`  
 - **`output`**  
 	- **`figs`**  
 	- **`simData`**  
 - `run-Simulations.R`  
-- `makeFigs.R`    
+- `makeFigs.R`  
+- `COPYING.txt`   
 
 **Note:** Output directories *must be created locally by the user* before running the simulations so that the results can be saved correctly.
 
-In accordance with The American Naturalist's [guidelines for archiving Code with Data](http://comments.amnat.org/2021/12/guidelines-for-archiving-code-with-data.html), a clean version of this repository has been uploaded to Dryad [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
+### File descriptions
+
+- `functions-Figs.R`: compendium of plotting functions called by `makeFigs.R`.   
+- `functions-MatModels.R`: convenience functions for matrix models called by `functions-Simulations.R`.   
+- `functions-Simulations.R`: workhorse simulation functions called by `run-Simulations.R`.  
+- `loadData-Compadre.R`: loads the Compadre demographic database and extracts data for **M. guttatus**; see [https://github.com/jonesor/Rcompadre](https://github.com/jonesor/Rcompadre) for more details.   
+- `inv6-selection-coefficients.R`: calculates selection coeffients for inv6 from `inv6_Figure_Measurements.csv`.  
+- `Peterson_2016_Data.csv`: data from Peterson et al. 2016 used in this study.  
+- `Willis_1993_Data.csv`: data from Willis 1993 used in this study.  
+- `inv6_Figure_Measurements.csv`: data from Lee. et al. 2017 used in this study.  
+- `run-Simulations.R`: Exectuable functions to run simulations; calls functions/objects defined in `functions-MatModels.R`, `functions-Simulations.R`, and `loadData-Compadre.R`)  
+- `makeFigs.R`: executable plotting functions to generate .pdf figures using simulation results. Calls functions defined in `functions-Figs.R`.    
+- `COPYING.txt`: GNU General Public License v3.0.    
 
 
-###  How to reproduce the results & manuscript
+## DRYAD
+In accordance with The American Naturalist's [guidelines for archiving Code with Data](http://comments.amnat.org/2021/12/guidelines-for-archiving-code-with-data.html), a copy of this repository was uploaded to Dryad at the time of manuscript acceptance [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
+
+
+##  Instructions to reproduce the results
 
 This repository provides all code necessary to (1) rerun the simulations, (2) produce figures as .pdf's, and (3) compile the LaTeX to produce the accepted manuscript, complete with embedded figures. To do so, please follow these basic steps:
 
-1. Clone the repo, and create the output directories locally so that the simulation and figure files can be correctly saved and recalled later.  
+1. Clone the repo using the following: `git clone https://github.com/colin-olito/SA-Hermaphrodites-wDemography`. Alternatively, on the project main page on GitHub, click on the green button `clone` or `download` and then click on `Download ZIP`. Be sure to create the output directories locally so that the simulation and figure files can be correctly saved and recalled later.  
 2. Check that you have a recent version of [`R`](https://www.r-project.org/) installed. 
 3. Check that the following R package dependencies are correctly installed using `install.packages()`:  
 	- `Rcompadre`
@@ -69,8 +81,6 @@ This repository provides all code necessary to (1) rerun the simulations, (2) pr
 	- `doSNOW`  
 4. Run `run-Simulations.R` either interactively in R or in terminal, being sure to set the working directory to `SA-Hermaphrodites-wDemography-master/`. The simulations will take some time to generate the output files. *We recommend doing this interactively and only running up to L.717*, which will avoid running many simulations contained in a coda to the main simulations.
 5. Run `makeFigs.R` (up to L.108), which will read the simulation output files and generate the main figures in the paper and supplementary material.  
-6. Compile the LaTeX file `SA-Hermaphrodites-wDemography.tex` to produce a .pdf version of the accepted manuscript.  
-7. Compile the LaTeX file `SupplementaryMaterial.tex` to produce a .pdf version of the Supplementary Material.  
 
 ## An important note on data used in the study
 
@@ -85,3 +95,8 @@ All empirical data used to parameterize the simulations for the *Mimulus gutattu
 ## Contact & bug reporting
 
 Please report any bugs, problems, or issues by opening an issue on the inversionSize github [issues page](https://github.com/colin-olito/SA-Hermaphrodites-wDemography/issues), or inform me directly by sending a brief email detailing the problem you encountered to colin.olito at biol dot lu dot se.
+
+## Licence information
+
+This repository is provided by the authors under the MIT License ([MIT](https://opensource.org/licenses/MIT)).
+
