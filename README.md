@@ -36,7 +36,7 @@ The directories/files needed to reproduce the results for this study are as foll
 	- **`simData`**  
 - `run-Simulations.R`  
 - `makeFigs.R`  
-- `COPYING.txt`   
+- `LICENSE.txt`   
 
 **Note:** Output directories *must be created locally by the user* before running the simulations so that the results can be saved correctly.
 
@@ -52,22 +52,22 @@ The directories/files needed to reproduce the results for this study are as foll
 - `inv6_Figure_Measurements.csv`: data from Lee. et al. 2017 used in this study.  
 - `run-Simulations.R`: Exectuable functions to run simulations; calls functions/objects defined in `functions-MatModels.R`, `functions-Simulations.R`, and `loadData-Compadre.R`)  
 - `makeFigs.R`: executable plotting functions to generate .pdf figures using simulation results. Calls functions defined in `functions-Figs.R`.    
-- `COPYING.txt`: GNU General Public License v3.0.    
+- `LICENSE.txt`: MIT license for this repository.  
 
 
-## DRYAD
-In accordance with The American Naturalist's [guidelines for archiving Code with Data](http://comments.amnat.org/2021/12/guidelines-for-archiving-code-with-data.html), a copy of this repository was uploaded to Dryad at the time of manuscript acceptance [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
+### DRYAD
+A copy of this repository was uploaded to Dryad at the time of manuscript acceptance [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
 
 
 ##  Instructions to reproduce the results
 
-This repository provides all code necessary to (1) rerun the simulations, (2) produce figures as .pdf's, and (3) compile the LaTeX to produce the accepted manuscript, complete with embedded figures. To do so, please follow these basic steps:
+This repository provides all code necessary to (1) rerun the simulations and (2) produce figures as .pdf's. To do so, please follow these basic steps:
 
 1. Clone the repo using the following: `git clone https://github.com/colin-olito/SA-Hermaphrodites-wDemography`. Alternatively, on the project main page on GitHub, click on the green button `clone` or `download` and then click on `Download ZIP`. Be sure to create the output directories locally so that the simulation and figure files can be correctly saved and recalled later.  
 2. Check that you have a recent version of [`R`](https://www.r-project.org/) installed. 
 3. Check that the following R package dependencies are correctly installed using `install.packages()`:  
 	- `Rcompadre`
-		- **NOTE:** One of the dependencies (`popdemo`) currently only works with `R` v. >= 4.1.0. See [https://github.com/jonesor/Rcompadre](https://github.com/jonesor/Rcompadre) for more installation details.
+		- **NOTE:** At the time of acceptance one of the dependencies (`popdemo`) only works with `R` v. >= 4.1.0. See [https://github.com/jonesor/Rcompadre](https://github.com/jonesor/Rcompadre) for more installation details.
 	- `extrafont`  
 	- `plyr`  
 	- `lattice`  
