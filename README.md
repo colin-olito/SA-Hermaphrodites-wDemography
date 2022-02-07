@@ -63,11 +63,12 @@ A copy of this repository was uploaded to Dryad at the time of manuscript accept
 
 This repository provides all code necessary to (1) rerun the simulations and (2) produce figures as .pdf's. To do so, please follow these basic steps:
 
-1. Clone the repo using the following: `git clone https://github.com/colin-olito/SA-Hermaphrodites-wDemography`. Alternatively, on the project main page on GitHub, click on the green button `clone` or `download` and then click on `Download ZIP`. Be sure to create the output directories locally so that the simulation and figure files can be correctly saved and recalled later.  
-2. Check that you have a recent version of [`R`](https://www.r-project.org/) installed. 
-3. Check that the following R package dependencies are correctly installed using `install.packages()`:  
+1. Clone the repo using the following: `git clone https://github.com/colin-olito/SA-Hermaphrodites-wDemography`. Alternatively, on the project main page on GitHub, click on the green button `clone` or `download` and then click on `Download ZIP`.  
+2. Create the output directories `./output/figs` and `./output/simData` on your local machine so that the simulation and figure files can be correctly saved.  
+3. Check that you have a recent version of [`R`](https://www.r-project.org/) installed. 
+4. Check that the following R package dependencies are correctly installed using `install.packages()`:  
 	- `Rcompadre`
-		- **NOTE:** At the time of acceptance one of the dependencies (`popdemo`) only works with `R` v. >= 4.1.0. See [https://github.com/jonesor/Rcompadre](https://github.com/jonesor/Rcompadre) for more installation details.
+		- **NOTE:** At the time of acceptance one of the sub-dependencies (`popdemo`) only works with `R` v. >= 4.1.0. See [https://github.com/jonesor/Rcompadre](https://github.com/jonesor/Rcompadre) for more installation details.
 	- `extrafont`  
 	- `plyr`  
 	- `lattice`  
@@ -79,8 +80,8 @@ This repository provides all code necessary to (1) rerun the simulations and (2)
 	- `foreach`  
 	- `doParallel`  
 	- `doSNOW`  
-4. Run `run-Simulations.R` either interactively in R or in terminal, being sure to set the working directory to `SA-Hermaphrodites-wDemography-master/`. The simulations will take some time to generate the output files. *We recommend doing this interactively and only running up to L.717*, which will avoid running many simulations contained in a coda to the main simulations.
-5. Run `makeFigs.R` (up to L.108), which will read the simulation output files and generate the main figures in the paper and supplementary material.  
+5. Run `run-Simulations.R` either interactively in R or in terminal, being sure to set the working directory to the root directory of the repo (e.g., `SA-Hermaphrodites-wDemography-master/`). The simulations will take some time to generate the output files. *We recommend doing this interactively and only running up to L.717*, which will avoid running many simulations contained in a coda to the main simulations.
+6. Run `makeFigs.R` (up to L.108), which will read the simulation output files and generate the main figures in the paper and supplementary material.  
 
 ## An important note on data used in the study
 
