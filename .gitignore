@@ -110,6 +110,7 @@ output/*
 papers/*
 doc/*
 notes/*
+matlab/*
 # Untracked Files for public repo #
 ###################################
 *CoverLetter*.tex
