@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a GitHub repository for the development of a theoretical evolutionary genetics research project that is now published under the title "*Demographic consequences of sexually antagonistic selection in partially selfing populations*" (doi: [XXX](https://doi.org/...)). Here you can find all of the necessary code to reproduce the simulations presented in the published paper and appendices, and the LaTeX files used to compile the manuscript. Supplementary material for the paper is also available from the publisher [here](https://www.journals.uchicago.edu/toc/an/current), and on the Dryad digital repository [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
+This is a GitHub repository for a theoretical evolutionary genetics research project that is now published under the title "*Demographic consequences of sexually antagonistic selection in partially selfing populations*" (doi: [XXX](https://doi.org/...)). Here you can find all of the necessary code to reproduce the simulations and figures from the published paper and appendices. Supplementary material for the paper is also available from the publisher [here](https://www.journals.uchicago.edu/toc/an/current), and on the Dryad/Zenodo digital repository [here](https://doi.org/10.5061/dryad.c2fqz619t), temporary reviewer link [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
 
 
 ## Abstract
@@ -27,6 +27,7 @@ This repository provides all code necessary to (1) rerun the simulations and (2)
 4. Check that the following R package dependencies are correctly installed using `install.packages()`:  
 	- `Rcompadre`
 		- **NOTE:** At the time of acceptance one of the sub-dependencies (`popdemo`) only works with `R` v. >= 4.1.0. See [https://github.com/jonesor/Rcompadre](https://github.com/jonesor/Rcompadre) for more installation details.
+		- The database can also be downloaded from [https://www.compadre-db.org/Data/CompadreDownload](https://www.compadre-db.org/Data/CompadreDownload). Save it to `./data/` in your local repository, and then run the line `compadre <- cdb_fetch("./data/COMPADRE_v.X.XX.X.X.RData.txt")` in `R` (replace `X`'s with the current version number of the database).
 	- `extrafont`  
 	- `plyr`  
 	- `lattice`  
@@ -63,7 +64,7 @@ The directories/files in this repostiory needed to reproduce the results for thi
 - `makeFigs.R`  
 - `LICENSE.txt`   
 
-* **Note:** Output directories *must be created locally by the user* before running the simulations so that the results can be saved correctly.
+**Note:** * Output directories *must be created locally by the user* before running the simulations so that the results can be saved correctly.
 
 ### File & variable descriptions
 
@@ -104,6 +105,7 @@ Data files (variables in bullets)
 	- scaleUnits: Units of original plot y-axes.  
 	- scaleAxis: Scale in original units for y-axes  
 	- pptInches: Scale in inches  
+- Files with the raw raw measurements of the figures in Lee et al. (2016) are available on Dryad/Zenodo under the name `inv6_measurements.pptx` (also as .odp, .pdf), or upon request from the authors.
 
 Executables
 - `run-Simulations.R`: Exectuable functions to run simulations; calls functions/objects defined in `functions-MatModels.R`, `functions-Simulations.R`, `loadData-Compadre.R`, and `inv6-selection-coefficients.R`).    
@@ -114,7 +116,7 @@ License
 
 
 ### DRYAD
-A copy of this repository was uploaded to Dryad at the time of manuscript acceptance [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
+A copy of this repository was uploaded to Dryad at the time of manuscript acceptance [here](https://doi.org/10.5061/dryad.c2fqz619t), temporary Dryad [reviewer link](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
 
 
 
@@ -126,7 +128,7 @@ All empirical data used to parameterize the simulations for the *Mimulus gutattu
 
 - Selfing and inbreeding depression estimates were calculated directly from Tables 1 & 2 in *Willis (1993) Heredity 71:145—154*. The specific parameter values used in our simulations are provided in `./data/Willis_1993_Data.csv`.
 
-- inv6 selection coefficients were extracted from Figs. 2, 5, & 6 of *Lee et al. (2016) Genetics: 202, 1473–1484*. Raw measurements were performed in Powerpoint, and are provided as .pptx, .odp, and .pdf in the Dryad digital repository for this article [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac). The resulting measurements are provided here in `inv6_Figure_Measurements.csv` and back-calculation to selection coefficients is performed in `inv6-selection-coefficients.R`, which is called by `.R/functions-Figs.R` during plotting.
+- inv6 selection coefficients were extracted from Figs. 2, 5, & 6 of *Lee et al. (2016) Genetics: 202, 1473–1484*. Raw measurements were performed in Powerpoint, and are provided as .pptx, .odp, and .pdf in the Dryad digital repository for this article [here](https://doi.org/10.5061/dryad.c2fqz619t), temporary Dryad [reviewer link](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac). The resulting measurements are provided here in `inv6_Figure_Measurements.csv` and back-calculation to selection coefficients is performed in `inv6-selection-coefficients.R`, which is called by `.R/functions-Figs.R` during plotting.
 
 ## Contact & bug reporting
 
