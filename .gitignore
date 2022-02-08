@@ -108,7 +108,8 @@ vignettes/*.pdf
 Mathematica/*
 output/*
 papers/*
-doc/notes/*
+doc/*
+notes/*
 # Untracked Files for public repo #
 ###################################
 *CoverLetter*.tex

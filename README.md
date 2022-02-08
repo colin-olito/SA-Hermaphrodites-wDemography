@@ -71,7 +71,7 @@ Function & data processing files
 - `functions-Figs.R`: collection of plotting functions called by `makeFigs.R`.   
 - `functions-MatModels.R`: convenience functions for matrix models called by `functions-Simulations.R`.   
 - `functions-Simulations.R`: workhorse simulation functions called by `run-Simulations.R`.  
-- `loadData-Compadre.R`: loads the Compadre demographic database and extracts data for **M. guttatus**.   
+- `loadData-Compadre.R`: loads the Compadre demographic database and extracts data for *M. guttatus.   
 - `inv6-selection-coefficients.R`: Data processing file. Calculates selection coefficients for inv6 from raw figure measuremnts provided in `inv6_Figure_Measurements.csv`.  
 
 Data files (variables in bullets)
@@ -109,7 +109,7 @@ Executables
 - `run-Simulations.R`: Exectuable functions to run simulations; calls functions/objects defined in `functions-MatModels.R`, `functions-Simulations.R`, `loadData-Compadre.R`, and `inv6-selection-coefficients.R`).    
 - `makeFigs.R`: executable plotting functions to generate .pdf figures using simulation results. Calls functions/object defined in `functions-Figs.R` and `inv6-selection-coefficients.R`.
 
-Licence    
+License    
 - `LICENSE.txt`: MIT license for this repository.  
 
 
@@ -130,7 +130,7 @@ All empirical data used to parameterize the simulations for the *Mimulus gutattu
 
 ## Contact & bug reporting
 
-Please report any bugs, problems, or issues by opening an issue on the inversionSize github [issues page](https://github.com/colin-olito/SA-Hermaphrodites-wDemography/issues), or inform me directly by sending a brief email detailing the problem you encountered to colin.olito at biol dot lu dot se.
+Please report any bugs, problems, or issues by opening an issue on the inversionSize github [issues page](https://github.com/colin-olito/SA-Hermaphrodites-wDemography/issues), or inform me directly by sending a brief email detailing the problem you encountered to colin dot olito at biol dot lu dot se.
 
 ## Licence information
 
