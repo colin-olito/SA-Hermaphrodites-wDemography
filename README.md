@@ -17,49 +17,7 @@ When selection differs between the sexes, genes expressed by both males and fema
 Full citing information will be provided when it is made [available through the publisher](https://www.journals.uchicago.edu/toc/an/current). You can also contact me directly if you would like a reprint. 
 
 
-## Structure of this repository & instructions for reproducing the results
-
-The directories/files needed to reproduce the results for this study are as follows:  
-
-- **`R`**   
-	- `functions-Figs.R`  
-	- `functions-MatModels.R`  
-	- `functions-Simulations.R`  
-	- `loadData-Compadre.R`  
-	- `inv6-selection-coefficients.R`  
-- **`data`**  
-	- `Peterson_2016_Data.csv`  
-	- `Willis_1993_Data.csv`  
-	- `inv6_Figure_Measurements.csv`  
-- **`output`**  
-	- **`figs`**  
-	- **`simData`**  
-- `run-Simulations.R`  
-- `makeFigs.R`  
-- `LICENSE.txt`   
-
-**Note:** Output directories *must be created locally by the user* before running the simulations so that the results can be saved correctly.
-
-### File descriptions
-
-- `functions-Figs.R`: compendium of plotting functions called by `makeFigs.R`.   
-- `functions-MatModels.R`: convenience functions for matrix models called by `functions-Simulations.R`.   
-- `functions-Simulations.R`: workhorse simulation functions called by `run-Simulations.R`.  
-- `loadData-Compadre.R`: loads the Compadre demographic database and extracts data for **M. guttatus**; see [https://github.com/jonesor/Rcompadre](https://github.com/jonesor/Rcompadre) for more details.   
-- `inv6-selection-coefficients.R`: calculates selection coeffients for inv6 from `inv6_Figure_Measurements.csv`.  
-- `Peterson_2016_Data.csv`: data from Peterson et al. 2016 used in this study.  
-- `Willis_1993_Data.csv`: data from Willis 1993 used in this study.  
-- `inv6_Figure_Measurements.csv`: data from Lee. et al. 2017 used in this study.  
-- `run-Simulations.R`: Exectuable functions to run simulations; calls functions/objects defined in `functions-MatModels.R`, `functions-Simulations.R`, and `loadData-Compadre.R`)  
-- `makeFigs.R`: executable plotting functions to generate .pdf figures using simulation results. Calls functions defined in `functions-Figs.R`.    
-- `LICENSE.txt`: MIT license for this repository.  
-
-
-### DRYAD
-A copy of this repository was uploaded to Dryad at the time of manuscript acceptance [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
-
-
-##  Instructions to reproduce the results
+##  Instructions
 
 This repository provides all code necessary to (1) rerun the simulations and (2) produce figures as .pdf's. To do so, please follow these basic steps:
 
@@ -82,6 +40,83 @@ This repository provides all code necessary to (1) rerun the simulations and (2)
 	- `doSNOW`  
 5. Run `run-Simulations.R` either interactively in R or in terminal, being sure to set the working directory to the root directory of the repo (e.g., `SA-Hermaphrodites-wDemography-master/`). The simulations will take some time to generate the output files. *We recommend doing this interactively and only running up to L.717*, which will avoid running many simulations contained in a coda to the main simulations.
 6. Run `makeFigs.R` (up to L.108), which will read the simulation output files and generate the main figures in the paper and supplementary material.  
+
+
+## Repostiory structure and contents 
+
+The directories/files in this repostiory needed to reproduce the results for this study are as follows:  
+
+- **`R`**   
+	- `functions-Figs.R`  
+	- `functions-MatModels.R`  
+	- `functions-Simulations.R`  
+	- `loadData-Compadre.R`  
+	- `inv6-selection-coefficients.R`  
+- **`data`**  
+	- `Peterson_2016_Data.csv`  
+	- `Willis_1993_Data.csv`  
+	- `inv6_Figure_Measurements.csv`  
+- **`output`***  
+	- **`figs`**  
+	- **`simData`**  
+- `run-Simulations.R`  
+- `makeFigs.R`  
+- `LICENSE.txt`   
+
+* **Note:** Output directories *must be created locally by the user* before running the simulations so that the results can be saved correctly.
+
+### File & variable descriptions
+
+Function & data processing files
+- `functions-Figs.R`: collection of plotting functions called by `makeFigs.R`.   
+- `functions-MatModels.R`: convenience functions for matrix models called by `functions-Simulations.R`.   
+- `functions-Simulations.R`: workhorse simulation functions called by `run-Simulations.R`.  
+- `loadData-Compadre.R`: loads the Compadre demographic database and extracts data for **M. guttatus**.   
+- `inv6-selection-coefficients.R`: Data processing file. Calculates selection coefficients for inv6 from raw figure measuremnts provided in `inv6_Figure_Measurements.csv`.  
+
+Data files (variables in bullets)
+- `Peterson_2016_Data.csv`: data from Peterson et al. (2016) used in this study.   
+	- population: Population identifier  
+	- D: seed bank survival rate  
+	- G: seeed germination rate  
+	- F: flower production  
+	- O: ovules per flower  
+	- A: seedling recruits  
+	- S: overwinter survival  
+	- R: rosette production  
+- `Willis_1993_Data.csv`: data from Willis (1993) used in this study. Variables:
+	- C: selfing rate  
+	- delta_D: inbreeding depression term for seed bank survival rate  
+	- delta_G: inbreeding depression term for seeed germination rate  
+	- delta_F: inbreeding depression term for flower production  
+	- delta_O: inbreeding depression term for ovules per flower  
+	- delta_S: inbreeding depression term for overwinter survival  
+- `inv6_Figure_Measurements.csv`: data extracted from figures in Lee. et al. (2016) used in this study.  
+	- year: self explanatory  
+	- no_inv6_flowers_inches: wild-type flower number, barplot length in inches.  
+	- inv6_het_flowers_inches: inv6 heterozygote flower number, barplot length in inches  
+	- no_inv6_fruits_inches: wild-type fruit number, barplot length in inches  
+	- inv6_het_fruits_inches: inv6 heterozygote fruit number, barplot length in inches  
+	- no_inv6_seeds_inches: wild-type seed number, barplot length in inches  
+	- inv6_het_seeds_inches: inv6 heterozygote seed number, barplot length in inches  
+	- no_inv6_PrViablePollen_inches: wild-type proportion viable pollen, barplot length in inches  
+	- inv6_het_PrViablePollen_inches: inv6 heterozygote proportion viable pollen, barplot length in inches  
+	- scaleUnits: Units of original plot y-axes.  
+	- scaleAxis: Scale in original units for y-axes  
+	- pptInches: Scale in inches  
+
+Executables
+- `run-Simulations.R`: Exectuable functions to run simulations; calls functions/objects defined in `functions-MatModels.R`, `functions-Simulations.R`, `loadData-Compadre.R`, and `inv6-selection-coefficients.R`).    
+- `makeFigs.R`: executable plotting functions to generate .pdf figures using simulation results. Calls functions/object defined in `functions-Figs.R` and `inv6-selection-coefficients.R`.
+
+Licence    
+- `LICENSE.txt`: MIT license for this repository.  
+
+
+### DRYAD
+A copy of this repository was uploaded to Dryad at the time of manuscript acceptance [here](https://datadryad.org/stash/share/81sAuXGEg8cSh-S9VVL0PfBCsl6YLkG1OIFBCvOefac).
+
+
 
 ## An important note on data used in the study
 
