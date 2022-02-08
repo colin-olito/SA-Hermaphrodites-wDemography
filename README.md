@@ -38,8 +38,9 @@ This repository provides all code necessary to (1) rerun the simulations and (2)
 	- `foreach`  
 	- `doParallel`  
 	- `doSNOW`  
-4. Run `run-Simulations.R` either interactively in R or in terminal, being sure to set the working directory to the root directory of the repo (e.g., `SA-Hermaphrodites-wDemography-master/`). The simulations will take some time to generate the output files. *We recommend doing this interactively and only running up to L.728*, which will avoid running many simulations contained in a coda to the main simulations.
-5. Run `makeFigs.R` (up to L.108), which will read the simulation output files and generate the main figures in the paper and supplementary material.  
+4. Make sure that the working directory for your R session is the root directory of this repo (e.g., `SA-Hermaphrodites-wDemography-master/`).
+5. Run `run-Simulations.R` either interactively in R or in terminal. The simulations will take some time to generate the output files. *We recommend doing this interactively and only running up to L.728*, which will avoid running many simulations contained in a coda to the main simulations.
+6. Run `makeFigs.R` (up to L.108), which will read the simulation output files and generate the main figures in the paper and supplementary material.  
 
 
 ## Repostiory structure and contents 
