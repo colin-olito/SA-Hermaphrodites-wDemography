@@ -1,6 +1,0 @@
-\contentsline {section}{Appendix \numberline {A}Population projection matrix}{32}{Appendix.1.A}
-\contentsline {section}{Appendix \numberline {B}Appendix B: Example with density-dependence}{33}{Appendix.1.B}
-\contentsline {section}{Appendix \numberline {C}Appendix C: Eigenvalues for invasion analysis}{35}{Appendix.1.C}
-\contentsline {section}{Appendix \numberline {D}Appendix D: Demographic and empirical data for {\itshape M.\nobreakspace {}guttatus} case study}{36}{Appendix.1.D}
-\contentsline {section}{\numberline {1}Tables}{47}{section.1}
-\contentsline {section}{\numberline {2}Figure legends}{47}{section.2}
