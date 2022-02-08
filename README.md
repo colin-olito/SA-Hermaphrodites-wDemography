@@ -22,7 +22,7 @@ Full citing information will be provided when it is made [available through the 
 This repository provides all code necessary to (1) rerun the simulations and (2) produce figures as .pdf's. To do so, please follow these basic steps:
 
 1. Clone the repo using the following: `git clone https://github.com/colin-olito/SA-Hermaphrodites-wDemography`. Alternatively, on the project main page on GitHub, click on the green button `clone` or `download` and then click on `Download ZIP`.  
-2. Create the output directories `./output/figs` and `./output/simData` on your local machine so that the simulation and figure files can be correctly saved.  
+2. **Create the output directories** `./output/figs` and `./output/simData` on your local machine so that the simulation and figure files can be correctly saved.  
 3. Check that you have a recent version of [`R`](https://www.r-project.org/) installed. 
 4. Check that the following R package dependencies are correctly installed using `install.packages()`:  
 	- `Rcompadre`
