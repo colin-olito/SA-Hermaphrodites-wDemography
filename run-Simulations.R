@@ -56,6 +56,17 @@ Willis1993.delta.list   <-  list(delta_D = WillisData$delta_D,
 #' Simulations for the published paper
 ######################################
 
+######################################
+#' Create output directories if they
+#' do not already exist
+outputDirectoriesExist  <-  dir.exists("./output")
+
+if(!outputDirectoriesExist) {
+	dir.create("./output")
+	dir.create("./output/simData")
+	dir.create("./output/figs")
+}
+
 #############################################################
 #' Figs. 1 & 2 - Invasion conditions & extinction thresholds
 

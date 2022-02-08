@@ -22,9 +22,8 @@ Full citing information will be provided when it is made [available through the 
 This repository provides all code necessary to (1) rerun the simulations and (2) produce figures as .pdf's. To do so, please follow these basic steps:
 
 1. Clone the repo using the following: `git clone https://github.com/colin-olito/SA-Hermaphrodites-wDemography`. Alternatively, on the project main page on GitHub, click on the green button `clone` or `download` and then click on `Download ZIP`.  
-2. **Create the output directories** `./output/figs` and `./output/simData` on your local machine so that the simulation and figure files can be correctly saved.  
-3. Check that you have a recent version of [`R`](https://www.r-project.org/) installed. 
-4. Check that the following R package dependencies are correctly installed using `install.packages()`:  
+2. Check that you have a recent version of [`R`](https://www.r-project.org/) installed. 
+3. Check that the following R package dependencies are correctly installed using `install.packages()`:  
 	- `Rcompadre`
 		- **NOTE:** At the time of acceptance one of the sub-dependencies (`popdemo`) only works with `R` v. >= 4.1.0. See [https://github.com/jonesor/Rcompadre](https://github.com/jonesor/Rcompadre) for more installation details.
 		- If `Rcompadre` throws errors when trying to access the online database, you can also download it directly from [https://www.compadre-db.org/Data/CompadreDownload](https://www.compadre-db.org/Data/CompadreDownload). Save the db to `./data/` in your local repository, and then comment out L. 29 in `./R/loadComadre.R` and uncomment L.32. This will replace the command `compadre <- cdb_fetch("compadre")` with `compadre <- cdb_fetch("./data/COMPADRE_v.X.XX.X.X.RData.txt")` in `R` (be sure to replace `X`'s with the version number of the downloaded database).
@@ -39,8 +38,8 @@ This repository provides all code necessary to (1) rerun the simulations and (2)
 	- `foreach`  
 	- `doParallel`  
 	- `doSNOW`  
-5. Run `run-Simulations.R` either interactively in R or in terminal, being sure to set the working directory to the root directory of the repo (e.g., `SA-Hermaphrodites-wDemography-master/`). The simulations will take some time to generate the output files. *We recommend doing this interactively and only running up to L.717*, which will avoid running many simulations contained in a coda to the main simulations.
-6. Run `makeFigs.R` (up to L.108), which will read the simulation output files and generate the main figures in the paper and supplementary material.  
+4. Run `run-Simulations.R` either interactively in R or in terminal, being sure to set the working directory to the root directory of the repo (e.g., `SA-Hermaphrodites-wDemography-master/`). The simulations will take some time to generate the output files. *We recommend doing this interactively and only running up to L.728*, which will avoid running many simulations contained in a coda to the main simulations.
+5. Run `makeFigs.R` (up to L.108), which will read the simulation output files and generate the main figures in the paper and supplementary material.  
 
 
 ## Repostiory structure and contents 
@@ -64,7 +63,7 @@ The directories/files in this repostiory needed to reproduce the results for thi
 - `makeFigs.R`  
 - `LICENSE.txt`   
 
-**Note:** * Output directories *must be created locally by the user* before running the simulations so that the results can be saved correctly.
+**Note:** * Output directories will be created locally the first time `run-Simulations.R` is run.
 
 ### File & variable descriptions
 
