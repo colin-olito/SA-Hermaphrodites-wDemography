@@ -25,9 +25,11 @@
 # load the package
 library(Rcompadre)
 
-# fetch the COMPADRE database
+# fetch the current online version of the COMPADRE database 
 compadre <- cdb_fetch("compadre")
 
+# fetch a locally downloaded version of the COMPADRE database
+# compadre <- cdb_fetch("./data/COMPADRE_v.X.XX.X.X.RData.txt")
 
 ###########################
 # Mimulus guttatus example

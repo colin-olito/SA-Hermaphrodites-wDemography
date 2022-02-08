@@ -27,7 +27,7 @@ This repository provides all code necessary to (1) rerun the simulations and (2)
 4. Check that the following R package dependencies are correctly installed using `install.packages()`:  
 	- `Rcompadre`
 		- **NOTE:** At the time of acceptance one of the sub-dependencies (`popdemo`) only works with `R` v. >= 4.1.0. See [https://github.com/jonesor/Rcompadre](https://github.com/jonesor/Rcompadre) for more installation details.
-		- The database can also be downloaded from [https://www.compadre-db.org/Data/CompadreDownload](https://www.compadre-db.org/Data/CompadreDownload). Save it to `./data/` in your local repository, and then run the line `compadre <- cdb_fetch("./data/COMPADRE_v.X.XX.X.X.RData.txt")` in `R` (replace `X`'s with the current version number of the database).
+		- If `Rcompadre` throws errors when trying to access the online database, you can also download it directly from [https://www.compadre-db.org/Data/CompadreDownload](https://www.compadre-db.org/Data/CompadreDownload). Save the db to `./data/` in your local repository, and then comment out L. 29 in `./R/loadComadre.R` and uncomment L.32. This will replace the command `compadre <- cdb_fetch("compadre")` with `compadre <- cdb_fetch("./data/COMPADRE_v.X.XX.X.X.RData.txt")` in `R` (be sure to replace `X`'s with the version number of the downloaded database).
 	- `extrafont`  
 	- `plyr`  
 	- `lattice`  
