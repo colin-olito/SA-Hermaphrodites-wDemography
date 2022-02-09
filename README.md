@@ -131,7 +131,7 @@ All empirical data used to parameterize the simulations for the *Mimulus gutattu
 
 ## Contact & bug reporting
 
-Please report any bugs, problems, or issues by opening an issue on the inversionSize github [issues page](https://github.com/colin-olito/SA-Hermaphrodites-wDemography/issues), or inform me directly by sending a brief email detailing the problem you encountered to colin dot olito at biol dot lu dot se.
+Please report any bugs, problems, or issues by opening an issue on the GitHub [issues page](https://github.com/colin-olito/SA-Hermaphrodites-wDemography/issues), or inform me directly by sending a brief email detailing the problem you encountered to colin dot olito at biol dot lu dot se.
 
 ## Licence information
 
