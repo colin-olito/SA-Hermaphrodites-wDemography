@@ -43,9 +43,9 @@ This repository provides all code necessary to (1) rerun the simulations and (2)
 6. Run `makeFigs.R` (up to L.108), which will read the simulation output files and generate the main figures in the paper and supplementary material.  
 
 
-## Repostiory structure and contents 
+## Repository structure and contents 
 
-The directories/files in this repostiory needed to reproduce the results for this study are as follows:  
+The directories/files in this repository needed to reproduce the results for this study are as follows:  
 
 - **`R`**   
 	- `functions-Figs.R`  
@@ -58,8 +58,8 @@ The directories/files in this repostiory needed to reproduce the results for thi
 	- `Willis_1993_Data.csv`  
 	- `inv6_Figure_Measurements.csv`  
 - **`output`***  
-	- **`figs`**  
-	- **`simData`**  
+	- **`figs`***  
+	- **`simData`***  
 - `run-Simulations.R`  
 - `makeFigs.R`  
 - `LICENSE.txt`   
