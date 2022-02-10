@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a GitHub repository for a theoretical evolutionary genetics research project that is now published under the title "*Demographic consequences of sexually antagonistic selection in partially selfing populations*" (doi: [XXX](https://doi.org/...)). Here you can find all of the necessary code to reproduce the simulations and figures from the published paper and appendices. A permanent version of record of this repository at the time of acceptance is archived on Zenodo (doi: 10.5281/zenodo.6021025). Supplementary material for the paper is also available from the publisher [here](https://www.journals.uchicago.edu/toc/an/current). 
+This is a GitHub repository for a theoretical evolutionary genetics research project that is now published under the title "*Demographic consequences of sexually antagonistic selection in partially selfing populations*" (doi: [XXX](https://doi.org/...)). Here you can find all of the necessary code to reproduce the simulations and figures from the published paper and appendices. A permanent version of record of this repository at the time of acceptance is archived on Zenodo ([![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6021025.svg)](https://doi.org/10.5281/zenodo.6021025)). Supplementary material for the paper is also available from the publisher [here](https://www.journals.uchicago.edu/toc/an/current). 
 
 
 ## Abstract

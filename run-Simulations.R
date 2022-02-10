@@ -8,7 +8,7 @@
 #'  Author: Colin Olito
 #'
 #'  NOTES:  To reproduce the analyses for the paper, run the 
-#' 			following R code up to L.717. This will generate
+#' 			following R code up to L.728. This will generate
 #' 			output data as .csv files saved to ./output/simData/
 #' 			Be sure to create this directory locally prior
 #' 			to running the simulations.
