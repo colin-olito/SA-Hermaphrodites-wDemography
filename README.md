@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a GitHub repository for a theoretical evolutionary genetics research project that is now published under the title "*Demographic consequences of sexually antagonistic selection in partially selfing populations*" (doi: [XXX](https://doi.org/...)). Here you can find all of the necessary code to reproduce the simulations and figures from the published paper and appendices. A permanent version of record of this repository at the time of acceptance is archived on Zenodo ([![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6021025.svg)](https://doi.org/10.5281/zenodo.6021025)). Supplementary material for the paper is also available from the publisher [here](https://www.journals.uchicago.edu/toc/an/current). 
+This is a GitHub repository for a theoretical evolutionary genetics research project that is now published under the title "*Demographic consequences of sexually antagonistic selection in partially selfing populations*" (doi: [10.1086/720419](https://doi.org/10.1086/720419)). Here you can find all of the necessary code to reproduce the simulations and figures from the published paper and appendices. A permanent version of record of this repository at the time of acceptance is archived on Zenodo ([![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6021025.svg)](https://doi.org/10.5281/zenodo.6021025)). Supplementary material for the paper is also available from the publisher [here](https://www.journals.uchicago.edu/toc/an/current). 
 
 
 ## Abstract
@@ -12,9 +12,9 @@ When selection differs between the sexes, genes expressed by both males and fema
 ## Citing information
 *Please cite the paper as*:
 
- Olito, C. and C. DeVries. 2022. Demographic consequences of sexually antagonistic selection in partially selfing populations. *American Naturalist* XX: XX--XX. doi: XXX
+ Olito, C. and C. DeVries. 2022. Demographic consequences of sexually antagonistic selection in partially selfing populations. *American Naturalist* XX: XX--XX. doi: 10.1086/720419
 
-Full citing information will be provided when it is made [available through the publisher](https://www.journals.uchicago.edu/toc/an/current). You can also contact me directly if you would like a reprint. 
+This article has been published Open Access and freely available from the American Naturalist website [here](https://doi.org/10.1086/720419), along with all supplementary material. You can also contact me directly if you would like a copy of the paper.
 
 
 ##  Instructions
